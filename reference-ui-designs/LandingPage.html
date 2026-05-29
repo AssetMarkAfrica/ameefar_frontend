@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Ameefar | Trust-First Landing Page</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-variant": "#d3e4fe",
+                        "secondary": "#006d40",
+                        "ameefar-navy": "#0F172A",
+                        "surface": "#f8f9ff",
+                        "surface-container-high": "#dce9ff",
+                        "surface-bright": "#f8f9ff",
+                        "outline-variant": "#c0c8c8",
+                        "primary-fixed": "#beebeb",
+                        "primary-container": "#0f3d3e",
+                        "on-primary-container": "#7da8a8",
+                        "tertiary-fixed-dim": "#4edea3",
+                        "on-tertiary-fixed": "#002113",
+                        "secondary-fixed-dim": "#66dd99",
+                        "tertiary": "#002819",
+                        "primary-fixed-dim": "#a3cfcf",
+                        "surface-dim": "#cbdbf5",
+                        "inverse-on-surface": "#eaf1ff",
+                        "error-container": "#ffdad6",
+                        "on-error-container": "#93000a",
+                        "on-error": "#ffffff",
+                        "inverse-surface": "#213145",
+                        "tertiary-fixed": "#6ffbbe",
+                        "on-primary-fixed-variant": "#224d4e",
+                        "surface-container": "#e5eeff",
+                        "error": "#ba1a1a",
+                        "on-primary-fixed": "#002020",
+                        "secondary-container": "#80f7b1",
+                        "on-secondary-fixed": "#002110",
+                        "primary": "#002627",
+                        "tertiary-container": "#00402a",
+                        "surface-container-low": "#eff4ff",
+                        "on-tertiary-fixed-variant": "#005236",
+                        "secondary-fixed": "#83fab4",
+                        "on-background": "#0b1c30",
+                        "background": "#f8f9ff",
+                        "border-subtle": "#E2E8F0",
+                        "trust-green-subtle": "#ECFDF5",
+                        "on-primary": "#ffffff",
+                        "on-secondary-container": "#007243",
+                        "inverse-primary": "#a3cfcf",
+                        "on-secondary-fixed-variant": "#00522f",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface": "#0b1c30",
+                        "on-tertiary": "#ffffff",
+                        "on-surface-variant": "#404848",
+                        "outline": "#717978",
+                        "surface-gray": "#F8FAFC",
+                        "on-tertiary-container": "#06b77f",
+                        "surface-tint": "#3b6566",
+                        "on-secondary": "#ffffff",
+                        "surface-container-highest": "#d3e4fe"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "margin-desktop": "40px",
+                        "margin-mobile": "16px",
+                        "container-max": "1440px",
+                        "base": "4px"
+                    },
+                    "fontFamily": {
+                        "body-md": [
+                            "Inter"
+                        ],
+                        "display-lg": [
+                            "Hanken Grotesk"
+                        ],
+                        "headline-md": [
+                            "Hanken Grotesk"
+                        ],
+                        "body-lg": [
+                            "Inter"
+                        ],
+                        "label-md": [
+                            "JetBrains Mono"
+                        ],
+                        "headline-lg-mobile": [
+                            "Hanken Grotesk"
+                        ],
+                        "headline-lg": [
+                            "Hanken Grotesk"
+                        ],
+                        "body-sm": [
+                            "Inter"
+                        ]
+                    },
+                    "fontSize": {
+                        "body-md": [
+                            "16px",
+                            {
+                                "lineHeight": "24px",
+                                "fontWeight": "400"
+                            }
+                        ],
+                        "display-lg": [
+                            "48px",
+                            {
+                                "lineHeight": "56px",
+                                "letterSpacing": "-0.02em",
+                                "fontWeight": "700"
+                            }
+                        ],
+                        "headline-md": [
+                            "24px",
+                            {
+                                "lineHeight": "32px",
+                                "fontWeight": "600"
+                            }
+                        ],
+                        "body-lg": [
+                            "18px",
+                            {
+                                "lineHeight": "28px",
+                                "fontWeight": "400"
+                            }
+                        ],
+                        "label-md": [
+                            "12px",
+                            {
+                                "lineHeight": "16px",
+                                "fontWeight": "500"
+                            }
+                        ],
+                        "headline-lg-mobile": [
+                            "28px",
+                            {
+                                "lineHeight": "36px",
+                                "fontWeight": "600"
+                            }
+                        ],
+                        "headline-lg": [
+                            "32px",
+                            {
+                                "lineHeight": "40px",
+                                "letterSpacing": "-0.01em",
+                                "fontWeight": "600"
+                            }
+                        ],
+                        "body-sm": [
+                            "14px",
+                            {
+                                "lineHeight": "20px",
+                                "fontWeight": "400"
+                            }
+                        ]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+
+<body class="bg-background text-on-surface font-body-md antialiased pt-16">
+    <!-- TopAppBar Shared Component -->
+    <header
+        class="fixed top-0 w-full z-50 bg-surface-container-lowest dark:bg-inverse-surface border-b border-border-subtle">
+        <div class="flex justify-between items-center h-16 px-margin-desktop w-full max-w-container-max mx-auto">
+            <div class="flex items-center gap-8">
+                <a class="text-headline-md font-headline-md font-bold text-primary dark:text-primary-fixed"
+                    href="/">Ameefar</a>
+                <nav class="hidden md:flex gap-6">
+                    <a class="text-on-surface-variant font-body-md text-body-md hover:text-primary transition-colors duration-200"
+                        href="#">Marketplace</a>
+                    <a class="text-on-surface-variant font-body-md text-body-md hover:text-primary transition-colors duration-200"
+                        href="#">Inspections</a>
+                    <a class="text-on-surface-variant font-body-md text-body-md hover:text-primary transition-colors duration-200"
+                        href="#">About</a>
+                </nav>
+            </div>
+            <div class="flex items-center gap-4">
+                <div class="hidden md:flex relative text-on-surface-variant">
+                    <span
+                        class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+                    <input
+                        class="pl-10 pr-4 py-2 rounded bg-surface border border-border-subtle focus:border-primary focus:ring-1 focus:ring-primary outline-none font-body-sm text-body-sm w-64"
+                        placeholder="Search materials..." type="text" />
+                </div>
+                <button class="scale-98 active:opacity-80 transition-all text-on-surface-variant hover:text-primary">
+                    <span class="material-symbols-outlined">notifications</span>
+                </button>
+                <button class="scale-98 active:opacity-80 transition-all text-on-surface-variant hover:text-primary">
+                    <span class="material-symbols-outlined">settings</span>
+                </button>
+                <div
+                    class="w-8 h-8 rounded-full bg-surface-container-highest overflow-hidden ml-2 border border-border-subtle">
+                    <img alt="User avatar" class="w-full h-full object-cover"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDm8ODDSi81SgeSittPaZ7k7_E9Poaa9eOkoijXTPIkVmDHDD2dc8Y6U6qQUcPme0oBACNkhsm17kY7gwuUJnfq9SAsQrdfbNr0_mwvMNfI_4FTY8fT-4GzaAfqJ23R75vrWZSXEPrAbNOkYIHFzxeUJCt9ARDJ0EPehgqlcIfENS-Aes67M1am6HAR-fkrYoKhMvhNLVdyMWVzlfbqKJleRMayL2i-_mEW6tutusCBm5kvGjkCLHV7KrV71tr7cQ7Ihuf6ZXTxSVY1" />
+                </div>
+            </div>
+        </div>
+    </header>
+    <main>
+        <!-- Hero Section -->
+        <section class="relative w-full h-[600px] flex items-center justify-center bg-ameefar-navy overflow-hidden">
+            <!-- Background Image with Overlay -->
+            <div class="absolute inset-0 z-0">
+                <img alt="A high-impact wide shot of a modern, bustling industrial port or shipping container terminal at dusk. The scene is illuminated by dramatic industrial lighting, casting deep blues and sharp highlights on massive cranes and stacked containers. The mood is powerful, emphasizing global trade and large-scale operations. The overall aesthetic is professional, premium, and slightly gritty but clean, reflecting a serious B2B marketplace environment."
+                    class="w-full h-full object-cover opacity-40"
+                    data-alt="A high-impact wide shot of a modern, bustling industrial port or shipping container terminal at dusk. The scene is illuminated by dramatic industrial lighting, casting deep blues and sharp highlights on massive cranes and stacked containers. The mood is powerful, emphasizing global trade and large-scale operations. The overall aesthetic is professional, premium, and slightly gritty but clean, reflecting a serious B2B marketplace environment."
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBoKCEotrgH9tJ7A7mWhRcNnwa9fNyVr576vaiX6J5EBQykMiZzUKvH_FC1Pua3Xer725MbtjidntdLd87hkz8MSldgGTYoR58OLOWPauCLK2HMaGF_q4PJ4SxkR4hg5rerxXnNHeOJXMLI6RxJKHbdVBSwquJ6eh99Zbc2BwAxLYEHbHhqJu4V_vdHN0vr_kvODYdQUBAymxhDu5PTWsffPq3sa8VH-thj_kLP1rgZ8cKqRPUtzH3YK0q4kgQHV5pkjUbsF_g88Hw6" />
+                <div class="absolute inset-0 bg-gradient-to-r from-ameefar-navy via-ameefar-navy/80 to-transparent">
+                </div>
+            </div>
+            <div
+                class="relative z-10 w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop grid grid-cols-1 md:grid-cols-12 gap-gutter items-center">
+                <div class="col-span-1 md:col-span-8 text-on-primary">
+                    <div
+                        class="inline-flex items-center gap-2 bg-secondary/20 border border-secondary/50 text-secondary-fixed px-3 py-1 rounded-full mb-6 font-label-md">
+                        <span class="material-symbols-outlined text-sm">shield</span>
+                        <span>100% Secure Trading Guaranteed</span>
+                    </div>
+                    <h1 class="font-display-lg text-display-lg text-white mb-6">Secure African Trade. Guaranteed
+                        Quality.</h1>
+                    <p class="font-body-lg text-body-lg text-surface-variant mb-8 max-w-2xl">The first B2B recycling
+                        marketplace featuring the unbreakable African Trade Protection protocol. Connect with verified
+                        African sellers, protected by mandatory physical inspections and secure international escrow.
+                    </p>
+                    <div class="flex gap-4">
+                        <button
+                            class="bg-primary text-white font-body-md text-body-md px-6 py-3 rounded hover:bg-primary-container transition-colors flex items-center gap-2">
+                            <span class="material-symbols-outlined text-sm">lock</span> Create Secure Account
+                        </button>
+                        <button
+                            class="bg-transparent border border-border-subtle text-white font-body-md text-body-md px-6 py-3 rounded hover:bg-white/10 transition-colors">Learn
+                            About Protection</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Trust Signals Bar -->
+        <section class="bg-surface-container border-b border-border-subtle py-6 px-margin-mobile md:px-margin-desktop">
+            <div
+                class="max-w-container-max mx-auto flex flex-wrap justify-center md:justify-between gap-8 items-center text-on-surface-variant font-label-md text-label-md">
+                <div class="flex items-center gap-2"><span
+                        class="material-symbols-outlined text-secondary">verified_user</span> KYC Verified African
+                    Suppliers</div>
+                <div class="flex items-center gap-2"><span
+                        class="material-symbols-outlined text-secondary">account_balance</span> Protected International
+                    Escrow</div>
+                <div class="flex items-center gap-2"><span
+                        class="material-symbols-outlined text-secondary">fact_check</span> Mandatory On-Site Inspections
+                </div>
+                <div class="flex items-center gap-2"><span class="material-symbols-outlined text-secondary">gavel</span>
+                    Enforceable Quality Contracts</div>
+            </div>
+        </section>
+        <!-- The Trust Layer (Bento Grid) -->
+        <section class="py-20 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto bg-surface-gray">
+            <div class="mb-12 text-center">
+                <h2 class="font-headline-lg text-headline-lg text-on-surface mb-4">The African Trade Protection Protocol
+                </h2>
+                <p class="font-body-md text-body-md text-on-surface-variant max-w-2xl mx-auto">We eliminate the historic
+                    risks of international trade with African secondary material suppliers through our proprietary,
+                    three-pillar protection system.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Bento Item 1 -->
+                <div
+                    class="bg-surface-container-lowest p-8 rounded-xl border border-border-subtle hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
+                    <span class="material-symbols-outlined text-4xl text-primary mb-4">verified_user</span>
+                    <h3 class="font-headline-md text-headline-md text-on-surface mb-2">Vetted African Partners</h3>
+                    <p class="font-body-sm text-body-sm text-on-surface-variant">Every African supplier undergoes
+                        rigorous on-the-ground verification, including facility audits and comprehensive background
+                        checks, before listing.</p>
+                </div>
+                <!-- Bento Item 2 -->
+                <div
+                    class="bg-surface-container-lowest p-8 rounded-xl border border-border-subtle hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
+                    <span class="material-symbols-outlined text-4xl text-secondary mb-4">shield_lock</span>
+                    <h3 class="font-headline-md text-headline-md text-on-surface mb-2">Ironclad Escrow</h3>
+                    <p class="font-body-sm text-body-sm text-on-surface-variant">Your capital is protected in secure
+                        international escrow accounts. Funds are only released when materials pass physical inspection
+                        and port loading is confirmed.</p>
+                </div>
+                <!-- Bento Item 3 -->
+                <div
+                    class="bg-surface-container-lowest p-8 rounded-xl border border-border-subtle hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
+                    <span class="material-symbols-outlined text-4xl text-tertiary mb-4">fact_check</span>
+                    <h3 class="font-headline-md text-headline-md text-on-surface mb-2">Guaranteed Quality</h3>
+                    <p class="font-body-sm text-body-sm text-on-surface-variant">We take responsibility for the grade.
+                        If the independent pre-shipment inspection doesn't match your contract, the trade is halted and
+                        your funds are protected.</p>
+                </div>
+            </div>
+        </section>
+        <!-- How it Works (Ameefar Inspection Layer) -->
+        <section class="py-20 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                <div>
+                    <h2 class="font-headline-lg text-headline-lg text-on-surface mb-6">The Mandatory Inspection Layer
+                    </h2>
+                    <p class="font-body-md text-body-md text-on-surface-variant mb-8">Trust is good, physical
+                        verification is better. Before any container leaves an African port, an independent
+                        Ameefar-certified inspector verifies the load against your exact specifications.</p>
+                    <div class="space-y-6">
+                        <div class="flex gap-4">
+                            <div
+                                class="flex-shrink-0 w-8 h-8 rounded-full bg-trust-green-subtle text-secondary flex items-center justify-center font-label-md text-label-md">
+                                1</div>
+                            <div>
+                                <h4 class="font-body-md text-body-md font-semibold text-on-surface">Secure Contract
+                                    &amp; Escrow</h4>
+                                <p class="font-body-sm text-body-sm text-on-surface-variant">Lock in terms directly on
+                                    the platform. Buyer funds are securely held, providing absolute protection for both
+                                    parties.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div
+                                class="flex-shrink-0 w-8 h-8 rounded-full bg-trust-green-subtle text-secondary flex items-center justify-center font-label-md text-label-md">
+                                2</div>
+                            <div>
+                                <h4 class="font-body-md text-body-md font-semibold text-on-surface">On-Site Verification
+                                </h4>
+                                <p class="font-body-sm text-body-sm text-on-surface-variant">A certified inspector
+                                    physically examines the material at the African yard, taking photos, moisture
+                                    readings, and confirming grade.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div
+                                class="flex-shrink-0 w-8 h-8 rounded-full bg-trust-green-subtle text-secondary flex items-center justify-center font-label-md text-label-md">
+                                3</div>
+                            <div>
+                                <h4 class="font-body-md text-body-md font-semibold text-on-surface">Protected Release
+                                </h4>
+                                <p class="font-body-sm text-body-sm text-on-surface-variant">You review the detailed
+                                    inspection report. Escrowed funds are only prepared for release once you approve the
+                                    verified materials.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative h-[500px] rounded-xl overflow-hidden shadow-[0_8px_30px_rgb(15,23,42,0.08)]">
+                    <img alt="A professional inspector in high-visibility gear holding a tablet, examining a massive bale of compressed recyclable plastic or paper in a clean, industrial warehouse setting. The lighting is bright and even, highlighting the texture of the materials and the serious, focused expression of the inspector. The mood conveys precision, authority, and trust. The overall aesthetic is clean corporate industrial, utilizing neutral greys and subtle greens."
+                        class="w-full h-full object-cover"
+                        data-alt="A professional inspector in high-visibility gear holding a tablet, examining a massive bale of compressed recyclable plastic or paper in a clean, industrial warehouse setting. The lighting is bright and even, highlighting the texture of the materials and the serious, focused expression of the inspector. The mood conveys precision, authority, and trust. The overall aesthetic is clean corporate industrial, utilizing neutral greys and subtle greens."
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuC9P4NtTXJEk9_g6IyLeR8v4Uuz2VdDDTdEJ0Aq9uoxlPjW73UBvJvLsXmn2JMn83xhYUD1Rl7iDtiXcpb2E_NPoUdOHeegu_6TpjQuKlfXA4gb1fyjmfbxwnKVhj_4Z0cSZXq9AP0FMRVixG6ezSnSD3FQBIsdfxJKvbAl9qLdUSNoSa4oy3W6B6WtFCT6XtTmWZmmSmU3iqMiQay1BSjZ5w_j5UwJTMysvsJ7szGIyfAVFXpPj_O0o6AFyZ6rRLYYCymZvMT77kbO" />
+                    <!-- Glassmorphism overlay card -->
+                    <div
+                        class="absolute bottom-6 left-6 right-6 bg-white/90 backdrop-blur-md p-4 rounded-lg border border-white/20 shadow-lg">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="font-label-md text-label-md text-secondary">African Trade Protection
+                                Status</span>
+                            <span class="material-symbols-outlined text-secondary fill">verified</span>
+                        </div>
+                        <p class="font-body-sm text-body-sm text-on-surface">Load #8472 physically verified at source.
+                            Material grade certified to match European standards.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Testimonials Section -->
+        <section
+            class="py-20 bg-trust-green-subtle px-margin-mobile md:px-margin-desktop border-y border-border-subtle">
+            <div class="max-w-container-max mx-auto text-center">
+                <h2 class="font-headline-lg text-headline-lg text-on-surface mb-12">Trusted Global Trading</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Testimonial 1 -->
+                    <div
+                        class="bg-surface-container-lowest p-8 rounded-xl border border-border-subtle text-left shadow-sm">
+                        <div class="flex gap-1 text-[#f59e0b] mb-4">
+                            <span class="material-symbols-outlined fill">star</span>
+                            <span class="material-symbols-outlined fill">star</span>
+                            <span class="material-symbols-outlined fill">star</span>
+                            <span class="material-symbols-outlined fill">star</span>
+                            <span class="material-symbols-outlined fill">star</span>
+                        </div>
+                        <p class="font-body-lg text-body-lg text-on-surface-variant italic mb-6">"Ameefar's African
+                            Trade Protection protocol completely eliminated our sourcing risk. Knowing the material is
+                            physically verified in Africa before it leaves the port gives us the confidence to scale our
+                            purchasing."</p>
+                        <div class="flex items-center gap-4">
+                            <div
+                                class="w-12 h-12 bg-primary-container rounded-full flex items-center justify-center text-on-primary-container font-bold">
+                                MK</div>
+                            <div>
+                                <p class="font-body-md font-bold text-on-surface">Michael K.</p>
+                                <p class="font-body-sm text-on-surface-variant">Procurement Director, EuroRecycle</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Testimonial 2 -->
+                    <div
+                        class="bg-surface-container-lowest p-8 rounded-xl border border-border-subtle text-left shadow-sm">
+                        <div class="flex gap-1 text-[#f59e0b] mb-4">
+                            <span class="material-symbols-outlined fill">star</span>
+                            <span class="material-symbols-outlined fill">star</span>
+                            <span class="material-symbols-outlined fill">star</span>
+                            <span class="material-symbols-outlined fill">star</span>
+                            <span class="material-symbols-outlined fill">star</span>
+                        </div>
+                        <p class="font-body-lg text-body-lg text-on-surface-variant italic mb-6">"The secure escrow
+                            system is a game-changer for international scrap trading. We no longer worry about advance
+                            payments or disputed quality upon arrival. It's safe, transparent, and highly efficient."
+                        </p>
+                        <div class="flex items-center gap-4">
+                            <div
+                                class="w-12 h-12 bg-secondary-container rounded-full flex items-center justify-center text-on-secondary-container font-bold">
+                                SJ</div>
+                            <div>
+                                <p class="font-body-md font-bold text-on-surface">Sarah J.</p>
+                                <p class="font-body-sm text-on-surface-variant">Head of Global Trading, Apex Metals</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Top Categories -->
+        <section class="py-20 bg-surface px-margin-mobile md:px-margin-desktop">
+            <div class="max-w-container-max mx-auto">
+                <div class="flex justify-between items-end mb-12">
+                    <div>
+                        <h2 class="font-headline-lg text-headline-lg text-on-surface mb-2">Verified African Materials
+                        </h2>
+                        <p class="font-body-md text-body-md text-on-surface-variant">High-volume secondary raw
+                            materials, protected by Ameefar.</p>
+                    </div>
+                    <button
+                        class="text-primary font-body-md text-body-md font-semibold hover:underline hidden md:block">View
+                        All Categories</button>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Category 1 -->
+                    <div class="group cursor-pointer">
+                        <div class="h-64 rounded-xl overflow-hidden mb-4 relative">
+                            <img alt="Close-up shot of neatly stacked, sorted scrap metal ready for recycling. The metallic textures reflect clean, cool industrial light. The composition is highly organized and precise, avoiding a messy junkyard look. It conveys a premium, efficient industrial process."
+                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                data-alt="Close-up shot of neatly stacked, sorted scrap metal ready for recycling. The metallic textures reflect clean, cool industrial light. The composition is highly organized and precise, avoiding a messy junkyard look. It conveys a premium, efficient industrial process."
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAw-dFGdzaebKzIE4qFZZ8QKYB2KMwuE-jeV-9hK03pbuK1CynHqBiSrqU3N2d8cekpexTQnQng8TeAWha02e2crBzAhupa16ih4P3lr3ABmgwnsGhZg3vDaeOkJTjQ0yT1yqVZ8K1WFmxlnh_8PoBl6XFgKS7FGNpX86hWfRL0bjPYfeh8czRsJPLrDSTCdv2_sfEJascD4i-BEk7Vi6zROw0CAbm0ItgK6SGA5bZehZRl_sO1VPQ1NBENwV5zLpOZz9MiAavg9VO" />
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                            <h3 class="absolute bottom-4 left-4 font-headline-md text-headline-md text-white">Ferrous
+                                Metals</h3>
+                        </div>
+                        <div class="flex justify-between text-on-surface-variant font-body-sm text-body-sm">
+                            <span>1.2k Active Listings</span>
+                            <span class="font-label-md text-label-md">HMS 1&amp;2, Shredded</span>
+                        </div>
+                    </div>
+                    <!-- Category 2 -->
+                    <div class="group cursor-pointer">
+                        <div class="h-64 rounded-xl overflow-hidden mb-4 relative">
+                            <img alt="Macro shot of clean, sorted recycled plastic pellets in a modern manufacturing environment. The pellets are semi-translucent, illuminated from the side to emphasize purity and quality. The aesthetic is clean, technical, and slightly clinical, representing high-grade recycled materials."
+                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                data-alt="Macro shot of clean, sorted recycled plastic pellets in a modern manufacturing environment. The pellets are semi-translucent, illuminated from the side to emphasize purity and quality. The aesthetic is clean, technical, and slightly clinical, representing high-grade recycled materials."
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBwpdUcZU-1Iz7dTfvZu15DFRFH0VkbQ9-kEjtdCB2Qk1rkNIWHhhrOcQuIll27yL6b1Wdm9JUDYsWGBA-azzHMZkQe8iGWEdJi49tU43UKZXBIdM1ET9X4XOIqkIiC0696XfWf4glqZaem6Yhw_f1cRA1M69DASiMYl16FHjvIvvS4vY3McbzZKfld1Rm69SxgQ1mp5lIFp65WnS3oboMpWdUo6clULy3mwaeeYA1NG5CTtlxgeYXW3S39jqEXULWvvm5tV91K_fIS" />
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                            <h3 class="absolute bottom-4 left-4 font-headline-md text-headline-md text-white">Plastics
+                            </h3>
+                        </div>
+                        <div class="flex justify-between text-on-surface-variant font-body-sm text-body-sm">
+                            <span>850 Active Listings</span>
+                            <span class="font-label-md text-label-md">PET, HDPE, LDPE</span>
+                        </div>
+                    </div>
+                    <!-- Category 3 -->
+                    <div class="group cursor-pointer">
+                        <div class="h-64 rounded-xl overflow-hidden mb-4 relative">
+                            <img alt="Large bales of recovered paper in a bright, modern warehouse. The bales are tightly bound and uniformly shaped, demonstrating professional handling. The lighting is crisp and natural, emphasizing the scale of the recycling operation while maintaining a clean, premium corporate feel."
+                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                data-alt="Large bales of recovered paper in a bright, modern warehouse. The bales are tightly bound and uniformly shaped, demonstrating professional handling. The lighting is crisp and natural, emphasizing the scale of the recycling operation while maintaining a clean, premium corporate feel."
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDrmJaCUYrMFmK92wEPRbHokWjt8upVtrCqAfIHFyc9eMuCOuJphxgGo5JS9_CO5LpB3jCA6Y9yxD6U6xjjgNI7531cvHjtFC6z7ipmF3Lb7Ug-XNEBKFCp0_jiBrZIac328UEMxBKC0zyswraInUa8EWnOPxmjvpttSi6LKVRQCZ1GH5Lb1RFoO5OXINKFXPf8NIvAmBR5Nxy2equmKqlY6UtvLa6QLSsOd0AjyE120361nbz09ja070xaIJAqSlWefFKA8CtQM6EQ" />
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                            <h3 class="absolute bottom-4 left-4 font-headline-md text-headline-md text-white">Recovered
+                                Paper</h3>
+                        </div>
+                        <div class="flex justify-between text-on-surface-variant font-body-sm text-body-sm">
+                            <span>620 Active Listings</span>
+                            <span class="font-label-md text-label-md">OCC, ONP</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <!-- Footer Shared Component -->
+    <footer class="bg-ameefar-navy dark:bg-on-surface w-full bottom-0">
+        <div
+            class="w-full py-12 px-margin-desktop grid grid-cols-1 md:grid-cols-4 gap-gutter max-w-container-max mx-auto">
+            <div class="col-span-1 md:col-span-1">
+                <span class="font-headline-md text-headline-md text-on-primary">Ameefar</span>
+                <p class="mt-4 text-outline-variant font-body-sm text-body-sm">The trusted global B2B marketplace for
+                    secondary raw materials, protected by the African Trade Protection protocol.</p>
+            </div>
+            <div class="col-span-1">
+                <h4 class="text-on-primary font-bold font-body-sm text-body-sm mb-4">Platform</h4>
+                <ul class="space-y-2">
+                    <li><a class="text-outline-variant hover:text-on-primary hover:underline transition-all opacity-90 hover:opacity-100 font-body-sm text-body-sm"
+                            href="#">Marketplace</a></li>
+                    <li><a class="text-outline-variant hover:text-on-primary hover:underline transition-all opacity-90 hover:opacity-100 font-body-sm text-body-sm"
+                            href="#">Inspections</a></li>
+                    <li><a class="text-outline-variant hover:text-on-primary hover:underline transition-all opacity-90 hover:opacity-100 font-body-sm text-body-sm"
+                            href="#">Pricing</a></li>
+                </ul>
+            </div>
+            <div class="col-span-1">
+                <h4 class="text-on-primary font-bold font-body-sm text-body-sm mb-4">Legal</h4>
+                <ul class="space-y-2">
+                    <li><a class="text-outline-variant hover:text-on-primary hover:underline transition-all opacity-90 hover:opacity-100 font-body-sm text-body-sm"
+                            href="#">Terms of Service</a></li>
+                    <li><a class="text-outline-variant hover:text-on-primary hover:underline transition-all opacity-90 hover:opacity-100 font-body-sm text-body-sm"
+                            href="#">Privacy Policy</a></li>
+                    <li><a class="text-outline-variant hover:text-on-primary hover:underline transition-all opacity-90 hover:opacity-100 font-body-sm text-body-sm"
+                            href="#">Compliance</a></li>
+                </ul>
+            </div>
+            <div class="col-span-1">
+                <h4 class="text-on-primary font-bold font-body-sm text-body-sm mb-4">Support</h4>
+                <ul class="space-y-2">
+                    <li><a class="text-outline-variant hover:text-on-primary hover:underline transition-all opacity-90 hover:opacity-100 font-body-sm text-body-sm"
+                            href="#">Contact Us</a></li>
+                    <li><a class="text-outline-variant hover:text-on-primary hover:underline transition-all opacity-90 hover:opacity-100 font-body-sm text-body-sm"
+                            href="#">Help Center</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="border-t border-white/10 mt-8">
+            <div class="w-full py-6 px-margin-desktop max-w-container-max mx-auto text-center">
+                <p class="text-outline-variant font-body-sm text-body-sm">© 2024 Ameefar B2B Marketplace. All rights
+                    reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>
