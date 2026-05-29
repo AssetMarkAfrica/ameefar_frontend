@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import "./profile.css";
 
 export const metadata: Metadata = {
   title: "Profile Verification | Ameefar Energy",

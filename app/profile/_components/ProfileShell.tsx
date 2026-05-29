@@ -6,9 +6,14 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { selectAccessToken, selectUser } from "@/store/auth/authSelectors";
+import {
+  selectAccessToken,
+  selectIsAuthenticated,
+  selectUser,
+} from "@/store/auth/authSelectors";
 import {
   selectProfile,
+  selectProfileError,
   selectProfileOpStatus,
 } from "@/store/profile/profileSelectors";
 import { fetchProfileThunk } from "@/store/profile/profileThunks";
@@ -19,15 +24,19 @@ export function ProfileShell({ children }: { children: React.ReactNode }) {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const pathname = usePathname();
+  const isAuthenticated = useAppSelector(selectIsAuthenticated);
   const token = useAppSelector(selectAccessToken);
   const user = useAppSelector(selectUser);
   const profile = useAppSelector(selectProfile);
   const fetchStatus = useAppSelector((state) =>
     selectProfileOpStatus(state, "fetchProfile"),
   );
+  const fetchError = useAppSelector((state) =>
+    selectProfileError(state, "fetchProfile"),
+  );
 
   useEffect(() => {
-    if (!token) {
+    if (!isAuthenticated || !token) {
       router.replace("/auth/login");
       return;
     }
@@ -35,7 +44,7 @@ export function ProfileShell({ children }: { children: React.ReactNode }) {
     if (fetchStatus === "idle") {
       void dispatch(fetchProfileThunk({ token }));
     }
-  }, [dispatch, fetchStatus, router, token]);
+  }, [dispatch, fetchStatus, isAuthenticated, router, token]);
 
   useEffect(() => {
     if (!profile || pathname === "/profile") {
@@ -48,7 +57,7 @@ export function ProfileShell({ children }: { children: React.ReactNode }) {
     }
   }, [pathname, profile, router]);
 
-  if (!token) {
+  if (!isAuthenticated || !token) {
     return null;
   }
 
@@ -79,6 +88,21 @@ export function ProfileShell({ children }: { children: React.ReactNode }) {
             <div className="profile-skeleton" />
             <div className="profile-skeleton" />
           </div>
+        </main>
+      ) : fetchStatus === "failed" && !profile ? (
+        <main className="profile-main">
+          <section className="profile-fetch-error">
+            <p className="profile-eyebrow">Profile unavailable</p>
+            <h1>We could not load your verification profile.</h1>
+            <p>{fetchError ?? "Please refresh and try again."}</p>
+            <button
+              className="profile-primary-button"
+              onClick={() => void dispatch(fetchProfileThunk({ token }))}
+              type="button"
+            >
+              Retry
+            </button>
+          </section>
         </main>
       ) : (
         children

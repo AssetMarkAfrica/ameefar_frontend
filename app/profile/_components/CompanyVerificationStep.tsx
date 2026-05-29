@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useState } from "react";
 
 import { selectAccessToken } from "@/store/auth/authSelectors";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
@@ -16,6 +16,7 @@ import {
   saveStep1Thunk,
 } from "@/store/profile/profileThunks";
 import type { CompanySize, Step1SavePayload, VatRegion } from "@/types";
+import type { CompanyProfile } from "@/types/profile";
 
 import { companySizes, vatRegions } from "./profile-options";
 import { ProfileShell } from "./ProfileShell";
@@ -38,10 +39,24 @@ const emptyStep1: Step1SavePayload = {
 };
 
 export function CompanyVerificationStep() {
+  const profile = useAppSelector(selectProfile);
+
+  return (
+    <CompanyVerificationForm
+      key={profile?.id ?? "new-company-profile"}
+      profile={profile}
+    />
+  );
+}
+
+function CompanyVerificationForm({
+  profile,
+}: {
+  profile: CompanyProfile | null;
+}) {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const token = useAppSelector(selectAccessToken);
-  const profile = useAppSelector(selectProfile);
   const saveStatus = useAppSelector((state) =>
     selectProfileOpStatus(state, "saveStep1"),
   );
@@ -52,31 +67,11 @@ export function CompanyVerificationStep() {
   const draftError = useAppSelector((state) =>
     selectProfileError(state, "saveStep1Draft"),
   );
-  const [form, setForm] = useState<Step1SavePayload>(emptyStep1);
+  const [form, setForm] = useState<Step1SavePayload>(() =>
+    profile ? getStep1Form(profile) : emptyStep1,
+  );
   const [localMessage, setLocalMessage] = useState<string | null>(null);
   const readOnly = profile?.status === "pending" || profile?.status === "verified";
-
-  useEffect(() => {
-    if (!profile) {
-      return;
-    }
-
-    setForm({
-      vat_region: profile.vat_region || "uk",
-      company_registration_no: profile.company_registration_no,
-      vat_registration_no: profile.vat_registration_no,
-      company_size: profile.company_size || "1_10",
-      company_website: profile.company_website,
-      company_description: profile.company_description,
-      year_established: profile.year_established ?? new Date().getFullYear(),
-      street_address: profile.street_address,
-      address_line_2: profile.address_line_2,
-      postcode: profile.postcode,
-      city: profile.city,
-      state_region: profile.state_region,
-      country: profile.country,
-    });
-  }, [profile]);
 
   function updateField<TKey extends keyof Step1SavePayload>(
     key: TKey,
@@ -341,4 +336,22 @@ function normalizeWebsite(value: string) {
   }
 
   return `https://${value}`;
+}
+
+function getStep1Form(profile: CompanyProfile): Step1SavePayload {
+  return {
+    vat_region: profile.vat_region || "uk",
+    company_registration_no: profile.company_registration_no,
+    vat_registration_no: profile.vat_registration_no,
+    company_size: profile.company_size || "1_10",
+    company_website: profile.company_website,
+    company_description: profile.company_description,
+    year_established: profile.year_established ?? new Date().getFullYear(),
+    street_address: profile.street_address,
+    address_line_2: profile.address_line_2,
+    postcode: profile.postcode,
+    city: profile.city,
+    state_region: profile.state_region,
+    country: profile.country,
+  };
 }

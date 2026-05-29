@@ -69,7 +69,7 @@ export function OtpVerificationForm() {
         }),
       ).unwrap();
 
-      router.push("/");
+      router.push("/profile");
     } catch {
       // The slice stores and renders the backend error message.
     }

@@ -26,7 +26,7 @@ export function LoginForm() {
     event.preventDefault();
     try {
       await dispatch(loginThunk({ email, password })).unwrap();
-      router.push("/");
+      router.push("/profile");
     } catch {
       // The slice stores and renders the backend error message.
     }
