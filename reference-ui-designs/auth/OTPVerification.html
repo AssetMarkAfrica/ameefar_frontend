@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Verify Your Identity | Ameefar Energy</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-container": "#80f7b1",
+                    "outline-variant": "#c0c8c8",
+                    "on-tertiary-container": "#06b77f",
+                    "outline": "#717978",
+                    "ameefar-navy": "#0F172A",
+                    "surface-container": "#e5eeff",
+                    "on-surface-variant": "#404848",
+                    "error-container": "#ffdad6",
+                    "tertiary-fixed": "#6ffbbe",
+                    "tertiary-container": "#00402a",
+                    "on-secondary-fixed-variant": "#00522f",
+                    "primary-fixed-dim": "#a3cfcf",
+                    "primary-container": "#0f3d3e",
+                    "tertiary": "#002819",
+                    "on-background": "#0b1c30",
+                    "secondary-fixed": "#83fab4",
+                    "surface-container-high": "#dce9ff",
+                    "tertiary-fixed-dim": "#4edea3",
+                    "on-secondary": "#ffffff",
+                    "trust-green-subtle": "#ECFDF5",
+                    "surface-container-lowest": "#ffffff",
+                    "error": "#ba1a1a",
+                    "on-tertiary": "#ffffff",
+                    "border-subtle": "#E2E8F0",
+                    "secondary": "#006d40",
+                    "surface-dim": "#cbdbf5",
+                    "surface-container-highest": "#d3e4fe",
+                    "inverse-on-surface": "#eaf1ff",
+                    "on-primary-fixed-variant": "#224d4e",
+                    "primary": "#002627",
+                    "surface-variant": "#d3e4fe",
+                    "surface-gray": "#F8FAFC",
+                    "surface-container-low": "#eff4ff",
+                    "on-primary": "#ffffff",
+                    "background": "#f8f9ff",
+                    "inverse-surface": "#213145",
+                    "on-primary-fixed": "#002020",
+                    "surface": "#f8f9ff",
+                    "on-tertiary-fixed": "#002113",
+                    "surface-tint": "#3b6566",
+                    "on-tertiary-fixed-variant": "#005236",
+                    "secondary-fixed-dim": "#66dd99",
+                    "primary-fixed": "#beebeb",
+                    "surface-bright": "#f8f9ff",
+                    "on-secondary-container": "#007243",
+                    "on-secondary-fixed": "#002110",
+                    "on-error-container": "#93000a",
+                    "on-error": "#ffffff",
+                    "on-primary-container": "#7da8a8",
+                    "on-surface": "#0b1c30",
+                    "inverse-primary": "#a3cfcf"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "margin-mobile": "16px",
+                    "gutter": "24px",
+                    "margin-desktop": "40px",
+                    "base": "4px",
+                    "container-max": "1440px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Hanken Grotesk"],
+                    "label-md": ["JetBrains Mono"],
+                    "headline-lg": ["Hanken Grotesk"],
+                    "display-lg": ["Hanken Grotesk"],
+                    "body-sm": ["Inter"],
+                    "headline-lg-mobile": ["Hanken Grotesk"],
+                    "body-md": ["Inter"],
+                    "body-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .otp-input:focus {
+            box-shadow: 0 0 0 2px white, 0 0 0 4px #002627;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-surface-gray text-on-surface min-h-screen flex flex-col font-body-md">
+<!-- Header / Brand Section -->
+<header class="w-full flex justify-center py-12 md:py-20">
+<div class="flex flex-col items-center gap-6">
+<img alt="Ameefar Energy Logo" class="h-16 w-16 md:h-20 md:w-20 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDlwhA2Wy_Nz4pjukpFySVPQXWDhVDhIFMaHnr6mzkc6EtB-duAYhri3R0CBWt-iwpKLunl4RBv4Q63aGCpXwYHaFgGhdjACCm9bA8qIF9z_eh4xHl1o6T7HERNJ5o-___RGc0OuvZQQZui-gwZFmx0ZtAb825ffgyiZ5WDzzYhb1qlyRhHoz-iJzjs5VzJqcgVgOk0rITcq2K-lmqtBuMz_vMCiyGJqg3yJspoPGGqaAawbNySSZf7Rh_hn9O9lnhMsBBicHKtzuPX"/>
+<div class="text-center">
+<h1 class="font-headline-lg text-headline-lg text-ameefar-navy mb-2">Two-Step Verification</h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-sm mx-auto px-4">
+                    Enter the 6-digit code we sent to <span class="font-semibold text-on-surface">ad***@enterprise.com</span>
+</p>
+</div>
+</div>
+</header>
+<!-- Main Verification Section -->
+<main class="flex-grow flex justify-center px-margin-mobile">
+<div class="w-full max-w-md">
+<form class="space-y-12" id="otp-form">
+<!-- OTP Inputs Grid -->
+<div class="flex justify-between gap-2 md:gap-4" id="otp-container">
+<input autocomplete="one-time-code" class="otp-input w-full aspect-square md:w-16 md:h-16 text-center text-headline-md font-label-md border-border-subtle rounded-lg bg-white focus:outline-none focus:ring-0 transition-all duration-200" inputmode="numeric" maxlength="1" required="" type="text"/>
+<input class="otp-input w-full aspect-square md:w-16 md:h-16 text-center text-headline-md font-label-md border-border-subtle rounded-lg bg-white focus:outline-none focus:ring-0 transition-all duration-200" inputmode="numeric" maxlength="1" required="" type="text"/>
+<input class="otp-input w-full aspect-square md:w-16 md:h-16 text-center text-headline-md font-label-md border-border-subtle rounded-lg bg-white focus:outline-none focus:ring-0 transition-all duration-200" inputmode="numeric" maxlength="1" required="" type="text"/>
+<input class="otp-input w-full aspect-square md:w-16 md:h-16 text-center text-headline-md font-label-md border-border-subtle rounded-lg bg-white focus:outline-none focus:ring-0 transition-all duration-200" inputmode="numeric" maxlength="1" required="" type="text"/>
+<input class="otp-input w-full aspect-square md:w-16 md:h-16 text-center text-headline-md font-label-md border-border-subtle rounded-lg bg-white focus:outline-none focus:ring-0 transition-all duration-200" inputmode="numeric" maxlength="1" required="" type="text"/>
+<input class="otp-input w-full aspect-square md:w-16 md:h-16 text-center text-headline-md font-label-md border-border-subtle rounded-lg bg-white focus:outline-none focus:ring-0 transition-all duration-200" inputmode="numeric" maxlength="1" required="" type="text"/>
+</div>
+<div class="space-y-6">
+<button class="w-full bg-primary hover:bg-ameefar-navy text-on-primary font-semibold py-4 rounded-xl shadow-lg transition-all duration-200 transform active:scale-[0.98] flex items-center justify-center gap-2 group" type="submit">
+<span>Verify Account</span>
+<span class="material-symbols-outlined text-[20px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+<div class="flex flex-col md:flex-row items-center justify-center gap-6 text-body-sm">
+<button class="flex items-center gap-1.5 text-on-surface-variant hover:text-primary transition-colors duration-200 group" id="resend-btn" type="button">
+<span class="material-symbols-outlined text-[18px]">refresh</span>
+<span>Resend code</span>
+<span class="text-outline ml-1" id="timer">(59s)</span>
+</button>
+<div class="hidden md:block w-1 h-1 bg-outline-variant rounded-full"></div>
+<button class="flex items-center gap-1.5 text-on-surface-variant hover:text-primary transition-colors duration-200" type="button">
+<span class="material-symbols-outlined text-[18px]">alternate_email</span>
+<span>Change email</span>
+</button>
+</div>
+</div>
+</form>
+<!-- Security Footer -->
+<div class="mt-20 py-8 border-t border-border-subtle flex flex-col items-center gap-4">
+<div class="flex items-center gap-2 text-on-tertiary-container bg-trust-green-subtle px-4 py-2 rounded-full border border-secondary-container">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+<span class="text-label-md font-label-md">SECURE ENTERPRISE PORTAL</span>
+</div>
+<p class="text-body-sm text-outline text-center">
+                    Ameefar Energy uses AES-256 encryption to protect your professional transactions.
+                </p>
+</div>
+</div>
+</main>
+<!-- Support Link Footer -->
+<footer class="py-8 px-margin-mobile">
+<div class="max-w-container-max mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-body-sm text-outline">
+<p>© 2024 Ameefar Energy. Professional Recycling Marketplace.</p>
+<div class="flex gap-6">
+<a class="hover:text-primary transition-colors" href="#">Help Center</a>
+<a class="hover:text-primary transition-colors" href="#">Privacy Policy</a>
+</div>
+</div>
+</footer>
+<script>
+        // Handle OTP input movement
+        const inputs = document.querySelectorAll('.otp-input');
+        
+        inputs.forEach((input, index) => {
+            input.addEventListener('input', (e) => {
+                if (e.inputType === 'deleteContentBackward') return;
+                
+                if (input.value && index < inputs.length - 1) {
+                    inputs[index + 1].focus();
+                }
+            });
+
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && !input.value && index > 0) {
+                    inputs[index - 1].focus();
+                }
+            });
+
+            // Prevent non-numeric characters
+            input.addEventListener('keypress', (e) => {
+                if (!/[0-9]/.test(e.key)) {
+                    e.preventDefault();
+                }
+            });
+        });
+
+        // Simple Countdown Timer
+        let timeLeft = 59;
+        const timerDisplay = document.getElementById('timer');
+        const resendBtn = document.getElementById('resend-btn');
+
+        const countdown = setInterval(() => {
+            if (timeLeft <= 0) {
+                clearInterval(countdown);
+                timerDisplay.textContent = "";
+                resendBtn.classList.remove('text-on-surface-variant');
+                resendBtn.classList.add('text-primary', 'font-semibold');
+            } else {
+                timerDisplay.textContent = `(${timeLeft}s)`;
+                timeLeft--;
+            }
+        }, 1000);
+
+        // Form Submission Micro-interaction
+        document.getElementById('otp-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const code = Array.from(inputs).map(i => i.value).join('');
+            if (code.length === 6) {
+                const btn = e.target.querySelector('button[type="submit"]');
+                const originalText = btn.innerHTML;
+                btn.disabled = true;
+                btn.innerHTML = '<span class="material-symbols-outlined animate-spin">progress_activity</span> <span>Verifying...</span>';
+                
+                setTimeout(() => {
+                    // Logic for "Accept Offer" / "Confirm Shipment" success style if needed
+                    btn.classList.remove('bg-primary');
+                    btn.classList.add('bg-secondary');
+                    btn.innerHTML = '<span class="material-symbols-outlined">check_circle</span> <span>Access Granted</span>';
+                }, 1500);
+            }
+        });
+    </script>
+</body></html>

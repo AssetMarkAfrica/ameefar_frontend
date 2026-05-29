@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Register | Ameefar Energy</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-container": "#80f7b1",
+                    "outline-variant": "#c0c8c8",
+                    "on-tertiary-container": "#06b77f",
+                    "outline": "#717978",
+                    "ameefar-navy": "#0F172A",
+                    "surface-container": "#e5eeff",
+                    "on-surface-variant": "#404848",
+                    "error-container": "#ffdad6",
+                    "tertiary-fixed": "#6ffbbe",
+                    "tertiary-container": "#00402a",
+                    "on-secondary-fixed-variant": "#00522f",
+                    "primary-fixed-dim": "#a3cfcf",
+                    "primary-container": "#0f3d3e",
+                    "tertiary": "#002819",
+                    "on-background": "#0b1c30",
+                    "secondary-fixed": "#83fab4",
+                    "surface-container-high": "#dce9ff",
+                    "tertiary-fixed-dim": "#4edea3",
+                    "on-secondary": "#ffffff",
+                    "trust-green-subtle": "#ECFDF5",
+                    "surface-container-lowest": "#ffffff",
+                    "error": "#ba1a1a",
+                    "on-tertiary": "#ffffff",
+                    "border-subtle": "#E2E8F0",
+                    "secondary": "#006d40",
+                    "surface-dim": "#cbdbf5",
+                    "surface-container-highest": "#d3e4fe",
+                    "inverse-on-surface": "#eaf1ff",
+                    "on-primary-fixed-variant": "#224d4e",
+                    "primary": "#002627",
+                    "surface-variant": "#d3e4fe",
+                    "surface-gray": "#F8FAFC",
+                    "surface-container-low": "#eff4ff",
+                    "on-primary": "#ffffff",
+                    "background": "#f8f9ff",
+                    "inverse-surface": "#213145",
+                    "on-primary-fixed": "#002020",
+                    "surface": "#f8f9ff",
+                    "on-tertiary-fixed": "#002113",
+                    "surface-tint": "#3b6566",
+                    "on-tertiary-fixed-variant": "#005236",
+                    "secondary-fixed-dim": "#66dd99",
+                    "primary-fixed": "#beebeb",
+                    "surface-bright": "#f8f9ff",
+                    "on-secondary-container": "#007243",
+                    "on-secondary-fixed": "#002110",
+                    "on-error-container": "#93000a",
+                    "on-error": "#ffffff",
+                    "on-primary-container": "#7da8a8",
+                    "on-surface": "#0b1c30",
+                    "inverse-primary": "#a3cfcf"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "margin-mobile": "16px",
+                    "gutter": "24px",
+                    "margin-desktop": "40px",
+                    "base": "4px",
+                    "container-max": "1440px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Hanken Grotesk"],
+                    "label-md": ["JetBrains Mono"],
+                    "headline-lg": ["Hanken Grotesk"],
+                    "display-lg": ["Hanken Grotesk"],
+                    "body-sm": ["Inter"],
+                    "headline-lg-mobile": ["Hanken Grotesk"],
+                    "body-md": ["Inter"],
+                    "body-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .form-input-focus:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px white, 0 0 0 4px #002627;
+        }
+        .bg-mesh {
+            background-color: #f8f9ff;
+            background-image: radial-gradient(at 0% 0%, rgba(128, 247, 177, 0.05) 0px, transparent 50%),
+                              radial-gradient(at 100% 100%, rgba(15, 61, 62, 0.05) 0px, transparent 50%);
+        }
+    </style>
+</head>
+<body class="bg-mesh min-h-screen text-on-surface font-body-md overflow-x-hidden">
+<!-- Header / TopAppBar -->
+<header class="bg-surface sticky top-0 z-50 flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop h-16 max-w-container-max mx-auto border-b border-border-subtle">
+<div class="flex items-center gap-4">
+<img alt="Ameefar Energy Logo" class="h-8 w-8 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDlwhA2Wy_Nz4pjukpFySVPQXWDhVDhIFMaHnr6mzkc6EtB-duAYhri3R0CBWt-iwpKLunl4RBv4Q63aGCpXwYHaFgGhdjACCm9bA8qIF9z_eh4xHl1o6T7HERNJ5o-___RGc0OuvZQQZui-gwZFmx0ZtAb825ffgyiZ5WDzzYhb1qlyRhHoz-iJzjs5VzJqcgVgOk0rITcq2K-lmqtBuMz_vMCiyGJqg3yJspoPGGqaAawbNySSZf7Rh_hn9O9lnhMsBBicHKtzuPX"/>
+<span class="text-headline-md font-headline-md font-bold text-ameefar-navy">Ameefar Energy</span>
+</div>
+<div class="flex items-center gap-6">
+<a class="text-label-md font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">LOGIN</a>
+<button class="material-symbols-outlined text-primary">help_outline</button>
+</div>
+</header>
+<main class="max-w-[1200px] mx-auto px-margin-mobile md:px-margin-desktop py-12">
+<div class="flex flex-col lg:flex-row gap-12 items-start">
+<!-- Left Column: Branding & Value Prop -->
+<div class="lg:w-1/3 lg:sticky lg:top-28">
+<h1 class="font-headline-lg text-headline-lg text-primary mb-4">Empower Your Energy Future</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-8">
+                    Join the global B2B marketplace for professional energy recycling and marketplace intelligence. Secure, transparent, and authoritative.
+                </p>
+<div class="space-y-6">
+<div class="flex items-start gap-4">
+<div class="bg-trust-green-subtle p-3 rounded-xl">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<div>
+<h3 class="font-headline-md text-[18px] text-primary">Verified Marketplace</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Access a network of vetted enterprise partners.</p>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<div class="bg-surface-container p-3 rounded-xl">
+<span class="material-symbols-outlined text-ameefar-navy" style="font-variation-settings: 'FILL' 1;">security</span>
+</div>
+<div>
+<h3 class="font-headline-md text-[18px] text-primary">Secure Transactions</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Fintech-grade security for high-stakes trades.</p>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<div class="bg-secondary-container/20 p-3 rounded-xl">
+<span class="material-symbols-outlined text-on-tertiary-container" style="font-variation-settings: 'FILL' 1;">analytics</span>
+</div>
+<div>
+<h3 class="font-headline-md text-[18px] text-primary">Real-time Intelligence</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Live market pricing and professional compliance data.</p>
+</div>
+</div>
+</div>
+<div class="mt-12 p-6 bg-ameefar-navy rounded-xl text-white">
+<p class="font-body-sm italic opacity-90">"The transition to sustainable energy requires a rigorous, data-driven marketplace. Ameefar provides exactly that."</p>
+<div class="mt-4 flex items-center gap-3">
+<img class="h-10 w-10 rounded-full border border-primary-fixed-dim" data-alt="Headshot of a middle-aged professional businessman in a navy suit, looking confident and smiling slightly. The background is a blurred high-end corporate office lobby with glass walls and modern furniture. Soft, natural daylight illuminates his face from the side, emphasizing his professional and authoritative demeanor." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbKOk8dBuyRBuSkAiYo74cRL4U_YgQV2ko_VkCF9zaqfflW1V43qXfYPJSzEQePYHXN5IQoJpQxcpcP8YpZskMdcdWlN_8byq8MRBmg43xqUKxqXNttebFRRk6VhHXwm7k1gtOCcFv-GMltHchwu7F6g-kGQhUDm1faF5AuPAyPRT3JqxfTdFC0M6j3WpQAdZst-UQfbbg4UbcjW8NVF2dr059g-LXsEga-KGMQAdHUHyJiMTjmpHI39H92TmwZHfsMhrtP_KqcSgb"/>
+<div>
+<p class="font-label-md text-label-md">Marcus Thorne</p>
+<p class="text-[10px] opacity-70">Chief Operations, GreenTech Global</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Registration Form -->
+<div class="lg:w-2/3 bg-white border border-border-subtle rounded-xl shadow-sm p-8 md:p-12">
+<form class="space-y-10" id="registrationForm">
+<!-- Section: Account Credentials -->
+<div>
+<div class="flex items-center gap-2 mb-6 border-b border-border-subtle pb-2">
+<span class="material-symbols-outlined text-primary">lock</span>
+<h2 class="font-headline-md text-[20px] text-primary">Account Credentials</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="md:col-span-2">
+<label class="block text-label-md font-label-md text-on-surface-variant mb-2">Email Address</label>
+<input class="w-full bg-surface-gray border-border-subtle rounded-lg py-3 px-4 font-body-md form-input-focus transition-all" placeholder="corporate@company.com" required="" type="email"/>
+</div>
+<div>
+<label class="block text-label-md font-label-md text-on-surface-variant mb-2">Password</label>
+<input class="w-full bg-surface-gray border-border-subtle rounded-lg py-3 px-4 font-body-md form-input-focus transition-all" placeholder="••••••••" required="" type="password"/>
+</div>
+<div>
+<label class="block text-label-md font-label-md text-on-surface-variant mb-2">Confirm Password</label>
+<input class="w-full bg-surface-gray border-border-subtle rounded-lg py-3 px-4 font-body-md form-input-focus transition-all" placeholder="••••••••" required="" type="password"/>
+</div>
+</div>
+</div>
+<!-- Section: Personal Information -->
+<div>
+<div class="flex items-center gap-2 mb-6 border-b border-border-subtle pb-2">
+<span class="material-symbols-outlined text-primary">person</span>
+<h2 class="font-headline-md text-[20px] text-primary">Professional Identity</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div>
+<label class="block text-label-md font-label-md text-on-surface-variant mb-2">Prefix</label>
+<select class="w-full bg-surface-gray border-border-subtle rounded-lg py-3 px-4 font-body-md form-input-focus transition-all">
+<option>Mr</option>
+<option>Mrs</option>
+<option>Ms</option>
+<option>Dr</option>
+<option>Prof</option>
+<option>Other</option>
+</select>
+</div>
+<div>
+<label class="block text-label-md font-label-md text-on-surface-variant mb-2">First Name</label>
+<input class="w-full bg-surface-gray border-border-subtle rounded-lg py-3 px-4 font-body-md form-input-focus transition-all" placeholder="John" required="" type="text"/>
+</div>
+<div>
+<label class="block text-label-md font-label-md text-on-surface-variant mb-2">Last Name</label>
+<input class="w-full bg-surface-gray border-border-subtle rounded-lg py-3 px-4 font-body-md form-input-focus transition-all" placeholder="Doe" required="" type="text"/>
+</div>
+<div class="md:col-span-2">
+<label class="block text-label-md font-label-md text-on-surface-variant mb-2">Job Title</label>
+<input class="w-full bg-surface-gray border-border-subtle rounded-lg py-3 px-4 font-body-md form-input-focus transition-all" placeholder="Head of Procurement" required="" type="text"/>
+</div>
+<div>
+<label class="block text-label-md font-label-md text-on-surface-variant mb-2">Mobile Number</label>
+<input class="w-full bg-surface-gray border-border-subtle rounded-lg py-3 px-4 font-body-md form-input-focus transition-all" placeholder="+1 (555) 000-0000" required="" type="tel"/>
+</div>
+</div>
+</div>
+<!-- Section: Company Details -->
+<div>
+<div class="flex items-center gap-2 mb-6 border-b border-border-subtle pb-2">
+<span class="material-symbols-outlined text-primary">domain</span>
+<h2 class="font-headline-md text-[20px] text-primary">Company Profile</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="md:col-span-2">
+<label class="block text-label-md font-label-md text-on-surface-variant mb-2">Company Name</label>
+<input class="w-full bg-surface-gray border-border-subtle rounded-lg py-3 px-4 font-body-md form-input-focus transition-all" placeholder="Enter full legal entity name" required="" type="text"/>
+</div>
+<div>
+<label class="block text-label-md font-label-md text-on-surface-variant mb-2">Company Type</label>
+<select class="w-full bg-surface-gray border-border-subtle rounded-lg py-3 px-4 font-body-md form-input-focus transition-all">
+<option>Recycling Enterprise</option>
+<option>Energy Producer</option>
+<option>Manufacturer</option>
+<option>Governmental Body</option>
+<option>Logistics Provider</option>
+<option>Other</option>
+</select>
+</div>
+<div>
+<label class="block text-label-md font-label-md text-on-surface-variant mb-2">Trading Role</label>
+<select class="w-full bg-surface-gray border-border-subtle rounded-lg py-3 px-4 font-body-md form-input-focus transition-all">
+<option>Buyer</option>
+<option>Seller</option>
+<option>Buyer &amp; Seller</option>
+</select>
+</div>
+<div class="md:col-span-2">
+<label class="block text-label-md font-label-md text-on-surface-variant mb-2">Materials of Interest</label>
+<div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+<label class="flex items-center gap-2 bg-surface-gray p-3 rounded border border-border-subtle cursor-pointer hover:border-primary-container transition-colors">
+<input class="rounded text-primary focus:ring-primary border-outline" type="checkbox"/>
+<span class="text-body-sm">Li-ion Batteries</span>
+</label>
+<label class="flex items-center gap-2 bg-surface-gray p-3 rounded border border-border-subtle cursor-pointer hover:border-primary-container transition-colors">
+<input class="rounded text-primary focus:ring-primary border-outline" type="checkbox"/>
+<span class="text-body-sm">Solar Panels</span>
+</label>
+<label class="flex items-center gap-2 bg-surface-gray p-3 rounded border border-border-subtle cursor-pointer hover:border-primary-container transition-colors">
+<input class="rounded text-primary focus:ring-primary border-outline" type="checkbox"/>
+<span class="text-body-sm">Copper Scraps</span>
+</label>
+<label class="flex items-center gap-2 bg-surface-gray p-3 rounded border border-border-subtle cursor-pointer hover:border-primary-container transition-colors">
+<input class="rounded text-primary focus:ring-primary border-outline" type="checkbox"/>
+<span class="text-body-sm">Turbine Blades</span>
+</label>
+<label class="flex items-center gap-2 bg-surface-gray p-3 rounded border border-border-subtle cursor-pointer hover:border-primary-container transition-colors">
+<input class="rounded text-primary focus:ring-primary border-outline" type="checkbox"/>
+<span class="text-body-sm">Rare Earths</span>
+</label>
+<label class="flex items-center gap-2 bg-surface-gray p-3 rounded border border-border-subtle cursor-pointer hover:border-primary-container transition-colors">
+<input class="rounded text-primary focus:ring-primary border-outline" id="otherMaterialsToggle" type="checkbox"/>
+<span class="text-body-sm">Other</span>
+</label>
+</div>
+<input class="hidden mt-3 w-full bg-surface-gray border-border-subtle rounded-lg py-2 px-4 font-body-sm" id="otherMaterialsInput" placeholder="Specify other materials" type="text"/>
+</div>
+</div>
+</div>
+<!-- Section: Source & Agreement -->
+<div class="space-y-6">
+<div>
+<label class="block text-label-md font-label-md text-on-surface-variant mb-2">Referral Source</label>
+<select class="w-full bg-surface-gray border-border-subtle rounded-lg py-3 px-4 font-body-md form-input-focus transition-all">
+<option>LinkedIn</option>
+<option>Industry Conference</option>
+<option>News Publication</option>
+<option>Direct Referral</option>
+<option>Online Search</option>
+</select>
+</div>
+<div class="p-4 bg-trust-green-subtle rounded-lg border border-secondary/20">
+<label class="flex items-start gap-3 cursor-pointer">
+<input class="mt-1 rounded text-secondary focus:ring-secondary border-outline" required="" type="checkbox"/>
+<span class="text-body-sm text-secondary">
+                                    I agree to the <a class="underline font-semibold" href="#">Terms of Service</a>, <a class="underline font-semibold" href="#">Privacy Policy</a>, and <a class="underline font-semibold" href="#">Trading Rules</a>. I confirm that I am authorized to represent the listed entity.
+                                </span>
+</label>
+</div>
+</div>
+<!-- Submit Button -->
+<div class="pt-6">
+<button class="w-full bg-primary hover:bg-ameefar-navy text-white font-headline-md py-4 rounded-xl shadow-lg shadow-primary/10 transition-all active:scale-[0.98]" type="submit">
+                            Complete Registration
+                        </button>
+<p class="text-center text-body-sm text-on-surface-variant mt-4">
+                            Already have an account? <a class="text-primary font-bold hover:underline" href="#">Log in</a>
+</p>
+</div>
+</form>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="border-t border-border-subtle bg-surface-gray py-12 mt-12">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-8">
+<div class="flex flex-col items-center md:items-start gap-2">
+<span class="text-headline-sm font-headline-md text-ameefar-navy">Ameefar Energy</span>
+<p class="text-body-sm font-body-sm text-on-surface-variant">© 2024 Ameefar Energy. Professional Recycling Marketplace.</p>
+</div>
+<div class="flex flex-wrap justify-center gap-6">
+<a class="text-label-md font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="text-label-md font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="text-label-md font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Compliance</a>
+<a class="text-label-md font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Support</a>
+</div>
+</div>
+</footer>
+<script>
+        // Micro-interactions for form
+        const otherMaterialsToggle = document.getElementById('otherMaterialsToggle');
+        const otherMaterialsInput = document.getElementById('otherMaterialsInput');
+
+        otherMaterialsToggle.addEventListener('change', (e) => {
+            if (e.target.checked) {
+                otherMaterialsInput.classList.remove('hidden');
+                otherMaterialsInput.focus();
+            } else {
+                otherMaterialsInput.classList.add('hidden');
+            }
+        });
+
+        // Form submission animation placeholder
+        document.getElementById('registrationForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            const originalText = btn.innerText;
+            btn.innerHTML = '<span class="material-symbols-outlined animate-spin">refresh</span> Processing...';
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                btn.innerHTML = '<span class="material-symbols-outlined">check_circle</span> Application Submitted';
+                btn.classList.replace('bg-primary', 'bg-secondary');
+            }, 1500);
+        });
+    </script>
+</body></html>

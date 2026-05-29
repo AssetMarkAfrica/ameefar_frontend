@@ -1,27 +1,31 @@
-export type Prefix = "Mr" | "Mrs" | "Ms" | "Dr" | "Prof";
+export type Prefix = "Dr" | "Mr" | "Mrs" | "Ms" | "Prof" | "Other";
 
 export type CompanyType =
-  | "recycler"
+  | "aerospace"
+  | "agriculture"
+  | "broker_trader"
+  | "construction"
   | "manufacturer"
-  | "trader"
-  | "broker"
+  | "recycler"
+  | "waste_management"
   | "other";
 
 export type UserRole = "buyer" | "seller" | "both";
 
 export type Material =
   | "plastic"
-  | "metal"
+  | "fibre"
   | "rubber"
-  | "paper"
-  | "glass"
+  | "metal"
   | "other";
 
 export type ReferralSource =
   | "google_search"
-  | "social_media"
-  | "referral"
-  | "event"
+  | "trade_show"
+  | "sustainability_show"
+  | "k_show"
+  | "interplas"
+  | "word_of_mouth"
   | "other";
 
 export type UserProfile = Record<string, unknown>;

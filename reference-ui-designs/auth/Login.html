@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Ameefar Energy - Premium Login</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&amp;family=Inter:wght@400;500&amp;family=JetBrains+Mono:wght@500&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@100..900&amp;family=Inter:wght@100..900&amp;family=JetBrains+Mono:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .font-hanken {
+            font-family: 'Hanken Grotesk', sans-serif;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-container": "#80f7b1",
+                        "outline-variant": "#c0c8c8",
+                        "on-tertiary-container": "#06b77f",
+                        "outline": "#717978",
+                        "ameefar-navy": "#0F172A",
+                        "surface-container": "#e5eeff",
+                        "on-surface-variant": "#404848",
+                        "error-container": "#ffdad6",
+                        "tertiary-fixed": "#6ffbbe",
+                        "tertiary-container": "#00402a",
+                        "on-secondary-fixed-variant": "#00522f",
+                        "primary-fixed-dim": "#a3cfcf",
+                        "primary-container": "#0f3d3e",
+                        "tertiary": "#002819",
+                        "on-background": "#0b1c30",
+                        "secondary-fixed": "#83fab4",
+                        "surface-container-high": "#dce9ff",
+                        "tertiary-fixed-dim": "#4edea3",
+                        "on-secondary": "#ffffff",
+                        "trust-green-subtle": "#ECFDF5",
+                        "surface-container-lowest": "#ffffff",
+                        "error": "#ba1a1a",
+                        "on-tertiary": "#ffffff",
+                        "border-subtle": "#E2E8F0",
+                        "secondary": "#006d40",
+                        "surface-dim": "#cbdbf5",
+                        "surface-container-highest": "#d3e4fe",
+                        "inverse-on-surface": "#eaf1ff",
+                        "on-primary-fixed-variant": "#224d4e",
+                        "primary": "#002627",
+                        "surface-variant": "#d3e4fe",
+                        "surface-gray": "#F8FAFC",
+                        "surface-container-low": "#eff4ff",
+                        "on-primary": "#ffffff",
+                        "background": "#f8f9ff",
+                        "inverse-surface": "#213145",
+                        "on-primary-fixed": "#002020",
+                        "surface": "#f8f9ff",
+                        "on-tertiary-fixed": "#002113",
+                        "surface-tint": "#3b6566",
+                        "on-tertiary-fixed-variant": "#005236",
+                        "secondary-fixed-dim": "#66dd99",
+                        "primary-fixed": "#beebeb",
+                        "surface-bright": "#f8f9ff",
+                        "on-secondary-container": "#007243",
+                        "on-secondary-fixed": "#002110",
+                        "on-error-container": "#93000a",
+                        "on-error": "#ffffff",
+                        "on-primary-container": "#7da8a8",
+                        "on-surface": "#0b1c30",
+                        "inverse-primary": "#a3cfcf"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "gutter": "24px",
+                        "margin-desktop": "40px",
+                        "base": "4px",
+                        "container-max": "1440px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Hanken Grotesk"],
+                        "label-md": ["JetBrains Mono"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "body-sm": ["Inter"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-surface-gray min-h-screen flex items-center justify-center p-margin-mobile md:p-0 overflow-x-hidden">
+<!-- Split Screen Container -->
+<div class="flex w-full max-w-[1440px] h-screen md:h-[90vh] md:m-margin-desktop bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_32px_64px_-12px_rgba(15,23,42,0.14)]">
+<!-- Left Side: Visual/Branding Section -->
+<div class="hidden md:flex flex-col justify-between w-1/2 relative bg-primary p-margin-desktop text-on-primary">
+<div class="absolute inset-0 opacity-40 mix-blend-overlay">
+<img alt="Trade Visual" class="w-full h-full object-cover" data-alt="A cinematic, low-angle shot of a massive industrial energy facility at dusk. The scene is illuminated by cool blue and deep navy tones, with sharp orange sunset highlights glinting off complex pipe systems and steel structures. The lighting is dramatic and crisp, emphasizing precision engineering and professional enterprise scale. The atmosphere is quiet, powerful, and technologically advanced, reflecting the authoritative personality of Ameefar Energy." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDMDEv4EyCalEwV8P1IqTToe66mmyvNQ097WzZLEKX3AlKsHzRR4HLgBsvJLe6Syf0u-VrO_68UAEWDbwsEFJM5wBJpMeDP-S5g1MLiymVwiSbP-78lhGiuZ5RIU0oqs8GJTlprls02sWwAAVx9vR_8A0nTLuoA0O8sCc8ZxMyXubgeGM8pBgjqot1CG0Vngg2UvPaV9JtPJgzwyC-AnW8EKJ1EC6DS8S09jqYbt99ZgeRhXKPPOQuW_RvD0157h1v25gdZKI-5hI7g"/>
+</div>
+<div class="relative z-10">
+<div class="flex items-center gap-3 mb-12">
+<img alt="Ameefar Energy Logo" class="h-10 w-10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDlwhA2Wy_Nz4pjukpFySVPQXWDhVDhIFMaHnr6mzkc6EtB-duAYhri3R0CBWt-iwpKLunl4RBv4Q63aGCpXwYHaFgGhdjACCm9bA8qIF9z_eh4xHl1o6T7HERNJ5o-___RGc0OuvZQQZui-gwZFmx0ZtAb825ffgyiZ5WDzzYhb1qlyRhHoz-iJzjs5VzJqcgVgOk0rITcq2K-lmqtBuMz_vMCiyGJqg3yJspoPGGqaAawbNySSZf7Rh_hn9O9lnhMsBBicHKtzuPX"/>
+<span class="font-headline-md text-headline-md tracking-tight">Ameefar Energy</span>
+</div>
+<div class="max-w-md">
+<h1 class="font-display-lg text-display-lg mb-6 leading-tight">Empowering Global Energy Logistics.</h1>
+<p class="font-body-lg text-body-lg opacity-80 leading-relaxed">
+                        The definitive marketplace for industrial recycling and energy trade. Secure, transparent, and built for enterprise scale.
+                    </p>
+</div>
+</div>
+<div class="relative z-10 flex gap-12">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md uppercase tracking-widest opacity-60 mb-1">Global Trades</span>
+<span class="font-headline-md text-headline-md">1.2M+</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md uppercase tracking-widest opacity-60 mb-1">Market Liquidity</span>
+<span class="font-headline-md text-headline-md">$4.8B</span>
+</div>
+</div>
+</div>
+<!-- Right Side: Login Form -->
+<div class="w-full md:w-1/2 flex flex-col justify-center items-center p-margin-mobile md:p-margin-desktop bg-surface-container-lowest">
+<div class="w-full max-w-sm">
+<!-- Mobile Logo -->
+<div class="md:hidden flex flex-col items-center mb-10">
+<img alt="Ameefar Energy Logo" class="h-12 w-12 mb-4" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDlwhA2Wy_Nz4pjukpFySVPQXWDhVDhIFMaHnr6mzkc6EtB-duAYhri3R0CBWt-iwpKLunl4RBv4Q63aGCpXwYHaFgGhdjACCm9bA8qIF9z_eh4xHl1o6T7HERNJ5o-___RGc0OuvZQQZui-gwZFmx0ZtAb825ffgyiZ5WDzzYhb1qlyRhHoz-iJzjs5VzJqcgVgOk0rITcq2K-lmqtBuMz_vMCiyGJqg3yJspoPGGqaAawbNySSZf7Rh_hn9O9lnhMsBBicHKtzuPX"/>
+<h2 class="font-headline-md text-headline-md text-ameefar-navy">Ameefar Energy</h2>
+</div>
+<div class="mb-10 text-center md:text-left">
+<h2 class="font-headline-lg text-headline-lg text-ameefar-navy mb-2">Welcome back</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Enter your credentials to access the trading floor.</p>
+</div>
+<form class="space-y-6" onsubmit="event.preventDefault();">
+<!-- Email Field -->
+<div class="relative">
+<label class="block font-label-md text-label-md text-on-surface-variant mb-2 ml-1" for="email">Work Email</label>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline-variant group-focus-within:text-primary transition-colors">alternate_email</span>
+<input class="w-full pl-12 pr-4 py-4 bg-surface-container-lowest border border-border-subtle rounded-xl font-body-md text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all" id="email" name="email" placeholder="name@company.com" type="email"/>
+</div>
+</div>
+<!-- Password Field -->
+<div class="relative">
+<div class="flex justify-between items-center mb-2">
+<label class="block font-label-md text-label-md text-on-surface-variant ml-1" for="password">Password</label>
+<a class="font-label-md text-label-md text-primary font-semibold hover:underline decoration-2 underline-offset-4" href="#">Forgot password?</a>
+</div>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline-variant group-focus-within:text-primary transition-colors">lock</span>
+<input class="w-full pl-12 pr-4 py-4 bg-surface-container-lowest border border-border-subtle rounded-xl font-body-md text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all" id="password" name="password" placeholder="••••••••" type="password"/>
+</div>
+</div>
+<!-- Remember Me -->
+<div class="flex items-center gap-3 py-2">
+<div class="relative flex items-center">
+<input class="w-5 h-5 rounded-md border-border-subtle text-primary focus:ring-primary cursor-pointer transition-all" id="remember" type="checkbox"/>
+</div>
+<label class="font-body-sm text-body-sm text-on-surface-variant cursor-pointer select-none" for="remember">Keep me signed in for 30 days</label>
+</div>
+<!-- Action Button -->
+<button class="w-full py-4 bg-primary text-on-primary font-headline-md text-headline-md rounded-xl shadow-lg shadow-primary/20 hover:bg-ameefar-navy active:scale-[0.98] transition-all duration-150" type="submit">
+                        Sign in to Portal
+                    </button>
+</form>
+<div class="mt-12 pt-8 border-t border-border-subtle">
+<div class="flex flex-col gap-4">
+<p class="font-body-sm text-body-sm text-on-surface-variant text-center">New partner looking for access?</p>
+<button class="w-full py-4 bg-surface-container-low text-primary font-headline-md text-headline-md rounded-xl hover:bg-surface-container-high transition-colors">
+                            Request Enterprise Account
+                        </button>
+</div>
+</div>
+<!-- Footer Links -->
+<div class="mt-12 flex justify-center gap-6 text-on-surface-variant">
+<a class="font-label-md text-label-md hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<span class="text-outline-variant opacity-30">•</span>
+<a class="font-label-md text-label-md hover:text-primary transition-colors" href="#">Terms of Trade</a>
+<span class="text-outline-variant opacity-30">•</span>
+<a class="font-label-md text-label-md hover:text-primary transition-colors" href="#">Support</a>
+</div>
+</div>
+</div>
+</div>
+<!-- Atmospheric Micro-interaction -->
+<script>
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('focus', () => {
+                input.parentElement.closest('.relative').style.transform = 'translateY(-2px)';
+                input.parentElement.closest('.relative').style.transition = 'transform 0.2s ease-out';
+            });
+            input.addEventListener('blur', () => {
+                input.parentElement.closest('.relative').style.transform = 'translateY(0px)';
+            });
+        });
+
+        // Simple form validation feedback placeholder
+        const loginBtn = document.querySelector('button[type="submit"]');
+        loginBtn.addEventListener('click', () => {
+            loginBtn.innerHTML = '<span class="flex items-center justify-center gap-2"><svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Authenticating...</span>';
+            setTimeout(() => {
+                loginBtn.innerHTML = 'Sign in to Portal';
+            }, 2000);
+        });
+    </script>
+</body></html>
