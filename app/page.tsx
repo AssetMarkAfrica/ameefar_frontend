@@ -134,7 +134,7 @@ export default function Home() {
           <div><h4 className="font-semibold text-white">Legal</h4><p className="mt-2 text-sm">Terms, Privacy, Compliance</p></div>
           <div><h4 className="font-semibold text-white">Support</h4><p className="mt-2 text-sm">Contact, Help Center</p></div>
         </div>
-        <p className="mx-auto mt-8 max-w-[1440px] border-t border-white/10 pt-6 text-center text-sm">© 2026 Ameefar B2B Marketplace. All rights reserved.</p>
+        <p className="mx-auto mt-8 max-w-[1440px] border-t border-white/10 pt-6 text-center text-sm">(c) 2026 Ameefar B2B Marketplace. All rights reserved.</p>
       </footer>
     </div>
   );
