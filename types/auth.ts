@@ -1,0 +1,134 @@
+export type Prefix = "Mr" | "Mrs" | "Ms" | "Dr" | "Prof";
+
+export type CompanyType =
+  | "recycler"
+  | "manufacturer"
+  | "trader"
+  | "broker"
+  | "other";
+
+export type UserRole = "buyer" | "seller" | "both";
+
+export type Material =
+  | "plastic"
+  | "metal"
+  | "rubber"
+  | "paper"
+  | "glass"
+  | "other";
+
+export type ReferralSource =
+  | "google_search"
+  | "social_media"
+  | "referral"
+  | "event"
+  | "other";
+
+export type UserProfile = Record<string, unknown>;
+
+export interface User {
+  id: string;
+  email: string;
+  prefix: Prefix;
+  first_name: string;
+  last_name: string;
+  full_name: string;
+  job_title: string;
+  mobile: string;
+  company_name: string;
+  company_type: CompanyType;
+  company_type_other: string;
+  role: UserRole;
+  is_buyer: boolean;
+  is_seller: boolean;
+  materials_of_interest: Material[];
+  material_other: string;
+  referral_source: ReferralSource;
+  is_active: boolean;
+  is_verified: boolean;
+  date_joined: string;
+  profile: UserProfile | null;
+}
+
+export interface RegisterPayload {
+  email: string;
+  password: string;
+  password_confirm: string;
+  prefix: Prefix;
+  first_name: string;
+  last_name: string;
+  job_title: string;
+  mobile: string;
+  company_name: string;
+  company_type: CompanyType;
+  company_type_other: string;
+  role: UserRole;
+  materials_of_interest: Material[];
+  material_other: string;
+  referral_source: ReferralSource;
+  terms_accepted: boolean;
+  campaign_id?: string;
+  source_page?: string;
+  lead_source?: string;
+  subsidiary_source?: string;
+  engagement_source_url?: string;
+}
+
+export interface VerifyOtpPayload {
+  email: string;
+  pending_token: string;
+  code: string;
+}
+
+export interface LoginPayload {
+  email: string;
+  password: string;
+}
+
+export interface PasswordResetRequestPayload {
+  email: string;
+}
+
+export interface PasswordResetConfirmPayload {
+  uid: string;
+  token: string;
+  new_password: string;
+}
+
+export interface RegisterResponse {
+  success: true;
+  message: string;
+  data: {
+    pending_token: string;
+    delivery: {
+      email: boolean;
+      sms: boolean;
+    };
+  };
+}
+
+export interface VerifyOtpResponse {
+  success: true;
+  message: string;
+  data: {
+    access: string;
+    refresh: string;
+    user: User;
+  };
+}
+
+export interface LoginResponse {
+  access: string;
+  refresh: string;
+  user: User;
+}
+
+export interface PasswordResetRequestResponse {
+  success: true;
+  message: string;
+}
+
+export interface PasswordResetConfirmResponse {
+  success: true;
+  message: string;
+}
