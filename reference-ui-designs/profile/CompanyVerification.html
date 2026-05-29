@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Ameefar Energy - Verification Flow</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Hanken+Grotesk:wght@600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-container": "#7da8a8",
+                        "background": "#f8f9ff",
+                        "tertiary-container": "#00402a",
+                        "inverse-surface": "#213145",
+                        "on-error-container": "#93000a",
+                        "surface-tint": "#3b6566",
+                        "outline-variant": "#c0c8c8",
+                        "surface-gray": "#F8FAFC",
+                        "error-container": "#ffdad6",
+                        "ameefar-navy": "#0F172A",
+                        "error": "#ba1a1a",
+                        "surface-bright": "#f8f9ff",
+                        "surface-dim": "#cbdbf5",
+                        "surface": "#f8f9ff",
+                        "secondary-container": "#80f7b1",
+                        "secondary": "#006d40",
+                        "inverse-primary": "#a3cfcf",
+                        "on-primary-fixed": "#002020",
+                        "tertiary": "#002819",
+                        "primary": "#002627",
+                        "primary-fixed": "#beebeb",
+                        "secondary-fixed": "#83fab4",
+                        "on-tertiary-fixed": "#002113",
+                        "tertiary-fixed-dim": "#4edea3",
+                        "on-primary": "#ffffff",
+                        "surface-container-highest": "#d3e4fe",
+                        "surface-container-lowest": "#ffffff",
+                        "on-error": "#ffffff",
+                        "on-secondary-fixed-variant": "#00522f",
+                        "tertiary-fixed": "#6ffbbe",
+                        "border-subtle": "#E2E8F0",
+                        "trust-green-subtle": "#ECFDF5",
+                        "outline": "#717978",
+                        "on-secondary-container": "#007243",
+                        "on-primary-fixed-variant": "#224d4e",
+                        "inverse-on-surface": "#eaf1ff",
+                        "on-secondary": "#ffffff",
+                        "surface-container-low": "#eff4ff",
+                        "on-background": "#0b1c30",
+                        "primary-fixed-dim": "#a3cfcf",
+                        "on-secondary-fixed": "#002110",
+                        "on-tertiary-container": "#06b77f",
+                        "surface-container-high": "#dce9ff",
+                        "surface-container": "#e5eeff",
+                        "on-surface-variant": "#404848",
+                        "secondary-fixed-dim": "#66dd99",
+                        "primary-container": "#0f3d3e",
+                        "on-tertiary-fixed-variant": "#005236",
+                        "on-surface": "#0b1c30",
+                        "surface-variant": "#d3e4fe",
+                        "on-tertiary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "container-max": "1440px",
+                        "base": "4px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "40px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Hanken Grotesk"],
+                        "label-md": ["JetBrains Mono"],
+                        "body-md": ["Inter"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "body-sm": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .step-pulse {
+            box-shadow: 0 0 0 0 rgba(0, 38, 39, 0.4);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(0, 38, 39, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(0, 38, 39, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 38, 39, 0); }
+        }
+        input:focus, select:focus, textarea:focus {
+            outline: none !important;
+            border-color: #002627 !important;
+            box-shadow: 0 0 0 2px #fff, 0 0 0 4px #002627 !important;
+        }
+    </style>
+</head>
+<body class="bg-surface-gray text-on-surface font-body-md antialiased min-h-screen flex flex-col">
+<!-- Top Navigation Anchor -->
+<header class="bg-surface dark:bg-inverse-surface sticky top-0 z-50 w-full">
+<div class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop h-16 max-w-container-max mx-auto">
+<div class="flex items-center gap-3">
+<img alt="Ameefar Energy Logo" class="h-10 w-10 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB867Z4NnfE9y8w6L6xti3YIxQmGmpBGXAJnlFRNWIpd82DciRw7AeFdN0TZRAr-Oov5knd9fNX3FVcqKvYpoqSyoDzMwb0h2FQwFBBJ6XxyV_zaFtMlNJ0OZOJmrwTzUZr9CVQmAGmmkc6_ZEy9Q-NaTHAJaoZRezgqR05U-zT_jbs25LGDBLPMB54hY8ogQQ_XrEhB-pKzyJsZQ6SrxzKiE36Dq7KA5d9UdJexM9UKiHfvQOsBcoDMy3q54HvMZU9viJ9fOCkKOb3"/>
+<span class="text-headline-md font-headline-md font-bold text-ameefar-navy dark:text-inverse-primary">Ameefar Energy</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors duration-200">help_outline</button>
+<div class="h-8 w-8 rounded-full bg-surface-container flex items-center justify-center overflow-hidden border border-border-subtle">
+<span class="material-symbols-outlined text-sm">person</span>
+</div>
+</div>
+</div>
+</header>
+<!-- Onboarding Stepper Shell -->
+<div class="w-full bg-surface border-b border-border-subtle">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-6">
+<div class="flex flex-col gap-4">
+<div class="flex justify-between items-end">
+<h1 class="text-headline-lg font-headline-lg text-ameefar-navy">Company Verification</h1>
+<span class="text-label-md font-label-md text-primary bg-primary-fixed px-3 py-1 rounded-full">0% Complete</span>
+</div>
+<div class="grid grid-cols-3 gap-2 h-2 w-full bg-surface-container rounded-full overflow-hidden">
+<div class="bg-primary rounded-full relative">
+<div class="absolute inset-0 bg-primary opacity-20 animate-pulse"></div>
+</div>
+<div class="bg-surface-container-high rounded-full"></div>
+<div class="bg-surface-container-high rounded-full"></div>
+</div>
+<div class="grid grid-cols-3 text-center md:text-left">
+<div class="text-label-md font-label-md text-primary font-bold">Company Info</div>
+<div class="text-label-md font-label-md text-on-surface-variant">Operational Sites</div>
+<div class="text-label-md font-label-md text-on-surface-variant">Compliance</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Main Content Canvas -->
+<main class="flex-grow w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-gutter md:py-12">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter items-start">
+<!-- Left Column: Form Content -->
+<div class="md:col-span-8 space-y-gutter">
+<!-- Section: Company Details -->
+<section class="bg-white p-6 md:p-8 rounded-xl border border-border-subtle shadow-sm">
+<div class="flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-primary bg-primary-fixed p-2 rounded-lg">business_center</span>
+<h2 class="text-headline-md font-headline-md">Company Details</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="flex flex-col gap-1">
+<label class="text-label-md font-label-md text-on-surface-variant">VAT Region</label>
+<select class="p-3 border border-border-subtle rounded-lg bg-surface text-on-surface focus:ring-2 focus:ring-primary">
+<option>European Union (EU)</option>
+<option>United Kingdom</option>
+<option>North America</option>
+<option>Asia Pacific</option>
+</select>
+</div>
+<div class="flex flex-col gap-1">
+<label class="text-label-md font-label-md text-on-surface-variant">Registration Number</label>
+<input class="p-3 border border-border-subtle rounded-lg bg-surface text-on-surface font-label-md" placeholder="e.g. 12345678" type="text"/>
+</div>
+<div class="md:col-span-2 flex flex-col gap-1">
+<label class="text-label-md font-label-md text-on-surface-variant">Company Size</label>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-1">
+<label class="cursor-pointer">
+<input class="hidden peer" name="size" type="radio"/>
+<div class="p-3 text-center border border-border-subtle rounded-lg peer-checked:bg-primary-container peer-checked:text-on-primary-container peer-checked:border-primary transition-all">1-10</div>
+</label>
+<label class="cursor-pointer">
+<input checked="" class="hidden peer" name="size" type="radio"/>
+<div class="p-3 text-center border border-border-subtle rounded-lg peer-checked:bg-primary-container peer-checked:text-on-primary-container peer-checked:border-primary transition-all">11-50</div>
+</label>
+<label class="cursor-pointer">
+<input class="hidden peer" name="size" type="radio"/>
+<div class="p-3 text-center border border-border-subtle rounded-lg peer-checked:bg-primary-container peer-checked:text-on-primary-container peer-checked:border-primary transition-all">51-200</div>
+</label>
+<label class="cursor-pointer">
+<input class="hidden peer" name="size" type="radio"/>
+<div class="p-3 text-center border border-border-subtle rounded-lg peer-checked:bg-primary-container peer-checked:text-on-primary-container peer-checked:border-primary transition-all">200+</div>
+</label>
+</div>
+</div>
+</div>
+</section>
+<!-- Section: Business Identity -->
+<section class="bg-white p-6 md:p-8 rounded-xl border border-border-subtle shadow-sm">
+<div class="flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-primary bg-primary-fixed p-2 rounded-lg">language</span>
+<h2 class="text-headline-md font-headline-md">Business Identity</h2>
+</div>
+<div class="space-y-6">
+<div class="flex flex-col gap-1">
+<label class="text-label-md font-label-md text-on-surface-variant">Corporate Website</label>
+<div class="flex">
+<span class="bg-surface-container-high border border-r-0 border-border-subtle px-4 flex items-center text-on-surface-variant rounded-l-lg text-body-sm">https://</span>
+<input class="flex-grow p-3 border border-border-subtle rounded-r-lg bg-surface text-on-surface" placeholder="www.yourcompany.com" type="text"/>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<label class="text-label-md font-label-md text-on-surface-variant">Business Description</label>
+<textarea class="p-3 border border-border-subtle rounded-lg bg-surface text-on-surface resize-none" placeholder="Briefly describe your core operations in recycling or energy trading..." rows="4"></textarea>
+<p class="text-[10px] text-on-surface-variant italic mt-1">This helps our vetting team understand your role in the ecosystem.</p>
+</div>
+</div>
+</section>
+<!-- Section: Registered Address -->
+<section class="bg-white p-6 md:p-8 rounded-xl border border-border-subtle shadow-sm">
+<div class="flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-primary bg-primary-fixed p-2 rounded-lg">location_on</span>
+<h2 class="text-headline-md font-headline-md">Registered Address</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="md:col-span-2 flex flex-col gap-1">
+<label class="text-label-md font-label-md text-on-surface-variant">Street Address</label>
+<input class="p-3 border border-border-subtle rounded-lg bg-surface text-on-surface" type="text"/>
+</div>
+<div class="flex flex-col gap-1">
+<label class="text-label-md font-label-md text-on-surface-variant">City</label>
+<input class="p-3 border border-border-subtle rounded-lg bg-surface text-on-surface" type="text"/>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="flex flex-col gap-1">
+<label class="text-label-md font-label-md text-on-surface-variant">State / Prov</label>
+<input class="p-3 border border-border-subtle rounded-lg bg-surface text-on-surface" type="text"/>
+</div>
+<div class="flex flex-col gap-1">
+<label class="text-label-md font-label-md text-on-surface-variant">Zip / Post</label>
+<input class="p-3 border border-border-subtle rounded-lg bg-surface text-on-surface font-label-md" type="text"/>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column: Context/Help Panel -->
+<aside class="md:col-span-4 sticky top-24 space-y-6">
+<div class="bg-ameefar-navy text-white p-8 rounded-xl relative overflow-hidden shadow-xl">
+<div class="relative z-10">
+<h3 class="text-headline-md font-headline-md mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary-fixed">verified_user</span>
+                            Why this matters
+                        </h3>
+<div class="space-y-4">
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-secondary-fixed shrink-0">security</span>
+<p class="text-body-sm opacity-90">Corporate verification ensures that only legitimate enterprise actors participate in the energy marketplace.</p>
+</div>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-secondary-fixed shrink-0">gavel</span>
+<p class="text-body-sm opacity-90">We require your VAT and registration data to comply with international anti-money laundering (AML) protocols.</p>
+</div>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-secondary-fixed shrink-0">handshake</span>
+<p class="text-body-sm opacity-90">Verified status unlocks higher trade limits and direct negotiation capabilities with major providers.</p>
+</div>
+</div>
+</div>
+<!-- Background Pattern -->
+<div class="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-primary opacity-20 rounded-full blur-3xl"></div>
+</div>
+<div class="bg-trust-green-subtle border border-secondary p-6 rounded-xl">
+<h4 class="text-label-md font-label-md text-secondary mb-2 uppercase tracking-wider">Estimated Time</h4>
+<p class="text-body-md font-bold text-on-surface mb-4">4-6 minutes to complete</p>
+<div class="flex items-center gap-2 text-body-sm text-secondary">
+<span class="material-symbols-outlined text-sm">bolt</span>
+<span>Auto-saving enabled</span>
+</div>
+</div>
+</aside>
+</div>
+</main>
+<!-- Fixed Bottom Actions -->
+<footer class="bg-surface border-t border-border-subtle sticky bottom-0 z-40">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop h-20 flex items-center justify-between">
+<button class="flex items-center gap-2 px-6 py-3 text-on-surface-variant font-semibold hover:bg-surface-container transition-all rounded-lg">
+<span class="material-symbols-outlined">save</span>
+                Save Draft
+            </button>
+<div class="flex items-center gap-4">
+<button class="px-6 py-3 text-on-surface-variant font-semibold">Cancel</button>
+<button class="bg-primary text-white px-10 py-3 rounded-lg font-bold shadow-lg hover:bg-primary-container transition-all active:scale-95 flex items-center gap-2">
+                    Continue
+                    <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+</footer>
+<!-- Global Footer -->
+<div class="bg-surface-gray py-8 mt-auto">
+<div class="flex flex-col md:flex-row justify-between items-center px-margin-mobile md:px-margin-desktop w-full max-w-container-max mx-auto">
+<span class="text-body-sm font-body-sm text-on-surface-variant">© 2024 Ameefar Energy. Professional Recycling Marketplace.</span>
+<div class="flex gap-6 mt-4 md:mt-0">
+<a class="text-label-md font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="text-label-md font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="text-label-md font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Support</a>
+</div>
+</div>
+</div>
+<script>
+        // Simple micro-interaction for form completion visualization
+        const inputs = document.querySelectorAll('input, select, textarea');
+        const progressTag = document.querySelector('.text-label-md.text-primary.bg-primary-fixed');
+        const progressBar = document.querySelector('.bg-primary.rounded-full');
+        
+        function updateProgress() {
+            let filled = 0;
+            inputs.forEach(input => {
+                if(input.value.trim() !== "" && input.type !== 'radio') filled++;
+                if(input.type === 'radio' && input.checked) filled++;
+            });
+            const total = inputs.length;
+            const percent = Math.min(Math.round((filled / total) * 100), 100);
+            
+            // Limit fake progress for visual impact
+            const visualPercent = percent > 0 ? percent : 0;
+            progressTag.textContent = `${visualPercent}% Complete`;
+        }
+
+        inputs.forEach(input => {
+            input.addEventListener('input', updateProgress);
+            input.addEventListener('change', updateProgress);
+        });
+    </script>
+</body></html>
