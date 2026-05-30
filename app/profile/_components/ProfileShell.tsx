@@ -8,7 +8,7 @@ import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
   selectAccessToken,
-  selectIsAuthenticated,
+  selectHasAuthSession,
   selectUser,
 } from "@/store/auth/authSelectors";
 import {
@@ -24,7 +24,7 @@ export function ProfileShell({ children }: { children: React.ReactNode }) {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const pathname = usePathname();
-  const isAuthenticated = useAppSelector(selectIsAuthenticated);
+  const hasAuthSession = useAppSelector(selectHasAuthSession);
   const token = useAppSelector(selectAccessToken);
   const user = useAppSelector(selectUser);
   const profile = useAppSelector(selectProfile);
@@ -36,7 +36,7 @@ export function ProfileShell({ children }: { children: React.ReactNode }) {
   );
 
   useEffect(() => {
-    if (!isAuthenticated || !token) {
+    if (!hasAuthSession || !token) {
       router.replace("/auth/login");
       return;
     }
@@ -44,7 +44,7 @@ export function ProfileShell({ children }: { children: React.ReactNode }) {
     if (fetchStatus === "idle") {
       void dispatch(fetchProfileThunk({ token }));
     }
-  }, [dispatch, fetchStatus, isAuthenticated, router, token]);
+  }, [dispatch, fetchStatus, hasAuthSession, router, token]);
 
   useEffect(() => {
     if (!profile || pathname === "/profile") {
@@ -57,7 +57,7 @@ export function ProfileShell({ children }: { children: React.ReactNode }) {
     }
   }, [pathname, profile, router]);
 
-  if (!isAuthenticated || !token) {
+  if (!hasAuthSession || !token) {
     return null;
   }
 

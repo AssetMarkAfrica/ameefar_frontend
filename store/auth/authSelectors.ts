@@ -7,11 +7,14 @@ export const selectUser = (state: RootState): AuthState["user"] =>
 
 export const selectIsAuthenticated = (
   state: RootState,
-): AuthState["isAuthenticated"] => state.auth.isAuthenticated;
+): AuthState["isAuthenticated"] => Boolean(state.auth.accessToken);
 
 export const selectAccessToken = (
   state: RootState,
 ): AuthState["accessToken"] => state.auth.accessToken;
+
+export const selectHasAuthSession = (state: RootState): boolean =>
+  Boolean(state.auth.accessToken);
 
 export const selectPendingToken = (
   state: RootState,

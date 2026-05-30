@@ -293,6 +293,6 @@ export const ProfileService = {
       endpoint: `/${profileId}/approve/`,
       method: "POST",
       token,
-    });
+    });// THIS WILL BE FOR ADMIN
   },
 };

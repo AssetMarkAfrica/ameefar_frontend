@@ -11,6 +11,12 @@ import type {
   VerifyOtpResponse,
 } from "@/types/auth";
 
+type AuthSessionResponse = {
+  access: string;
+  refresh: string;
+  user: LoginResponse["user"];
+};
+
 type ErrorBody = {
   message?: string;
   detail?: string;
@@ -90,6 +96,36 @@ function formatErrorValue(value: unknown): string {
   return String(value);
 }
 
+function normalizeLoginResponse(body: unknown): LoginResponse {
+  const candidate =
+    body && typeof body === "object" && "data" in body
+      ? (body as { data?: unknown }).data
+      : body;
+
+  if (!isAuthSessionResponse(candidate)) {
+    throw new Error("Login response did not include a valid auth session.");
+  }
+
+  return candidate;
+}
+
+function isAuthSessionResponse(value: unknown): value is AuthSessionResponse {
+  if (!value || typeof value !== "object") {
+    return false;
+  }
+
+  const session = value as Partial<AuthSessionResponse>;
+
+  return (
+    typeof session.access === "string" &&
+    session.access.length > 0 &&
+    typeof session.refresh === "string" &&
+    session.refresh.length > 0 &&
+    Boolean(session.user) &&
+    typeof session.user === "object"
+  );
+}
+
 export const AuthService = {
   register(payload: RegisterPayload): Promise<RegisterResponse> {
     return postJson<RegisterResponse, RegisterPayload>("/register/", payload);
@@ -103,7 +139,9 @@ export const AuthService = {
   },
 
   login(payload: LoginPayload): Promise<LoginResponse> {
-    return postJson<LoginResponse, LoginPayload>("/login/", payload);
+    return postJson<unknown, LoginPayload>("/login/", payload).then(
+      normalizeLoginResponse,
+    );
   },
 
   requestPasswordReset(

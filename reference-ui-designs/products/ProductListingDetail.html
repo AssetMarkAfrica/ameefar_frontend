@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Ameefar Pro - Material Listing</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@600;700&amp;family=Inter:wght@400&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed": "#83fab4",
+                        "surface": "#f8f9ff",
+                        "secondary-container": "#80f7b1",
+                        "on-surface-variant": "#404848",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-container": "#7da8a8",
+                        "ameefar-navy": "#0F172A",
+                        "background": "#f8f9ff",
+                        "trust-green-subtle": "#ECFDF5",
+                        "outline-variant": "#c0c8c8",
+                        "on-secondary": "#ffffff",
+                        "tertiary-container": "#00402a",
+                        "surface-container-highest": "#d3e4fe",
+                        "on-background": "#0b1c30",
+                        "on-error-container": "#93000a",
+                        "inverse-primary": "#a3cfcf",
+                        "on-tertiary-fixed-variant": "#005236",
+                        "tertiary": "#002819",
+                        "inverse-on-surface": "#eaf1ff",
+                        "primary-container": "#0f3d3e",
+                        "on-tertiary-container": "#06b77f",
+                        "surface-gray": "#F8FAFC",
+                        "outline": "#717978",
+                        "surface-container-low": "#eff4ff",
+                        "on-secondary-fixed-variant": "#00522f",
+                        "surface-variant": "#d3e4fe",
+                        "primary-fixed-dim": "#a3cfcf",
+                        "on-primary-fixed": "#002020",
+                        "secondary-fixed-dim": "#66dd99",
+                        "on-secondary-container": "#007243",
+                        "surface-tint": "#3b6566",
+                        "on-secondary-fixed": "#002110",
+                        "error-container": "#ffdad6",
+                        "secondary": "#006d40",
+                        "tertiary-fixed": "#6ffbbe",
+                        "primary": "#002627",
+                        "tertiary-fixed-dim": "#4edea3",
+                        "surface-dim": "#cbdbf5",
+                        "primary-fixed": "#beebeb",
+                        "on-primary-fixed-variant": "#224d4e",
+                        "on-primary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "surface-container": "#e5eeff",
+                        "on-error": "#ffffff",
+                        "inverse-surface": "#213145",
+                        "surface-bright": "#f8f9ff",
+                        "on-surface": "#0b1c30",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-fixed": "#002113",
+                        "surface-container-high": "#dce9ff",
+                        "border-subtle": "#E2E8F0"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "margin-desktop": "40px",
+                        "margin-mobile": "16px",
+                        "container-max": "1440px",
+                        "base": "4px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["JetBrains Mono"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "body-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-surface-gray text-on-surface font-body-md antialiased min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="bg-surface-container-lowest border-b border-border-subtle fixed top-0 w-full z-50">
+<div class="flex justify-between items-center h-16 px-margin-desktop w-full max-w-container-max mx-auto">
+<div class="flex items-center gap-8"><div class="flex items-center gap-2"><img alt="Ameefar Energy Logo" class="w-8 h-8" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMegnMtNyWmHV-4pJwb63d0axORiNJ_IDA0ANn2YaTQDiQUjP7Po1V1y4UvZJoFZjVxrv-EfjG3bk6_h7wkLFMn8tGyGap248n7qPPBGIg29HN30cTKk26enrSlKXJjeIQdXyXrnGGERPwke2jfqAdJJP3C55er1LMloJYZX3VJA6aGQfyxbvWgZcg4NLb59nGEH3DsENux701WVtdthwIIC_LOiMjQjo0EIZRLQDk-2r7-xuSa85M8H8fBuAa1fXxSm4jufGKIH4s"/><span class="font-headline-md text-headline-md font-bold text-primary">Ameefar Energy</span></div></div>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:text-primary transition-colors duration-200">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors duration-200">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<img alt="User avatar" class="w-8 h-8 rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9taNfGuPGgD9ZvshPCUhR3rPPRQlMZA9AaRkbX9K212OgHRZfPfZmWmyxmLV0HlmyphlcH9hOh_eqWgFTXfausy_A1jBMmljG_nGT96SaC1OpgoA__PPnCUmC2F0CQUQ5Zi7s064iv90kuEGTMwIe1lKUKpuitKJhoGYw4_wNw2e9NVwCePsn3zQ0xaXtdjk159kjITWIH6TizClJuiTGenk42W9xWCYGnMrO5JRTwgk3gumwhfWHAPCR0DSD0qVm3KGj9QjxNlq9"/>
+</div>
+</div>
+</header>
+<div class="flex flex-1 pt-16">
+<!-- SideNavBar -->
+<nav class="hidden md:flex flex-col h-screen w-64 fixed left-0 top-16 bg-surface-gray border-r border-border-subtle py-6 px-4 z-40">
+<div class="mb-8 px-4"><h2 class="font-headline-md text-headline-md text-primary">Enterprise Portal</h2><p class="font-body-sm text-body-sm text-on-surface-variant">Ameefar Energy</p></div>
+<button class="mb-8 w-full text-on-primary py-2 rounded font-body-md hover:bg-primary transition-colors bg-primary-container" style="background-color: #0f3d3e; color: #ffffff;">Create Listing</button>
+<ul class="flex flex-col gap-2 flex-1"><li><a class="flex items-center gap-3 px-4 py-3 bg-primary-container text-on-primary-container rounded-lg font-bold" href="#"><span class="material-symbols-outlined">storefront</span> Marketplace</a></li><li><a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-low transition-colors rounded" href="#"><span class="material-symbols-outlined">handshake</span> My Trades</a></li><li><a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-low transition-colors rounded" href="#"><span class="material-symbols-outlined">inventory_2</span> Inventory</a></li><li><a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-low transition-colors rounded" href="#"><span class="material-symbols-outlined">settings</span> Settings</a></li></ul>
+</nav>
+<!-- Main Content -->
+<main class="flex-1 md:ml-64 p-margin-mobile md:p-margin-desktop max-w-container-max mx-auto w-full">
+<div class="mb-6 flex items-center text-on-surface-variant font-body-sm text-body-sm gap-2">
+<a class="hover:text-primary" href="#">Marketplace</a>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+<a class="hover:text-primary" href="#">Non-Ferrous Metals</a>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+<span class="text-on-surface font-medium">Aluminum UBCs</span>
+</div>
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-gutter">
+<!-- Left Column (Images, Specs, Seller) -->
+<div class="xl:col-span-8 flex flex-col gap-gutter">
+<!-- Header -->
+<div>
+<div class="flex items-center gap-3 mb-2">
+<span class="bg-surface-container-high text-primary px-2 py-1 rounded font-label-md text-label-md uppercase tracking-wide">Premium Listing</span>
+<span class="flex items-center text-on-surface-variant font-body-sm text-body-sm gap-1"><span class="material-symbols-outlined text-[16px]">location_on</span> Rotterdam, NL</span>
+</div>
+<h1 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface">20 MT Aluminum Used Beverage Cans (UBCs)</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mt-2">Baled, High Purity, ready for immediate dispatch.</p>
+</div>
+<!-- Image Gallery -->
+<div class="bg-surface-container-lowest rounded-xl p-4 border border-border-subtle shadow-sm">
+<div class="aspect-video bg-surface-container-low rounded-lg overflow-hidden mb-4 relative group">
+<img alt="Main material view" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="A large, tightly compressed bale of crushed aluminum beverage cans (UBCs) sitting in a well-lit industrial warehouse. The metallic surfaces of the cans reflect the bright overhead lighting, showcasing a mix of silver and faded colors from various brands. The setting is a clean, organized recycling facility with a concrete floor. The overall aesthetic is industrial, functional, and highly detailed, emphasizing the quality and purity of the sorted recyclable material." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCVbN9esIfo6zFRbOzNGkhxZvazremfbqEydjlD7IucWuDeCi9X79ym-NZZs7i5Y5fU1Ie4TmNjlI5wGi4Q3tGWG9BnRN9B0-BfNN5lgYdBePpvfwZeJ3u-G5bRA3T08eXMuMb8mKCoJ-NGoF4uEv7nlitGi6k7duCOEZLKXE764jLQR9XEMwUydphBQrdbkFHburWCHLEhaaMcrWZXEO3MQlwD9B0b7_Wm2mAVf-TvaY6_RrDbjAtzdgdjNDGbGw3qMwGMVq4ZMbAE"/>
+</div>
+<div class="grid grid-cols-4 gap-4">
+<div class="aspect-square bg-surface-container-low rounded-lg overflow-hidden border-2 border-primary cursor-pointer">
+<img alt="Thumbnail 1" class="w-full h-full object-cover" data-alt="Close up shot of compacted aluminum cans. High detail showing the individual crushed cans within the bale. Clean industrial lighting, highlighting the metallic texture and lack of non-aluminum contaminants." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNW-8II_kumc8Ig1gUrqqy9inzNV7xslSpTC75VCbAtVpN23iAYf6LTw9TSeDavFChdjNh437EaMCofAgnwRjZEzEzMJj0NvAip-1k236wE_sjo9kHdADbQdZ9mlT1v4e7P7YkscCkm0kUGCt5ihLMr20Stxgcaxbr1t7UqGIdf3C12M9ezIpMKSDqe_4VnEljziXEc-iwBF7yXAWJ_BivUaqndG8SGttOa8v9Bm3pcIwyZgGYp1-K8dwMsQHr4J65q-Nj4okOCrTo"/>
+</div>
+<div class="aspect-square bg-surface-container-low rounded-lg overflow-hidden border border-border-subtle hover:border-outline cursor-pointer transition-colors">
+<img alt="Thumbnail 2" class="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity" data-alt="Wide shot of a recycling facility interior. Stacks of aluminum bales are visible in the background. A forklift is partially seen, indicating active operations. The environment looks professional and well-managed with bright, even lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCo-6TqyQJz5JJ1Tb0YRKoAccFqS1SFsaAPDLvr0Bn7f5ulfEZUCAapp6kQ-FUOg_5ZqH_wonoMt4kmXEzEpDZ3N4n_3zReSpAFPtnde_XZTBOusEC4D3--S5Pj61NhwmTOcSdrscHBCDa59RdsU4oQhKB98DROSw0vkXzpEv3-aunbehcVaR_cZFzHx9k0HFugcPAr9uHMuKOacw4X-k2TV20Z5Qnqjm7whOdIF5U_NYrAMa02N2RlONt2bSdV9zThgS9D_GpYAe5W"/>
+</div>
+<div class="aspect-square bg-surface-container-low rounded-lg overflow-hidden border border-border-subtle hover:border-outline cursor-pointer transition-colors">
+<img alt="Thumbnail 3" class="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity" data-alt="Detailed view of the strapping holding an aluminum bale together. Showing the tight compression and structural integrity of the bale. The metal bands are secure, and the edges of the bale are sharp, indicating high-pressure baling suitable for export." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDCieR5nZtaLqno6ylYqoPlqWirObkSzIHmBIWjSuz22b_ivKGTZU2DrF1rJEPGuz5YTResKVzFGMmUjk6lVM3I7XNGpx-vr51bIxKVabCVkTw2YCk3jkFIt7vY3r2SsBa5R6u3P_cdJXX0Ppc5QUc4LytR_s4RVPQU2LnWLQ23eb5SDRhq9XOBqU1vYsrSBrPGgGG4E_cKXW299zdStg3mp-xNHCaPCdfsruTICAlibG6q78sMNwY7kdaRTiyow84P4-eG5yk8sFAI"/>
+</div>
+<div class="aspect-square bg-surface-container-low rounded-lg flex items-center justify-center border border-border-subtle cursor-pointer hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-outline">add_photo_alternate</span>
+</div>
+</div>
+</div>
+<!-- Specifications Table -->
+<div class="bg-surface-container-lowest rounded-xl p-6 border border-border-subtle shadow-sm">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-6">Material Details</h3>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-gray border-b border-border-subtle">
+<th class="py-3 px-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Property</th>
+<th class="py-3 px-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider text-right">Value</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-subtle">
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="py-3 px-4 font-body-sm text-body-sm text-on-surface">Material Type</td>
+<td class="py-3 px-4 font-label-md text-label-md text-on-surface text-right">Aluminum UBC</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="py-3 px-4 font-body-sm text-body-sm text-on-surface">Quantity</td>
+<td class="py-3 px-4 font-label-md text-label-md text-on-surface text-right">20 MT</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="py-3 px-4 font-body-sm text-body-sm text-on-surface">Expected Purity</td>
+<td class="py-3 px-4 font-label-md text-label-md text-on-surface text-right text-secondary">&gt; 98.5%</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="py-3 px-4 font-body-sm text-body-sm text-on-surface">Moisture Content</td>
+<td class="py-3 px-4 font-label-md text-label-md text-on-surface text-right">&lt; 2.0%</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="py-3 px-4 font-body-sm text-body-sm text-on-surface">Packaging</td>
+<td class="py-3 px-4 font-label-md text-label-md text-on-surface text-right">High-Density Bales</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Seller Profile -->
+<div class="bg-surface-container-lowest rounded-xl p-6 border border-border-subtle shadow-sm flex items-start gap-6">
+<img alt="Seller logo" class="w-16 h-16 rounded-lg border border-border-subtle" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAeSV2IS3d36NwPBLDQYNqCiiTNd54RyNklKT1gdiem3Hu074Z0qwB5XBtUlEF_t7BdvcrtJl47QjuvBsSQeZgaTAtvSK1Viq4ob6bAX6cxap2zYdfdUwe1geAa6QPag_mOOWeqm_V_Ss9D7a56X5hqNtZvCiAuMliE6B2ZALIRpOT50O17X1IZuhYvkwlmBTbwsg_Bzz7JL-FMdAuBpwmtm0XWWwc-aD2tyPlQ--9tNDKgRKHRTpY8xywwMkSEb3Spj2RJYddOQ-F-"/>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h4 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
+                                        Recycle Corp Ltd.
+                                        <span class="material-symbols-outlined text-secondary text-[20px]" data-weight="fill">verified</span>
+</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Member since 2021</p>
+</div>
+<div class="text-right">
+<div class="flex items-center gap-1 text-secondary justify-end">
+<span class="font-headline-md text-headline-md">4.9</span>
+<span class="material-symbols-outlined text-[20px]" data-weight="fill">star</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">142 Transactions</p>
+</div>
+</div>
+<p class="font-body-md text-body-md text-on-surface mt-4 border-t border-border-subtle pt-4">Leading supplier of non-ferrous scrap metals in Western Europe. Specialized in high-purity sorted fractions.</p>
+</div>
+</div>
+</div>
+<!-- Right Column (Bidding Card) -->
+<div class="xl:col-span-4">
+<div class="sticky top-24 bg-surface-container-lowest rounded-xl p-6 border border-border-subtle shadow-sm flex flex-col gap-6">
+<!-- Price Header -->
+<div class="border-b border-border-subtle pb-4"><div class="flex justify-between items-start mb-2"><p class="font-body-sm text-body-sm text-on-surface-variant uppercase tracking-wide">Current Price</p><span class="bg-trust-green-subtle text-secondary px-2 py-0.5 rounded text-[10px] font-bold border border-secondary/20">SECURE TRANSACTION</span></div><div class="flex items-baseline gap-2"><span class="font-display-lg text-display-lg text-on-surface">€1,450</span><span class="font-label-md text-label-md text-on-surface-variant">/ MT</span></div><p class="font-body-sm text-body-sm text-on-surface-variant mt-2">Total Estimated Value: <span class="font-bold text-on-surface">€29,000</span></p></div>
+<!-- Inputs -->
+<div class="flex flex-col gap-4">
+<div class="relative">
+<label class="absolute -top-2 left-3 bg-surface-container-lowest px-1 font-label-md text-label-md text-on-surface-variant z-10" for="bid_price">Your Bid (€/MT)</label>
+<div class="relative">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 font-label-md text-label-md text-on-surface-variant">€</span>
+<input class="w-full bg-surface-container-lowest border border-border-subtle rounded-lg py-3 pl-8 pr-4 font-label-md text-label-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all shadow-sm" id="bid_price" placeholder="1400" type="number" value="1400"/>
+</div>
+</div>
+<div class="relative">
+<label class="absolute -top-2 left-3 bg-surface-container-lowest px-1 font-label-md text-label-md text-on-surface-variant z-10" for="quantity">Quantity (MT)</label>
+<input class="w-full bg-surface-container-lowest border border-border-subtle rounded-lg py-3 px-4 font-label-md text-label-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all shadow-sm" id="quantity" placeholder="20" readonly="" type="number" value="20"/>
+<p class="text-[11px] text-on-surface-variant mt-1 text-right">Must take full quantity</p>
+</div>
+</div>
+<!-- Summary -->
+<div class="bg-surface-container-low p-5 rounded-xl flex flex-col gap-3 border border-border-subtle">
+<div class="flex justify-between font-body-sm text-body-sm text-on-surface">
+<span>Subtotal</span>
+<span class="font-label-md text-label-md">€28,000</span>
+</div>
+<div class="flex justify-between font-body-sm text-body-sm text-on-surface">
+<span>Ameefar Fee (1.5%)</span>
+<span class="font-label-md text-label-md">€420</span>
+</div>
+<div class="border-t border-border-subtle mt-2 pt-2 flex justify-between font-headline-md text-headline-md text-primary"><span class="font-bold">Total Commitment</span><span class="font-bold text-primary">€28,420</span></div>
+</div>
+<!-- Actions -->
+<div class="flex flex-col gap-3">
+<button class="w-full hover:bg-primary text-on-primary py-3 rounded-lg font-headline-md text-[16px] transition-colors shadow-sm active:translate-y-[1px] bg-primary-container" style="background-color: #0f3d3e; color: #ffffff;">Place Bid</button>
+<button class="w-full bg-transparent border border-border-subtle text-on-surface py-3 rounded-lg font-headline-md text-[16px] hover:bg-surface-container-low transition-colors">Message Seller</button>
+</div>
+<!-- Trust Callout -->
+<div class="mt-2 p-4 bg-trust-green-subtle border border-secondary-container rounded-lg flex items-start gap-3 border-l-4">
+<span class="material-symbols-outlined text-secondary" data-weight="fill">shield</span>
+<div>
+<h5 class="font-label-md text-label-md text-secondary mb-1 uppercase tracking-wide">Protected by Ameefar Inspection</h5>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Funds are held securely until material quality is verified at loading.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Footer -->
+<footer class="bg-ameefar-navy mt-auto z-50 relative">
+<div class="w-full py-12 px-margin-desktop grid grid-cols-1 md:grid-cols-4 gap-gutter max-w-container-max mx-auto text-on-primary font-body-sm text-body-sm">
+<div class="md:col-span-1">
+<div class="font-headline-md text-headline-md text-on-primary mb-4">Ameefar</div>
+<p class="text-outline-variant">© 2024 Ameefar B2B Marketplace. All rights reserved.</p>
+</div>
+<div class="md:col-span-3 flex justify-end gap-8">
+<a class="text-outline-variant hover:text-on-primary hover:underline transition-all opacity-90 hover:opacity-100" href="#">Terms of Service</a>
+<a class="text-outline-variant hover:text-on-primary hover:underline transition-all opacity-90 hover:opacity-100" href="#">Privacy Policy</a>
+<a class="text-outline-variant hover:text-on-primary hover:underline transition-all opacity-90 hover:opacity-100" href="#">Compliance</a>
+<a class="text-outline-variant hover:text-on-primary hover:underline transition-all opacity-90 hover:opacity-100" href="#">Contact Us</a>
+</div>
+</div>
+</footer>
+</body></html>

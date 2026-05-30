@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Create Listing - Ameefar Energy</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-container": "#007243",
+                        "surface-container-highest": "#d3e4fe",
+                        "surface-bright": "#f8f9ff",
+                        "background": "#f8f9ff",
+                        "on-tertiary-fixed-variant": "#005236",
+                        "secondary-container": "#80f7b1",
+                        "on-tertiary-fixed": "#002113",
+                        "surface-variant": "#d3e4fe",
+                        "outline": "#717978",
+                        "tertiary-container": "#00402a",
+                        "on-error": "#ffffff",
+                        "surface-tint": "#3b6566",
+                        "trust-green-subtle": "#ECFDF5",
+                        "on-tertiary-container": "#06b77f",
+                        "surface-gray": "#F8FAFC",
+                        "primary": "#002627",
+                        "surface-container": "#e5eeff",
+                        "on-primary-fixed": "#002020",
+                        "surface-container-low": "#eff4ff",
+                        "secondary-fixed-dim": "#66dd99",
+                        "on-primary": "#ffffff",
+                        "primary-fixed-dim": "#a3cfcf",
+                        "on-secondary": "#ffffff",
+                        "inverse-primary": "#a3cfcf",
+                        "on-background": "#0b1c30",
+                        "tertiary-fixed-dim": "#4edea3",
+                        "outline-variant": "#c0c8c8",
+                        "on-surface-variant": "#404848",
+                        "surface": "#f8f9ff",
+                        "tertiary": "#002819",
+                        "inverse-on-surface": "#eaf1ff",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-fixed": "#002110",
+                        "secondary": "#006d40",
+                        "error-container": "#ffdad6",
+                        "border-subtle": "#E2E8F0",
+                        "surface-dim": "#cbdbf5",
+                        "inverse-surface": "#213145",
+                        "on-primary-fixed-variant": "#224d4e",
+                        "tertiary-fixed": "#6ffbbe",
+                        "on-surface": "#0b1c30",
+                        "ameefar-navy": "#0F172A",
+                        "on-error-container": "#93000a",
+                        "on-primary-container": "#7da8a8",
+                        "on-secondary-fixed-variant": "#00522f",
+                        "surface-container-high": "#dce9ff",
+                        "primary-container": "#0f3d3e",
+                        "secondary-fixed": "#83fab4",
+                        "primary-fixed": "#beebeb",
+                        "error": "#ba1a1a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "container-max": "1440px",
+                        "gutter": "24px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "40px",
+                        "base": "4px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "body-sm": ["Inter"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "label-md": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "fontWeight": "500"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-surface-gray font-body-md text-body-md text-on-surface antialiased flex h-screen overflow-hidden">
+<!-- SideNavBar -->
+<nav class="hidden md:flex flex-col h-full py-8 px-4 fixed left-0 top-0 border-r border-border-subtle w-64 overflow-y-auto bg-surface-container-lowest z-40">
+<div class="mb-8 px-4 flex items-center gap-3">
+<img alt="Enterprise Logo" class="h-8 w-8 rounded object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1AFIxlsIenyqoxKiLAp4cGgyXcifu_QQwyrehAd4XsNq7ccgYswHqmoaxNifAsquCmp4qnzGeWf1BAK2LB7QE5mNtplatPGznJGgqhynC1jVwtbyyDCsZd3XezNJRfiWk77vO9VFF_gi0GSvJLZrAmflnXyy5KWZfobGniV_WDGsU9jiBhtPZIHeahVll9ZHtWOfr6gI_B6Es_cT0B_U3YgwpKGoEiXPk_viTML6rj0r3y4-FnsNjXVTZUdfmIBY6WeS7H7xx2m66"/>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-primary text-sm">Enterprise Portal</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant text-xs">Verified Member</p>
+</div>
+</div>
+<ul class="flex flex-col gap-2 flex-grow">
+<li>
+<a class="flex items-center gap-3 text-on-surface-variant hover:text-primary px-4 py-3 hover:bg-surface-gray transition-all duration-200 rounded-lg cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="storefront">storefront</span>
+<span class="font-label-md text-label-md">Marketplace</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 text-on-surface-variant hover:text-primary px-4 py-3 hover:bg-surface-gray transition-all duration-200 rounded-lg cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="handshake">handshake</span>
+<span class="font-label-md text-label-md">My Trades</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 bg-surface-container text-primary font-semibold rounded-lg px-4 py-3 transition-all duration-200 cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="inventory_2" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+<span class="font-label-md text-label-md">Inventory</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 text-on-surface-variant hover:text-primary px-4 py-3 hover:bg-surface-gray transition-all duration-200 rounded-lg cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="settings">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</li>
+</ul>
+<div class="mt-8 mb-4 px-4">
+<button class="w-full bg-primary-container text-on-primary font-body-sm text-body-sm font-medium py-2 px-4 rounded-lg hover:bg-opacity-90 transition-colors shadow-sm">
+                Post Material
+            </button>
+</div>
+<ul class="flex flex-col gap-2 mt-auto border-t border-border-subtle pt-4">
+<li>
+<a class="flex items-center gap-3 text-on-surface-variant hover:text-primary px-4 py-3 hover:bg-surface-gray transition-all duration-200 rounded-lg cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="help">help</span>
+<span class="font-label-md text-label-md">Help Center</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 text-on-surface-variant hover:text-primary px-4 py-3 hover:bg-surface-gray transition-all duration-200 rounded-lg cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="logout">logout</span>
+<span class="font-label-md text-label-md">Sign Out</span>
+</a>
+</li>
+</ul>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col md:ml-64 w-full relative">
+<!-- TopNavBar -->
+<header class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop h-16 sticky top-0 z-50 bg-surface-container-lowest border-b border-border-subtle shadow-sm">
+<div class="flex items-center gap-4">
+<button class="md:hidden text-on-surface-variant hover:text-primary">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<div class="hidden md:flex font-headline-md text-headline-md font-bold text-primary tracking-tight">Ameefar Energy</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative hidden sm:block w-64">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-sm" data-icon="search">search</span>
+<input class="w-full bg-surface-gray border-border-subtle rounded-full py-1.5 pl-9 pr-4 font-body-sm text-body-sm focus:ring-1 focus:ring-primary focus:border-primary transition-all" placeholder="Search..." type="text"/>
+</div>
+<div class="flex items-center gap-3">
+<button class="text-on-surface-variant hover:text-primary transition-colors duration-200 cursor-pointer active:opacity-80 p-1">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors duration-200 cursor-pointer active:opacity-80 p-1">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+</button>
+<button class="hidden lg:block text-primary font-body-sm text-body-sm font-medium hover:bg-surface-gray px-3 py-1.5 rounded transition-colors">
+                        Support
+                    </button>
+<div class="h-8 w-8 rounded-full bg-surface-container-high border border-border-subtle overflow-hidden ml-2 cursor-pointer">
+<img alt="User profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAvSRd9JT5Ex5pz9d9idn5PVdtj0QKWjauOo6XsDMb7v8nUaJJn9zPap1yoy_50a5b1pTcWGTd1nm1PlrEiX8nSUKb_zj6YYwZRazTNFGoy41wWjbAUUzcR9kMEQ5EAMSY0ttYPjJuw1QxdXwR0uxqNlY9ULGlKyD2oL5ehcFI3jqTuZ6Ol7ZFCiiYG-TLef_m3uzD5qZELzQ57S7IAGC-FATZPzNAplj2aE3y307LNo7meGe2eNS7ESTctMjjTMk83xJtfzsNpCAKe"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="flex-1 overflow-y-auto p-margin-mobile md:p-margin-desktop pb-24">
+<div class="max-w-5xl mx-auto">
+<!-- Page Header -->
+<div class="mb-8">
+<div class="flex items-center gap-2 text-on-surface-variant mb-2">
+<span class="font-label-md text-label-md uppercase tracking-wider">Inventory</span>
+<span class="material-symbols-outlined text-sm" data-icon="chevron_right">chevron_right</span>
+<span class="font-label-md text-label-md text-primary font-semibold">New Listing</span>
+</div>
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary mb-2">Create New Listing</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl">Provide details about your material to attract the right partners.</p>
+</div>
+<!-- Form Container -->
+<form class="space-y-8">
+<!-- Section 1: Listing Context -->
+<div class="bg-surface-container-lowest rounded-xl border border-border-subtle shadow-sm overflow-hidden">
+<div class="px-6 py-4 border-b border-border-subtle bg-surface-gray">
+<h3 class="font-headline-md text-headline-md text-primary text-lg">Listing Context</h3>
+</div>
+<div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-8">
+<div>
+<label class="block font-label-md text-label-md text-on-surface-variant mb-3 uppercase tracking-wider">Listing Type</label>
+<div class="flex gap-4">
+<label class="flex-1 cursor-pointer">
+<input checked="" class="peer sr-only" name="listingType" type="radio" value="sell"/>
+<div class="px-4 py-3 border border-border-subtle rounded-lg text-center peer-checked:border-primary peer-checked:bg-surface-container-low peer-checked:text-primary transition-all hover:bg-surface-gray">
+<span class="material-symbols-outlined block mb-1" data-icon="sell">sell</span>
+<span class="font-body-sm text-body-sm font-medium">Sell Material</span>
+</div>
+</label>
+<label class="flex-1 cursor-pointer">
+<input class="peer sr-only" name="listingType" type="radio" value="buy"/>
+<div class="px-4 py-3 border border-border-subtle rounded-lg text-center peer-checked:border-primary peer-checked:bg-surface-container-low peer-checked:text-primary transition-all hover:bg-surface-gray">
+<span class="material-symbols-outlined block mb-1" data-icon="shopping_cart">shopping_cart</span>
+<span class="font-body-sm text-body-sm font-medium">Buy Material</span>
+</div>
+</label>
+</div>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface-variant mb-3 uppercase tracking-wider">Initial Status</label>
+<div class="flex items-start gap-3 bg-surface-gray border border-border-subtle rounded-lg p-4">
+<div class="mt-0.5 text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="edit_document">edit_document</span>
+</div>
+<div>
+<span class="block font-body-sm text-body-sm font-medium text-primary mb-1">Draft Mode</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant text-xs">Create as draft first; upload at least one image before activating.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Section 2: Material Information -->
+<div class="bg-surface-container-lowest rounded-xl border border-border-subtle shadow-sm overflow-hidden">
+<div class="px-6 py-4 border-b border-border-subtle bg-surface-gray">
+<h3 class="font-headline-md text-headline-md text-primary text-lg">Material Information</h3>
+</div>
+<div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+<div class="md:col-span-2 relative group">
+<label class="absolute -top-2 left-3 bg-surface-container-lowest px-1 font-label-md text-label-md text-on-surface-variant text-[10px] uppercase tracking-wider z-10 transition-all group-focus-within:text-primary" for="materialName">Material Name</label>
+<input class="w-full bg-transparent border border-outline-variant rounded-lg px-4 py-3 font-body-md text-body-md focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:border-transparent transition-all placeholder:text-outline-variant/50" id="materialName" placeholder="e.g., PP regrind - natural or white" type="text"/>
+</div>
+<div class="relative group">
+<label class="absolute -top-2 left-3 bg-surface-container-lowest px-1 font-label-md text-label-md text-on-surface-variant text-[10px] uppercase tracking-wider z-10 transition-all group-focus-within:text-primary" for="materialType">Material Type</label>
+<select class="w-full bg-transparent border border-outline-variant rounded-lg px-4 py-3 font-body-md text-body-md focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:border-transparent transition-all appearance-none cursor-pointer" id="materialType">
+<option disabled="" selected="" value="">Select type...</option>
+<option value="PVC">PVC</option>
+<option value="PP">PP</option>
+<option value="PC">PC</option>
+<option value="PET">PET</option>
+<option value="HDPE">HDPE</option>
+<option value="LDPE">LDPE</option>
+<option value="EPS">EPS</option>
+<option value="Acrylic">Acrylic</option>
+<option value="ABS">ABS</option>
+<option value="PS">PS</option>
+<option value="Tyres">Tyres</option>
+</select>
+<div class="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="expand_more">expand_more</span>
+</div>
+</div>
+<div class="relative group">
+<label class="absolute -top-2 left-3 bg-surface-container-lowest px-1 font-label-md text-label-md text-on-surface-variant text-[10px] uppercase tracking-wider z-10 transition-all group-focus-within:text-primary" for="mfiValue">MFI Value (Optional)</label>
+<div class="relative">
+<input class="w-full bg-transparent border border-outline-variant rounded-lg pl-4 pr-12 py-3 font-label-md text-label-md text-right focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:border-transparent transition-all placeholder:text-outline-variant/50" id="mfiValue" placeholder="e.g., 12.000" step="0.001" type="number"/>
+</div>
+</div>
+</div>
+</div>
+<!-- Section 3: Quantity & Availability -->
+<div class="bg-surface-container-lowest rounded-xl border border-border-subtle shadow-sm overflow-hidden">
+<div class="px-6 py-4 border-b border-border-subtle bg-surface-gray">
+<h3 class="font-headline-md text-headline-md text-primary text-lg">Quantity &amp; Availability</h3>
+</div>
+<div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+<div class="relative group">
+<label class="absolute -top-2 left-3 bg-surface-container-lowest px-1 font-label-md text-label-md text-on-surface-variant text-[10px] uppercase tracking-wider z-10 transition-all group-focus-within:text-primary" for="totalQty">Total Quantity</label>
+<div class="relative flex items-center">
+<input class="w-full bg-transparent border border-outline-variant rounded-lg pl-4 pr-12 py-3 font-label-md text-label-md text-right focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:border-transparent transition-all" id="totalQty" placeholder="0.00" type="number"/>
+<span class="absolute right-4 font-label-md text-label-md text-on-surface-variant pointer-events-none">MT</span>
+</div>
+</div>
+<div class="relative group">
+<label class="absolute -top-2 left-3 bg-surface-container-lowest px-1 font-label-md text-label-md text-on-surface-variant text-[10px] uppercase tracking-wider z-10 transition-all group-focus-within:text-primary" for="avgWeight">Avg. Weight per Load</label>
+<div class="relative flex items-center">
+<input class="w-full bg-transparent border border-outline-variant rounded-lg pl-4 pr-12 py-3 font-label-md text-label-md text-right focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:border-transparent transition-all" id="avgWeight" placeholder="0.00" type="number"/>
+<span class="absolute right-4 font-label-md text-label-md text-on-surface-variant pointer-events-none">MT</span>
+</div>
+</div>
+<div class="relative group">
+<label class="absolute -top-2 left-3 bg-surface-container-lowest px-1 font-label-md text-label-md text-on-surface-variant text-[10px] uppercase tracking-wider z-10 transition-all group-focus-within:text-primary" for="availability">Availability Status</label>
+<select class="w-full bg-transparent border border-outline-variant rounded-lg px-4 py-3 font-body-md text-body-md focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:border-transparent transition-all appearance-none cursor-pointer" id="availability">
+<option value="ongoing">Ongoing Supply</option>
+<option value="now">Available Now</option>
+</select>
+<div class="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="expand_more">expand_more</span>
+</div>
+</div>
+<div class="relative group">
+<label class="absolute -top-2 left-3 bg-surface-container-lowest px-1 font-label-md text-label-md text-on-surface-variant text-[10px] uppercase tracking-wider z-10 transition-all group-focus-within:text-primary" for="country">Country of Origin</label>
+<select class="w-full bg-transparent border border-outline-variant rounded-lg px-4 py-3 font-body-md text-body-md focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:border-transparent transition-all appearance-none cursor-pointer" id="country">
+<option disabled="" selected="" value="">Select country...</option>
+<option value="UK">United Kingdom</option>
+<option value="US">United States</option>
+<option value="DE">Germany</option>
+<option value="FR">France</option>
+</select>
+<div class="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="expand_more">expand_more</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Section 4: Detailed Information -->
+<div class="bg-surface-container-lowest rounded-xl border border-border-subtle shadow-sm overflow-hidden">
+<div class="px-6 py-4 border-b border-border-subtle bg-surface-gray">
+<h3 class="font-headline-md text-headline-md text-primary text-lg">Detailed Information</h3>
+</div>
+<div class="p-6 space-y-6">
+<div class="relative group">
+<label class="absolute -top-2 left-3 bg-surface-container-lowest px-1 font-label-md text-label-md text-on-surface-variant text-[10px] uppercase tracking-wider z-10 transition-all group-focus-within:text-primary" for="description">Description</label>
+<textarea class="w-full bg-transparent border border-outline-variant rounded-lg px-4 py-3 font-body-md text-body-md focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:border-transparent transition-all placeholder:text-outline-variant/50 resize-y" id="description" placeholder="Describe the quality, purity, and processing..." rows="4"></textarea>
+</div>
+<div class="relative group">
+<label class="absolute -top-2 left-3 bg-surface-container-lowest px-1 font-label-md text-label-md text-on-surface-variant text-[10px] uppercase tracking-wider z-10 transition-all group-focus-within:text-primary" for="notes">Seller/Buyer Notes (Optional)</label>
+<textarea class="w-full bg-transparent border border-outline-variant rounded-lg px-4 py-3 font-body-md text-body-md focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:border-transparent transition-all placeholder:text-outline-variant/50 resize-y" id="notes" placeholder="Internal notes or specific requirements..." rows="2"></textarea>
+</div>
+</div>
+</div>
+<!-- Section 5: Image Upload -->
+<div class="bg-surface-container-lowest rounded-xl border border-border-subtle shadow-sm overflow-hidden">
+<div class="px-6 py-4 border-b border-border-subtle bg-surface-gray flex justify-between items-center">
+<h3 class="font-headline-md text-headline-md text-primary text-lg">Material Photos</h3>
+<span class="font-label-md text-label-md text-on-surface-variant bg-surface px-2 py-1 rounded">Required for activation</span>
+</div>
+<div class="p-6">
+<div class="border-2 border-dashed border-outline-variant rounded-xl p-8 flex flex-col items-center justify-center text-center hover:bg-surface-gray hover:border-primary transition-colors cursor-pointer group">
+<div class="w-12 h-12 bg-surface-container-low rounded-full flex items-center justify-center mb-4 group-hover:bg-primary-container transition-colors">
+<span class="material-symbols-outlined text-primary group-hover:text-on-primary" data-icon="add_photo_alternate">add_photo_alternate</span>
+</div>
+<h4 class="font-body-md text-body-md font-medium text-primary mb-1">Click to upload or drag and drop</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+</div>
+</div>
+</div>
+<!-- Form Actions -->
+<div class="flex items-center justify-end gap-4 pt-4 border-t border-border-subtle">
+<button class="px-6 py-2 border border-border-subtle rounded-lg font-body-sm text-body-sm font-medium text-on-surface hover:bg-surface-gray transition-colors" type="button">
+                            Cancel
+                        </button>
+<button class="px-6 py-2 bg-primary text-on-primary rounded-lg font-body-sm text-body-sm font-medium hover:bg-opacity-90 transition-colors shadow-sm flex items-center gap-2" type="submit">
+<span class="material-symbols-outlined text-sm" data-icon="save">save</span>
+                            Save as Draft
+                        </button>
+</div>
+</form>
+</div>
+</main>
+</div>
+</body></html>

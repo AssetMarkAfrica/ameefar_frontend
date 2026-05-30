@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Ameefar Marketplace</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed": "#83fab4",
+                        "surface": "#f8f9ff",
+                        "secondary-container": "#80f7b1",
+                        "on-surface-variant": "#404848",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-container": "#7da8a8",
+                        "ameefar-navy": "#0F172A",
+                        "background": "#f8f9ff",
+                        "trust-green-subtle": "#ECFDF5",
+                        "outline-variant": "#c0c8c8",
+                        "on-secondary": "#ffffff",
+                        "tertiary-container": "#00402a",
+                        "surface-container-highest": "#d3e4fe",
+                        "on-background": "#0b1c30",
+                        "on-error-container": "#93000a",
+                        "inverse-primary": "#a3cfcf",
+                        "on-tertiary-fixed-variant": "#005236",
+                        "tertiary": "#002819",
+                        "inverse-on-surface": "#eaf1ff",
+                        "primary-container": "#0f3d3e",
+                        "on-tertiary-container": "#06b77f",
+                        "surface-gray": "#F8FAFC",
+                        "outline": "#717978",
+                        "surface-container-low": "#eff4ff",
+                        "on-secondary-fixed-variant": "#00522f",
+                        "surface-variant": "#d3e4fe",
+                        "primary-fixed-dim": "#a3cfcf",
+                        "on-primary-fixed": "#002020",
+                        "secondary-fixed-dim": "#66dd99",
+                        "on-secondary-container": "#007243",
+                        "surface-tint": "#3b6566",
+                        "on-secondary-fixed": "#002110",
+                        "error-container": "#ffdad6",
+                        "secondary": "#006d40",
+                        "tertiary-fixed": "#6ffbbe",
+                        "primary": "#002627",
+                        "tertiary-fixed-dim": "#4edea3",
+                        "surface-dim": "#cbdbf5",
+                        "primary-fixed": "#beebeb",
+                        "on-primary-fixed-variant": "#224d4e",
+                        "on-primary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "surface-container": "#e5eeff",
+                        "on-error": "#ffffff",
+                        "inverse-surface": "#213145",
+                        "surface-bright": "#f8f9ff",
+                        "on-surface": "#0b1c30",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-fixed": "#002113",
+                        "surface-container-high": "#dce9ff",
+                        "border-subtle": "#E2E8F0"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "margin-desktop": "40px",
+                        "margin-mobile": "16px",
+                        "container-max": "1440px",
+                        "base": "4px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["JetBrains Mono"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "body-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined[data-weight="fill"] {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md text-body-md antialiased min-h-screen flex flex-col md:flex-row">
+<!-- SideNavBar -->
+<nav class="hidden md:flex h-screen w-64 fixed left-0 top-0 bg-surface-gray border-r border-border-subtle flex-col py-6 px-4 z-40">
+<div class="mb-8"><div class="flex items-center gap-3 mb-2"><img alt="Ameefar Logo" class="w-10 h-10 rounded-lg" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4wfXmZG2jGB4iZEQhwzxciFNnmgZDJsnRXXyf8s20zMVa6O9zgbcAyBn2E6BN0nyP4ZERPplRnPacIaLgvKk1_PjGPrggh6KJG8Djcc0WVoBcYWn-W1DhB88kV995zOJWctYLo0vJghqWHrJaApjZFkVYt8sHjXwuj2xafTf0S9adNrhq8IkFvk4KcwTMJDKdzLkT1zB_vyJrI_W51qfgMNu5m_6He8bFB_Fct_n3ofjHayvvNKXGjxvP4--ER-kRXKf5CsBn2iM_"/><h1 class="font-headline-md text-headline-md text-primary">Ameefar Pro</h1></div><p class="font-label-md text-label-md text-on-surface-variant">Enterprise Tier</p></div>
+<button class="w-full bg-primary text-on-primary py-2 px-4 rounded-lg font-body-md text-body-md hover:bg-primary/90 transition-colors mb-6 shadow-sm">
+            Create Listing
+        </button>
+<ul class="flex flex-col gap-2 flex-grow">
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-low transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 bg-surface-container-high text-primary rounded-lg font-bold transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="storefront">storefront</span>
+<span>Marketplace</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-low transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="handshake">handshake</span>
+<span>Negotiations</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-low transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="fact_check">fact_check</span>
+<span>Inspections</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-low transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span>Analytics</span>
+</a>
+</li>
+</ul>
+<div class="mt-auto border-t border-border-subtle pt-4">
+<ul class="flex flex-col gap-2">
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-low transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span>Support</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-low transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span>Settings</span>
+</a>
+</li>
+</ul>
+</div>
+</nav>
+<!-- TopAppBar Mobile Only -->
+<header class="md:hidden fixed top-0 w-full z-50 bg-surface-container-lowest border-b border-border-subtle h-16 flex justify-between items-center px-margin-mobile">
+<h1 class="text-headline-md font-headline-md font-bold text-primary">Ameefar</h1>
+<div class="flex gap-4">
+<button class="text-primary hover:text-primary transition-colors duration-200">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="text-primary hover:text-primary transition-colors duration-200">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow md:ml-64 mt-16 md:mt-0 p-margin-mobile md:p-margin-desktop bg-surface min-h-screen">
+<div class="max-w-container-max mx-auto flex flex-col lg:flex-row gap-gutter">
+<!-- Filters Sidebar (Desktop) / Offcanvas (Mobile) -->
+<aside class="w-full lg:w-72 flex-shrink-0 bg-white p-6 rounded-2xl border border-border-subtle shadow-sm h-fit sticky top-6">
+<div class="flex justify-between items-center mb-6">
+<h2 class="font-headline-md text-headline-md text-primary">Filters</h2>
+<button class="text-on-surface-variant hover:text-primary text-body-sm font-body-sm underline">Clear All</button>
+</div>
+<!-- Verified Toggle -->
+<div class="mb-6 flex items-center justify-between">
+<label class="font-body-md text-body-md text-on-surface font-medium" for="verified-toggle">Verified Only</label>
+<div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer border-secondary bg-secondary right-0" id="verified-toggle" name="toggle" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-secondary-container cursor-pointer" for="verified-toggle"></label>
+</div>
+</div>
+<hr class="border-border-subtle mb-6"/>
+<!-- Material Category -->
+<div class="mb-6">
+<h3 class="font-body-md text-body-md text-on-surface font-medium mb-3">Material</h3>
+<div class="space-y-2">
+<label class="flex items-center gap-2 cursor-pointer group">
+<input checked="" class="form-checkbox text-primary rounded border-outline-variant focus:ring-primary focus:ring-offset-0" type="checkbox"/>
+<span class="text-body-sm font-body-sm text-on-surface-variant group-hover:text-primary transition-colors">HDPE Regrind</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer group">
+<input class="form-checkbox text-primary rounded border-outline-variant focus:ring-primary focus:ring-offset-0" type="checkbox"/>
+<span class="text-body-sm font-body-sm text-on-surface-variant group-hover:text-primary transition-colors">PET Flakes</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer group">
+<input class="form-checkbox text-primary rounded border-outline-variant focus:ring-primary focus:ring-offset-0" type="checkbox"/>
+<span class="text-body-sm font-body-sm text-on-surface-variant group-hover:text-primary transition-colors">LDPE Film</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer group">
+<input class="form-checkbox text-primary rounded border-outline-variant focus:ring-primary focus:ring-offset-0" type="checkbox"/>
+<span class="text-body-sm font-body-sm text-on-surface-variant group-hover:text-primary transition-colors">PP Pellets</span>
+</label>
+</div>
+</div>
+<hr class="border-border-subtle mb-6"/>
+<!-- Location -->
+<div class="mb-6">
+<h3 class="font-body-md text-body-md text-on-surface font-medium mb-3">Origin</h3>
+<select class="w-full bg-surface-gray border border-border-subtle text-on-surface text-body-sm rounded-lg focus:ring-primary focus:border-primary block p-2.5">
+<option selected="">All Regions</option>
+<option value="GH">Ghana</option>
+<option value="NG">Nigeria</option>
+<option value="CI">Côte d'Ivoire</option>
+<option value="KE">Kenya</option>
+</select>
+</div>
+<hr class="border-border-subtle mb-6"/>
+<!-- Quantity Range -->
+<div class="mb-6">
+<h3 class="font-body-md text-body-md text-on-surface font-medium mb-3">Volume (MT)</h3>
+<div class="flex items-center gap-2">
+<input class="w-full bg-surface-gray border border-border-subtle text-on-surface text-body-sm rounded-lg focus:ring-primary focus:border-primary p-2" placeholder="Min" type="number"/>
+<span class="text-on-surface-variant">-</span>
+<input class="w-full bg-surface-gray border border-border-subtle text-on-surface text-body-sm rounded-lg focus:ring-primary focus:border-primary p-2" placeholder="Max" type="number"/>
+</div>
+</div>
+</aside>
+<!-- Main Browse Area -->
+<div class="flex-grow flex flex-col gap-6">
+<!-- Search & Sort Bar -->
+<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-surface-container-lowest p-4 rounded-xl border border-border-subtle shadow-sm"><div class="relative w-full sm:max-w-xl group"><div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none"><span class="material-symbols-outlined text-outline group-focus-within:text-primary transition-colors" data-icon="search">search</span></div><input class="bg-white border-2 border-border-subtle text-on-surface text-body-md rounded-xl focus:ring-4 focus:ring-primary/10 focus:border-primary block w-full pl-12 p-3 transition-all outline-none" placeholder="Search materials, grades, or locations..." type="text"/></div><div class="flex items-center gap-4 w-full sm:w-auto bg-white border border-border-subtle rounded-xl px-4 py-1.5 shadow-sm"><span class="text-body-sm font-semibold text-on-surface-variant whitespace-nowrap">Sort:</span><select class="border-none bg-transparent text-on-surface text-body-sm font-bold focus:ring-0 cursor-pointer py-1.5 pl-0 pr-8"><option selected="" value="newest">Newest First</option><option value="price_asc">Lowest Price</option><option value="vol_desc">Highest Volume</option></select></div></div>
+<!-- Category Shortcuts -->
+<div class="flex gap-2 overflow-x-auto pb-2 scrollbar-hide"><button class="bg-primary text-on-primary px-5 py-2 rounded-full text-body-sm font-semibold shadow-sm">All Materials</button><button class="bg-white text-on-surface border border-border-subtle hover:border-primary/30 hover:bg-surface-container-low px-5 py-2 rounded-full text-body-sm font-medium transition-all">HDPE</button><button class="bg-white text-on-surface border border-border-subtle hover:border-primary/30 hover:bg-surface-container-low px-5 py-2 rounded-full text-body-sm font-medium transition-all">PET</button><button class="bg-white text-on-surface border border-border-subtle hover:border-primary/30 hover:bg-surface-container-low px-5 py-2 rounded-full text-body-sm font-medium transition-all">Metals</button><button class="bg-white text-on-surface border border-border-subtle hover:border-primary/30 hover:bg-surface-container-low px-5 py-2 rounded-full text-body-sm font-medium transition-all">Cardboard</button></div>
+<!-- Results Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+<!-- Card 1 -->
+<div class="bg-surface-container-lowest rounded-xl border border-border-subtle shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-200 group flex flex-col rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300">
+<div class="h-48 bg-surface-variant relative overflow-hidden">
+<img alt="HDPE Regrind material in industrial setting" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A macro shot of processed blue and white HDPE plastic regrind chips piled in an industrial metal bin. The lighting is bright and even, highlighting the clean, sorted nature of the recycled material. The overall tone is modern, industrial, and highly professional, fitting a high-end B2B marketplace." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC4cMOrps-HGmYZiFh5xG84825qPVaERJWztfrNTgJexkDeT4_HLuvXBxZroVYv6jrPheqfvnYuQEKk_gV6nUIMou5CqyFnXjDlbHTgv-R1oSh0xMvG150eKDTOBTev_WvmnJyvVYL40LQkUihRqOCcPxjWCh-B7DdFJ5UmjOmqS7B0euMsZIIYwZisEV-ZrnwOZSQ8A5Oo6XjME1t2CLGsMbgciPBXDYRKNplL8AraHasnKUVAvsRfzFnaDCDktxWMKJZi4O7750bL"/>
+<div class="absolute top-3 left-3 bg-secondary text-on-secondary px-2.5 py-1 rounded-md flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-[16px]" data-icon="verified" data-weight="fill">verified</span>
+<span class="text-label-md font-label-md">Ameefar Verified</span>
+</div>
+</div>
+<div class="p-5 flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-md text-[20px] font-semibold text-on-surface line-clamp-1">Premium HDPE Regrind</h3>
+<span class="font-label-md text-label-md text-primary bg-primary-fixed px-2 py-1 rounded">Grade A</span>
+</div>
+<p class="text-body-sm text-on-surface-variant mb-4">Washed, sorted blue/white mix. Ready for extrusion.</p>
+<div class="grid grid-cols-2 gap-y-3 gap-x-2 mb-6 mt-auto">
+<div class="flex flex-col">
+<span class="text-label-md font-label-md text-outline">Volume</span>
+<span class="font-label-md text-[14px] text-on-surface font-semibold">120 MT</span>
+</div>
+<div class="flex flex-col">
+<span class="text-label-md font-label-md text-outline">Origin</span>
+<span class="font-body-sm text-[14px] text-on-surface flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant" data-icon="location_on">location_on</span>
+                                        Accra, GH
+                                    </span>
+</div>
+<div class="flex flex-col col-span-2 mt-2 pt-3 border-t border-border-subtle">
+<span class="text-label-md font-label-md text-outline">Est. Price</span>
+<span class="font-label-md text-[18px] text-primary font-bold">$450 / MT</span>
+</div>
+</div>
+<button class="w-full bg-surface-gray border border-border-subtle text-primary py-2 rounded-lg font-body-sm font-medium hover:bg-surface-container-low transition-colors">
+                                View Details
+                            </button>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-lowest rounded-xl border border-border-subtle shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-200 group flex flex-col rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300">
+<div class="h-48 bg-surface-variant relative overflow-hidden">
+<img alt="Clear PET Flakes in bulk" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A close-up view of clear, transparent PET plastic flakes used for recycling. The flakes are clean and uniform in size, reflecting bright, natural light that creates a sparkling effect. The image is crisp and modern, emphasizing the high quality and purity of the sorted material suitable for enterprise buyers." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOr-rgC1if6H5gmA0HX74vMa6PRlq-sG-2ex8XcdK0pLFyavJphVlUp-qGKAEql9WL7UDi8O1fNKHw6eqrI0ae3z6e3A_3E1ojgY4sTX56LGBrRbR_QQavok2QdR5F3ec5nJjSjcznngAj38_i5wJ_oNzTnBfUluZSjlxSGmpLo_Ju0ERFOS-mYsiXn_KKGgpGPKw0SBAsPA2oP8VQtZm28vQl09p_5UMlH80P8SpL6YisKZj3k23ISU09E5EHvfKKMltcsd_SzQtT"/>
+<div class="absolute top-3 left-3 bg-secondary text-on-secondary px-2.5 py-1 rounded-md flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-[16px]" data-icon="verified" data-weight="fill">verified</span>
+<span class="text-label-md font-label-md">Ameefar Verified</span>
+</div>
+</div>
+<div class="p-5 flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-md text-[20px] font-semibold text-on-surface line-clamp-1">Clear PET Flakes</h3>
+<span class="font-label-md text-label-md text-primary bg-primary-fixed px-2 py-1 rounded">Grade A</span>
+</div>
+<p class="text-body-sm text-on-surface-variant mb-4">Hot washed, &lt;1% PVC contamination. Consistent sizing.</p>
+<div class="grid grid-cols-2 gap-y-3 gap-x-2 mb-6 mt-auto">
+<div class="flex flex-col">
+<span class="text-label-md font-label-md text-outline">Volume</span>
+<span class="font-label-md text-[14px] text-on-surface font-semibold">500 MT</span>
+</div>
+<div class="flex flex-col">
+<span class="text-label-md font-label-md text-outline">Origin</span>
+<span class="font-body-sm text-[14px] text-on-surface flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant" data-icon="location_on">location_on</span>
+                                        Lagos, NG
+                                    </span>
+</div>
+<div class="flex flex-col col-span-2 mt-2 pt-3 border-t border-border-subtle">
+<span class="text-label-md font-label-md text-outline">Est. Price</span>
+<span class="font-label-md text-[18px] text-primary font-bold">$620 / MT</span>
+</div>
+</div>
+<button class="w-full bg-surface-gray border border-border-subtle text-primary py-2 rounded-lg font-body-sm font-medium hover:bg-surface-container-low transition-colors">
+                                View Details
+                            </button>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-white rounded-2xl border border-border-subtle shadow-sm overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group flex flex-col rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300"><div class="h-52 bg-surface-variant relative overflow-hidden"><img alt="LDPE Film Bales" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="A stack of clean, clear LDPE plastic film bales compressed and ready for recycling in a modern warehouse environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHX-X4gD1Wp5T8W6f-kZ7tF6Q4G9L2R8T3Y4P5Q6R7S8T9U0V1W2X3Y4Z5A6B7C8D9E0F1G2H3I4J5K6L7M8N9O0P1Q2R3S4T5U6V7W8X9Y0Z"/></div><div class="p-6 flex flex-col flex-grow"><div class="flex justify-between items-start mb-3"><h3 class="font-headline-md text-[18px] font-bold text-on-surface leading-tight">Mixed LDPE Film Bales</h3><span class="text-[10px] uppercase tracking-wider font-bold text-outline-variant bg-surface-gray border border-border-subtle px-2 py-0.5 rounded">Grade B</span></div><p class="text-body-sm text-on-surface-variant mb-5 line-clamp-2">Post-commercial wrap. Baled, moderate dust, ready for industrial processing.</p><div class="grid grid-cols-2 gap-4 mb-6 mt-auto"><div class="flex flex-col"><span class="text-[11px] uppercase tracking-wider font-bold text-outline/70">Volume</span><span class="text-body-md font-bold text-on-surface">80 MT</span></div><div class="flex flex-col"><span class="text-[11px] uppercase tracking-wider font-bold text-outline/70">Origin</span><span class="text-body-sm font-medium text-on-surface flex items-center gap-1"><span class="material-symbols-outlined text-[16px] text-primary">location_on</span>Tema, GH</span></div></div><div class="pt-4 border-t border-border-subtle flex items-center justify-between gap-4"><div class="flex flex-col"><span class="text-[11px] uppercase tracking-wider font-bold text-outline/70">Est. Price</span><span class="text-body-lg font-black text-primary">$210<span class="text-body-sm font-normal text-on-surface-variant"> / MT</span></span></div><button class="px-4 py-2 bg-primary text-on-primary rounded-lg font-bold text-body-sm hover:bg-primary-container transition-colors shadow-sm">View Details</button></div></div></div>
+</div>
+<!-- Pagination -->
+<div class="flex justify-center items-center gap-2 mt-8">
+<button class="p-2 text-outline-variant hover:text-primary transition-colors disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined" data-icon="chevron_left">chevron_left</span>
+</button>
+<button class="w-8 h-8 rounded-full bg-primary text-on-primary font-label-md text-label-md flex items-center justify-center">1</button>
+<button class="w-8 h-8 rounded-full text-on-surface-variant hover:bg-surface-container-low font-label-md text-label-md flex items-center justify-center transition-colors">2</button>
+<button class="w-8 h-8 rounded-full text-on-surface-variant hover:bg-surface-container-low font-label-md text-label-md flex items-center justify-center transition-colors">3</button>
+<span class="text-on-surface-variant">...</span>
+<button class="w-8 h-8 rounded-full text-on-surface-variant hover:bg-surface-container-low font-label-md text-label-md flex items-center justify-center transition-colors">12</button>
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar Mobile Only -->
+<nav class="md:hidden fixed bottom-0 w-full bg-surface-container-lowest border-t border-border-subtle z-50 px-2 py-2 flex justify-around">
+<a class="flex flex-col items-center p-2 text-on-surface-variant hover:text-primary" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-[10px] mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center p-2 text-primary font-bold" href="#">
+<span class="material-symbols-outlined" data-icon="storefront" data-weight="fill">storefront</span>
+<span class="text-[10px] mt-1">Market</span>
+</a>
+<a class="flex flex-col items-center p-2 text-on-surface-variant hover:text-primary" href="#">
+<span class="material-symbols-outlined" data-icon="handshake">handshake</span>
+<span class="text-[10px] mt-1">Deals</span>
+</a>
+<a class="flex flex-col items-center p-2 text-on-surface-variant hover:text-primary" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="text-[10px] mt-1">Profile</span>
+</a>
+</nav>
+<style>
+        /* Custom toggle switch styles for the checkbox */
+        .toggle-checkbox:checked {
+            right: 0;
+            border-color: theme('colors.secondary');
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: theme('colors.secondary-container');
+        }
+        .toggle-checkbox:checked {
+            transform: translateX(100%);
+            border-color: theme('colors.secondary');
+        }
+        /* Hide scrollbar for category pills */
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</body></html>

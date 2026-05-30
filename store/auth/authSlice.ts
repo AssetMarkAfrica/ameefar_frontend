@@ -30,6 +30,8 @@ export interface AuthState {
   errors: Record<AuthOperation, string | null>;
 }
 
+type AuthSessionState = Pick<AuthState, "accessToken" | "refreshToken" | "user">;
+
 const initialStatus: Record<AuthOperation, AuthStatus> = {
   register: "idle",
   verifyOtp: "idle",
@@ -46,20 +48,36 @@ const initialErrors: Record<AuthOperation, string | null> = {
   passwordResetConfirm: null,
 };
 
-const initialState: AuthState = {
-  user: null,
-  accessToken: null,
-  refreshToken: null,
-  isAuthenticated: false,
-  pendingToken: null,
-  pendingEmail: null,
-  otpDelivery: null,
-  status: initialStatus,
-  errors: initialErrors,
-};
+export function createInitialAuthState(
+  session?: AuthSessionState | null,
+): AuthState {
+  return {
+    user: session?.user ?? null,
+    accessToken: session?.accessToken ?? null,
+    refreshToken: session?.refreshToken ?? null,
+    isAuthenticated: Boolean(session?.accessToken),
+    pendingToken: null,
+    pendingEmail: null,
+    otpDelivery: null,
+    status: { ...initialStatus },
+    errors: { ...initialErrors },
+  };
+}
+
+const initialState = createInitialAuthState();
 
 function rejectedMessage(message?: string): string {
   return message ?? "Something went wrong.";
+}
+
+function setAuthenticatedSession(
+  state: AuthState,
+  session: { access: string; refresh: string; user: User },
+) {
+  state.user = session.user;
+  state.accessToken = session.access;
+  state.refreshToken = session.refresh;
+  state.isAuthenticated = Boolean(session.access);
 }
 
 export const authSlice = createSlice({
@@ -103,10 +121,7 @@ export const authSlice = createSlice({
       })
       .addCase(verifyOtpThunk.fulfilled, (state, action) => {
         state.status.verifyOtp = "succeeded";
-        state.user = action.payload.data.user;
-        state.accessToken = action.payload.data.access;
-        state.refreshToken = action.payload.data.refresh;
-        state.isAuthenticated = true;
+        setAuthenticatedSession(state, action.payload.data);
         state.pendingToken = null;
         state.pendingEmail = null;
         state.otpDelivery = null;
@@ -121,10 +136,7 @@ export const authSlice = createSlice({
       })
       .addCase(loginThunk.fulfilled, (state, action) => {
         state.status.login = "succeeded";
-        state.user = action.payload.user;
-        state.accessToken = action.payload.access;
-        state.refreshToken = action.payload.refresh;
-        state.isAuthenticated = true;
+        setAuthenticatedSession(state, action.payload);
       })
       .addCase(loginThunk.rejected, (state, action) => {
         state.status.login = "failed";
