@@ -69,7 +69,7 @@ export function ProfileShell({ children }: { children: React.ReactNode }) {
           <span>Ameefar Energy</span>
         </Link>
         <nav className="profile-topnav" aria-label="Primary">
-          <Link href="#">Marketplace</Link>
+          <Link href="/product">Marketplace</Link>
           <Link href="#">My Trades</Link>
           <Link className="active" href="/profile">
             Profile

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Hanken_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
 
 const hanken = Hanken_Grotesk({ subsets: ["latin"], weight: ["600", "700"] });
@@ -77,8 +78,18 @@ export default function Home() {
             <h1 className={`${hanken.className} mt-6 max-w-3xl text-4xl font-bold leading-tight md:text-6xl`}>Secure African Trade. Guaranteed Quality.</h1>
             <p className="mt-6 max-w-3xl text-lg text-slate-200">The first B2B recycling marketplace featuring the African Trade Protection protocol with inspections and escrow.</p>
             <div className="mt-8 flex flex-wrap gap-4">
-              <button className="rounded bg-[#002627] px-6 py-3 font-medium text-white">Create Secure Account</button>
-              <button className="rounded border border-white/40 px-6 py-3">Learn About Protection</button>
+              <Link
+                href="/auth/register"
+                className="rounded bg-[#002627] px-6 py-3 font-medium text-white hover:bg-[#003a3b] transition-colors"
+              >
+                Create Secure Account
+              </Link>
+              <Link
+                href="/auth/login"
+                className="rounded border border-white/40 px-6 py-3 text-white hover:bg-white/10 transition-colors"
+              >
+                Sign In
+              </Link>
             </div>
           </div>
         </section>

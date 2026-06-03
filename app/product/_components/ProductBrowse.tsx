@@ -82,45 +82,49 @@ export function ProductBrowse() {
 
   return (
     <div className="mx-auto grid max-w-[1440px] gap-6">
+      {/* Page header */}
       <section className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <div>
-          <p className="font-[var(--font-jetbrains)] text-xs font-bold uppercase text-[#006d40]">
+          <p className="font-[var(--font-jetbrains)] text-xs font-bold uppercase tracking-wide text-[#006d40]">
             Marketplace
           </p>
           <h1 className="mt-2 font-[var(--font-hanken)] text-4xl font-semibold text-[#002627]">
-            Browse product listings
+            Browse listings
           </h1>
           <p className="mt-2 max-w-2xl text-[#404848]">
-            Filter active sell offers and buy requests by material,
-            availability, country, and material name.
+            Filter active sell offers and buy requests by material, availability,
+            country, and name.
           </p>
         </div>
         <Link
-          className="inline-flex min-h-11 items-center justify-center rounded-lg bg-[#002627] px-5 font-semibold text-white shadow-sm transition hover:bg-slate-900"
+          className="inline-flex min-h-11 items-center justify-center rounded-xl bg-[#beebeb] px-5 font-semibold text-[#002627] shadow-sm transition hover:bg-[#a3cfcf]"
           href="/product/create"
         >
           Create listing
         </Link>
       </section>
 
-      <div className="grid gap-6 lg:grid-cols-[288px_minmax(0,1fr)]">
-        <aside className="h-fit rounded-lg border border-slate-200 bg-white p-5 shadow-sm lg:sticky lg:top-6">
+      <div className="grid gap-6 lg:grid-cols-[272px_minmax(0,1fr)]">
+        {/* Filter sidebar */}
+        <aside className="h-fit rounded-xl border border-slate-200 bg-white p-5 shadow-sm lg:sticky lg:top-6">
           <form className="grid gap-5" onSubmit={handleSubmit}>
             <div className="flex items-center justify-between gap-4">
-              <h2 className="font-[var(--font-hanken)] text-2xl font-semibold text-[#002627]">
+              <h2 className="font-[var(--font-hanken)] text-xl font-semibold text-[#002627]">
                 Filters
               </h2>
               <button
-                className="text-sm font-semibold text-[#404848] underline-offset-4 hover:text-[#002627] hover:underline"
+                className="text-xs font-bold uppercase tracking-wide text-[#404848] underline-offset-4 hover:text-[#002627] hover:underline"
                 onClick={clearFilters}
                 type="button"
               >
-                Clear
+                Clear all
               </button>
             </div>
 
-            <label className="flex items-center justify-between gap-4 rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm font-semibold text-[#0b1c30]">
-              <span>My listings</span>
+            <label className="flex cursor-pointer items-center justify-between gap-4 rounded-lg border border-slate-200 bg-slate-50 p-3 transition hover:border-[#002627]/20 hover:bg-[#eff4ff]">
+              <span className="text-sm font-semibold text-[#0b1c30]">
+                My listings only
+              </span>
               <input
                 className="size-5 accent-[#002627]"
                 checked={filters.mine}
@@ -202,7 +206,7 @@ export function ProductBrowse() {
             </SelectField>
 
             <button
-              className="min-h-11 rounded-lg bg-[#002627] px-4 font-semibold text-white transition hover:bg-slate-900"
+              className="min-h-11 rounded-xl bg-[#002627] px-4 font-semibold text-white transition hover:bg-slate-900"
               type="submit"
             >
               Apply filters
@@ -210,18 +214,20 @@ export function ProductBrowse() {
           </form>
         </aside>
 
+        {/* Main content */}
         <section className="grid gap-5">
+          {/* Search bar */}
           <form
-            className="flex flex-col gap-3 rounded-lg border border-slate-200 bg-white p-4 shadow-sm sm:flex-row"
+            className="flex flex-col gap-3 rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:flex-row"
             onSubmit={handleSubmit}
           >
-            <label className="grid flex-1 gap-1">
-              <span className="font-[var(--font-jetbrains)] text-xs font-bold uppercase text-[#404848]">
+            <label className="grid flex-1 gap-1.5">
+              <span className="font-[var(--font-jetbrains)] text-xs font-bold uppercase tracking-wide text-[#404848]">
                 Search material name
               </span>
               <input
-                className="min-h-12 rounded-lg border border-slate-200 bg-slate-50 px-4 text-[#0b1c30] outline-none transition focus:border-[#002627] focus:ring-2 focus:ring-[#002627]/20"
-                placeholder="Search PP, regrind, flakes..."
+                className="min-h-11 rounded-lg border border-slate-200 bg-slate-50 px-4 text-[#0b1c30] outline-none transition focus:border-[#002627] focus:ring-2 focus:ring-[#002627]/20"
+                placeholder="PP, regrind, HDPE flakes…"
                 value={filters.q}
                 onChange={(event) =>
                   setFilters((current) => ({
@@ -233,13 +239,14 @@ export function ProductBrowse() {
               />
             </label>
             <button
-              className="min-h-12 rounded-lg bg-[#002627] px-5 font-semibold text-white transition hover:bg-slate-900 sm:self-end"
+              className="min-h-11 rounded-xl bg-[#002627] px-5 font-semibold text-white transition hover:bg-slate-900 sm:self-end"
               type="submit"
             >
               Search
             </button>
           </form>
 
+          {/* Quick material pills */}
           <div
             className="flex gap-2 overflow-x-auto pb-1"
             aria-label="Quick material filters"
@@ -250,9 +257,9 @@ export function ProductBrowse() {
                 setFilters((current) => ({ ...current, material_type: "" }))
               }
             >
-              All materials
+              All
             </FilterPill>
-            {materialOptions.slice(0, 7).map((option) => (
+            {materialOptions.slice(0, 8).map((option) => (
               <FilterPill
                 active={filters.material_type === option.value}
                 key={option.value}
@@ -268,53 +275,74 @@ export function ProductBrowse() {
             ))}
           </div>
 
-          <div className="flex flex-wrap items-center justify-between gap-3 text-sm text-[#404848]">
-            <span>
+          {/* Result count */}
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <span className="text-sm text-[#404848]">
               {pagination
-                ? `${pagination.count} listing${
-                    pagination.count === 1 ? "" : "s"
-                  }`
-                : "Listings"}
+                ? `${pagination.count} listing${pagination.count === 1 ? "" : "s"}`
+                : isLoading
+                  ? "Loading…"
+                  : "Listings"}
             </span>
-            {filters.mine ? (
-              <strong className="rounded-full bg-[#ecfdf5] px-3 py-1 text-[#006d40]">
-                Showing your inventory
-              </strong>
-            ) : null}
+            {filters.mine && (
+              <span className="rounded-full bg-[#ecfdf5] px-3 py-1 text-xs font-bold uppercase tracking-wide text-[#006d40]">
+                Your inventory
+              </span>
+            )}
           </div>
 
-          {listError ? (
-            <div className="grid gap-1 rounded-lg border border-red-200 bg-red-50 p-4 text-red-800">
-              <strong>Could not load listings.</strong>
-              <span>{listError}</span>
+          {/* Error */}
+          {listError && (
+            <div className="grid gap-1 rounded-xl border border-red-200 bg-red-50 p-4 text-red-800">
+              <strong className="text-sm font-semibold">
+                Could not load listings
+              </strong>
+              <span className="text-sm">{listError}</span>
             </div>
-          ) : null}
+          )}
 
+          {/* Listings grid */}
           {isLoading && listings.length === 0 ? (
-            <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-              <div className="min-h-80 animate-pulse rounded-lg bg-slate-200" />
-              <div className="min-h-80 animate-pulse rounded-lg bg-slate-200" />
-              <div className="min-h-80 animate-pulse rounded-lg bg-slate-200" />
+            <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+              {[...Array(6)].map((_, i) => (
+                <div
+                  key={i}
+                  className="min-h-80 animate-pulse rounded-xl bg-slate-200"
+                />
+              ))}
             </div>
           ) : listings.length > 0 ? (
-            <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
               {listings.map((listing) => (
                 <ProductListingCard key={listing.id} listing={listing} />
               ))}
             </div>
           ) : (
-            <div className="grid justify-items-center gap-3 rounded-lg border border-slate-200 bg-white p-10 text-center shadow-sm">
-              <div className="grid aspect-square w-40 place-items-center rounded-lg border border-dashed border-slate-300 bg-slate-50 font-[var(--font-jetbrains)] text-xs font-bold uppercase text-slate-400">
-                Listings
+            <div className="grid justify-items-center gap-4 rounded-xl border border-slate-200 bg-white p-12 text-center shadow-sm">
+              <div className="grid aspect-square w-24 place-items-center rounded-xl border-2 border-dashed border-slate-200 bg-slate-50">
+                <svg
+                  className="text-slate-300"
+                  fill="none"
+                  height="32"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  viewBox="0 0 24 24"
+                  width="32"
+                >
+                  <path d="M20 7H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2Z" />
+                  <path d="M16 3H8L6 7h12Z" />
+                </svg>
               </div>
-              <h2 className="font-[var(--font-hanken)] text-2xl font-semibold text-[#002627]">
-                No listings match these filters.
-              </h2>
-              <p className="text-[#404848]">
-                Clear filters or create a new listing for your inventory.
-              </p>
+              <div className="grid gap-1">
+                <h2 className="font-[var(--font-hanken)] text-2xl font-semibold text-[#002627]">
+                  No listings match these filters
+                </h2>
+                <p className="text-sm text-[#404848]">
+                  Try clearing filters or create a new listing.
+                </p>
+              </div>
               <Link
-                className="inline-flex min-h-11 items-center rounded-lg bg-[#002627] px-5 font-semibold text-white"
+                className="inline-flex min-h-11 items-center rounded-xl bg-[#beebeb] px-5 font-semibold text-[#002627] transition hover:bg-[#a3cfcf]"
                 href="/product/create"
               >
                 Create listing
@@ -322,34 +350,37 @@ export function ProductBrowse() {
             </div>
           )}
 
-          {pagination && pagination.total_pages > 1 ? (
+          {/* Pagination */}
+          {pagination && pagination.total_pages > 1 && (
             <div className="flex items-center justify-center gap-3">
               <button
-                className="rounded-lg border border-slate-200 bg-white px-4 py-2 font-semibold text-[#404848] disabled:cursor-not-allowed disabled:opacity-50"
+                className="rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-[#404848] transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
                 disabled={!pagination.previous || page <= 1}
                 onClick={() => setPage((current) => Math.max(1, current - 1))}
                 type="button"
               >
-                Previous
+                ← Previous
               </button>
-              <span className="text-sm text-[#404848]">
-                Page {pagination.current_page} of {pagination.total_pages}
+              <span className="text-sm font-medium text-[#404848]">
+                {pagination.current_page} / {pagination.total_pages}
               </span>
               <button
-                className="rounded-lg border border-slate-200 bg-white px-4 py-2 font-semibold text-[#404848] disabled:cursor-not-allowed disabled:opacity-50"
+                className="rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-[#404848] transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
                 disabled={!pagination.next}
                 onClick={() => setPage((current) => current + 1)}
                 type="button"
               >
-                Next
+                Next →
               </button>
             </div>
-          ) : null}
+          )}
         </section>
       </div>
     </div>
   );
 }
+
+// ─── Sub-components ────────────────────────────────────────────────────────────
 
 function SelectField({
   children,
@@ -364,11 +395,11 @@ function SelectField({
 }) {
   return (
     <label className="grid gap-2">
-      <span className="font-[var(--font-jetbrains)] text-xs font-bold uppercase text-[#404848]">
+      <span className="font-[var(--font-jetbrains)] text-xs font-bold uppercase tracking-wide text-[#404848]">
         {label}
       </span>
       <select
-        className="min-h-11 rounded-lg border border-slate-200 bg-slate-50 px-3 text-[#0b1c30] outline-none transition focus:border-[#002627] focus:ring-2 focus:ring-[#002627]/20"
+        className="min-h-11 rounded-lg border border-slate-200 bg-slate-50 px-3 text-sm text-[#0b1c30] outline-none transition focus:border-[#002627] focus:ring-2 focus:ring-[#002627]/20"
         onChange={(event) => onChange(event.target.value)}
         value={value}
       >
@@ -391,8 +422,8 @@ function FilterPill({
     <button
       className={
         active
-          ? "shrink-0 rounded-full bg-[#002627] px-5 py-2 text-sm font-semibold text-white"
-          : "shrink-0 rounded-full border border-slate-200 bg-white px-5 py-2 text-sm font-semibold text-[#404848] transition hover:border-[#002627]/30 hover:bg-[#eff4ff] hover:text-[#002627]"
+          ? "shrink-0 rounded-full bg-[#002627] px-4 py-1.5 text-xs font-bold uppercase tracking-wide text-white"
+          : "shrink-0 rounded-full border border-slate-200 bg-white px-4 py-1.5 text-xs font-bold uppercase tracking-wide text-[#404848] transition hover:border-[#002627]/30 hover:bg-[#eff4ff] hover:text-[#002627]"
       }
       onClick={onClick}
       type="button"
@@ -404,47 +435,48 @@ function FilterPill({
 
 function ProductListingCard({ listing }: { listing: ProductListingSummary }) {
   return (
-    <article className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-xl">
-      <Link
-        href={`/product/${listing.id}`}
-        className="relative block h-48 overflow-hidden bg-[#d3e4fe]"
-      >
+    <article className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg">
+      {/* Fix: image section is NOT a link to avoid nested <a> with the button below */}
+      <div className="relative h-48 overflow-hidden bg-[#eff4ff]">
         {listing.primary_image_url ? (
-          <span
-            aria-label={listing.material_name}
-            className="block size-full bg-cover bg-center transition duration-500 hover:scale-105"
-            role="img"
-            style={{ backgroundImage: `url(${listing.primary_image_url})` }}
+          /* Fix: use <img> instead of background-image <span> for reliable rendering */
+          <img
+            alt={listing.material_name}
+            className="size-full object-cover transition duration-500 hover:scale-105"
+            src={listing.primary_image_url}
           />
         ) : (
-          <span className="grid size-full place-items-center bg-[#eff4ff] font-[var(--font-jetbrains)] text-sm font-bold uppercase text-[#002627]">
-            {formatMaterialType(listing.material_type)}
-          </span>
-        )}
-        {listing.seller_verified_snapshot ? (
-          <span className="absolute left-3 top-3 rounded-md bg-[#006d40] px-2.5 py-1 text-xs font-bold text-white shadow-sm">
-            Verified
-          </span>
-        ) : null}
-      </Link>
-      <div className="grid gap-4 p-5">
-        <div className="grid gap-2">
-          <div className="flex items-start justify-between gap-3">
-            <h2 className="line-clamp-2 font-[var(--font-hanken)] text-xl font-semibold leading-6 text-[#0b1c30]">
-              {listing.material_name}
-            </h2>
-            <span
-              className={
-                listing.listing_type === "sell"
-                  ? "shrink-0 rounded bg-[#beebeb] px-2 py-1 text-xs font-bold text-[#002627]"
-                  : "shrink-0 rounded bg-[#ecfdf5] px-2 py-1 text-xs font-bold text-[#006d40]"
-              }
-            >
-              {formatListingType(listing.listing_type)}
+          <div className="grid size-full place-items-center">
+            <span className="font-[var(--font-jetbrains)] text-sm font-bold uppercase tracking-widest text-[#002627]/30">
+              {formatMaterialType(listing.material_type)}
             </span>
           </div>
+        )}
+        {listing.seller_verified_snapshot && (
+          <span className="absolute left-3 top-3 rounded-md bg-[#006d40] px-2 py-1 text-xs font-bold text-white shadow-sm">
+            Verified
+          </span>
+        )}
+        {/* Listing type badge top-right */}
+        <span
+          className={
+            listing.listing_type === "sell"
+              ? "absolute right-3 top-3 rounded-md bg-[#beebeb] px-2 py-1 text-xs font-bold text-[#002627]"
+              : "absolute right-3 top-3 rounded-md bg-[#ecfdf5] px-2 py-1 text-xs font-bold text-[#006d40]"
+          }
+        >
+          {listing.listing_type === "sell" ? "Sell" : "Buy"}
+        </span>
+      </div>
+
+      <div className="grid gap-4 p-5">
+        <div>
+          <h2 className="line-clamp-2 font-[var(--font-hanken)] text-xl font-semibold leading-snug text-[#002627]">
+            {listing.material_name}
+          </h2>
         </div>
-        <dl className="grid grid-cols-2 gap-3 text-sm">
+
+        <dl className="grid grid-cols-2 gap-x-3 gap-y-3 text-sm">
           <Fact label="Material" value={formatMaterialType(listing.material_type)} />
           <Fact label="Quantity" value={`${listing.quantity_available_mt} MT`} />
           <Fact label="Origin" value={listing.material_location_country} />
@@ -453,11 +485,12 @@ function ProductListingCard({ listing }: { listing: ProductListingSummary }) {
             value={formatAvailability(listing.availability_status)}
           />
         </dl>
+
         <Link
-          className="inline-flex min-h-10 items-center justify-center rounded-lg border border-slate-200 bg-slate-50 px-4 font-semibold text-[#002627] transition hover:bg-[#eff4ff]"
+          className="inline-flex min-h-10 items-center justify-center rounded-lg border border-slate-200 bg-slate-50 px-4 text-sm font-semibold text-[#002627] transition hover:bg-[#eff4ff] hover:border-[#002627]/30"
           href={`/product/${listing.id}`}
         >
-          View details
+          View details →
         </Link>
       </div>
     </article>
@@ -467,10 +500,10 @@ function ProductListingCard({ listing }: { listing: ProductListingSummary }) {
 function Fact({ label, value }: { label: string; value: string }) {
   return (
     <div>
-      <dt className="font-[var(--font-jetbrains)] text-[11px] font-bold uppercase text-slate-500">
+      <dt className="font-[var(--font-jetbrains)] text-[10px] font-bold uppercase tracking-wide text-slate-400">
         {label}
       </dt>
-      <dd className="mt-1 font-semibold text-[#0b1c30]">{value}</dd>
+      <dd className="mt-0.5 text-sm font-semibold text-[#0b1c30]">{value}</dd>
     </div>
   );
 }
@@ -480,30 +513,11 @@ function buildListParams(
   page: number,
 ): ListProductListingsParams {
   const params: ListProductListingsParams = { page };
-
-  if (filters.q.trim()) {
-    params.q = filters.q.trim();
-  }
-
-  if (filters.listing_type) {
-    params.listing_type = filters.listing_type;
-  }
-
-  if (filters.material_type) {
-    params.material_type = filters.material_type;
-  }
-
-  if (filters.availability_status) {
-    params.availability_status = filters.availability_status;
-  }
-
-  if (filters.country) {
-    params.country = filters.country;
-  }
-
-  if (filters.mine) {
-    params.mine = true;
-  }
-
+  if (filters.q.trim()) params.q = filters.q.trim();
+  if (filters.listing_type) params.listing_type = filters.listing_type;
+  if (filters.material_type) params.material_type = filters.material_type;
+  if (filters.availability_status) params.availability_status = filters.availability_status;
+  if (filters.country) params.country = filters.country;
+  if (filters.mine) params.mine = true;
   return params;
 }

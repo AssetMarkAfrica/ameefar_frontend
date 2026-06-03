@@ -57,39 +57,34 @@ export function ProductListingDetail({ listingId }: { listingId: string }) {
   const [specDescription, setSpecDescription] = useState("");
   const [specFile, setSpecFile] = useState<File | null>(null);
 
+  // Always re-fetch when listingId changes. We don't guard on listing?.id here
+  // because the effect must fire even if a prior listing is already loaded.
   useEffect(() => {
-    if (token && listing?.id !== listingId) {
-      void dispatch(fetchProductListingThunk({ token, listingId }));
-    }
-  }, [dispatch, listing?.id, listingId, token]);
+    if (!token) return;
+    void dispatch(fetchProductListingThunk({ token, listingId }));
+  }, [dispatch, listingId, token]);
+
+  // Reset selected image when listing changes
+  useEffect(() => {
+    setSelectedImageUrl(null);
+  }, [listingId]);
 
   const isOwner = Boolean(listing && user?.id === listing.owner);
-  const counterpartyLabel = useMemo(() => {
-    if (!listing || !user) {
-      return "Contact member";
-    }
-
-    if (isOwner) {
-      return listing.status === "draft" ? "Draft listing" : "Manage listing";
-    }
-
+  const nonOwnerLabel = useMemo(() => {
+    if (!listing || !user) return "Contact member";
     if (listing.listing_type === "sell") {
       return user.is_buyer || user.role === "buyer" || user.role === "both"
         ? "Request supply"
         : "View listing";
     }
-
     return user.is_seller || user.role === "seller" || user.role === "both"
       ? "Respond to request"
       : "View request";
-  }, [isOwner, listing, user]);
+  }, [listing, user]);
 
   async function handleImageUpload(event: ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
-
-    if (!file || !token || !listing) {
-      return;
-    }
+    if (!file || !token || !listing) return;
 
     if (listing.images.length === 0) {
       await dispatch(
@@ -118,10 +113,7 @@ export function ProductListingDetail({ listingId }: { listingId: string }) {
 
   async function handleSpecificationUpload(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-
-    if (!token || !listing || !specFile || !specTitle.trim()) {
-      return;
-    }
+    if (!token || !listing || !specFile || !specTitle.trim()) return;
 
     await dispatch(
       uploadProductSpecificationThunk({
@@ -139,16 +131,26 @@ export function ProductListingDetail({ listingId }: { listingId: string }) {
     event.currentTarget.reset();
   }
 
-  if (fetchStatus === "loading" && (!listing || listing.id !== listingId)) {
+  // Show skeleton whenever we're actively fetching OR we have any status but
+  // the loaded listing doesn't match the requested listingId yet (covers the
+  // case where fetchStatus is already "succeeded" from a prior listing).
+  const wrongListing = !listing || listing.id !== listingId;
+  const isLoading = fetchStatus === "loading" || (wrongListing && fetchStatus !== "failed");
+
+  if (isLoading && wrongListing) {
     return (
       <div className="mx-auto grid max-w-[1440px] gap-6 xl:grid-cols-[minmax(0,1fr)_360px]">
-        <div className="min-h-[520px] animate-pulse rounded-lg bg-slate-200" />
+        <div className="grid gap-6">
+          <div className="h-8 w-48 animate-pulse rounded-lg bg-slate-200" />
+          <div className="min-h-[480px] animate-pulse rounded-lg bg-slate-200" />
+          <div className="min-h-40 animate-pulse rounded-lg bg-slate-200" />
+        </div>
         <div className="min-h-80 animate-pulse rounded-lg bg-slate-200" />
       </div>
     );
   }
 
-  if (fetchStatus === "failed" && (!listing || listing.id !== listingId)) {
+  if (fetchStatus === "failed" && wrongListing) {
     return (
       <section className="mx-auto grid max-w-2xl gap-4 rounded-lg border border-slate-200 bg-white p-8 shadow-sm">
         <p className="font-[var(--font-jetbrains)] text-xs font-bold uppercase text-[#006d40]">
@@ -161,7 +163,7 @@ export function ProductListingDetail({ listingId }: { listingId: string }) {
           {fetchError ?? "Please retry or return to the marketplace."}
         </p>
         <button
-          className="inline-flex min-h-11 w-max items-center rounded-lg bg-[#002627] px-5 font-semibold text-white"
+          className="inline-flex min-h-11 w-max items-center rounded-lg bg-[#002627] px-5 font-semibold text-white transition hover:bg-slate-900"
           onClick={() => {
             if (token) {
               void dispatch(fetchProductListingThunk({ token, listingId }));
@@ -191,35 +193,46 @@ export function ProductListingDetail({ listingId }: { listingId: string }) {
 
   return (
     <div className="mx-auto grid max-w-[1440px] gap-6">
-      <div className="flex flex-wrap items-center gap-2 text-sm text-[#404848]">
-        <Link className="hover:text-[#002627]" href="/product">
+      {/* Breadcrumb */}
+      <nav className="flex items-center gap-2 text-sm">
+        <Link
+          className="font-medium text-[#404848] transition hover:text-[#002627]"
+          href="/product"
+        >
           Marketplace
         </Link>
-        <span>/</span>
-        <span className="font-semibold text-[#0b1c30]">
+        <span className="text-slate-300">/</span>
+        <span className="font-semibold text-[#002627]">
           {listing.material_name}
         </span>
-      </div>
+      </nav>
 
       <section className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_360px]">
+        {/* Left column */}
         <div className="grid gap-6">
+          {/* Header */}
           <header>
             <div className="mb-3 flex flex-wrap items-center gap-2">
               <span
                 className={
                   listing.listing_type === "sell"
-                    ? "rounded bg-[#beebeb] px-2.5 py-1 text-xs font-bold text-[#002627]"
-                    : "rounded bg-[#ecfdf5] px-2.5 py-1 text-xs font-bold text-[#006d40]"
+                    ? "rounded-md bg-[#beebeb] px-2.5 py-1 text-xs font-bold uppercase tracking-wide text-[#002627]"
+                    : "rounded-md bg-[#ecfdf5] px-2.5 py-1 text-xs font-bold uppercase tracking-wide text-[#006d40]"
                 }
               >
                 {formatListingType(listing.listing_type)}
               </span>
-              <span className="rounded bg-slate-100 px-2.5 py-1 text-xs font-semibold text-[#404848]">
+              <span className="rounded-md bg-slate-100 px-2.5 py-1 text-xs font-semibold text-[#404848]">
                 {formatAvailability(listing.availability_status)}
               </span>
-              <span className="rounded bg-slate-100 px-2.5 py-1 text-xs font-semibold text-[#404848]">
+              <span className="rounded-md bg-slate-100 px-2.5 py-1 text-xs font-semibold text-[#404848]">
                 {listing.material_location_country}
               </span>
+              {listing.seller_verified_snapshot && (
+                <span className="rounded-md bg-[#006d40] px-2.5 py-1 text-xs font-bold text-white">
+                  Verified seller
+                </span>
+              )}
             </div>
             <h1 className="font-[var(--font-hanken)] text-4xl font-semibold leading-tight text-[#002627]">
               {listing.material_name}
@@ -229,61 +242,81 @@ export function ProductListingDetail({ listingId }: { listingId: string }) {
             </p>
           </header>
 
-          <section className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
-            <div className="aspect-video overflow-hidden rounded-lg bg-[#d3e4fe]">
+          {/* Image gallery */}
+          <section className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+            {/* Main image */}
+            <div className="relative aspect-video w-full overflow-hidden bg-[#eff4ff]">
               {displayedImageUrl ? (
-                <span
-                  aria-label={listing.material_name}
-                  className="block size-full bg-cover bg-center"
-                  role="img"
-                  style={{ backgroundImage: `url(${displayedImageUrl})` }}
+                /* Fix: use <img> instead of background-image span for reliable rendering */
+                <img
+                  alt={listing.material_name}
+                  className="size-full object-cover"
+                  src={displayedImageUrl}
                 />
               ) : (
-                <span className="grid size-full place-items-center bg-[#eff4ff] font-[var(--font-jetbrains)] text-sm font-bold uppercase text-[#002627]">
-                  {formatMaterialType(listing.material_type)}
-                </span>
+                <div className="grid size-full place-items-center">
+                  <div className="grid gap-2 text-center">
+                    <span className="font-[var(--font-jetbrains)] text-2xl font-bold uppercase tracking-widest text-[#002627]/30">
+                      {formatMaterialType(listing.material_type)}
+                    </span>
+                    <span className="text-xs font-semibold uppercase tracking-widest text-[#002627]/20">
+                      No image uploaded
+                    </span>
+                  </div>
+                </div>
               )}
             </div>
-            <div className="mt-4 grid grid-cols-4 gap-3">
-              {listing.images.map((image) => (
-                <button
-                  className={
-                    displayedImageUrl === image.image_url
-                      ? "aspect-square overflow-hidden rounded-lg border-2 border-[#002627] bg-slate-100"
-                      : "aspect-square overflow-hidden rounded-lg border border-slate-200 bg-slate-100 transition hover:border-[#002627]/40"
-                  }
-                  key={image.id}
-                  onClick={() => setSelectedImageUrl(image.image_url)}
-                  type="button"
-                >
-                  <span
-                    aria-label={image.caption || listing.material_name}
-                    className="block size-full bg-cover bg-center"
-                    role="img"
-                    style={{ backgroundImage: `url(${image.image_url})` }}
-                  />
-                </button>
-              ))}
-              {isOwner ? (
-                <label className="relative grid aspect-square cursor-pointer place-items-center rounded-lg border border-dashed border-slate-300 bg-slate-50 p-2 text-center text-sm font-semibold text-[#404848] transition hover:border-[#002627] hover:bg-[#eff4ff]">
-                  <input
-                    accept="image/*"
-                    className="absolute inset-0 cursor-pointer opacity-0 disabled:cursor-not-allowed"
-                    disabled={isUploadingImage}
-                    onChange={handleImageUpload}
-                    type="file"
-                  />
-                  <span>{isUploadingImage ? "Uploading" : "Add image"}</span>
-                </label>
-              ) : null}
-            </div>
-            {uploadImageError ? (
-              <p className="mt-3 rounded bg-red-50 p-3 text-sm font-semibold text-red-800">
+
+            {/* Thumbnail strip */}
+            {(listing.images.length > 0 || isOwner) && (
+              <div className="flex gap-3 overflow-x-auto p-4">
+                {listing.images.map((image) => (
+                  <button
+                    className={
+                      displayedImageUrl === image.image_url
+                        ? "relative shrink-0 overflow-hidden rounded-lg border-2 border-[#002627] shadow-sm"
+                        : "relative shrink-0 overflow-hidden rounded-lg border border-slate-200 opacity-70 transition hover:border-[#002627]/50 hover:opacity-100"
+                    }
+                    key={image.id}
+                    onClick={() => setSelectedImageUrl(image.image_url)}
+                    style={{ width: 80, height: 64 }}
+                    type="button"
+                  >
+                    <img
+                      alt={image.caption || listing.material_name}
+                      className="size-full object-cover"
+                      src={image.image_url}
+                    />
+                  </button>
+                ))}
+                {isOwner && (
+                  <label
+                    className="relative grid shrink-0 cursor-pointer place-items-center overflow-hidden rounded-lg border border-dashed border-slate-300 bg-slate-50 transition hover:border-[#002627] hover:bg-[#eff4ff]"
+                    style={{ width: 80, height: 64 }}
+                  >
+                    <input
+                      accept="image/*"
+                      className="absolute inset-0 cursor-pointer opacity-0 disabled:cursor-not-allowed"
+                      disabled={isUploadingImage}
+                      onChange={handleImageUpload}
+                      type="file"
+                    />
+                    <span className="text-center text-[10px] font-bold uppercase leading-tight tracking-wide text-[#404848]">
+                      {isUploadingImage ? "…" : "+ Add"}
+                    </span>
+                  </label>
+                )}
+              </div>
+            )}
+
+            {uploadImageError && (
+              <p className="mx-4 mb-4 rounded-lg bg-red-50 p-3 text-sm font-semibold text-red-700">
                 {uploadImageError}
               </p>
-            ) : null}
+            )}
           </section>
 
+          {/* Material details */}
           <DetailPanel title="Material details">
             <dl className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               <DetailFact
@@ -298,8 +331,14 @@ export function ProductListingDetail({ listingId }: { listingId: string }) {
                 label="Average load"
                 value={`${listing.average_weight_per_load_mt} MT`}
               />
-              <DetailFact label="Remaining loads" value={listing.remaining_loads} />
-              <DetailFact label="MFI value" value={listing.mfi_value || "Not provided"} />
+              <DetailFact
+                label="Remaining loads"
+                value={String(listing.remaining_loads)}
+              />
+              <DetailFact
+                label="MFI value"
+                value={listing.mfi_value || "Not provided"}
+              />
               <DetailFact
                 label="Verification"
                 value={listing.seller_verified_snapshot ? "Verified" : "Unverified"}
@@ -307,33 +346,56 @@ export function ProductListingDetail({ listingId }: { listingId: string }) {
             </dl>
           </DetailPanel>
 
+          {/* Specifications */}
           <DetailPanel title="Specifications">
             {listing.specifications.length > 0 ? (
               <div className="grid gap-3">
                 {listing.specifications.map((specification) => (
                   <a
-                    className="grid gap-1 rounded-lg border border-slate-200 bg-slate-50 p-4 transition hover:border-[#002627]/30 hover:bg-[#eff4ff]"
+                    className="flex items-center justify-between gap-4 rounded-lg border border-slate-200 bg-slate-50 p-4 transition hover:border-[#002627]/30 hover:bg-[#eff4ff]"
                     href={specification.document_url}
                     key={specification.id}
                     rel="noreferrer"
                     target="_blank"
                   >
-                    <strong className="text-[#002627]">{specification.title}</strong>
-                    <span className="text-sm text-[#404848]">
-                      {specification.description || "Supporting document"}
-                    </span>
+                    <div className="grid gap-0.5">
+                      <strong className="text-sm font-semibold text-[#002627]">
+                        {specification.title}
+                      </strong>
+                      <span className="text-xs text-[#404848]">
+                        {specification.description || "Supporting document"}
+                      </span>
+                    </div>
+                    <svg
+                      className="shrink-0 text-[#404848]"
+                      fill="none"
+                      height="16"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      viewBox="0 0 24 24"
+                      width="16"
+                    >
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                      <polyline points="7 10 12 15 17 10" />
+                      <line x1="12" x2="12" y1="15" y2="3" />
+                    </svg>
                   </a>
                 ))}
               </div>
             ) : (
-              <p className="text-[#404848]">No specifications uploaded yet.</p>
+              <p className="text-sm text-[#404848]">
+                No specifications uploaded yet.
+              </p>
             )}
 
-            {isOwner ? (
+            {isOwner && (
               <form
                 className="mt-5 grid gap-3 border-t border-slate-200 pt-5"
                 onSubmit={handleSpecificationUpload}
               >
+                <p className="text-xs font-bold uppercase tracking-wide text-[#404848]">
+                  Upload a specification
+                </p>
                 <Field label="Document title">
                   <input
                     className={inputClassName}
@@ -352,7 +414,7 @@ export function ProductListingDetail({ listingId }: { listingId: string }) {
                     value={specDescription}
                   />
                 </Field>
-                <label className="relative grid min-h-12 cursor-pointer place-items-center rounded-lg border border-dashed border-slate-300 bg-slate-50 px-4 text-sm font-semibold text-[#404848]">
+                <label className="relative grid min-h-12 cursor-pointer place-items-center rounded-lg border border-dashed border-slate-300 bg-slate-50 px-4 text-sm font-semibold text-[#404848] transition hover:border-[#002627] hover:bg-[#eff4ff]">
                   <input
                     className="absolute inset-0 cursor-pointer opacity-0"
                     onChange={(event) =>
@@ -363,72 +425,102 @@ export function ProductListingDetail({ listingId }: { listingId: string }) {
                   <span>{specFile?.name ?? "Choose document"}</span>
                 </label>
                 <button
-                  className="min-h-11 rounded-lg bg-[#002627] px-4 font-semibold text-white transition hover:bg-slate-900 disabled:cursor-not-allowed disabled:opacity-60"
+                  className="min-h-11 rounded-lg bg-[#002627] px-4 font-semibold text-white transition hover:bg-slate-900 disabled:cursor-not-allowed disabled:opacity-50"
                   disabled={isUploadingSpec || !specFile || !specTitle.trim()}
                   type="submit"
                 >
-                  {isUploadingSpec ? "Uploading..." : "Upload specification"}
+                  {isUploadingSpec ? "Uploading…" : "Upload specification"}
                 </button>
-                {uploadSpecError ? (
-                  <p className="rounded bg-red-50 p-3 text-sm font-semibold text-red-800">
+                {uploadSpecError && (
+                  <p className="rounded-lg bg-red-50 p-3 text-sm font-semibold text-red-700">
                     {uploadSpecError}
                   </p>
-                ) : null}
+                )}
               </form>
-            ) : null}
+            )}
           </DetailPanel>
         </div>
 
-        <aside className="h-fit rounded-lg border border-slate-200 bg-white p-6 shadow-sm xl:sticky xl:top-6">
-          <div className="border-b border-slate-200 pb-5">
-            <p className="font-[var(--font-jetbrains)] text-xs font-bold uppercase text-[#006d40]">
+        {/* Right sidebar */}
+        <aside className="h-fit rounded-xl border border-slate-200 bg-white p-6 shadow-sm xl:sticky xl:top-6">
+          {/* Status */}
+          <div className="border-b border-slate-100 pb-5">
+            <p className="font-[var(--font-jetbrains)] text-xs font-bold uppercase tracking-wide text-[#006d40]">
               Listing status
             </p>
-            <h2 className="mt-2 font-[var(--font-hanken)] text-3xl font-semibold capitalize text-[#002627]">
+            <h2 className="mt-1.5 font-[var(--font-hanken)] text-3xl font-semibold capitalize text-[#002627]">
               {listing.status}
             </h2>
-            <p className="mt-2 text-sm leading-6 text-[#404848]">
-              Listed {new Date(listing.listed_at).toLocaleDateString()} and last
-              updated {new Date(listing.updated_at).toLocaleDateString()}.
+            <p className="mt-2 text-sm leading-relaxed text-[#404848]">
+              Listed {new Date(listing.listed_at).toLocaleDateString()} · updated{" "}
+              {new Date(listing.updated_at).toLocaleDateString()}
             </p>
           </div>
-          <div className="my-5 rounded-lg border border-slate-200 bg-[#eff4ff] p-5">
-            <span className="text-sm font-semibold text-[#404848]">
+
+          {/* Quantity callout */}
+          <div className="my-5 rounded-xl border border-[#d3e4fe] bg-[#eff4ff] p-5">
+            <span className="font-[var(--font-jetbrains)] text-xs font-bold uppercase tracking-wide text-[#404848]">
               Total quantity
             </span>
-            <strong className="mt-1 block font-[var(--font-hanken)] text-4xl text-[#002627]">
-              {listing.quantity_available_mt} MT
+            <strong className="mt-1.5 block font-[var(--font-hanken)] text-5xl font-semibold leading-none text-[#002627]">
+              {listing.quantity_available_mt}
+              <span className="ml-1 text-2xl font-medium text-[#404848]">MT</span>
             </strong>
-            <small className="mt-1 block text-[#404848]">
-              {listing.number_of_loads} computed loads
+            <small className="mt-2 block text-sm text-[#404848]">
+              {listing.number_of_loads} computed loads ·{" "}
+              {listing.average_weight_per_load_mt} MT avg
             </small>
           </div>
-          <button
-            className="min-h-12 w-full rounded-lg bg-[#002627] px-4 font-semibold text-white transition hover:bg-slate-900"
-            type="button"
-          >
-            {counterpartyLabel}
-          </button>
-          {!isOwner ? (
-            <button
-              className="mt-3 min-h-12 w-full rounded-lg border border-slate-200 bg-white px-4 font-semibold text-[#002627] transition hover:bg-slate-50"
-              type="button"
-            >
-              Message owner
-            </button>
-          ) : listing.status === "draft" && listing.images.length === 0 ? (
-            <p className="mt-4 rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm font-semibold text-amber-900">
-              Upload at least one image to activate this draft automatically.
-            </p>
-          ) : null}
-          {listing.seller_notes ? (
-            <div className="mt-5 rounded-lg border-l-4 border-[#006d40] bg-[#ecfdf5] p-4">
-              <strong className="text-[#006d40]">Notes</strong>
-              <p className="mt-1 text-sm leading-6 text-[#404848]">
+
+          {/* CTA */}
+          {isOwner ? (
+            <>
+              <Link
+                className="flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#002627] px-4 font-semibold text-white transition hover:bg-slate-900"
+                href={`/product/${listingId}/edit`}
+              >
+                <svg fill="none" height="16" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" width="16">
+                  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                  <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                </svg>
+                Manage Listing
+              </Link>
+              {listing.status === "draft" && (
+                <p className="mt-3 rounded-xl border border-amber-200 bg-amber-50 p-3 text-sm font-medium text-amber-900">
+                  {listing.images.length === 0
+                    ? "Upload at least one image to activate this draft automatically."
+                    : "This listing is a draft. Activate it from the edit page."}
+                </p>
+              )}
+            </>
+          ) : (
+            <>
+              <button
+                className="min-h-12 w-full rounded-xl bg-[#002627] px-4 font-semibold text-white transition hover:bg-slate-900"
+                type="button"
+              >
+                {nonOwnerLabel}
+              </button>
+              <button
+                className="mt-3 min-h-12 w-full rounded-xl border border-slate-200 bg-white px-4 font-semibold text-[#002627] transition hover:bg-slate-50"
+                type="button"
+              >
+                Message owner
+              </button>
+            </>
+          )}
+
+          {/* Seller notes */}
+          {listing.seller_notes && (
+            <div className="mt-5 rounded-xl border-l-4 border-[#006d40] bg-[#ecfdf5] p-4">
+              <strong className="font-[var(--font-jetbrains)] text-xs font-bold uppercase tracking-wide text-[#006d40]">
+                Notes
+              </strong>
+              <p className="mt-1.5 text-sm leading-relaxed text-[#404848]">
                 {listing.seller_notes}
               </p>
             </div>
-          ) : null}
+          )}
         </aside>
       </section>
     </div>
@@ -443,7 +535,7 @@ function DetailPanel({
   title: string;
 }) {
   return (
-    <section className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+    <section className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
       <h2 className="mb-5 font-[var(--font-hanken)] text-2xl font-semibold text-[#002627]">
         {title}
       </h2>
@@ -452,13 +544,13 @@ function DetailPanel({
   );
 }
 
-function DetailFact({ label, value }: { label: string; value: React.ReactNode }) {
+function DetailFact({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
-      <dt className="font-[var(--font-jetbrains)] text-[11px] font-bold uppercase text-slate-500">
+    <div className="rounded-lg border border-slate-100 bg-slate-50 p-4">
+      <dt className="font-[var(--font-jetbrains)] text-[11px] font-bold uppercase tracking-wide text-slate-400">
         {label}
       </dt>
-      <dd className="mt-1 font-semibold text-[#0b1c30]">{value}</dd>
+      <dd className="mt-1.5 font-semibold text-[#0b1c30]">{value}</dd>
     </div>
   );
 }
@@ -466,7 +558,7 @@ function DetailFact({ label, value }: { label: string; value: React.ReactNode })
 function Field({ children, label }: { children: React.ReactNode; label: string }) {
   return (
     <label className="grid gap-2">
-      <span className="font-[var(--font-jetbrains)] text-xs font-bold uppercase text-[#404848]">
+      <span className="font-[var(--font-jetbrains)] text-xs font-bold uppercase tracking-wide text-[#404848]">
         {label}
       </span>
       {children}

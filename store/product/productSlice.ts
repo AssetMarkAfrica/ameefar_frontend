@@ -110,9 +110,10 @@ function listingToSummary(listing: ProductListing): ProductListingSummary {
 
 function upsertListingSummary(
   listings: ProductListingSummary[],
-  listing: ProductListing | ProductListingSummary,
+  listing: ProductListing | ProductListingSummary | undefined | null,
 ): ProductListingSummary[] {
-  const summary = "images" in listing ? listingToSummary(listing) : listing;
+  if (!listing || typeof listing !== "object") return listings;
+  const summary = "images" in listing ? listingToSummary(listing as ProductListing) : (listing as ProductListingSummary);
   const existingIndex = listings.findIndex((item) => item.id === summary.id);
 
   if (existingIndex === -1) {
@@ -157,6 +158,10 @@ function syncSummaryLists(state: ProductState, listing: ProductListing) {
   state.myListings = upsertListingSummary(state.myListings, listing);
 }
 
+function extractListing(payload: any): ProductListing {
+  return payload.data ?? payload;
+}
+
 export const productSlice = createSlice({
   name: "product",
   initialState,
@@ -182,11 +187,12 @@ export const productSlice = createSlice({
         state.errors.createListing = null;
       })
       .addCase(createProductListingThunk.fulfilled, (state, action) => {
+        const listing = extractListing(action.payload);
         state.status.createListing = "succeeded";
-        state.currentListing = action.payload.data;
+        state.currentListing = listing;
         state.myListings = upsertListingSummary(
           state.myListings,
-          action.payload.data,
+          listing,
         );
       })
       .addCase(createProductListingThunk.rejected, (state, action) => {
@@ -198,9 +204,10 @@ export const productSlice = createSlice({
         state.errors.updateListing = null;
       })
       .addCase(updateProductListingThunk.fulfilled, (state, action) => {
+        const listing = extractListing(action.payload);
         state.status.updateListing = "succeeded";
-        state.currentListing = action.payload.data;
-        syncSummaryLists(state, action.payload.data);
+        state.currentListing = listing;
+        syncSummaryLists(state, listing);
       })
       .addCase(updateProductListingThunk.rejected, (state, action) => {
         state.status.updateListing = "failed";
@@ -211,9 +218,10 @@ export const productSlice = createSlice({
         state.errors.activateListing = null;
       })
       .addCase(activateProductListingThunk.fulfilled, (state, action) => {
+        const listing = extractListing(action.payload);
         state.status.activateListing = "succeeded";
-        state.currentListing = action.payload.data;
-        syncSummaryLists(state, action.payload.data);
+        state.currentListing = listing;
+        syncSummaryLists(state, listing);
       })
       .addCase(activateProductListingThunk.rejected, (state, action) => {
         state.status.activateListing = "failed";
@@ -224,9 +232,10 @@ export const productSlice = createSlice({
         state.errors.fetchListing = null;
       })
       .addCase(fetchProductListingThunk.fulfilled, (state, action) => {
+        const listing = extractListing(action.payload);
         state.status.fetchListing = "succeeded";
-        state.currentListing = action.payload.data;
-        syncSummaryLists(state, action.payload.data);
+        state.currentListing = listing;
+        syncSummaryLists(state, listing);
       })
       .addCase(fetchProductListingThunk.rejected, (state, action) => {
         state.status.fetchListing = "failed";
@@ -268,7 +277,7 @@ export const productSlice = createSlice({
         if (state.currentListing?.id === action.meta.arg.listingId) {
           state.currentListing.images = upsertImage(
             state.currentListing.images,
-            action.payload.data,
+            action.payload.data ?? (action.payload as any),
           );
           syncSummaryLists(state, state.currentListing);
         }
@@ -282,9 +291,10 @@ export const productSlice = createSlice({
         state.errors.uploadImageAndActivate = null;
       })
       .addCase(uploadProductImageAndActivateThunk.fulfilled, (state, action) => {
+        const listing = extractListing(action.payload.listing);
         state.status.uploadImageAndActivate = "succeeded";
-        state.currentListing = action.payload.listing.data;
-        syncSummaryLists(state, action.payload.listing.data);
+        state.currentListing = listing;
+        syncSummaryLists(state, listing);
       })
       .addCase(uploadProductImageAndActivateThunk.rejected, (state, action) => {
         state.status.uploadImageAndActivate = "failed";
@@ -302,7 +312,7 @@ export const productSlice = createSlice({
         if (state.currentListing?.id === action.meta.arg.listingId) {
           state.currentListing.specifications = upsertSpecification(
             state.currentListing.specifications,
-            action.payload.data,
+            action.payload.data ?? (action.payload as any),
           );
         }
       })

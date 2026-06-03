@@ -76,6 +76,7 @@ export function CreateProductListingForm() {
   const [form, setForm] = useState<ListingFormState>(initialFormState);
   const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
   const selectedListingType =
     form.listing_type && allowedListingTypes.includes(form.listing_type)
       ? form.listing_type
@@ -96,9 +97,7 @@ export function CreateProductListingForm() {
     event.preventDefault();
     setSuccessMessage(null);
 
-    if (!token || !selectedListingType || !form.material_type) {
-      return;
-    }
+    if (!token || !selectedListingType || !form.material_type) return;
 
     const created = await dispatch(
       createProductListingThunk({
@@ -107,9 +106,7 @@ export function CreateProductListingForm() {
         status: "draft",
         material_type: form.material_type,
         material_name: form.material_name.trim(),
-        average_weight_per_load_mt: formatDecimal(
-          form.average_weight_per_load_mt,
-        ),
+        average_weight_per_load_mt: formatDecimal(form.average_weight_per_load_mt),
         quantity_available_mt: formatDecimal(form.quantity_available_mt),
         material_location_country: form.material_location_country,
         availability_status: form.availability_status,
@@ -160,19 +157,19 @@ export function CreateProductListingForm() {
 
   if (allowedListingTypes.length === 0) {
     return (
-      <section className="mx-auto grid max-w-2xl gap-4 rounded-lg border border-slate-200 bg-white p-8 shadow-sm">
-        <p className="font-[var(--font-jetbrains)] text-xs font-bold uppercase text-[#006d40]">
+      <section className="mx-auto grid max-w-2xl gap-5 rounded-xl border border-slate-200 bg-white p-8 shadow-sm">
+        <p className="font-[var(--font-jetbrains)] text-xs font-bold uppercase tracking-wide text-[#006d40]">
           Role required
         </p>
         <h1 className="font-[var(--font-hanken)] text-3xl font-semibold text-[#002627]">
-          Your account cannot create product listings yet.
+          Your account cannot create listings yet.
         </h1>
         <p className="text-[#404848]">
-          Product listing creation is available to buyer, seller, and both-role
-          accounts. Update your account role before posting material.
+          Listing creation is available to seller, buyer, and both-role accounts.
+          Update your profile role before posting material.
         </p>
         <Link
-          className="inline-flex min-h-11 w-max items-center rounded-lg bg-[#002627] px-5 font-semibold text-white"
+          className="inline-flex min-h-11 w-max items-center rounded-xl bg-[#002627] px-5 font-semibold text-white transition hover:bg-slate-900"
           href="/profile"
         >
           Go to profile
@@ -183,9 +180,10 @@ export function CreateProductListingForm() {
 
   return (
     <div className="mx-auto grid max-w-5xl gap-8">
+      {/* Page header */}
       <section className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <div>
-          <p className="font-[var(--font-jetbrains)] text-xs font-bold uppercase text-[#006d40]">
+          <p className="font-[var(--font-jetbrains)] text-xs font-bold uppercase tracking-wide text-[#006d40]">
             Inventory / New listing
           </p>
           <h1 className="mt-2 font-[var(--font-hanken)] text-4xl font-semibold text-[#002627]">
@@ -197,7 +195,7 @@ export function CreateProductListingForm() {
           </p>
         </div>
         <Link
-          className="inline-flex min-h-11 items-center justify-center rounded-lg border border-slate-200 bg-white px-5 font-semibold text-[#002627] shadow-sm transition hover:bg-slate-50"
+          className="inline-flex min-h-11 items-center justify-center rounded-xl border border-slate-200 bg-white px-5 font-semibold text-[#002627] shadow-sm transition hover:bg-slate-50"
           href="/product"
         >
           Back to market
@@ -205,27 +203,31 @@ export function CreateProductListingForm() {
       </section>
 
       <form className="grid gap-6" onSubmit={handleSubmit}>
+        {/* Status banner */}
         {(createError || uploadError || successMessage) && (
           <div
             className={
               successMessage
-                ? "grid gap-1 rounded-lg border border-emerald-200 bg-emerald-50 p-4 text-emerald-800"
-                : "grid gap-1 rounded-lg border border-red-200 bg-red-50 p-4 text-red-800"
+                ? "grid gap-1 rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-emerald-800"
+                : "grid gap-1 rounded-xl border border-red-200 bg-red-50 p-4 text-red-800"
             }
           >
-            <strong>{successMessage ? "Saved" : "Could not save listing"}</strong>
-            <span>{successMessage ?? createError ?? uploadError}</span>
+            <strong className="text-sm font-semibold">
+              {successMessage ? "Saved" : "Could not save listing"}
+            </strong>
+            <span className="text-sm">{successMessage ?? createError ?? uploadError}</span>
           </div>
         )}
 
+        {/* Listing type */}
         <FormSection title="Listing context" badge="Draft mode">
           <div className="grid gap-3 sm:grid-cols-2">
             {allowedListingTypes.map((type) => (
               <label
                 className={
                   selectedListingType === type
-                    ? "grid cursor-pointer gap-1 rounded-lg border-2 border-[#002627] bg-[#eff4ff] p-4 text-[#002627]"
-                    : "grid cursor-pointer gap-1 rounded-lg border border-slate-200 bg-slate-50 p-4 text-[#404848] transition hover:border-[#002627]/30 hover:bg-[#eff4ff]"
+                    ? "grid cursor-pointer gap-1.5 rounded-xl border-2 border-[#002627] bg-[#eff4ff] p-4 text-[#002627]"
+                    : "grid cursor-pointer gap-1.5 rounded-xl border border-slate-200 bg-slate-50 p-4 text-[#404848] transition hover:border-[#002627]/30 hover:bg-[#eff4ff]"
                 }
                 key={type}
               >
@@ -238,7 +240,7 @@ export function CreateProductListingForm() {
                   type="radio"
                   value={type}
                 />
-                <span className="font-[var(--font-jetbrains)] text-xs font-bold uppercase">
+                <span className="font-[var(--font-jetbrains)] text-xs font-bold uppercase tracking-wide">
                   {type === "sell" ? "Sell" : "Buy"}
                 </span>
                 <strong className="font-[var(--font-hanken)] text-xl">
@@ -249,6 +251,7 @@ export function CreateProductListingForm() {
           </div>
         </FormSection>
 
+        {/* Material info */}
         <FormSection title="Material information">
           <div className="grid gap-5 md:grid-cols-2">
             <Field label="Material name" className="md:col-span-2">
@@ -295,6 +298,7 @@ export function CreateProductListingForm() {
           </div>
         </FormSection>
 
+        {/* Quantity & availability */}
         <FormSection title="Quantity and availability">
           <div className="grid gap-5 md:grid-cols-2">
             <Field label="Total quantity, MT">
@@ -364,6 +368,7 @@ export function CreateProductListingForm() {
           </div>
         </FormSection>
 
+        {/* Details */}
         <FormSection title="Details">
           <div className="grid gap-5">
             <Field label="Description">
@@ -376,7 +381,7 @@ export function CreateProductListingForm() {
                 value={form.description}
               />
             </Field>
-            <Field label="Seller or buyer notes">
+            <Field label="Seller / buyer notes">
               <textarea
                 className={textareaClassName}
                 onChange={(event) => updateForm("seller_notes", event.target.value)}
@@ -388,8 +393,9 @@ export function CreateProductListingForm() {
           </div>
         </FormSection>
 
-        <FormSection title="Material photos" badge="Activates after first upload">
-          <label className="relative grid min-h-40 cursor-pointer place-items-center gap-2 rounded-lg border-2 border-dashed border-slate-300 bg-slate-50 p-8 text-center transition hover:border-[#002627] hover:bg-[#eff4ff]">
+        {/* Photos */}
+        <FormSection title="Material photos" badge="Activates on first upload">
+          <label className="relative grid min-h-40 cursor-pointer place-items-center gap-2 rounded-xl border-2 border-dashed border-slate-300 bg-slate-50 p-8 text-center transition hover:border-[#002627] hover:bg-[#eff4ff]">
             <input
               accept="image/*"
               className="absolute inset-0 cursor-pointer opacity-0"
@@ -397,32 +403,61 @@ export function CreateProductListingForm() {
               onChange={handleFiles}
               type="file"
             />
-            <strong className="font-[var(--font-hanken)] text-xl text-[#002627]">
-              Upload material images
-            </strong>
-            <span className="text-sm text-[#404848]">
-              {imageFiles.length > 0
-                ? `${imageFiles.length} file${
-                    imageFiles.length === 1 ? "" : "s"
-                  } selected`
-                : "PNG, JPG, GIF, or WebP"}
-            </span>
+            {imageFiles.length > 0 ? (
+              <div className="grid gap-2">
+                {/* Preview thumbnails */}
+                <div className="flex flex-wrap justify-center gap-2">
+                  {imageFiles.map((file, i) => (
+                    <img
+                      alt={file.name}
+                      className="h-16 w-16 rounded-lg object-cover"
+                      key={i}
+                      src={URL.createObjectURL(file)}
+                    />
+                  ))}
+                </div>
+                <span className="text-sm font-semibold text-[#002627]">
+                  {imageFiles.length} file{imageFiles.length === 1 ? "" : "s"} selected
+                </span>
+              </div>
+            ) : (
+              <div className="grid gap-2">
+                <svg
+                  className="mx-auto text-slate-300"
+                  fill="none"
+                  height="40"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  viewBox="0 0 24 24"
+                  width="40"
+                >
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                  <polyline points="17 8 12 3 7 8" />
+                  <line x1="12" x2="12" y1="3" y2="15" />
+                </svg>
+                <strong className="font-[var(--font-hanken)] text-lg text-[#002627]">
+                  Upload material images
+                </strong>
+                <span className="text-sm text-[#404848]">PNG, JPG, GIF, or WebP</span>
+              </div>
+            )}
           </label>
         </FormSection>
 
+        {/* Sticky footer */}
         <div className="sticky bottom-0 z-20 -mx-4 flex justify-end gap-3 border-t border-slate-200 bg-white/95 p-4 backdrop-blur md:-mx-10 md:px-10">
           <Link
-            className="inline-flex min-h-11 items-center rounded-lg border border-slate-200 bg-white px-5 font-semibold text-[#404848] transition hover:bg-slate-50"
+            className="inline-flex min-h-11 items-center rounded-xl border border-slate-200 bg-white px-5 font-semibold text-[#404848] transition hover:bg-slate-50"
             href="/product"
           >
             Cancel
           </Link>
           <button
-            className="min-h-11 rounded-lg bg-[#002627] px-5 font-semibold text-white transition hover:bg-slate-900 disabled:cursor-not-allowed disabled:opacity-60"
+            className="min-h-11 rounded-xl bg-[#002627] px-5 font-semibold text-white transition hover:bg-slate-900 disabled:cursor-not-allowed disabled:opacity-50"
             disabled={isSubmitting}
             type="submit"
           >
-            {isSubmitting ? "Saving..." : "Save listing"}
+            {isSubmitting ? "Saving…" : "Save listing"}
           </button>
         </div>
       </form>
@@ -430,11 +465,15 @@ export function CreateProductListingForm() {
   );
 }
 
+// ─── Shared classes ────────────────────────────────────────────────────────────
+
 const inputClassName =
-  "min-h-12 rounded-lg border border-slate-200 bg-slate-50 px-4 text-[#0b1c30] outline-none transition focus:border-[#002627] focus:ring-2 focus:ring-[#002627]/20";
+  "min-h-12 w-full rounded-lg border border-slate-200 bg-slate-50 px-4 text-[#0b1c30] outline-none transition focus:border-[#002627] focus:ring-2 focus:ring-[#002627]/20";
 
 const textareaClassName =
-  "min-h-28 rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-[#0b1c30] outline-none transition focus:border-[#002627] focus:ring-2 focus:ring-[#002627]/20";
+  "w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-[#0b1c30] outline-none transition focus:border-[#002627] focus:ring-2 focus:ring-[#002627]/20 resize-none";
+
+// ─── Sub-components ────────────────────────────────────────────────────────────
 
 function FormSection({
   badge,
@@ -446,16 +485,16 @@ function FormSection({
   title: string;
 }) {
   return (
-    <section className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
-      <div className="flex items-center justify-between gap-4 border-b border-slate-200 bg-slate-50 px-5 py-4">
-        <h2 className="font-[var(--font-hanken)] text-2xl font-semibold text-[#002627]">
+    <section className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+      <div className="flex items-center justify-between gap-4 border-b border-slate-100 bg-slate-50 px-5 py-4">
+        <h2 className="font-[var(--font-hanken)] text-xl font-semibold text-[#002627]">
           {title}
         </h2>
-        {badge ? (
-          <span className="rounded-full bg-[#eff4ff] px-3 py-1 font-[var(--font-jetbrains)] text-xs font-bold uppercase text-[#002627]">
+        {badge && (
+          <span className="rounded-full bg-[#eff4ff] px-3 py-1 font-[var(--font-jetbrains)] text-[10px] font-bold uppercase tracking-wide text-[#002627]">
             {badge}
           </span>
-        ) : null}
+        )}
       </div>
       <div className="p-5">{children}</div>
     </section>
@@ -473,7 +512,7 @@ function Field({
 }) {
   return (
     <label className={`grid gap-2 ${className}`}>
-      <span className="font-[var(--font-jetbrains)] text-xs font-bold uppercase text-[#404848]">
+      <span className="font-[var(--font-jetbrains)] text-xs font-bold uppercase tracking-wide text-[#404848]">
         {label}
       </span>
       {children}
@@ -483,10 +522,6 @@ function Field({
 
 function formatDecimal(value: string, precision = 2): string {
   const numericValue = Number(value);
-
-  if (Number.isNaN(numericValue)) {
-    return value;
-  }
-
+  if (Number.isNaN(numericValue)) return value;
   return numericValue.toFixed(precision);
 }
