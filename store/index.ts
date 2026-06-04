@@ -4,6 +4,7 @@ import authReducer, {
   createInitialAuthState,
   type AuthState,
 } from "./auth/authSlice";
+import biddingReducer from "./bidding/biddingSlice";
 import productReducer from "./product/productSlice";
 import profileReducer from "./profile/profileSlice";
 import type { User } from "@/types/auth";
@@ -83,6 +84,7 @@ const preloadedAuthState = readStoredAuthState();
 export const store = configureStore({
   reducer: {
     auth: authReducer,
+    bidding: biddingReducer,
     product: productReducer,
     profile: profileReducer,
   },

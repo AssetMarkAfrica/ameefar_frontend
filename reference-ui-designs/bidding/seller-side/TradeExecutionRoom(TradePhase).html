@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Ameefar Pro | Trade Execution Room</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@100..900&amp;family=Inter:wght@100..900&amp;family=JetBrains+Mono:wght@100..900&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-container": "#06b77f",
+                        "on-error": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary": "#006d40",
+                        "on-primary-fixed-variant": "#224d4e",
+                        "on-secondary-fixed": "#002110",
+                        "background": "#f8f9ff",
+                        "primary-fixed": "#beebeb",
+                        "surface-container-highest": "#d3e4fe",
+                        "on-secondary-fixed-variant": "#00522f",
+                        "surface-gray": "#F8FAFC",
+                        "on-error-container": "#93000a",
+                        "surface-variant": "#d3e4fe",
+                        "on-tertiary-fixed-variant": "#005236",
+                        "on-background": "#0b1c30",
+                        "tertiary-fixed": "#6ffbbe",
+                        "surface-container": "#e5eeff",
+                        "inverse-on-surface": "#eaf1ff",
+                        "primary-container": "#0f3d3e",
+                        "trust-green-subtle": "#ECFDF5",
+                        "on-primary": "#ffffff",
+                        "secondary-container": "#80f7b1",
+                        "inverse-primary": "#a3cfcf",
+                        "error-container": "#ffdad6",
+                        "on-primary-fixed": "#002020",
+                        "secondary-fixed-dim": "#66dd99",
+                        "on-secondary-container": "#007243",
+                        "tertiary-container": "#00402a",
+                        "on-secondary": "#ffffff",
+                        "primary": "#002627",
+                        "border-subtle": "#E2E8F0",
+                        "error": "#ba1a1a",
+                        "surface-bright": "#f8f9ff",
+                        "on-surface": "#0b1c30",
+                        "surface": "#f8f9ff",
+                        "on-surface-variant": "#404848",
+                        "surface-dim": "#cbdbf5",
+                        "primary-fixed-dim": "#a3cfcf",
+                        "inverse-surface": "#213145",
+                        "surface-container-high": "#dce9ff",
+                        "surface-container-low": "#eff4ff",
+                        "secondary-fixed": "#83fab4",
+                        "on-tertiary": "#ffffff",
+                        "ameefar-navy": "#0F172A",
+                        "on-tertiary-fixed": "#002113",
+                        "on-primary-container": "#7da8a8",
+                        "surface-tint": "#3b6566",
+                        "tertiary": "#002819",
+                        "tertiary-fixed-dim": "#4edea3",
+                        "outline": "#717978",
+                        "outline-variant": "#c0c8c8"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "base": "4px",
+                        "container-max": "1440px",
+                        "margin-mobile": "16px",
+                        "gutter": "24px",
+                        "margin-desktop": "40px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["JetBrains Mono"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "body-md": ["Inter"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "body-sm": ["Inter"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-md": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+
+        .step-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: .5;
+            }
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #E2E8F0;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body class="bg-surface-gray font-body-md text-on-surface">
+    <!-- Top Navigation Bar -->
+    <header
+        class="fixed top-0 w-full z-50 bg-surface-container-lowest border-b border-border-subtle h-16 flex justify-between items-center px-margin-desktop max-w-container-max mx-auto left-0 right-0">
+        <div class="flex items-center gap-8">
+            <span class="text-headline-md font-headline-md font-bold text-primary">Ameefar</span>
+            <nav class="hidden md:flex gap-6">
+                <a class="text-on-surface-variant font-body-md text-body-md hover:text-primary transition-colors duration-200"
+                    href="#">Marketplace</a>
+                <a class="text-primary font-bold border-b-2 border-primary pb-1" href="#">My Trades</a>
+                <a class="text-on-surface-variant font-body-md text-body-md hover:text-primary transition-colors duration-200"
+                    href="#">Reports</a>
+            </nav>
+        </div>
+        <div class="flex items-center gap-4">
+            <button class="material-symbols-outlined text-outline">notifications</button>
+            <button class="material-symbols-outlined text-outline">settings</button>
+            <img alt="User avatar" class="w-8 h-8 rounded-full border border-border-subtle"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQVAmpUMEgRSS1b7CIae5QHq63vY-BiXsiD6Pl2g_6VMCGQKUPRoNQG3Lbs8b8IsrcApbsJoXNEuCpNeuSgFPl6JFHGwohHWr2E_Eud5DkYu1jNOXkrr63niUo0OzanUE-FK6mYW76yhoB9EvqBcvGtVdTkIiN7q-wBeTdzTRGGYs-uN4zKdCnP2DUGLP8dmVZwRfjpUoKji5xa7I6s4qp_L0bup2gMvTzhITfR8xoE2RYvcynQToZoqnm9sjI7W12lCwezjKYi8-d" />
+        </div>
+    </header>
+    <!-- Sidebar Navigation -->
+    <aside
+        class="h-screen w-64 fixed left-0 top-0 bg-surface-gray border-r border-border-subtle pt-20 px-4 flex flex-col hidden md:flex">
+        <div class="flex items-center gap-3 px-4 py-6 mb-4">
+            <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
+                <span class="material-symbols-outlined text-on-primary">storefront</span>
+            </div>
+            <div>
+                <p class="font-headline-md text-headline-md text-primary leading-tight text-sm">Ameefar Pro</p>
+                <p class="font-label-md text-label-md text-outline">Enterprise Tier</p>
+            </div>
+        </div>
+        <nav class="flex-1 space-y-1">
+            <a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-low transition-colors rounded-lg"
+                href="#">
+                <span class="material-symbols-outlined">dashboard</span>
+                <span class="font-label-md text-label-md">Dashboard</span>
+            </a>
+            <a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-low transition-colors rounded-lg"
+                href="#">
+                <span class="material-symbols-outlined">storefront</span>
+                <span class="font-label-md text-label-md">Marketplace</span>
+            </a>
+            <a class="flex items-center gap-3 px-4 py-3 bg-surface-container-high text-primary rounded-lg font-bold"
+                href="#">
+                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">handshake</span>
+                <span class="font-label-md text-label-md">Negotiations</span>
+            </a>
+            <a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-low transition-colors rounded-lg"
+                href="#">
+                <span class="material-symbols-outlined">fact_check</span>
+                <span class="font-label-md text-label-md">Inspections</span>
+            </a>
+            <a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-low transition-colors rounded-lg"
+                href="#">
+                <span class="material-symbols-outlined">analytics</span>
+                <span class="font-label-md text-label-md">Analytics</span>
+            </a>
+        </nav>
+        <div class="border-t border-border-subtle py-4 space-y-1">
+            <a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-low transition-colors rounded-lg"
+                href="#">
+                <span class="material-symbols-outlined">help</span>
+                <span class="font-label-md text-label-md">Support</span>
+            </a>
+            <a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-low transition-colors rounded-lg"
+                href="#">
+                <span class="material-symbols-outlined">settings</span>
+                <span class="font-label-md text-label-md">Settings</span>
+            </a>
+        </div>
+    </aside>
+    <!-- Main Content Canvas -->
+    <main class="md:pl-64 pt-16 min-h-screen flex flex-col">
+        <!-- Progress Stepper Header -->
+        <section class="bg-white border-b border-border-subtle px-margin-desktop py-8">
+            <div class="max-w-4xl mx-auto">
+                <div class="flex items-center justify-between mb-2">
+                    <h1 class="font-headline-md text-headline-md text-primary">Trade #TR-4921 Execution</h1>
+                    <span
+                        class="px-3 py-1 bg-trust-green-subtle text-secondary font-label-md text-[10px] rounded-full uppercase tracking-wider">Active
+                        Room</span>
+                </div>
+                <div class="relative mt-8">
+                    <!-- Progress Line -->
+                    <div class="absolute top-5 left-0 w-full h-0.5 bg-outline-variant"></div>
+                    <div class="absolute top-5 left-0 w-1/4 h-0.5 bg-secondary transition-all duration-700"></div>
+                    <div class="relative flex justify-between">
+                        <!-- Step 1: Agreed -->
+                        <div class="flex flex-col items-center group">
+                            <div
+                                class="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-white z-10 shadow-lg shadow-secondary/20 transition-transform group-hover:scale-110">
+                                <span class="material-symbols-outlined">check</span>
+                            </div>
+                            <span class="mt-3 font-label-md text-label-md text-primary font-bold">Agreed</span>
+                        </div>
+                        <!-- Step 2: Contract Sent -->
+                        <div class="flex flex-col items-center group">
+                            <div
+                                class="w-10 h-10 rounded-full bg-white border-2 border-secondary flex items-center justify-center text-secondary z-10 step-pulse shadow-sm">
+                                <span class="material-symbols-outlined">description</span>
+                            </div>
+                            <span class="mt-3 font-label-md text-label-md text-secondary font-medium">Contract
+                                Sent</span>
+                        </div>
+                        <!-- Step 3: Contract Signed -->
+                        <div class="flex flex-col items-center opacity-40">
+                            <div
+                                class="w-10 h-10 rounded-full bg-white border-2 border-outline-variant flex items-center justify-center text-outline-variant z-10">
+                                <span class="material-symbols-outlined">draw</span>
+                            </div>
+                            <span class="mt-3 font-label-md text-label-md">Contract Signed</span>
+                        </div>
+                        <!-- Step 4: In Progress -->
+                        <div class="flex flex-col items-center opacity-40">
+                            <div
+                                class="w-10 h-10 rounded-full bg-white border-2 border-outline-variant flex items-center justify-center text-outline-variant z-10">
+                                <span class="material-symbols-outlined">local_shipping</span>
+                            </div>
+                            <span class="mt-3 font-label-md text-label-md">In Progress</span>
+                        </div>
+                        <!-- Step 5: Completed -->
+                        <div class="flex flex-col items-center opacity-40">
+                            <div
+                                class="w-10 h-10 rounded-full bg-white border-2 border-outline-variant flex items-center justify-center text-outline-variant z-10">
+                                <span class="material-symbols-outlined">verified</span>
+                            </div>
+                            <span class="mt-3 font-label-md text-label-md">Completed</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Execution Workspace -->
+        <div class="flex-1 p-8 grid grid-cols-1 lg:grid-cols-12 gap-gutter max-w-container-max mx-auto w-full">
+            <!-- Left Panel: Trade Details & Action -->
+            <div class="lg:col-span-7 space-y-6">
+                <!-- Trade Details Card -->
+                <div class="bg-white rounded-xl border border-border-subtle shadow-sm overflow-hidden">
+                    <div class="p-6 border-b border-border-subtle bg-surface-gray flex justify-between items-center">
+                        <h2 class="font-headline-md text-headline-md text-primary text-lg">Trade Specifications</h2>
+                        <span class="text-label-md font-label-md text-outline">Ref: ID_8820X</span>
+                    </div>
+                    <div class="p-6 grid grid-cols-3 gap-8">
+                        <div>
+                            <p class="text-body-sm text-outline-variant uppercase tracking-wide font-bold mb-1">Quantity
+                            </p>
+                            <p class="font-label-md text-headline-md text-primary">250.00 <span
+                                    class="text-body-sm font-body-sm text-on-surface-variant">MT</span></p>
+                            <p class="text-body-sm text-outline mt-1">Industrial Grade Polymer</p>
+                        </div>
+                        <div>
+                            <p class="text-body-sm text-outline-variant uppercase tracking-wide font-bold mb-1">Unit
+                                Price</p>
+                            <p class="font-label-md text-headline-md text-primary">$1,420.00</p>
+                            <p class="text-body-sm text-outline mt-1">Total: $355,000.00</p>
+                        </div>
+                        <div>
+                            <p class="text-body-sm text-outline-variant uppercase tracking-wide font-bold mb-1">Delivery
+                                Date</p>
+                            <p class="font-label-md text-headline-md text-primary">Oct 14, 2024</p>
+                            <p class="text-body-sm text-outline mt-1">FOB Rotterdam</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Action Area: Send Contract -->
+                <div
+                    class="bg-white rounded-xl border-2 border-dashed border-border-subtle p-8 text-center transition-all hover:border-primary-container group">
+                    <div
+                        class="w-16 h-16 bg-surface-container-low rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-primary-container transition-colors">
+                        <span
+                            class="material-symbols-outlined text-primary-container text-3xl group-hover:text-on-primary-container">upload_file</span>
+                    </div>
+                    <h3 class="font-headline-md text-headline-md text-primary mb-2">Upload Signed Contract</h3>
+                    <p class="text-body-md text-on-surface-variant max-w-sm mx-auto mb-6">Please upload the finalized
+                        purchase agreement in PDF format to proceed to the next stage.</p>
+                    <div class="flex gap-3 justify-center">
+                        <button
+                            class="px-8 py-3 bg-ameefar-navy text-on-primary rounded-lg font-bold hover:opacity-90 transition-all flex items-center gap-2">
+                            Select File
+                        </button>
+                        <button
+                            class="px-8 py-3 bg-white border border-border-subtle text-primary rounded-lg font-bold hover:bg-surface-gray transition-all">
+                            View Draft
+                        </button>
+                    </div>
+                    <p class="mt-4 text-[12px] text-outline italic">Maximum file size 25MB. Secure, encrypted
+                        transmission.</p>
+                </div>
+                <!-- Parties Involved -->
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="p-4 bg-white border border-border-subtle rounded-xl flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center">
+                            <span class="material-symbols-outlined text-primary">person</span>
+                        </div>
+                        <div>
+                            <p class="text-body-sm text-outline">Seller (You)</p>
+                            <p class="font-bold text-primary">EcoRecycle Solutions Gmbh</p>
+                        </div>
+                    </div>
+                    <div class="p-4 bg-white border border-border-subtle rounded-xl flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center">
+                            <span class="material-symbols-outlined text-primary">business</span>
+                        </div>
+                        <div>
+                            <p class="text-body-sm text-outline">Buyer</p>
+                            <p class="font-bold text-primary">Global Polymers Inc.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Right Panel: Chat & Logs -->
+            <div class="lg:col-span-5 flex flex-col gap-6">
+                <!-- Chat Window -->
+                <div class="bg-white rounded-xl border border-border-subtle shadow-sm flex flex-col h-[500px]">
+                    <div class="p-4 border-b border-border-subtle flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-2 h-2 rounded-full bg-secondary"></div>
+                            <h3 class="font-bold text-primary">Trade Channel</h3>
+                        </div>
+                        <span class="text-body-sm text-outline">2 Participants</span>
+                    </div>
+                    <div class="flex-1 overflow-y-auto p-4 space-y-4 custom-scrollbar">
+                        <!-- System Message -->
+                        <div class="flex justify-center">
+                            <span
+                                class="px-3 py-1 bg-surface-container-low text-on-surface-variant text-[12px] rounded-full">Negotiation
+                                concluded at 10:42 AM</span>
+                        </div>
+                        <!-- Buyer Message -->
+                        <div class="flex items-start gap-3">
+                            <img alt="Buyer" class="w-8 h-8 rounded-full"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAvTjRqXE8UZetEkjen-ZVLy3iMK-G8u0T14wHkknyO1Yp1Nzk_kSVccexEjacHk7L3fYIyyjGS_t31fuMveJ1huFX_eeGnIEjRZB6iS6Lk87ml8U6QoXZROK1M9ZULY_VWsJo1viZXPqsTgtR1nruAJK_hJX7NolmukmcwXydnZyer8tQRN_kOw2Q0pA_2nvT6sgIhfkxCso1QrYHZJ33ofL1z6kPc7poUVf4RCEAeuEuGQTu10cgwYjIHMhNXWRnvFlJVsTD6rhve" />
+                            <div class="bg-surface-gray p-3 rounded-tr-xl rounded-bl-xl rounded-br-xl max-w-[80%]">
+                                <p class="text-body-sm text-primary">Price confirmed at $1,420/MT. We are ready for the
+                                    contract draft. Please send it over for our legal team to review.</p>
+                                <span class="text-[10px] text-outline mt-1 block">10:45 AM</span>
+                            </div>
+                        </div>
+                        <!-- Seller Message (Me) -->
+                        <div class="flex items-start gap-3 flex-row-reverse">
+                            <div class="bg-primary-container p-3 rounded-tl-xl rounded-bl-xl rounded-br-xl max-w-[80%]">
+                                <p class="text-body-sm text-on-primary-container">Understood. I am finalizing the draft
+                                    with the FOB Rotterdam terms now. Should be with you in 15 minutes.</p>
+                                <span class="text-[10px] text-on-primary-container/60 mt-1 block text-right">10:48
+                                    AM</span>
+                            </div>
+                        </div>
+                        <!-- Real-time typing indicator -->
+                        <div class="flex items-center gap-1 ml-11">
+                            <div class="w-1.5 h-1.5 rounded-full bg-outline-variant animate-bounce"></div>
+                            <div class="w-1.5 h-1.5 rounded-full bg-outline-variant animate-bounce delay-75"></div>
+                            <div class="w-1.5 h-1.5 rounded-full bg-outline-variant animate-bounce delay-150"></div>
+                        </div>
+                    </div>
+                    <div class="p-4 border-t border-border-subtle">
+                        <div class="relative">
+                            <input
+                                class="w-full pl-4 pr-12 py-3 border border-border-subtle rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none"
+                                placeholder="Type a message..." type="text" />
+                            <button
+                                class="absolute right-2 top-1.5 p-1.5 text-primary hover:text-secondary transition-colors">
+                                <span class="material-symbols-outlined">send</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Audit Logs -->
+                <div class="bg-white rounded-xl border border-border-subtle shadow-sm p-4">
+                    <h4 class="text-body-sm font-bold text-primary uppercase tracking-wider mb-4">System Activity Log
+                    </h4>
+                    <div class="space-y-3">
+                        <div class="flex gap-3 text-body-sm">
+                            <span class="text-outline font-label-md">10:42</span>
+                            <p class="text-on-surface"><span class="font-bold">Deal Locked:</span> Commercial terms
+                                agreed by both parties.</p>
+                        </div>
+                        <div class="flex gap-3 text-body-sm">
+                            <span class="text-outline font-label-md">10:41</span>
+                            <p class="text-on-surface"><span class="font-bold">Counter-Offer:</span> Global Polymers Inc
+                                accepted $1,420/MT.</p>
+                        </div>
+                        <div class="flex gap-3 text-body-sm opacity-60">
+                            <span class="text-outline font-label-md">09:15</span>
+                            <p class="text-on-surface">Negotiation room opened by EcoRecycle.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- Success Message Snackbar (Logic-ready) -->
+    <div class="fixed bottom-8 left-1/2 -translate-x-1/2 bg-ameefar-navy text-on-primary px-6 py-4 rounded-xl shadow-2xl flex items-center gap-4 transition-all translate-y-24 opacity-0 z-[100]"
+        id="snackbar">
+        <span class="material-symbols-outlined text-on-tertiary-container">check_circle</span>
+        <p class="font-bold">Contract uploaded successfully. Notifying buyer...</p>
+    </div>
+    <!-- Footer Content -->
+    <footer class="md:pl-64 bg-ameefar-navy mt-auto">
+        <div
+            class="w-full py-12 px-margin-desktop grid grid-cols-1 md:grid-cols-4 gap-gutter max-w-container-max mx-auto">
+            <div class="col-span-1 md:col-span-2">
+                <span class="font-headline-md text-headline-md text-on-primary mb-4 block">Ameefar</span>
+                <p class="text-outline-variant font-body-sm text-body-sm max-w-xs mb-6">The leading B2B marketplace for
+                    recycled industrial materials. Enabling transparent, efficient, and secure global trade.</p>
+            </div>
+            <div>
+                <h4 class="text-on-primary font-bold mb-4">Platform</h4>
+                <nav class="flex flex-col gap-2">
+                    <a class="text-outline-variant hover:text-on-primary font-body-sm text-body-sm transition-all"
+                        href="#">Marketplace</a>
+                    <a class="text-outline-variant hover:text-on-primary font-body-sm text-body-sm transition-all"
+                        href="#">Verification</a>
+                    <a class="text-outline-variant hover:text-on-primary font-body-sm text-body-sm transition-all"
+                        href="#">Logistics</a>
+                </nav>
+            </div>
+            <div>
+                <h4 class="text-on-primary font-bold mb-4">Legal</h4>
+                <nav class="flex flex-col gap-2">
+                    <a class="text-outline-variant hover:text-on-primary font-body-sm text-body-sm transition-all"
+                        href="#">Terms of Service</a>
+                    <a class="text-outline-variant hover:text-on-primary font-body-sm text-body-sm transition-all"
+                        href="#">Privacy Policy</a>
+                    <a class="text-outline-variant hover:text-on-primary font-body-sm text-body-sm transition-all"
+                        href="#">Compliance</a>
+                </nav>
+            </div>
+        </div>
+        <div class="border-t border-white/10 py-6 px-margin-desktop text-center">
+            <p class="text-outline-variant font-body-sm text-body-sm opacity-60">© 2024 Ameefar B2B Marketplace. All
+                rights reserved.</p>
+        </div>
+    </footer>
+    <script>
+        // Simple Interaction simulation
+        document.querySelector('input[type="text"]').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                const snack = document.getElementById('snackbar');
+                snack.classList.remove('translate-y-24', 'opacity-0');
+                setTimeout(() => {
+                    snack.classList.add('translate-y-24', 'opacity-0');
+                }, 3000);
+            }
+        });
+    </script>
+</body>
+
+</html>
