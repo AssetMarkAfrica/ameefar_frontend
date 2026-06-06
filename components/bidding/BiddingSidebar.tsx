@@ -1,10 +1,25 @@
 "use client";
 import React from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { ameefarLogoSrc } from "@/app/product/_components/product-options";
 
 interface SidebarProps {
   role: "buyer" | "seller" | "admin";
+}
+
+function AmeefarWordmark() {
+  return (
+    <span>
+      <strong className="block font-[var(--font-hanken)] text-xl leading-5 text-[#002627]">
+        Ameefar
+      </strong>
+      <small className="block text-[11px] font-medium tracking-wide text-[#404848]">
+        Enterprise marketplace
+      </small>
+    </span>
+  );
 }
 
 export default function BiddingSidebar({ role }: SidebarProps) {
@@ -12,67 +27,92 @@ export default function BiddingSidebar({ role }: SidebarProps) {
 
   const navItems = [
     { name: "Dashboard", href: `/bidding/${role}/dashboard`, icon: "dashboard" },
-    { name: "Marketplace", href: "/marketplace", icon: "storefront" },
+    { name: "Market", href: "/product", icon: "storefront" },
     { name: "Negotiations", href: `/bidding/${role}/negotiations`, icon: "handshake", activePath: "negotiation" },
     { name: "Inspections", href: `/bidding/${role}/inspections`, icon: "fact_check" },
+    { name: "Profile", href: "/profile", icon: "person" },
   ];
 
   return (
-    <aside className="h-screen w-64 fixed left-0 top-0 bg-surface-gray border-r border-border-subtle pt-20 px-4 hidden md:flex flex-col z-40">
-      <div className="flex items-center gap-3 px-4 py-6 mb-4">
-        <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-          <span className="material-symbols-outlined text-on-primary">
-            storefront
-          </span>
-        </div>
-        <div>
-          <p className="font-headline-md text-headline-md text-primary leading-tight text-sm">
-            Ameefar Pro
-          </p>
-          <p className="font-label-md text-label-md text-outline capitalize">
-            {role} Portal
-          </p>
-        </div>
-      </div>
-      <nav className="flex-1 space-y-1">
+    <aside
+      aria-label="Bidding navigation"
+      className="fixed left-0 top-0 z-40 hidden h-screen w-64 flex-col border-r border-slate-200 bg-white px-4 py-6 md:flex"
+    >
+      {/* Logo — identical to ProductShell */}
+      <Link className="flex items-center gap-3" href="/product">
+        <Image
+          alt="Ameefar Energy Logo"
+          className="shrink-0 rounded-lg object-cover"
+          height={40}
+          src={ameefarLogoSrc}
+          width={40}
+        />
+        <AmeefarWordmark />
+      </Link>
+
+      {/* Nav links */}
+      <nav className="mt-8 grid gap-1 text-sm font-semibold">
         {navItems.map((item) => {
-          const isActive = pathname.includes(item.activePath || item.href);
+          const isActive = item.activePath
+            ? pathname.includes(item.activePath)
+            : pathname === item.href || pathname.startsWith(item.href + "/");
+
           return (
             <Link
               key={item.name}
               href={item.href}
-              className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
+              className={
                 isActive
-                  ? "bg-surface-container-high text-primary font-bold"
-                  : "text-on-surface-variant hover:bg-surface-container-low"
-              }`}
+                  ? "flex items-center gap-3 rounded-lg bg-[#eff4ff] px-4 py-3 text-[#002627]"
+                  : "flex items-center gap-3 rounded-lg px-4 py-3 text-[#404848] transition hover:bg-slate-50 hover:text-[#002627]"
+              }
             >
               <span
-                className="material-symbols-outlined"
+                className="material-symbols-outlined text-[20px]"
                 style={{ fontVariationSettings: isActive ? "'FILL' 1" : "" }}
               >
                 {item.icon}
               </span>
-              <span className="font-label-md text-label-md">{item.name}</span>
+              {item.name}
             </Link>
           );
         })}
       </nav>
-      <div className="border-t border-border-subtle py-4 space-y-1">
-        <Link
-          href="/support"
-          className="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-low transition-colors rounded-lg"
-        >
-          <span className="material-symbols-outlined">help</span>
-          <span className="font-label-md text-label-md">Support</span>
-        </Link>
-        <Link
-          href="/settings"
-          className="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-low transition-colors rounded-lg"
-        >
-          <span className="material-symbols-outlined">settings</span>
-          <span className="font-label-md text-label-md">Settings</span>
-        </Link>
+
+      {/* Footer links */}
+      <div className="mt-auto grid gap-1 border-t border-slate-100 pt-4 text-sm font-semibold">
+        {[
+          { name: "Support", href: "/support", icon: "help" },
+          { name: "Settings", href: "/settings", icon: "settings" },
+        ].map((item) => {
+          const isActive = pathname.startsWith(item.href);
+          return (
+            <Link
+              key={item.name}
+              href={item.href}
+              className={
+                isActive
+                  ? "flex items-center gap-3 rounded-lg bg-[#eff4ff] px-4 py-3 text-[#002627]"
+                  : "flex items-center gap-3 rounded-lg px-4 py-3 text-[#404848] transition hover:bg-slate-50 hover:text-[#002627]"
+              }
+            >
+              <span
+                className="material-symbols-outlined text-[20px]"
+                style={{ fontVariationSettings: isActive ? "'FILL' 1" : "" }}
+              >
+                {item.icon}
+              </span>
+              {item.name}
+            </Link>
+          );
+        })}
+
+        {/* Role badge */}
+        <div className="mt-3 px-1">
+          <span className="inline-block rounded-full bg-[#ecfdf5] px-3 py-1 font-[var(--font-jetbrains)] text-xs font-bold uppercase tracking-wide text-[#006d40]">
+            {role}
+          </span>
+        </div>
       </div>
     </aside>
   );

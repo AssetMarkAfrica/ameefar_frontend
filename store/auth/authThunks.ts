@@ -12,6 +12,7 @@ import type {
   RegisterResponse,
   VerifyOtpPayload,
   VerifyOtpResponse,
+  LogoutPayload,
 } from "@/types/auth";
 
 export const registerThunk = createAsyncThunk<
@@ -42,3 +43,8 @@ export const confirmPasswordResetThunk = createAsyncThunk<
 >("auth/confirmPasswordReset", (payload) =>
   AuthService.confirmPasswordReset(payload),
 );
+
+export const logoutThunk = createAsyncThunk<
+  unknown,
+  LogoutPayload
+>("auth/logout", (payload) => AuthService.logout(payload));

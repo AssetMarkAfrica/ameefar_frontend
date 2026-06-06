@@ -7,6 +7,7 @@ import authReducer, {
 import biddingReducer from "./bidding/biddingSlice";
 import productReducer from "./product/productSlice";
 import profileReducer from "./profile/profileSlice";
+import paymentReducer from "./payment/paymentSlice";
 import type { User } from "@/types/auth";
 
 const AUTH_STORAGE_KEY = "ameefar.auth.session";
@@ -87,6 +88,7 @@ export const store = configureStore({
     bidding: biddingReducer,
     product: productReducer,
     profile: profileReducer,
+    payment: paymentReducer,
   },
   preloadedState: preloadedAuthState
     ? {

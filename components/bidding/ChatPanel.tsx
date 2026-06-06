@@ -69,7 +69,7 @@ export default function ChatPanel({
 
       {/* Messages Area */}
       <div ref={scrollRef} className="flex-1 overflow-y-auto p-6 space-y-6 bg-surface-gray/50 custom-scrollbar">
-        {messages.map((msg) => {
+        {(messages || []).map((msg) => {
           const isMe = msg.sender_role === user?.role || msg.sender_name === user?.full_name;
           const initials = msg.sender_name.substring(0, 2).toUpperCase();
           const timeString = new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -77,27 +77,24 @@ export default function ChatPanel({
           return (
             <div key={msg.id} className={`flex gap-3 max-w-[80%] ${isMe ? 'ml-auto flex-row-reverse' : ''}`}>
               <div
-                className={`w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center text-[10px] font-bold ${
-                  isMe ? 'bg-ameefar-navy text-white' : 'bg-primary-container text-white'
-                }`}
+                className={`w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center text-[10px] font-bold ${isMe ? 'bg-ameefar-navy text-white' : 'bg-primary-container text-white'
+                  }`}
               >
                 {isMe ? 'YOU' : initials}
               </div>
               <div className="space-y-1">
                 <div
-                  className={`p-4 rounded-xl shadow-sm ${
-                    isMe
+                  className={`p-4 rounded-xl shadow-sm ${isMe
                       ? 'bg-ameefar-navy text-white rounded-tr-none'
                       : 'bg-white border border-border-subtle text-on-surface rounded-tl-none'
-                  }`}
+                    }`}
                 >
                   <p className="text-body-md whitespace-pre-wrap">{msg.body}</p>
-                  
+
                   {msg.attachment_url && (
                     <div
-                      className={`mt-3 p-3 rounded-lg flex items-center gap-3 cursor-pointer transition-all border ${
-                        isMe ? 'bg-white/10 border-white/20 hover:border-white' : 'bg-surface-gray border-border-subtle hover:border-primary'
-                      }`}
+                      className={`mt-3 p-3 rounded-lg flex items-center gap-3 cursor-pointer transition-all border ${isMe ? 'bg-white/10 border-white/20 hover:border-white' : 'bg-surface-gray border-border-subtle hover:border-primary'
+                        }`}
                       onClick={() => window.open(msg.attachment_url || '', '_blank')}
                     >
                       <span className="material-symbols-outlined">description</span>
@@ -136,13 +133,13 @@ export default function ChatPanel({
           </div>
         )}
         <div className="flex items-end gap-3 bg-surface-gray rounded-xl p-2 border border-border-subtle focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-1 transition-all">
-          <input 
-            type="file" 
-            ref={fileInputRef} 
-            onChange={(e) => setFile(e.target.files?.[0] || null)} 
-            className="hidden" 
+          <input
+            type="file"
+            ref={fileInputRef}
+            onChange={(e) => setFile(e.target.files?.[0] || null)}
+            className="hidden"
           />
-          <button 
+          <button
             className="p-2 text-outline-variant hover:text-primary transition-colors"
             onClick={() => fileInputRef.current?.click()}
           >

@@ -9,6 +9,7 @@ import {
   sendEnquiryMessageThunk,
   withdrawEnquiryThunk,
   acceptCounterThunk,
+  counterEnquiryThunk,
 } from "@/store/bidding/biddingThunks";
 import ChatPanel from "@/components/bidding/ChatPanel";
 import BiddingSidebar from "@/components/bidding/BiddingSidebar";
@@ -18,7 +19,8 @@ export default function BuyerNegotiationPage() {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const token = useAppSelector(selectAccessToken);
-  const { currentEnquiry, messages, status } = useAppSelector((state) => state.bidding);
+  const { currentEnquiry, enquiryMessages, status } = useAppSelector((state) => state.bidding);
+  const messages = enquiryMessages[id] || [];
 
   useEffect(() => {
     if (token && id) {
@@ -45,6 +47,18 @@ export default function BuyerNegotiationPage() {
     const res = await dispatch(acceptCounterThunk({ token, enquiryId: id }));
     if (res.payload && (res.payload as any).data?.id) {
       router.push(`/bidding/buyer/trade/${(res.payload as any).data.id}`);
+    }
+  };
+
+  const handleCounter = async () => {
+    if (!token) return;
+    const newPrice = prompt("Enter new price per unit:");
+    if (newPrice && !isNaN(Number(newPrice))) {
+      await dispatch(counterEnquiryThunk({ 
+        token, 
+        enquiryId: id, 
+        counter_price_per_unit: newPrice,
+      }));
     }
   };
 
@@ -127,21 +141,32 @@ export default function BuyerNegotiationPage() {
               </div>
 
               {/* Action Bar */}
-              <div className="p-6 bg-surface-container-low border-t border-border-subtle flex gap-3">
-                <button 
-                  onClick={handleWithdraw}
-                  className="flex-1 py-3 px-4 border border-border-subtle bg-white text-ameefar-navy font-bold rounded-lg hover:bg-red-50 hover:text-red-600 hover:border-red-200 transition-all flex items-center justify-center gap-2"
-                >
-                  <span className="material-symbols-outlined text-[20px]">close</span>
-                  Withdraw
-                </button>
+              <div className="p-6 bg-surface-container-low border-t border-border-subtle flex flex-col gap-3">
+                <div className="flex gap-3">
+                  <button 
+                    onClick={handleWithdraw}
+                    className="flex-1 py-3 px-4 border border-border-subtle bg-white text-ameefar-navy font-bold rounded-lg hover:bg-red-50 hover:text-red-600 hover:border-red-200 transition-all flex items-center justify-center gap-2"
+                  >
+                    <span className="material-symbols-outlined text-[20px]">close</span>
+                    Withdraw
+                  </button>
+                  {currentEnquiry.status === "countered" && (
+                    <button 
+                      onClick={handleAcceptCounter}
+                      className="flex-[2] py-3 px-4 bg-secondary text-white font-bold rounded-lg shadow-sm hover:bg-primary transition-all flex items-center justify-center gap-2"
+                    >
+                      <span className="material-symbols-outlined text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
+                      Accept Counter
+                    </button>
+                  )}
+                </div>
                 {currentEnquiry.status === "countered" && (
                   <button 
-                    onClick={handleAcceptCounter}
-                    className="flex-[2] py-3 px-4 bg-secondary text-white font-bold rounded-lg shadow-sm hover:bg-primary transition-all flex items-center justify-center gap-2"
+                    onClick={handleCounter}
+                    className="w-full py-3 px-4 border border-primary text-primary font-bold rounded-lg hover:bg-surface-gray transition-all flex items-center justify-center gap-2"
                   >
-                    <span className="material-symbols-outlined text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
-                    Accept Counter
+                    <span className="material-symbols-outlined text-[20px]">gavel</span>
+                    Counter Offer
                   </button>
                 )}
               </div>

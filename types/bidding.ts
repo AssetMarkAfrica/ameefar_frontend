@@ -1,5 +1,7 @@
 // ─── Common Value Types ───────────────────────────────────────────────────────
 
+import type { InspectionFeePayment, TradePaymentSummary } from "./payment";
+
 export type ListingType = "sell" | "buy";
 
 export type EnquiryStatus =
@@ -15,8 +17,6 @@ export type EnquiryUnit = "mt" | "kg" | "lt" | "load" | "unit";
 export type TradeStatus =
   | "negotiating"
   | "agreed"
-  | "contract_sent"
-  | "contract_signed"
   | "in_progress"
   | "completed"
   | "cancelled"
@@ -52,6 +52,19 @@ export type TradeDocumentType =
 export type InspectionVerdict = "passed" | "failed";
 
 export type InspectionRecommendation = "proceed" | "renegotiate" | "cancel";
+
+export interface InspectionReport {
+  id: string;
+  verdict: InspectionVerdict;
+  summary: string;
+  findings: string;
+  recommendation: InspectionRecommendation | null;
+  report_document_name: string;
+  report_document_url: string | null;
+  created_by_name: string;
+  created_at: string;
+  updated_at: string;
+}
 
 // ─── Enquiry ──────────────────────────────────────────────────────────────────
 
@@ -124,7 +137,7 @@ export interface TradeSummary {
   id: string;
   reference: string;
   listing_name: string;
-  listing_type: ListingType;
+  listing_type?: ListingType;
   buyer_name: string;
   seller_name: string;
   status: TradeStatus;
@@ -134,15 +147,19 @@ export interface TradeSummary {
   currency: string;
   total_value: string;
   target_delivery_date: string | null;
+  inspection_required?: boolean;
+  inspection_status?: InspectionStatus;
   created_at: string;
   updated_at: string;
 }
 
 export interface TradeStatusLog {
-  status: TradeStatus;
-  changed_at: string;
-  changed_by?: string;
-  note?: string;
+  id: string;
+  from_status: TradeStatus | "";
+  to_status: TradeStatus;
+  changed_by_name: string;
+  notes: string;
+  created_at: string;
 }
 
 export interface TradeDocument {
@@ -174,8 +191,8 @@ export interface TradeDetail extends TradeSummary {
   inspection_requested_at: string | null;
   inspection_scheduled_for: string | null;
   inspection_completed_at: string | null;
-  inspection_assigned_to_name: string | null;
-  inspection_report: string | null;
+  inspection_assigned_to_name?: string | null;
+  inspection_report: InspectionReport | null;
   tracking_reference: string;
   estimated_arrival: string | null;
   actual_arrival: string | null;
@@ -188,7 +205,7 @@ export interface TradeDetail extends TradeSummary {
   disputed_at: string | null;
   dispute_resolved_at: string | null;
   dispute_resolution: string;
-  payment_summary: Record<string, unknown>;
+  payment_summary?: TradePaymentSummary;
   admin_notes: string;
   status_logs: TradeStatusLog[];
   documents: TradeDocument[];

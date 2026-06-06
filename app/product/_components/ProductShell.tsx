@@ -19,8 +19,6 @@ type ProductShellProps = {
   children: React.ReactNode;
 };
 
-
-
 function AmeefarWordmark() {
   return (
     <span>
@@ -44,51 +42,68 @@ export function ProductShell({ active, children }: ProductShellProps) {
 
   const [mounted, setMounted] = useState(false);
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  useEffect(() => { setMounted(true); }, []);
 
   useEffect(() => {
     if (!mounted) return;
-    if (!hasAuthSession || !token) {
-      router.replace("/auth/login");
-    }
+    if (!hasAuthSession || !token) router.replace("/auth/login");
   }, [mounted, hasAuthSession, router, token]);
 
-  // Render nothing until client-side mount. The entire shell depends on
-  // localStorage-backed Redux state (token, user, canCreate) which is always
-  // empty on the server, so any SSR output would mismatched the client tree.
-  // Returning null here prevents all hydration errors and ensures children
-  // (e.g. ProductListingDetail) only mount once a valid token is available.
   if (!mounted) return null;
-
-  // After mount: unauthenticated users are redirected above; render nothing
-  // while the router navigates away.
   if (!hasAuthSession || !token) return null;
+
+  // Derive bidding role from user — falls back to "buyer" for safety
+  const biddingRole: "buyer" | "seller" | "admin" =
+    user?.role === "buyer" || user?.role === "seller" || user?.role === "admin"
+      ? user.role
+      : "buyer";
 
   const navItems: Array<{
     label: string;
     href: string;
+    icon: string;
     isActive: boolean;
   }> = [
       {
         label: "Market",
         href: "/product",
+        icon: "storefront",
         isActive: active === "marketplace" && !pathname.includes("mine=true"),
       },
       {
         label: "New listing",
         href: "/product/create",
+        icon: "add_circle",
         isActive: active === "create",
       },
       {
         label: "Inventory",
         href: "/product?mine=true",
+        icon: "inventory_2",
         isActive: pathname.includes("mine=true"),
+      },
+      {
+        label: "Dashboard",
+        href: `/bidding/${biddingRole}/dashboard`,
+        icon: "dashboard",
+        isActive: pathname.includes("/bidding") && pathname.includes("dashboard"),
+      },
+      {
+        label: "Negotiations",
+        href: `/bidding/${biddingRole}/negotiations`,
+        icon: "handshake",
+        isActive: pathname.includes("negotiation"),
+      },
+      {
+        label: "Inspections",
+        href: `/bidding/${biddingRole}/inspections`,
+        icon: "fact_check",
+        isActive: pathname.includes("inspection"),
       },
       {
         label: "Profile",
         href: "/profile",
+        icon: "person",
         isActive: pathname.startsWith("/profile"),
       },
     ];
@@ -102,17 +117,24 @@ export function ProductShell({ active, children }: ProductShellProps) {
       >
         {/* Logo */}
         <Link className="flex items-center gap-3" href="/product">
-          <Image alt="Ameefar Energy Logo" className="shrink-0 rounded-lg object-cover" height={40} src={ameefarLogoSrc} width={40} />
+          <Image
+            alt="Ameefar Energy Logo"
+            className="shrink-0 rounded-lg object-cover"
+            height={40}
+            src={ameefarLogoSrc}
+            width={40}
+          />
           <AmeefarWordmark />
         </Link>
 
         {/* Create CTA */}
         {canCreate ? (
           <Link
-            className="mt-8 inline-flex min-h-11 items-center justify-center rounded-xl bg-[#beebeb] px-4 font-semibold text-[#002627] shadow-sm transition hover:bg-[#a3cfcf]"
+            className="mt-8 inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-[#beebeb] px-4 font-semibold text-[#002627] shadow-sm transition hover:bg-[#a3cfcf]"
             href="/product/create"
           >
-            + Create listing
+            <span className="material-symbols-outlined text-[18px]">add</span>
+            Create listing
           </Link>
         ) : (
           <span className="mt-8 inline-flex min-h-11 items-center justify-center rounded-xl bg-slate-100 px-4 text-sm font-semibold text-slate-400">
@@ -125,13 +147,19 @@ export function ProductShell({ active, children }: ProductShellProps) {
           {navItems.map((item) => (
             <Link
               key={item.href}
+              href={item.href}
               className={
                 item.isActive
-                  ? "rounded-lg bg-[#eff4ff] px-4 py-3 text-[#002627]"
-                  : "rounded-lg px-4 py-3 text-[#404848] transition hover:bg-slate-50 hover:text-[#002627]"
+                  ? "flex items-center gap-3 rounded-lg bg-[#eff4ff] px-4 py-3 text-[#002627]"
+                  : "flex items-center gap-3 rounded-lg px-4 py-3 text-[#404848] transition hover:bg-slate-50 hover:text-[#002627]"
               }
-              href={item.href}
             >
+              <span
+                className="material-symbols-outlined text-[20px]"
+                style={{ fontVariationSettings: item.isActive ? "'FILL' 1" : "" }}
+              >
+                {item.icon}
+              </span>
               {item.label}
             </Link>
           ))}
@@ -151,7 +179,13 @@ export function ProductShell({ active, children }: ProductShellProps) {
       {/* ── Mobile top bar ──────────────────────────────────── */}
       <header className="sticky top-0 z-40 flex h-14 items-center justify-between border-b border-slate-200 bg-white px-4 md:hidden">
         <Link className="flex items-center gap-2.5" href="/product">
-          <Image alt="Ameefar Energy Logo" className="shrink-0 rounded-lg object-cover" height={32} src={ameefarLogoSrc} width={32} />
+          <Image
+            alt="Ameefar Energy Logo"
+            className="shrink-0 rounded-lg object-cover"
+            height={32}
+            src={ameefarLogoSrc}
+            width={32}
+          />
           <strong className="font-[var(--font-hanken)] text-lg text-[#002627]">
             Ameefar
           </strong>

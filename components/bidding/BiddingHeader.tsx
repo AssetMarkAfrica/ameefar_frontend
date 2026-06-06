@@ -15,7 +15,7 @@ export default function BiddingHeader() {
         </span>
         <nav className="hidden md:flex gap-6">
           <Link
-            href="/bidding/dashboard"
+            href="/product"
             className="text-on-surface-variant font-body-md text-body-md hover:text-primary transition-colors duration-200"
           >
             Marketplace

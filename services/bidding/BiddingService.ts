@@ -334,30 +334,6 @@ export const BiddingService = {
     });
   },
 
-  sendContract(
-    token: string,
-    tradeId: string,
-    contract: File,
-  ): Promise<BiddingAck> {
-    const formData = new FormData();
-    formData.append("contract", contract);
-
-    return requestFormData<BiddingAck>({
-      endpoint: `/trades/${tradeId}/send-contract/`,
-      formData,
-      token,
-    });
-  },
-
-  /** Buyer only. Trade payment must already be completed. */
-  signContract(token: string, tradeId: string): Promise<BiddingAck> {
-    return requestJson<BiddingAck, Record<string, never>>({
-      endpoint: `/trades/${tradeId}/sign-contract/`,
-      method: "POST",
-      payload: {},
-      token,
-    });
-  },
 
   markInProgress(
     token: string,

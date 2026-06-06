@@ -3,15 +3,18 @@ import React, { useEffect } from "react";
 import Link from "next/link";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { listEnquiriesThunk } from "@/store/bidding/biddingThunks";
+import { selectAccessToken } from "@/store/auth/authSelectors";
 import BiddingSidebar from "@/components/bidding/BiddingSidebar";
 
 export default function BuyerNegotiationsPage() {
   const dispatch = useAppDispatch();
   const { enquiries, status } = useAppSelector((state) => state.bidding);
+  const token = useAppSelector(selectAccessToken);
 
   useEffect(() => {
-    dispatch(listEnquiriesThunk({ role: "buyer" }));
-  }, [dispatch]);
+    if (!token) return;
+    dispatch(listEnquiriesThunk({ token, params: { role: "buyer" } }));
+  }, [dispatch, token]);
 
   return (
     <div className="flex w-full min-h-screen bg-surface-gray font-body-md text-on-surface">

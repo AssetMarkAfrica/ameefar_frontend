@@ -11,8 +11,6 @@ export default function TradeStepper({ status }: TradeStepperProps) {
   const stages: TradeStatus[] = [
     "negotiating",
     "agreed",
-    "contract_sent",
-    "contract_signed",
     "in_progress",
     "completed",
   ];
@@ -33,8 +31,6 @@ export default function TradeStepper({ status }: TradeStepperProps) {
     let icon = "circle";
     if (stepStatus === "negotiating") icon = "handshake";
     if (stepStatus === "agreed") icon = "check";
-    if (stepStatus === "contract_sent") icon = "description";
-    if (stepStatus === "contract_signed") icon = "draw";
     if (stepStatus === "in_progress") icon = "local_shipping";
     if (stepStatus === "completed") icon = "verified";
 

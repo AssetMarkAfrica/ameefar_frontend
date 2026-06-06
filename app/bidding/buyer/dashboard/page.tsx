@@ -3,19 +3,22 @@ import React, { useEffect } from "react";
 import Link from "next/link";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { listEnquiriesThunk, listTradesThunk } from "@/store/bidding/biddingThunks";
+import { selectAccessToken } from "@/store/auth/authSelectors";
 import BiddingSidebar from "@/components/bidding/BiddingSidebar";
 
 export default function BuyerDashboardPage() {
   const dispatch = useAppDispatch();
   const { enquiries, trades, status } = useAppSelector((state) => state.bidding);
+  const token = useAppSelector(selectAccessToken);
 
   useEffect(() => {
-    dispatch(listEnquiriesThunk({ role: "buyer" }));
-    dispatch(listTradesThunk({ role: "buyer" }));
-  }, [dispatch]);
+    if (!token) return;
+    dispatch(listEnquiriesThunk({ token, params: { role: "buyer" } }));
+    dispatch(listTradesThunk({ token, params: { role: "buyer" } }));
+  }, [dispatch, token]);
 
   const activeTrades = trades.filter((t) => !["completed", "cancelled", "disputed"].includes(t.status));
-  const activeEnquiries = enquiries.filter((e) => !["declined", "withdrawn", "expired"].includes(e.status) && !e.has_trade);
+  const activeEnquiries = enquiries.filter((e) => ["pending", "countered"].includes(e.status));
 
   return (
     <div className="flex w-full min-h-screen bg-surface-gray font-body-md text-on-surface">

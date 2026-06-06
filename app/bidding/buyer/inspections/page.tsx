@@ -3,19 +3,22 @@ import React, { useEffect } from "react";
 import Link from "next/link";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { listTradesThunk } from "@/store/bidding/biddingThunks";
+import { selectAccessToken } from "@/store/auth/authSelectors";
 import BiddingSidebar from "@/components/bidding/BiddingSidebar";
 
 export default function BuyerInspectionsPage() {
   const dispatch = useAppDispatch();
   const { trades, status } = useAppSelector((state) => state.bidding);
+  const token = useAppSelector(selectAccessToken);
 
   useEffect(() => {
-    dispatch(listTradesThunk({ role: "buyer" }));
-  }, [dispatch]);
+    if (!token) return;
+    dispatch(listTradesThunk({ token, params: { role: "buyer" } }));
+  }, [dispatch, token]);
 
   // Filter for trades that require inspection or have an active inspection process
   const inspectionTrades = trades.filter((t) => 
-    t.status === "contract_signed" || 
+    t.status === "agreed" || 
     t.status === "in_progress"
   ); // Normally backend should return `inspection_required` flag in TradeSummary, but this is a reasonable proxy
 

@@ -19,7 +19,8 @@ export default function SellerNegotiationPage() {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const token = useAppSelector(selectAccessToken);
-  const { currentEnquiry, messages, status } = useAppSelector((state) => state.bidding);
+  const { currentEnquiry, enquiryMessages, status } = useAppSelector((state) => state.bidding);
+  const messages = enquiryMessages[id] || [];
 
   useEffect(() => {
     if (token && id) {
@@ -52,13 +53,12 @@ export default function SellerNegotiationPage() {
 
   const handleCounter = async () => {
     if (!token) return;
-    const newPrice = prompt("Enter new total price:");
+    const newPrice = prompt("Enter new price per unit:");
     if (newPrice && !isNaN(Number(newPrice))) {
       await dispatch(counterEnquiryThunk({ 
         token, 
         enquiryId: id, 
-        total_value: newPrice,
-        currency: currentEnquiry?.currency || 'EUR'
+        counter_price_per_unit: newPrice,
       }));
     }
   };
@@ -88,7 +88,7 @@ export default function SellerNegotiationPage() {
             </div>
             <div className="flex items-center gap-3">
               <span className="px-4 py-1.5 bg-surface-container-high text-primary font-bold rounded-full text-label-md flex items-center gap-2 border border-primary-container/20 uppercase">
-                {currentEnquiry.status === "open" && <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span>}
+                {currentEnquiry.status === "pending" && <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span>}
                 {currentEnquiry.status}
               </span>
             </div>
@@ -142,7 +142,7 @@ export default function SellerNegotiationPage() {
               </div>
 
               {/* Action Bar */}
-              {currentEnquiry.status === "open" && (
+              {currentEnquiry.status === "pending" && (
                 <div className="p-6 bg-surface-container-low border-t border-border-subtle flex flex-col gap-3">
                   <div className="flex gap-3">
                     <button 

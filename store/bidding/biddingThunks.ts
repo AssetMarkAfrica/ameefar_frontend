@@ -131,26 +131,15 @@ export const fetchTradeThunk = createAsyncThunk<
   BiddingService.getTrade(token, tradeId),
 );
 
-export const agreeTermsThunk = createAsyncThunk<
+export const agreeTradeTermsThunk = createAsyncThunk<
   TradeDetailResponse,
   TokenArg & TradeIdArg
 >("bidding/agreeTerms", ({ token, tradeId }) =>
   BiddingService.agreeTerms(token, tradeId),
 );
 
-export const sendContractThunk = createAsyncThunk<
-  BiddingAck,
-  TokenArg & TradeIdArg & { contract: File }
->("bidding/sendContract", ({ token, tradeId, contract }) =>
-  BiddingService.sendContract(token, tradeId, contract),
-);
+export const agreeTermsThunk = agreeTradeTermsThunk;
 
-export const signContractThunk = createAsyncThunk<
-  BiddingAck,
-  TokenArg & TradeIdArg
->("bidding/signContract", ({ token, tradeId }) =>
-  BiddingService.signContract(token, tradeId),
-);
 
 export const markInProgressThunk = createAsyncThunk<
   BiddingAck,

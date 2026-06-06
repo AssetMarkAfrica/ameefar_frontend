@@ -1,10 +1,13 @@
 "use client";
 import React from "react";
-import type { InspectionStatus } from "@/types/bidding";
+import type { InspectionStatus, InspectionReport } from "@/types/bidding";
+import type { TradePaymentSummary } from "@/types/payment";
 
 interface InspectionModuleProps {
   status: InspectionStatus;
   role: "buyer" | "seller" | "admin";
+  report?: InspectionReport | null;
+  paymentSummary?: TradePaymentSummary | null;
   onRequest?: () => void;
   onSkip?: () => void;
   onApprove?: () => void;
@@ -15,6 +18,8 @@ interface InspectionModuleProps {
 export default function InspectionModule({
   status,
   role,
+  report,
+  paymentSummary,
   onRequest,
   onSkip,
   onApprove,
@@ -62,8 +67,24 @@ export default function InspectionModule({
             Skip Inspection
           </button>
           <p className="mt-4 text-center font-label-md text-label-md text-on-secondary-fixed-variant/60">
-            Estimated cost: $1,200 USD
+            Estimated cost: {paymentSummary?.inspection_fee_amount ? `$${paymentSummary.inspection_fee_amount}` : "Determined by Admin"}
           </p>
+        </div>
+      )}
+
+      {role === "buyer" && status === "requested" && paymentSummary?.inspection_fee_paid === false && (
+        <div className="space-y-3">
+          <div className="p-3 bg-secondary/10 rounded-lg text-secondary text-sm mb-4">
+            You requested an inspection. Please pay the inspection fee to proceed.
+          </div>
+        </div>
+      )}
+
+      {role === "buyer" && status === "requested" && paymentSummary?.inspection_fee_paid === true && (
+        <div className="space-y-3">
+          <div className="p-3 bg-secondary/10 rounded-lg text-secondary text-sm mb-4">
+            Inspection fee paid. Awaiting admin scheduling.
+          </div>
         </div>
       )}
 
@@ -72,6 +93,14 @@ export default function InspectionModule({
           <div className="p-3 bg-secondary/10 rounded-lg text-secondary text-sm mb-4">
             Inspection has passed! Please review the report and approve to proceed with settlement.
           </div>
+          {report && (
+            <div className="bg-white p-4 rounded-lg border border-border-subtle mb-4">
+              <h4 className="font-bold text-ameefar-navy mb-2">Inspection Report</h4>
+              <p className="text-sm text-on-surface-variant mb-2"><span className="font-semibold">Verdict:</span> {report.verdict}</p>
+              <p className="text-sm text-on-surface-variant mb-2"><span className="font-semibold">Summary:</span> {report.summary}</p>
+              <p className="text-sm text-on-surface-variant mb-2"><span className="font-semibold">Findings:</span> {report.findings}</p>
+            </div>
+          )}
           <button
             onClick={onApprove}
             disabled={isActionLoading}
@@ -88,6 +117,14 @@ export default function InspectionModule({
           <div className="p-3 bg-error-container/50 rounded-lg text-error text-sm mb-4">
             Inspection has failed. You can reject the inspection and raise a dispute or cancel the trade.
           </div>
+          {report && (
+            <div className="bg-white p-4 rounded-lg border border-border-subtle mb-4">
+              <h4 className="font-bold text-ameefar-navy mb-2">Inspection Report</h4>
+              <p className="text-sm text-on-surface-variant mb-2"><span className="font-semibold">Verdict:</span> {report.verdict}</p>
+              <p className="text-sm text-on-surface-variant mb-2"><span className="font-semibold">Summary:</span> {report.summary}</p>
+              <p className="text-sm text-on-surface-variant mb-2"><span className="font-semibold">Findings:</span> {report.findings}</p>
+            </div>
+          )}
           <button
             onClick={() => onReject?.("Failed quality standards")} // In a real app, open a modal for reason
             disabled={isActionLoading}
@@ -99,7 +136,7 @@ export default function InspectionModule({
         </div>
       )}
 
-      {role === "seller" && status !== "not_requested" && (
+      {role === "seller" && status !== "not_requested" && status !== "skipped" && (
         <p className="text-sm text-on-secondary-fixed-variant bg-white/50 p-3 rounded-lg">
           The buyer has requested an inspection. The platform admin will assign an inspector to verify the shipment.
         </p>

@@ -621,7 +621,7 @@ Response:
 
 Action: `sign-contract`
 
-Only the buyer can sign. The trade payment must already be completed.
+Only the buyer can sign. The trade payment must already be completed. See the [Trade Payment Flow](#2-trade-payment-flow-split-payment) section for details.
 
 Request body:
 
@@ -757,7 +757,7 @@ Response:
 
 Action: `request-inspection`
 
-Only the buyer can request inspection. The action initiates the inspection fee payment.
+Only the buyer can request inspection. The action initiates the inspection fee payment. See the [Inspection Fee Payment Flow](#1-inspection-fee-payment-flow) section for details on how to complete and verify this payment.
 
 ```http
 POST /api/bidding/trades/<trade_id>/request-inspection/
@@ -1141,6 +1141,147 @@ Response:
 }
 ```
 
+## Payment Flows
+
+The bidding platform integrates with a split-payment system via Paystack to handle the inspection fee and the final trade payment (which includes both the product cost and the platform's service fee).
+
+All payment endpoints are mounted under the `/api/payments/` namespace.
+
+---
+
+### 1. Inspection Fee Payment Flow
+
+When a buyer requests an inspection for a trade in the `agreed` status, an inspection fee payment is automatically initiated.
+
+#### Step 1: Request Inspection
+The buyer triggers the inspection request.
+* **Endpoint**: `POST /api/bidding/trades/<trade_id>/request-inspection/`
+* **Preconditions**:
+  * The caller must be the trade buyer.
+  * Trade status must be `agreed`.
+  * `inspection_status` must be `not_requested`.
+* **Behavior**:
+  * An `inspection_fee` payment record is created in the `initiated` state.
+  * The inspection amount is a flat rate set on the server (e.g., `25.00 GHS`).
+  * The trade's `inspection_status` is updated to `requested`, and `inspection_required` is set to `true`.
+* **Response**: Returns the updated trade object and the initiated `inspection_fee_payment` details.
+
+```json
+{
+  "success": true,
+  "message": "Inspection requested. Complete the payment to confirm.",
+  "data": {
+    "trade": { ... },
+    "inspection_fee_payment": {
+      "id": "uuid",
+      "payment_type": "inspection_fee",
+      "status": "initiated",
+      "currency": "GHS",
+      "amount_major": "25.00",
+      "paystack_reference": "INSPAY-20260604-...",
+      "paystack_authorization_url": "https://checkout.paystack.com/..."
+    }
+  }
+}
+```
+
+#### Step 2: Customer Redirection & Payment
+* The client application redirects the buyer to `paystack_authorization_url` to complete the transaction.
+
+#### Step 3: Verification
+* Once the payment is completed, Paystack sends a webhook to `POST /api/payments/webhook/paystack/`.
+* Alternatively, the client can manually verify the payment by polling or checking:
+  * **Endpoint**: `POST /api/payments/verify-reference/?reference=<paystack_reference>` (Method: `POST`)
+* When verified, the payment status changes to `success`.
+* Once the inspection fee payment is `success`, the platform admin can schedule the inspection via the `schedule-inspection` action.
+
+---
+
+### 2. Trade Payment Flow (Split Payment)
+
+Before a contract can be signed by the buyer, the buyer must make the full trade payment. This payment combines the **Product Amount** and the **Platform Fee** into a single transaction. It utilizes Paystack's split-payment features to automatically route the product cost to the seller's bank account while retaining the platform fee in the main platform account.
+
+#### Precondition: Seller Subaccount Creation
+For the split payment to succeed, the seller must have active banking details set up on their verified profile. 
+When the trade payment is initiated, the system checks or automatically creates an active subaccount for the seller on Paystack (`PaystackSubaccount`). If the seller hasn't completed their banking setup, initiation will fail with an error.
+You can query the current user's subaccount details using:
+* **Endpoint**: `GET /api/payments/subaccount/me/`
+
+#### Step 1: Initiate Trade Payment
+The buyer initiates the payment transaction.
+* **Endpoint**: `POST /api/payments/trades/<trade_id>/initiate-trade-payment/`
+* **Headers**: `Authorization: Bearer <access_token>`
+* **Request Body**:
+  ```json
+  {
+    "callback_url": "https://yourfrontend.com/payment-callback"
+  }
+  ```
+  *(The `callback_url` is optional. If not provided, a default url configured on the server is used).*
+* **Preconditions**:
+  * The caller must be the trade buyer.
+  * Trade status must be `contract_sent`.
+  * The seller must have an active Paystack subaccount linked.
+* **Response**: Returns details of the initiated payment.
+
+```json
+{
+  "success": true,
+  "message": "Trade payment initialized.",
+  "data": {
+    "id": "uuid",
+    "trade": "uuid",
+    "payment_type": "trade_payment",
+    "status": "initiated",
+    "currency": "GHS",
+    "amount_major": "12600.00",
+    "amount_minor": 1260000,
+    "fee_percent": "5.00",
+    "paystack_reference": "TRDPAY-...",
+    "paystack_access_code": "...",
+    "paystack_authorization_url": "https://checkout.paystack.com/..."
+  }
+}
+```
+
+* **Calculation Formula**:
+  * **Platform Fee**: `trade.total_value * platform_fee_percent` (e.g. `5%`).
+  * **Amount Major**: `trade.total_value + platform_fee`.
+  * **Split logic**: The `platform_fee` stays in the platform's primary Paystack account, and the remaining `trade.total_value` is automatically routed to the seller's subaccount.
+
+#### Step 2: Redirection & Authorization
+* Redirect the buyer to the `paystack_authorization_url` to authorize the charge.
+
+#### Step 3: Verification
+* Completed payments are processed via the webhook or via:
+  * **Endpoint**: `POST /api/payments/verify-reference/?reference=<paystack_reference>` (Method: `POST`)
+* Once verified, the payment status updates to `success`.
+* With `success` status, the buyer is now permitted to sign the contract using the `sign-contract` action:
+  * **Endpoint**: `POST /api/bidding/trades/<trade_id>/sign-contract/`
+  *(Note: Attempting to sign the contract before the trade payment status is `success` will fail with an HTTP 400 error).*
+
+#### Trade Payment Summary
+You can check the payment summary for a trade at any time:
+* **Endpoint**: `GET /api/payments/trades/<trade_id>/summary/`
+* **Response**:
+```json
+{
+  "success": true,
+  "message": "OK",
+  "data": {
+    "platform_fee_percent": "5.00",
+    "platform_fee_amount": "600.00",
+    "trade_total_amount": "12000.00",
+    "trade_payment_amount": "12600.00",
+    "inspection_fee_amount": "25.00",
+    "inspection_fee_paid": true,
+    "trade_payment_paid": false,
+    "latest_inspection_fee_status": "success",
+    "latest_trade_payment_status": "initiated"
+  }
+}
+```
+
 ## Websocket API
 
 Websocket messages are JSON.
@@ -1181,3 +1322,245 @@ Client actions:
 {
   "action": "counter",
   "counter_price_per_unit": "1350.00",
+  "counter_quantity": "8.00",
+  "counter_message": "Can do 8 MT at this price."
+}
+```
+
+```json
+{ "action": "accept" }
+```
+
+```json
+{ "action": "decline", "reason": "Price is too low." }
+```
+
+```json
+{ "action": "withdraw" }
+```
+
+```json
+{ "action": "accept_counter" }
+```
+
+Server events:
+
+```text
+enquiry.created
+enquiry.accepted
+enquiry.declined
+enquiry.countered
+enquiry.withdrawn
+enquiry.counter_accepted
+enquiry.expired
+enquiry.message.created
+```
+
+Example event:
+
+```json
+{
+  "type": "enquiry.countered",
+  "enquiry": {},
+  "actor_id": "00000000-0000-0000-0000-000000000000"
+}
+```
+
+Message event:
+
+```json
+{
+  "type": "enquiry.message.created",
+  "message": {
+    "id": "00000000-0000-0000-0000-000000000000",
+    "sender_name": "Seller Name",
+    "sender_role": "seller",
+    "body": "Can do 8 MT.",
+    "attachment_url": null,
+    "attachment_name": "",
+    "is_read_by_buyer": false,
+    "is_read_by_seller": true,
+    "created_at": "2026-06-03T10:00:00Z"
+  }
+}
+```
+
+### Trade Room
+
+```text
+/ws/bidding/trades/<trade_id>/?token=<access_token>
+```
+
+Allowed clients: buyer, seller, admin.
+
+Client actions:
+
+```json
+{ "action": "send_message", "body": "Hello", "is_internal": false }
+```
+
+```json
+{ "action": "agree" }
+```
+
+```json
+{ "action": "sign_contract" }
+```
+
+```json
+{
+  "action": "mark_in_progress",
+  "tracking_reference": "TRACK-123",
+  "estimated_arrival": "2026-06-25"
+}
+```
+
+```json
+{ "action": "complete", "notes": "Delivered and confirmed." }
+```
+
+```json
+{
+  "action": "cancel",
+  "reason": "Logistics provider failed to collect.",
+  "cancellation_reason": "logistics_failed"
+}
+```
+
+```json
+{
+  "action": "dispute",
+  "reason": "Delivered material does not match the agreed quality."
+}
+```
+
+```json
+{ "action": "skip_inspection" }
+```
+
+```json
+{
+  "action": "reject_inspection",
+  "reason": "Moisture level is above the agreed threshold."
+}
+```
+
+REST-only trade actions because they use file upload, payment initiation, or admin-only scheduling/reporting:
+
+```text
+send-contract
+request-inspection
+schedule-inspection
+start-inspection
+complete-inspection
+approve-inspection
+resolve-dispute
+admin-notes
+documents upload
+```
+
+Server events:
+
+```text
+trade.created
+trade.terms_agreed
+trade.contract_sent
+trade.contract_signed
+trade.in_progress
+trade.completed
+trade.cancelled
+trade.disputed
+trade.dispute_resolved
+trade.inspection_requested
+trade.inspection_skipped
+trade.inspection_scheduled
+trade.inspection_started
+trade.inspection_completed
+trade.inspection_rejected
+trade.message.created
+trade.document.created
+```
+
+Example trade event:
+
+```json
+{
+  "type": "trade.in_progress",
+  "trade": {},
+  "actor_id": "00000000-0000-0000-0000-000000000000"
+}
+```
+
+Example message event:
+
+```json
+{
+  "type": "trade.message.created",
+  "message": {
+    "id": "00000000-0000-0000-0000-000000000000",
+    "sender_name": "Buyer Name",
+    "sender_role": "buyer",
+    "body": "Can you share the contract?",
+    "attachment_url": null,
+    "attachment_name": "",
+    "is_internal": false,
+    "is_read_by_buyer": true,
+    "is_read_by_seller": false,
+    "is_read_by_admin": false,
+    "created_at": "2026-06-03T10:00:00Z"
+  }
+}
+```
+
+Example document event:
+
+```json
+{
+  "type": "trade.document.created",
+  "document": {
+    "id": "00000000-0000-0000-0000-000000000000",
+    "doc_type": "invoice",
+    "title": "Invoice",
+    "file_url": "https://example.com/media/bidding/trade_documents/file.pdf",
+    "file_name": "file.pdf",
+    "uploaded_by_name": "Seller Name",
+    "notes": "",
+    "created_at": "2026-06-03T10:00:00Z"
+  }
+}
+```
+
+### Admin Stream
+
+```text
+/ws/bidding/admin/?token=<access_token>
+```
+
+Admin only.
+
+On connect, the server sends:
+
+```json
+{
+  "type": "admin.snapshot",
+  "overview": {
+    "enquiries": {},
+    "trades": {},
+    "pending_disputes": 0
+  }
+}
+```
+
+When bidding state changes, the server sends:
+
+```json
+{
+  "type": "admin.snapshot.updated",
+  "event": "trade.disputed",
+  "overview": {
+    "enquiries": {},
+    "trades": {},
+    "pending_disputes": 1
+  }
+}
+```

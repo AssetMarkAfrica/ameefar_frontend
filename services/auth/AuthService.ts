@@ -9,6 +9,7 @@ import type {
   RegisterResponse,
   VerifyOtpPayload,
   VerifyOtpResponse,
+  LogoutPayload,
 } from "@/types/auth";
 
 type AuthSessionResponse = {
@@ -142,6 +143,10 @@ export const AuthService = {
     return postJson<unknown, LoginPayload>("/login/", payload).then(
       normalizeLoginResponse,
     );
+  },
+
+  logout(payload: LogoutPayload): Promise<unknown> {
+    return postJson<unknown, LogoutPayload>("/logout/", payload);
   },
 
   requestPasswordReset(

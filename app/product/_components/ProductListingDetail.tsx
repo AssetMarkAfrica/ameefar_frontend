@@ -17,6 +17,7 @@ import {
   uploadProductSpecificationThunk,
 } from "@/store/product/productThunks";
 
+import { CreateEnquiryModal } from "./CreateEnquiryModal";
 import {
   formatAvailability,
   formatListingType,
@@ -56,6 +57,7 @@ export function ProductListingDetail({ listingId }: { listingId: string }) {
   const [specTitle, setSpecTitle] = useState("");
   const [specDescription, setSpecDescription] = useState("");
   const [specFile, setSpecFile] = useState<File | null>(null);
+  const [isEnquiryModalOpen, setIsEnquiryModalOpen] = useState(false);
 
   // Always re-fetch when listingId changes. We don't guard on listing?.id here
   // because the effect must fire even if a prior listing is already loaded.
@@ -498,6 +500,14 @@ export function ProductListingDetail({ listingId }: { listingId: string }) {
               <button
                 className="min-h-12 w-full rounded-xl bg-[#002627] px-4 font-semibold text-white transition hover:bg-slate-900"
                 type="button"
+                onClick={() => {
+                  if (!token) {
+                    // Ideally we'd redirect to login or show auth modal
+                    alert("Please log in to make a request.");
+                    return;
+                  }
+                  setIsEnquiryModalOpen(true);
+                }}
               >
                 {nonOwnerLabel}
               </button>
@@ -523,6 +533,17 @@ export function ProductListingDetail({ listingId }: { listingId: string }) {
           )}
         </aside>
       </section>
+
+      {/* Enquiry Modal */}
+      {listing && (
+        <CreateEnquiryModal
+          isOpen={isEnquiryModalOpen}
+          onClose={() => setIsEnquiryModalOpen(false)}
+          listingId={listing.id}
+          listingType={listing.listing_type}
+          defaultQuantity={listing.quantity_available_mt}
+        />
+      )}
     </div>
   );
 }

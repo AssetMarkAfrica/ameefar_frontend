@@ -10,7 +10,7 @@ export type CompanyType =
   | "waste_management"
   | "other";
 
-export type UserRole = "buyer" | "seller" | "both";
+export type UserRole = "buyer" | "seller" | "both" | "admin";
 
 export type Material =
   | "plastic"
@@ -87,6 +87,10 @@ export interface VerifyOtpPayload {
 export interface LoginPayload {
   email: string;
   password: string;
+}
+
+export interface LogoutPayload {
+  refresh: string;
 }
 
 export interface PasswordResetRequestPayload {

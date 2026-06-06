@@ -4,6 +4,137 @@
   --font-hanken: var(--font-hanken);
   --font-inter: var(--font-inter);
   --font-jetbrains: var(--font-jetbrains);
+
+  --color-on-tertiary-container: #06b77f;
+  --color-on-error: #ffffff;
+  --color-surface-container-lowest: #ffffff;
+  --color-secondary: #006d40;
+  --color-on-primary-fixed-variant: #224d4e;
+  --color-on-secondary-fixed: #002110;
+  --color-background: #f8f9ff;
+  --color-primary-fixed: #beebeb;
+  --color-surface-container-highest: #d3e4fe;
+  --color-on-secondary-fixed-variant: #00522f;
+  --color-surface-gray: #F8FAFC;
+  --color-on-error-container: #93000a;
+  --color-surface-variant: #d3e4fe;
+  --color-on-tertiary-fixed-variant: #005236;
+  --color-on-background: #0b1c30;
+  --color-tertiary-fixed: #6ffbbe;
+  --color-surface-container: #e5eeff;
+  --color-inverse-on-surface: #eaf1ff;
+  --color-primary-container: #0f3d3e;
+  --color-trust-green-subtle: #ECFDF5;
+  --color-on-primary: #ffffff;
+  --color-secondary-container: #80f7b1;
+  --color-inverse-primary: #a3cfcf;
+  --color-error-container: #ffdad6;
+  --color-on-primary-fixed: #002020;
+  --color-secondary-fixed-dim: #66dd99;
+  --color-on-secondary-container: #007243;
+  --color-tertiary-container: #00402a;
+  --color-on-secondary: #ffffff;
+  --color-primary: #002627;
+  --color-border-subtle: #E2E8F0;
+  --color-error: #ba1a1a;
+  --color-surface-bright: #f8f9ff;
+  --color-on-surface: #0b1c30;
+  --color-surface: #f8f9ff;
+  --color-on-surface-variant: #404848;
+  --color-surface-dim: #cbdbf5;
+  --color-primary-fixed-dim: #a3cfcf;
+  --color-inverse-surface: #213145;
+  --color-surface-container-high: #dce9ff;
+  --color-surface-container-low: #eff4ff;
+  --color-secondary-fixed: #83fab4;
+  --color-on-tertiary: #ffffff;
+  --color-ameefar-navy: #0F172A;
+  --color-on-tertiary-fixed: #002113;
+  --color-on-primary-container: #7da8a8;
+  --color-surface-tint: #3b6566;
+  --color-tertiary: #002819;
+  --color-tertiary-fixed-dim: #4edea3;
+  --color-outline: #717978;
+  --color-outline-variant: #c0c8c8;
+
+  --spacing-base: 4px;
+  --spacing-container-max: 1440px;
+  --spacing-margin-mobile: 16px;
+  --spacing-gutter: 24px;
+  --spacing-margin-desktop: 40px;
+
+  --font-label-md: var(--font-jetbrains), monospace;
+  --font-headline-lg: var(--font-hanken), sans-serif;
+  --font-body-md: var(--font-inter), sans-serif;
+  --font-display-lg: var(--font-hanken), sans-serif;
+  --font-body-sm: var(--font-inter), sans-serif;
+  --font-headline-lg-mobile: var(--font-hanken), sans-serif;
+  --font-headline-md: var(--font-hanken), sans-serif;
+  --font-body-lg: var(--font-inter), sans-serif;
+
+  --text-label-md: 12px;
+  --text-label-md--line-height: 16px;
+  --text-label-md--font-weight: 500;
+  
+  --text-headline-lg: 32px;
+  --text-headline-lg--line-height: 40px;
+  --text-headline-lg--letter-spacing: -0.01em;
+  --text-headline-lg--font-weight: 600;
+
+  --text-body-md: 16px;
+  --text-body-md--line-height: 24px;
+  --text-body-md--font-weight: 400;
+
+  --text-display-lg: 48px;
+  --text-display-lg--line-height: 56px;
+  --text-display-lg--letter-spacing: -0.02em;
+  --text-display-lg--font-weight: 700;
+
+  --text-body-sm: 14px;
+  --text-body-sm--line-height: 20px;
+  --text-body-sm--font-weight: 400;
+
+  --text-headline-lg-mobile: 28px;
+  --text-headline-lg-mobile--line-height: 36px;
+  --text-headline-lg-mobile--font-weight: 600;
+
+  --text-headline-md: 24px;
+  --text-headline-md--line-height: 32px;
+  --text-headline-md--font-weight: 600;
+
+  --text-body-lg: 18px;
+  --text-body-lg--line-height: 28px;
+  --text-body-lg--font-weight: 400;
+}
+
+/* Also add the Material Symbols styling to apply to elements with the class */
+@layer utilities {
+  .material-symbols-outlined {
+    font-family: 'Material Symbols Outlined';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -webkit-font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased;
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    vertical-align: middle;
+  }
+
+  .pulse-animation {
+    animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+}
+
+@keyframes pulse-ring {
+  0%, 100% { opacity: 1; }
+  50% { opacity: .5; }
 }
 
 * { box-sizing: border-box; }

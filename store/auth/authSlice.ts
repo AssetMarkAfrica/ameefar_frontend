@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   confirmPasswordResetThunk,
   loginThunk,
+  logoutThunk,
   registerThunk,
   requestPasswordResetThunk,
   verifyOtpThunk,
@@ -13,6 +14,7 @@ export type AuthOperation =
   | "register"
   | "verifyOtp"
   | "login"
+  | "logout"
   | "passwordResetRequest"
   | "passwordResetConfirm";
 
@@ -36,6 +38,7 @@ const initialStatus: Record<AuthOperation, AuthStatus> = {
   register: "idle",
   verifyOtp: "idle",
   login: "idle",
+  logout: "idle",
   passwordResetRequest: "idle",
   passwordResetConfirm: "idle",
 };
@@ -44,6 +47,7 @@ const initialErrors: Record<AuthOperation, string | null> = {
   register: null,
   verifyOtp: null,
   login: null,
+  logout: null,
   passwordResetRequest: null,
   passwordResetConfirm: null,
 };
@@ -141,6 +145,26 @@ export const authSlice = createSlice({
       .addCase(loginThunk.rejected, (state, action) => {
         state.status.login = "failed";
         state.errors.login = rejectedMessage(action.error.message);
+      })
+      .addCase(logoutThunk.pending, (state) => {
+        state.status.logout = "loading";
+        state.errors.logout = null;
+      })
+      .addCase(logoutThunk.fulfilled, (state) => {
+        state.status.logout = "succeeded";
+        state.user = null;
+        state.accessToken = null;
+        state.refreshToken = null;
+        state.isAuthenticated = false;
+      })
+      .addCase(logoutThunk.rejected, (state, action) => {
+        state.status.logout = "failed";
+        state.errors.logout = rejectedMessage(action.error.message);
+        // Even if the backend fails, log out the client
+        state.user = null;
+        state.accessToken = null;
+        state.refreshToken = null;
+        state.isAuthenticated = false;
       })
       .addCase(requestPasswordResetThunk.pending, (state) => {
         state.status.passwordResetRequest = "loading";

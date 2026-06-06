@@ -36,10 +36,8 @@ import {
   requestInspectionThunk,
   resolveDisputeThunk,
   scheduleInspectionThunk,
-  sendContractThunk,
   sendEnquiryMessageThunk,
   sendTradeMessageThunk,
-  signContractThunk,
   skipInspectionThunk,
   startInspectionThunk,
   updateAdminNotesThunk,
@@ -65,8 +63,6 @@ export type BiddingOperation =
   | "listTrades"
   | "fetchTrade"
   | "agreeTerms"
-  | "sendContract"
-  | "signContract"
   | "markInProgress"
   | "completeTrade"
   | "cancelTrade"
@@ -135,8 +131,6 @@ const ops: BiddingOperation[] = [
   "listTrades",
   "fetchTrade",
   "agreeTerms",
-  "sendContract",
-  "signContract",
   "markInProgress",
   "completeTrade",
   "cancelTrade",
@@ -643,43 +637,7 @@ export const biddingSlice = createSlice({
         state.errors.agreeTerms = rejectedMessage(action.error.message);
       })
 
-    // ── Send Contract ───────────────────────────────────────────────────────
 
-      .addCase(sendContractThunk.pending, (state) => {
-        state.status.sendContract = "loading";
-        state.errors.sendContract = null;
-      })
-      .addCase(sendContractThunk.fulfilled, (state) => {
-        state.status.sendContract = "succeeded";
-        if (state.currentTrade) {
-          state.currentTrade = { ...state.currentTrade, status: "contract_sent" };
-          state.trades = upsertTrade(state.trades, state.currentTrade);
-        }
-      })
-      .addCase(sendContractThunk.rejected, (state, action) => {
-        state.status.sendContract = "failed";
-        state.errors.sendContract = rejectedMessage(action.error.message);
-      })
-
-    // ── Sign Contract ───────────────────────────────────────────────────────
-
-      .addCase(signContractThunk.pending, (state) => {
-        state.status.signContract = "loading";
-        state.errors.signContract = null;
-      })
-      .addCase(signContractThunk.fulfilled, (state) => {
-        state.status.signContract = "succeeded";
-        if (state.currentTrade) {
-          state.currentTrade = { ...state.currentTrade, status: "contract_signed" };
-          state.trades = upsertTrade(state.trades, state.currentTrade);
-        }
-      })
-      .addCase(signContractThunk.rejected, (state, action) => {
-        state.status.signContract = "failed";
-        state.errors.signContract = rejectedMessage(action.error.message);
-      })
-
-    // ── Mark In Progress ────────────────────────────────────────────────────
 
       .addCase(markInProgressThunk.pending, (state) => {
         state.status.markInProgress = "loading";

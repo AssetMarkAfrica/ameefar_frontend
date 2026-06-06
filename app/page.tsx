@@ -1,5 +1,10 @@
+"use client";
 import Link from "next/link";
 import { Hanken_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { selectUser, selectIsAuthenticated } from "@/store/auth/authSelectors";
+import { logoutThunk } from "@/store/auth/authThunks";
+import { logout } from "@/store/auth/authSlice";
 
 const hanken = Hanken_Grotesk({ subsets: ["latin"], weight: ["600", "700"] });
 const inter = Inter({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
@@ -52,6 +57,19 @@ const categories = [
 ];
 
 export default function Home() {
+  const dispatch = useAppDispatch();
+  const user = useAppSelector(selectUser);
+  const isAuthenticated = useAppSelector(selectIsAuthenticated);
+  const refreshToken = useAppSelector((state) => state.auth.refreshToken);
+
+  const handleLogout = async () => {
+    if (refreshToken) {
+      await dispatch(logoutThunk({ refresh: refreshToken }));
+    } else {
+      dispatch(logout());
+    }
+  };
+
   return (
     <div className={`${inter.className} min-h-screen bg-[#f8f9ff] text-slate-900`}>
       <header className="fixed inset-x-0 top-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur">
@@ -64,7 +82,16 @@ export default function Home() {
           </div>
           <div className="hidden md:flex items-center gap-3 text-sm text-slate-600">
             <input className="w-56 rounded border border-slate-300 bg-slate-50 px-3 py-2" placeholder="Search materials..." />
-            <span>Notifications</span><span>Settings</span>
+            {isAuthenticated && user ? (
+              <>
+                <span className="font-semibold text-primary">Welcome, {user.first_name}</span>
+                <button onClick={handleLogout} className="px-3 py-1 bg-surface-container rounded hover:bg-surface-gray">Logout</button>
+              </>
+            ) : (
+              <>
+                <span>Notifications</span><span>Settings</span>
+              </>
+            )}
           </div>
         </div>
       </header>
@@ -78,18 +105,29 @@ export default function Home() {
             <h1 className={`${hanken.className} mt-6 max-w-3xl text-4xl font-bold leading-tight md:text-6xl`}>Secure African Trade. Guaranteed Quality.</h1>
             <p className="mt-6 max-w-3xl text-lg text-slate-200">The first B2B recycling marketplace featuring the African Trade Protection protocol with inspections and escrow.</p>
             <div className="mt-8 flex flex-wrap gap-4">
-              <Link
-                href="/auth/register"
-                className="rounded bg-[#002627] px-6 py-3 font-medium text-white hover:bg-[#003a3b] transition-colors"
-              >
-                Create Secure Account
-              </Link>
-              <Link
-                href="/auth/login"
-                className="rounded border border-white/40 px-6 py-3 text-white hover:bg-white/10 transition-colors"
-              >
-                Sign In
-              </Link>
+              {isAuthenticated ? (
+                <Link
+                  href="/profile"
+                  className="rounded bg-[#002627] px-6 py-3 font-medium text-white hover:bg-[#003a3b] transition-colors"
+                >
+                  Go to Dashboard
+                </Link>
+              ) : (
+                <>
+                  <Link
+                    href="/auth/register"
+                    className="rounded bg-[#002627] px-6 py-3 font-medium text-white hover:bg-[#003a3b] transition-colors"
+                  >
+                    Create Secure Account
+                  </Link>
+                  <Link
+                    href="/auth/login"
+                    className="rounded border border-white/40 px-6 py-3 text-white hover:bg-white/10 transition-colors"
+                  >
+                    Sign In
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </section>

@@ -1,17 +1,18 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { selectAccessToken } from "@/store/auth/authSelectors";
 import {
   fetchTradeThunk,
+  agreeTradeTermsThunk,
   listTradeMessagesThunk,
   sendTradeMessageThunk,
   listTradeDocumentsThunk,
   uploadTradeDocumentThunk,
-  sendContractThunk,
   markInProgressThunk
 } from "@/store/bidding/biddingThunks";
+import { getTradePaymentSummaryThunk } from "@/store/payment/paymentThunks";
 import ChatPanel from "@/components/bidding/ChatPanel";
 import BiddingSidebar from "@/components/bidding/BiddingSidebar";
 import TradeStepper from "@/components/bidding/TradeStepper";
@@ -22,9 +23,12 @@ import type { TradeDocumentType } from "@/types/bidding";
 export default function SellerTradePage() {
   const { id } = useParams() as { id: string };
   const dispatch = useAppDispatch();
-  const router = useRouter();
   const token = useAppSelector(selectAccessToken);
-  const { currentTrade, messages, documents, status } = useAppSelector((state) => state.bidding);
+  const { currentTrade, tradeMessages, tradeDocuments, status, errors } = useAppSelector((state) => state.bidding);
+  const { tradeSummary } = useAppSelector((state) => state.payment);
+  
+  const messages = tradeMessages[id] || [];
+  const documents = tradeDocuments[id] || [];
   const [eta, setEta] = useState("");
   const [trackingInfo, setTrackingInfo] = useState("");
 
@@ -36,29 +40,37 @@ export default function SellerTradePage() {
     }
   }, [dispatch, token, id]);
 
+  useEffect(() => {
+    if (token && id && currentTrade?.status && ["agreed", "in_progress", "completed"].includes(currentTrade.status)) {
+      dispatch(getTradePaymentSummaryThunk(id));
+    }
+  }, [dispatch, token, id, currentTrade?.status]);
+
   const handleSendMessage = async (body: string, attachment?: File) => {
     if (!token) return;
     await dispatch(sendTradeMessageThunk({ token, tradeId: id, body, attachment }));
   };
 
+  const handleAgreeTerms = async () => {
+    if (!token) return;
+    await dispatch(agreeTradeTermsThunk({ token, tradeId: id }));
+  };
+
   const handleUploadDocument = async (file: File, docType: TradeDocumentType) => {
     if (!token) return;
-    
-    if (docType === "contract" && currentTrade?.status === "agreed") {
-      await dispatch(sendContractThunk({ token, tradeId: id, contract: file }));
-    } else {
-      await dispatch(uploadTradeDocumentThunk({ token, tradeId: id, file, doc_type: docType, title: file.name }));
-    }
+    await dispatch(uploadTradeDocumentThunk({ token, tradeId: id, file, doc_type: docType, title: file.name }));
   };
 
   const handleMarkInProgress = async () => {
     if (!token) return;
-    await dispatch(markInProgressThunk({ token, tradeId: id, eta, tracking_info: trackingInfo }));
+    await dispatch(markInProgressThunk({ token, tradeId: id, estimated_arrival: eta, tracking_reference: trackingInfo }));
   };
 
   if (status.fetchTrade === "loading" || !currentTrade) {
     return <div className="p-8 text-center">Loading trade details...</div>;
   }
+
+  const isTradePaymentPaid = tradeSummary?.trade_payment_paid;
 
   return (
     <div className="flex w-full min-h-screen bg-surface-gray font-body-md text-on-surface">
@@ -101,61 +113,86 @@ export default function SellerTradePage() {
               </div>
             </div>
 
-            {currentTrade.status === "agreed" && (
-              <div className="bg-white rounded-xl border-2 border-dashed border-border-subtle p-8 text-center transition-all hover:border-primary-container group">
-                <div className="w-16 h-16 bg-surface-container-low rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-primary-container transition-colors">
-                  <span className="material-symbols-outlined text-primary-container text-3xl group-hover:text-on-primary-container">upload_file</span>
-                </div>
-                <h3 className="font-headline-md text-headline-md text-primary mb-2">Upload Signed Contract</h3>
-                <p className="text-body-md text-on-surface-variant max-w-sm mx-auto mb-6">Please upload the official contract to proceed. The buyer will then review and sign it.</p>
-                <div className="flex gap-3 justify-center">
-                  <label className="px-8 py-3 bg-ameefar-navy text-on-primary rounded-lg font-bold hover:opacity-90 transition-all flex items-center gap-2 cursor-pointer">
-                    <span className="material-symbols-outlined">description</span>
-                    Upload Contract
-                    <input 
-                      type="file" 
-                      className="hidden" 
-                      onChange={(e) => {
-                        const file = e.target.files?.[0];
-                        if (file) handleUploadDocument(file, "contract");
-                      }}
-                    />
-                  </label>
+            {currentTrade.status === "negotiating" && (
+              <div className="bg-white rounded-xl border border-border-subtle shadow-sm overflow-hidden p-6">
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                  <div>
+                    <h3 className="font-headline-md text-headline-md text-primary mb-1">Agree Trade Terms</h3>
+                    <p className="text-body-sm text-on-surface-variant">
+                      Confirm the negotiated quantity, pricing, delivery terms, and target delivery date.
+                    </p>
+                    {errors.agreeTerms && (
+                      <p className="text-body-sm text-error mt-2">{errors.agreeTerms}</p>
+                    )}
+                  </div>
+                  <button
+                    onClick={handleAgreeTerms}
+                    disabled={status.agreeTerms === "loading"}
+                    className="px-6 py-3 bg-secondary text-on-secondary font-bold rounded-lg hover:opacity-90 transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  >
+                    {status.agreeTerms === "loading" ? (
+                      <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    ) : (
+                      <span className="material-symbols-outlined text-[18px]">handshake</span>
+                    )}
+                    {status.agreeTerms === "loading" ? "Agreeing..." : "Agree Terms"}
+                  </button>
                 </div>
               </div>
             )}
 
-            {currentTrade.status === "contract_signed" && (
-              <div className="bg-white rounded-xl border border-border-subtle shadow-sm overflow-hidden p-6">
-                <h3 className="font-headline-md text-headline-md text-primary mb-4">Shipment Details</h3>
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-bold text-on-surface-variant mb-1">Estimated Arrival Date (ETA)</label>
-                    <input 
-                      type="date" 
-                      className="w-full bg-surface-gray border border-border-subtle rounded-lg px-4 py-2 focus:ring-primary focus:border-transparent outline-none"
-                      value={eta}
-                      onChange={(e) => setEta(e.target.value)}
-                    />
+            {currentTrade.status === "agreed" && (
+              <>
+                {!isTradePaymentPaid ? (
+                  <div className="bg-white rounded-xl border border-border-subtle shadow-sm overflow-hidden p-8 text-center">
+                    <div className="w-16 h-16 bg-amber-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <span className="material-symbols-outlined text-amber-600 text-3xl">hourglass_empty</span>
+                    </div>
+                    <h3 className="font-headline-md text-headline-md text-primary mb-2">Awaiting Settlement</h3>
+                    <p className="text-body-md text-on-surface-variant max-w-sm mx-auto">
+                      {currentTrade.inspection_status === "skipped" || currentTrade.inspection_status === "passed"
+                        ? "The inspection phase has concluded. Awaiting the buyer to complete the trade payment."
+                        : "The buyer is currently completing the inspection phase."}
+                    </p>
                   </div>
-                  <div>
-                    <label className="block text-sm font-bold text-on-surface-variant mb-1">Tracking Info / Logistics Details</label>
-                    <textarea 
-                      className="w-full bg-surface-gray border border-border-subtle rounded-lg px-4 py-2 focus:ring-primary focus:border-transparent outline-none"
-                      rows={3}
-                      value={trackingInfo}
-                      onChange={(e) => setTrackingInfo(e.target.value)}
-                    ></textarea>
+                ) : (
+                  <div className="bg-white rounded-xl border border-border-subtle shadow-sm overflow-hidden p-6">
+                    <div className="flex items-center gap-3 mb-6 bg-trust-green-subtle text-secondary p-4 rounded-lg">
+                      <span className="material-symbols-outlined">check_circle</span>
+                      <p className="font-bold">Trade payment has been secured! You may now begin shipment.</p>
+                    </div>
+
+                    <h3 className="font-headline-md text-headline-md text-primary mb-4">Shipment Details</h3>
+                    <div className="space-y-4">
+                      <div>
+                        <label className="block text-sm font-bold text-on-surface-variant mb-1">Estimated Arrival Date (ETA)</label>
+                        <input 
+                          type="date" 
+                          className="w-full bg-surface-gray border border-border-subtle rounded-lg px-4 py-2 focus:ring-primary focus:border-transparent outline-none"
+                          value={eta}
+                          onChange={(e) => setEta(e.target.value)}
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-bold text-on-surface-variant mb-1">Tracking Info / Logistics Details</label>
+                        <textarea 
+                          className="w-full bg-surface-gray border border-border-subtle rounded-lg px-4 py-2 focus:ring-primary focus:border-transparent outline-none"
+                          rows={3}
+                          value={trackingInfo}
+                          onChange={(e) => setTrackingInfo(e.target.value)}
+                        ></textarea>
+                      </div>
+                      <button 
+                        onClick={handleMarkInProgress}
+                        disabled={status.markInProgress === "loading" || !eta}
+                        className="w-full bg-secondary text-white font-bold py-3 rounded-lg hover:bg-secondary/90 transition-colors disabled:opacity-50"
+                      >
+                        {status.markInProgress === "loading" ? "Updating..." : "Mark as In Progress"}
+                      </button>
+                    </div>
                   </div>
-                  <button 
-                    onClick={handleMarkInProgress}
-                    disabled={status.markInProgress === "loading" || !eta}
-                    className="w-full bg-secondary text-white font-bold py-3 rounded-lg hover:bg-secondary/90 transition-colors disabled:opacity-50"
-                  >
-                    {status.markInProgress === "loading" ? "Updating..." : "Mark as In Progress"}
-                  </button>
-                </div>
-              </div>
+                )}
+              </>
             )}
             
             <DocumentList 
@@ -177,9 +214,11 @@ export default function SellerTradePage() {
               />
             </div>
 
-            {currentTrade.inspection_status !== "not_requested" && (
+            {currentTrade.inspection_status !== "not_requested" && currentTrade.inspection_status !== "skipped" && (
               <InspectionModule 
                 status={currentTrade.inspection_status}
+                report={currentTrade.inspection_report}
+                paymentSummary={tradeSummary}
                 role="seller"
               />
             )}

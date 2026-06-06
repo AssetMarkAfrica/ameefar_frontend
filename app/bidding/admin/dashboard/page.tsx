@@ -1,17 +1,21 @@
 "use client";
 import React, { useEffect } from "react";
+import Link from "next/link";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { fetchAdminOverviewThunk, listTradesThunk } from "@/store/bidding/biddingThunks";
+import { selectAccessToken } from "@/store/auth/authSelectors";
 import BiddingSidebar from "@/components/bidding/BiddingSidebar";
 
 export default function AdminDashboardPage() {
   const dispatch = useAppDispatch();
   const { adminOverview, status } = useAppSelector((state) => state.bidding);
+  const token = useAppSelector(selectAccessToken);
 
   useEffect(() => {
-    dispatch(fetchAdminOverviewThunk({ token: "placeholder" })); // Token handled properly if using an interceptor, assuming thunk uses it
-    dispatch(listTradesThunk({}));
-  }, [dispatch]);
+    if (!token) return;
+    dispatch(fetchAdminOverviewThunk({ token })); 
+    dispatch(listTradesThunk({ token, params: {} }));
+  }, [dispatch, token]);
 
   return (
     <div className="flex w-full min-h-screen bg-surface-gray font-body-md text-on-surface">
@@ -62,8 +66,12 @@ export default function AdminDashboardPage() {
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="font-headline-md text-headline-md text-ameefar-navy">Inspections</h2>
                 </div>
-                <div className="bg-white rounded-xl border border-border-subtle shadow-sm p-8 text-center text-on-surface-variant italic">
-                  Inspection management table placeholder.
+                <div className="bg-white rounded-xl border border-border-subtle shadow-sm p-8 text-center">
+                  <p className="text-on-surface-variant mb-4">Manage trades requiring pre-shipment quality inspection.</p>
+                  <Link href="/bidding/admin/inspections" className="px-6 py-2 bg-secondary text-on-secondary font-bold rounded-lg hover:opacity-90 transition-all inline-flex items-center gap-2">
+                    <span className="material-symbols-outlined text-[18px]">assignment_turned_in</span>
+                    Manage Inspections
+                  </Link>
                 </div>
               </section>
 
