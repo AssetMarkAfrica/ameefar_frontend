@@ -20,8 +20,11 @@ import {
   completeInspectionThunk,
   completeTradeThunk,
   counterEnquiryThunk,
+  buyerCounterEnquiryThunk,
   createEnquiryThunk,
+  createInspectionRequirementsThunk,
   declineEnquiryThunk,
+  draftInspectionThunk,
   fetchAdminOverviewThunk,
   fetchEnquiryThunk,
   fetchTradeThunk,
@@ -38,10 +41,13 @@ import {
   scheduleInspectionThunk,
   sendEnquiryMessageThunk,
   sendTradeMessageThunk,
+  setInspectionRequirementsThunk,
   skipInspectionThunk,
   startInspectionThunk,
   updateAdminNotesThunk,
   uploadTradeDocumentThunk,
+  uploadInspectionImageThunk,
+  deleteInspectionImageThunk,
   withdrawEnquiryThunk,
 } from "./biddingThunks";
 
@@ -55,6 +61,8 @@ export type BiddingOperation =
   | "acceptEnquiry"
   | "declineEnquiry"
   | "counterEnquiry"
+  | "buyerCounterEnquiry"
+
   | "withdrawEnquiry"
   | "acceptCounter"
   | "listEnquiryMessages"
@@ -72,14 +80,19 @@ export type BiddingOperation =
   | "skipInspection"
   | "scheduleInspection"
   | "startInspection"
+  | "draftInspection"
   | "completeInspection"
   | "approveInspection"
   | "rejectInspection"
+  | "createInspectionRequirements"
+  | "setInspectionRequirements"
   | "updateAdminNotes"
   | "listTradeMessages"
   | "sendTradeMessage"
   | "listTradeDocuments"
   | "uploadTradeDocument"
+  | "uploadInspectionImage"
+  | "deleteInspectionImage"
   // Admin
   | "fetchAdminOverview";
 
@@ -124,6 +137,8 @@ const ops: BiddingOperation[] = [
   "acceptEnquiry",
   "declineEnquiry",
   "counterEnquiry",
+
+  "buyerCounterEnquiry",
   "withdrawEnquiry",
   "acceptCounter",
   "listEnquiryMessages",
@@ -140,14 +155,19 @@ const ops: BiddingOperation[] = [
   "skipInspection",
   "scheduleInspection",
   "startInspection",
+  "draftInspection",
   "completeInspection",
   "approveInspection",
   "rejectInspection",
+  "createInspectionRequirements",
+  "setInspectionRequirements",
   "updateAdminNotes",
   "listTradeMessages",
   "sendTradeMessage",
   "listTradeDocuments",
   "uploadTradeDocument",
+  "uploadInspectionImage",
+  "deleteInspectionImage",
   "fetchAdminOverview",
 ];
 
@@ -218,6 +238,7 @@ function tradeDetailToSummary(detail: TradeDetail): TradeSummary {
     inspection_completed_at: _ica,
     inspection_assigned_to_name: _iatn,
     inspection_report: _irp,
+    inspection_requirements: _ireqs,
     tracking_reference: _tr,
     estimated_arrival: _ear,
     actual_arrival: _aar,
@@ -496,7 +517,22 @@ export const biddingSlice = createSlice({
         state.status.counterEnquiry = "failed";
         state.errors.counterEnquiry = rejectedMessage(action.error.message);
       })
+// ── Buyer Counter Enquiry ───────────────────────────────────────────────
 
+  .addCase(buyerCounterEnquiryThunk.pending, (state) => {
+    state.status.buyerCounterEnquiry = "loading";
+    state.errors.buyerCounterEnquiry = null;
+  })
+  .addCase(buyerCounterEnquiryThunk.fulfilled, (state, action) => {
+    const detail = action.payload.data;
+    state.status.buyerCounterEnquiry = "succeeded";
+    state.currentEnquiry = detail;
+    state.enquiries = upsertEnquiry(state.enquiries, detail);
+  })
+  .addCase(buyerCounterEnquiryThunk.rejected, (state, action) => {
+    state.status.buyerCounterEnquiry = "failed";
+    state.errors.buyerCounterEnquiry = rejectedMessage(action.error.message);
+  })
     // ── Withdraw Enquiry ────────────────────────────────────────────────────
 
       .addCase(withdrawEnquiryThunk.pending, (state) => {
@@ -795,6 +831,21 @@ export const biddingSlice = createSlice({
         state.errors.startInspection = rejectedMessage(action.error.message);
       })
 
+    // ── Draft Inspection ──────────────────────────────────────────────────────
+
+      .addCase(draftInspectionThunk.pending, (state) => {
+        state.status.draftInspection = "loading";
+        state.errors.draftInspection = null;
+      })
+      .addCase(draftInspectionThunk.fulfilled, (state, action) => {
+        state.status.draftInspection = "succeeded";
+        state.currentTrade = action.payload.data;
+      })
+      .addCase(draftInspectionThunk.rejected, (state, action) => {
+        state.status.draftInspection = "failed";
+        state.errors.draftInspection = rejectedMessage(action.error.message);
+      })
+
     // ── Complete Inspection ─────────────────────────────────────────────────
 
       .addCase(completeInspectionThunk.pending, (state) => {
@@ -942,6 +993,86 @@ export const biddingSlice = createSlice({
       .addCase(uploadTradeDocumentThunk.rejected, (state, action) => {
         state.status.uploadTradeDocument = "failed";
         state.errors.uploadTradeDocument = rejectedMessage(action.error.message);
+      })
+
+    // ── Create Inspection Requirements (POST) ────────────────────────────────
+
+      .addCase(createInspectionRequirementsThunk.pending, (state) => {
+        state.status.createInspectionRequirements = "loading";
+        state.errors.createInspectionRequirements = null;
+      })
+      .addCase(createInspectionRequirementsThunk.fulfilled, (state, action) => {
+        state.status.createInspectionRequirements = "succeeded";
+        if (state.currentTrade) {
+          state.currentTrade = {
+            ...state.currentTrade,
+            // POST response has `trade` and `requirements` fields inside `data`
+            ...action.payload.data.trade,
+            inspection_requirements: action.payload.data.requirements,
+          };
+        }
+      })
+      .addCase(createInspectionRequirementsThunk.rejected, (state, action) => {
+        state.status.createInspectionRequirements = "failed";
+        state.errors.createInspectionRequirements = rejectedMessage(action.error.message);
+      })
+
+    // ── Set Inspection Requirements (PUT) ───────────────────────────────────
+
+      .addCase(setInspectionRequirementsThunk.pending, (state) => {
+        state.status.setInspectionRequirements = "loading";
+        state.errors.setInspectionRequirements = null;
+      })
+      .addCase(setInspectionRequirementsThunk.fulfilled, (state, action) => {
+        state.status.setInspectionRequirements = "succeeded";
+        if (state.currentTrade) {
+          state.currentTrade = {
+            ...state.currentTrade,
+            inspection_requirements: action.payload.data,
+          };
+        }
+      })
+      .addCase(setInspectionRequirementsThunk.rejected, (state, action) => {
+        state.status.setInspectionRequirements = "failed";
+        state.errors.setInspectionRequirements = rejectedMessage(action.error.message);
+      })
+
+    // ── Upload Inspection Image ───────────────────────────────────────────────
+
+      .addCase(uploadInspectionImageThunk.pending, (state) => {
+        state.status.uploadInspectionImage = "loading";
+        state.errors.uploadInspectionImage = null;
+      })
+      .addCase(uploadInspectionImageThunk.fulfilled, (state, action) => {
+        state.status.uploadInspectionImage = "succeeded";
+        const { tradeId } = action.meta.arg;
+        if (state.currentTrade?.id === tradeId && state.currentTrade.inspection_report) {
+          const images = state.currentTrade.inspection_report.images ?? [];
+          state.currentTrade.inspection_report.images = [...images, action.payload.data];
+        }
+      })
+      .addCase(uploadInspectionImageThunk.rejected, (state, action) => {
+        state.status.uploadInspectionImage = "failed";
+        state.errors.uploadInspectionImage = rejectedMessage(action.error.message);
+      })
+
+    // ── Delete Inspection Image ───────────────────────────────────────────────
+
+      .addCase(deleteInspectionImageThunk.pending, (state) => {
+        state.status.deleteInspectionImage = "loading";
+        state.errors.deleteInspectionImage = null;
+      })
+      .addCase(deleteInspectionImageThunk.fulfilled, (state, action) => {
+        state.status.deleteInspectionImage = "succeeded";
+        const { tradeId, imageId } = action.meta.arg;
+        if (state.currentTrade?.id === tradeId && state.currentTrade.inspection_report) {
+          const images = state.currentTrade.inspection_report.images ?? [];
+          state.currentTrade.inspection_report.images = images.filter(img => img.id !== imageId);
+        }
+      })
+      .addCase(deleteInspectionImageThunk.rejected, (state, action) => {
+        state.status.deleteInspectionImage = "failed";
+        state.errors.deleteInspectionImage = rejectedMessage(action.error.message);
       })
 
     // ── Fetch Admin Overview ────────────────────────────────────────────────

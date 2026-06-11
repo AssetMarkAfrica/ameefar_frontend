@@ -24,6 +24,7 @@ export type TradeStatus =
 
 export type InspectionStatus =
   | "not_requested"
+  | "awaiting_requirements"
   | "requested"
   | "scheduled"
   | "in_progress"
@@ -38,6 +39,8 @@ export type CancellationReason =
   | "logistics_failed"
   | "other";
 
+export type TradeMessageStatus = "sent" | "delivered" | "read";
+
 export type TradeDocumentType =
   | "contract"
   | "quality_cert"
@@ -49,9 +52,84 @@ export type TradeDocumentType =
   | "insurance"
   | "other";
 
-export type InspectionVerdict = "passed" | "failed";
+export type InspectionVerdict = "passed" | "failed" | "conditional";
 
-export type InspectionRecommendation = "proceed" | "renegotiate" | "cancel";
+export type InspectionRecommendation = "proceed" | "reject" | "renegotiate" | "cancel";
+
+export type InspectionValueType = "decimal" | "percent" | "text" | "boolean";
+
+export type InspectionOperator =
+  | "lt"
+  | "lte"
+  | "gt"
+  | "gte"
+  | "eq"
+  | "neq"
+  | "between"
+  | "present"
+  | "absent"
+  | "contains";
+
+export interface TradeInspectionImage {
+  id: string;
+  image_url: string;
+  image_name: string;
+  caption: string;
+  created_at: string;
+}
+
+export interface InspectionRequirement {
+  id: string;
+  name: string;
+  description: string;
+  value_type: InspectionValueType;
+  operator: InspectionOperator;
+  /** Numeric / percent / decimal target. Null when operator is "between", "absent", or "contains". */
+  target_value: string | null;
+  /** Lower bound when operator is "between". */
+  min_value: string | null;
+  /** Upper bound when operator is "between". */
+  max_value: string | null;
+  /** Text comparison target for operator "contains". */
+  target_text: string;
+  /** Boolean target (null unless value_type is "boolean"). */
+  target_boolean: boolean | null;
+  unit: string;
+  is_mandatory: boolean;
+  sort_order: number;
+  /** Human-readable summary of the threshold, e.g. "<= 4.0000 %". */
+  threshold_display: string;
+  /** True once the inspection has been completed and results recorded. */
+  is_locked: boolean;
+  locked_at: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface InspectionRequirementResult {
+  /** ID of the InspectionRequirement this result is for. */
+  requirement_id: string;
+  requirement_name: string;
+  /** The actual observed value recorded during inspection. */
+  actual_value: string;
+  /** Whether the requirement was met. */
+  passed: boolean;
+  notes: string;
+}
+
+/** Payload shape for each requirement result sent to complete-inspection endpoint. */
+export interface RequirementResultPayload {
+  requirement_id: string;
+  /** True if the requirement was met. */
+  is_met: boolean;
+  /** Measured value for decimal / integer / percent types. */
+  measured_value?: string;
+  /** Measured value for boolean types. */
+  measured_boolean?: boolean;
+  /** Measured value for text types. */
+  measured_text?: string;
+  notes?: string;
+}
 
 export interface InspectionReport {
   id: string;
@@ -61,6 +139,10 @@ export interface InspectionReport {
   recommendation: InspectionRecommendation | null;
   report_document_name: string;
   report_document_url: string | null;
+  /** Requirement results recorded during this inspection. */
+  requirement_results: InspectionRequirementResult[];
+  /** Photos captured during the inspection. */
+  images: TradeInspectionImage[];
   created_by_name: string;
   created_at: string;
   updated_at: string;
@@ -193,6 +275,8 @@ export interface TradeDetail extends TradeSummary {
   inspection_completed_at: string | null;
   inspection_assigned_to_name?: string | null;
   inspection_report: InspectionReport | null;
+  /** Requirements the buyer set before inspection was performed. */
+  inspection_requirements: InspectionRequirement[];
   tracking_reference: string;
   estimated_arrival: string | null;
   actual_arrival: string | null;
@@ -315,6 +399,16 @@ export interface ScheduleInspectionPayload {
   inspector_id?: string;
 }
 
+export interface DraftInspectionPayload {
+  verdict?: InspectionVerdict | null;
+  summary?: string;
+  findings?: string;
+  recommendation?: InspectionRecommendation;
+  report_document?: File;
+  requirement_results?: RequirementResultPayload[];
+}
+
+
 export interface CompleteInspectionPayload {
   verdict: InspectionVerdict;
   /** Minimum 10 characters. */
@@ -322,6 +416,8 @@ export interface CompleteInspectionPayload {
   findings?: string;
   recommendation?: InspectionRecommendation;
   report_document?: File;
+  /** Results for each buyer-set requirement. Sent as JSON string in multipart. */
+  requirement_results?: RequirementResultPayload[];
 }
 
 export interface RejectInspectionPayload {
@@ -349,6 +445,52 @@ export interface UploadTradeDocumentPayload {
   notes?: string;
 }
 
+export interface InspectionRequirementInput {
+  name: string;
+  description?: string;
+  value_type: InspectionValueType;
+  operator: InspectionOperator;
+  /** Numeric / percent / decimal target. */
+  target_value?: string;
+  /** Lower bound when operator is "between". */
+  min_value?: string;
+  /** Upper bound when operator is "between". */
+  max_value?: string;
+  /** Text comparison target for operator "contains". */
+  target_text?: string;
+  /** Boolean target for value_type "boolean". */
+  target_boolean?: boolean;
+  unit?: string;
+  is_mandatory?: boolean;
+  sort_order?: number;
+}
+
+/** Payload for POST or PUT /trades/{trade_id}/inspection-requirements/ */
+export interface SetInspectionRequirementsPayload {
+  requirements: InspectionRequirementInput[];
+}
+
+/** PUT returns the full updated list of requirements as `data`. */
+export type SetInspectionRequirementsResponse =
+  BiddingEnvelope<InspectionRequirement[]>;
+
+export interface CreateInspectionRequirementsResponseData {
+  trade: TradeDetail;
+  requirements: InspectionRequirement[];
+  inspection_fee_payment?: any; // typed as any here to avoid circular dep, casted in slice/component
+}
+
+/** POST returns the trade, requirements, and payment info. */
+export type CreateInspectionRequirementsResponse =
+  BiddingEnvelope<CreateInspectionRequirementsResponseData>;
+
+export interface UploadInspectionImagePayload {
+  image: File;
+  caption?: string;
+}
+
+export type InspectionImageResponse = BiddingEnvelope<TradeInspectionImage>;
+
 // ─── API Response Envelopes ───────────────────────────────────────────────────
 
 export interface BiddingEnvelope<TData> {
@@ -374,6 +516,8 @@ export type TradeMessageListResponse = BiddingEnvelope<TradeMessage[]>;
 export type TradeMessageResponse = BiddingEnvelope<TradeMessage>;
 export type TradeDocumentListResponse = BiddingEnvelope<TradeDocument[]>;
 export type TradeDocumentResponse = BiddingEnvelope<TradeDocument>;
+export type InspectionRequirementsListResponse =
+  BiddingEnvelope<InspectionRequirement[]>;
 
 export type BiddingAdminOverviewResponse = BiddingEnvelope<BiddingAdminOverview>;
 
@@ -389,11 +533,11 @@ export type RequestInspectionResponse =
 export type WsEnquiryClientAction =
   | { action: "send_message"; body: string }
   | {
-      action: "counter";
-      counter_price_per_unit?: string;
-      counter_quantity?: string;
-      counter_message?: string;
-    };
+    action: "counter";
+    counter_price_per_unit?: string;
+    counter_quantity?: string;
+    counter_message?: string;
+  };
 
 export type WsTradeClientAction =
   | { action: "send_message"; body: string };
@@ -406,4 +550,4 @@ export interface WsErrorMessage {
 
 export type WsServerEvent =
   | WsErrorMessage
-  | { type: string; data?: unknown; [key: string]: unknown };
+  | { type: string; data?: unknown;[key: string]: unknown };

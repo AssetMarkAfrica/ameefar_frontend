@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 
+import { LogoutButton } from "@/components/auth/LogoutButton";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
   selectAccessToken,
@@ -70,14 +71,17 @@ export function ProfileShell({ children }: { children: React.ReactNode }) {
         </Link>
         <nav className="profile-topnav" aria-label="Primary">
           <Link href="/product">Marketplace</Link>
-          <Link href="#">My Trades</Link>
+          <Link href={user?.role === "seller" ? "/bidding/seller/negotiations" : "/bidding/buyer/negotiations"}>My Trades</Link>
           <Link className="active" href="/profile">
             Profile
           </Link>
         </nav>
-        <div className="profile-user-chip">
-          {user?.first_name?.[0] ?? user?.email?.[0] ?? "A"}
-          {user?.last_name?.[0] ?? ""}
+        <div className="flex items-center gap-3">
+          <LogoutButton className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-[#404848] transition hover:border-[#002627] hover:text-[#002627] disabled:cursor-not-allowed disabled:opacity-60" />
+          <div className="profile-user-chip">
+            {user?.first_name?.[0] ?? user?.email?.[0] ?? "A"}
+            {user?.last_name?.[0] ?? ""}
+          </div>
         </div>
       </header>
       {fetchStatus === "loading" && !profile ? (

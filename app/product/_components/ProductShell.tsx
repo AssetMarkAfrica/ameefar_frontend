@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
+import { LogoutButton } from "@/components/auth/LogoutButton";
 import { useAppSelector } from "@/store/hooks";
 import {
   selectAccessToken,
@@ -42,7 +43,10 @@ export function ProductShell({ active, children }: ProductShellProps) {
 
   const [mounted, setMounted] = useState(false);
 
-  useEffect(() => { setMounted(true); }, []);
+  useEffect(() => {
+    const mountTimer = window.setTimeout(() => setMounted(true), 0);
+    return () => window.clearTimeout(mountTimer);
+  }, []);
 
   useEffect(() => {
     if (!mounted) return;
@@ -173,6 +177,11 @@ export function ProductShell({ active, children }: ProductShellProps) {
           <p className="mt-3 truncate text-sm text-[#404848]">
             {user?.company_name || user?.email}
           </p>
+          <LogoutButton
+            className="mt-4 flex w-full items-center gap-3 rounded-lg px-4 py-3 text-left text-sm font-semibold text-[#404848] transition hover:bg-slate-50 hover:text-[#002627] disabled:cursor-not-allowed disabled:opacity-60"
+            iconClassName="material-symbols-outlined text-[20px]"
+            showIcon
+          />
         </div>
       </aside>
 
@@ -190,14 +199,22 @@ export function ProductShell({ active, children }: ProductShellProps) {
             Ameefar
           </strong>
         </Link>
-        {canCreate ? (
-          <Link
-            className="rounded-xl bg-[#beebeb] px-4 py-2 text-sm font-semibold text-[#002627] transition hover:bg-[#a3cfcf]"
-            href="/product/create"
-          >
-            New
-          </Link>
-        ) : null}
+        <div className="flex items-center gap-2">
+          {canCreate ? (
+            <Link
+              className="rounded-xl bg-[#beebeb] px-4 py-2 text-sm font-semibold text-[#002627] transition hover:bg-[#a3cfcf]"
+              href="/product/create"
+            >
+              New
+            </Link>
+          ) : null}
+          <LogoutButton
+            className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 text-[#404848] transition hover:border-[#002627] hover:text-[#002627] disabled:cursor-not-allowed disabled:opacity-60"
+            iconClassName="material-symbols-outlined text-[20px]"
+            showIcon
+            showLabel={false}
+          />
+        </div>
       </header>
 
       {/* ── Page content ────────────────────────────────────── */}

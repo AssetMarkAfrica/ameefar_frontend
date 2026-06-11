@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState, useCallback } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { selectAccessToken } from "@/store/auth/authSelectors";
 import {
@@ -35,6 +35,7 @@ type ActiveModal = "trade_payment" | "inspection_payment" | null;
 
 export default function BuyerTradePage() {
   const { id } = useParams() as { id: string };
+  const router = useRouter();
   const dispatch = useAppDispatch();
   const token = useAppSelector(selectAccessToken);
   const { currentTrade, tradeMessages, tradeDocuments, status, errors } =
@@ -49,13 +50,11 @@ export default function BuyerTradePage() {
   const documents = tradeDocuments[id] || [];
   const tradeStatus = currentTrade?.status;
   const inspectionStatus = currentTrade?.inspection_status;
+
   const [completeReason, setCompleteReason] = useState("");
   const [activeModal, setActiveModal] = useState<ActiveModal>(null);
   const [isVerifying, setIsVerifying] = useState(false);
-
-  const [inspectionFeePayment, setInspectionFeePayment] =
-    useState<InspectionFeePayment | null>(null);
-
+  const [inspectionFeePayment, setInspectionFeePayment] = useState<InspectionFeePayment | null>(null);
   const [tradePaymentVerified, setTradePaymentVerified] = useState(false);
 
   useEffect(() => {
@@ -82,9 +81,7 @@ export default function BuyerTradePage() {
 
   const handleSendMessage = async (body: string, attachment?: File) => {
     if (!token) return;
-    await dispatch(
-      sendTradeMessageThunk({ token, tradeId: id, body, attachment }),
-    );
+    await dispatch(sendTradeMessageThunk({ token, tradeId: id, body, attachment }));
   };
 
   const handleUploadDocument = async (file: File, docType: TradeDocumentType) => {
@@ -103,10 +100,6 @@ export default function BuyerTradePage() {
   const handleAgreeTerms = async () => {
     if (!token) return;
     await dispatch(agreeTradeTermsThunk({ token, tradeId: id }));
-  };
-
-  const handleOpenTradePaymentModal = () => {
-    setActiveModal("trade_payment");
   };
 
   const handleInitiateTradePayment = useCallback(async () => {
@@ -151,14 +144,7 @@ export default function BuyerTradePage() {
     if (!token) return;
     const result = await dispatch(requestInspectionThunk({ token, tradeId: id }));
     if (requestInspectionThunk.fulfilled.match(result)) {
-      const payment = result.payload.data
-        .inspection_fee_payment as unknown as InspectionFeePayment;
-      setInspectionFeePayment(payment);
-      if (payment?.paystack_authorization_url) {
-        window.open(payment.paystack_authorization_url, "_blank");
-      }
-      setActiveModal("inspection_payment");
-      dispatch(fetchTradeThunk({ token, tradeId: id }));
+      router.push(`/bidding/buyer/trade/${id}/inspection-requirements`);
     }
   };
 
@@ -178,12 +164,42 @@ export default function BuyerTradePage() {
     }
   }, [dispatch, token, inspectionFeePayment, id]);
 
-  const isTradePaymentPaid =
-    tradeSummary?.trade_payment_paid || tradePaymentVerified;
+const [localInspectionSettled, setLocalInspectionSettled] = useState(false);
 
-  const showTradePaymentCard =
-    inspectionStatus === "skipped" ||
-    (inspectionStatus === "passed" && tradeSummary?.trade_payment_amount);
+const handleApproveInspection = async () => {
+  if (!token) return;
+  const result = await dispatch(approveInspectionThunk({ token, tradeId: id }));
+  if (approveInspectionThunk.fulfilled.match(result)) {
+    // Optimistically mark inspection as settled locally
+    setLocalInspectionSettled(true);
+    // Also try to refresh from server
+    dispatch(fetchTradeThunk({ token, tradeId: id }));
+    dispatch(getTradePaymentSummaryThunk(id));
+  }
+};
+
+  const handleRejectInspection = async (reason: string) => {
+    if (!token) return;
+    await dispatch(rejectInspectionThunk({ token, tradeId: id, reason }));
+    dispatch(fetchTradeThunk({ token, tradeId: id }));
+  };
+
+  // ── Derived state ──────────────────────────────────────────────────────────
+
+  const isTradePaymentPaid = tradeSummary?.trade_payment_paid || tradePaymentVerified;
+
+  // Inspection is fully settled from the buyer's perspective
+  // Inspection is fully settled from the buyer's perspective
+const inspectionSettled = localInspectionSettled || inspectionStatus === "skipped" || inspectionStatus === "approved";
+
+  // Show inspection module until buyer has approved or skipped
+  const showInspectionModule =
+    tradeStatus === "agreed" &&
+    !!inspectionStatus &&
+    !inspectionSettled;
+
+  // Show trade payment card once inspection is settled
+  const showTradePaymentCard = tradeStatus === "agreed" && inspectionSettled;
 
   if (status.fetchTrade === "loading" || !currentTrade) {
     return (
@@ -200,6 +216,7 @@ export default function BuyerTradePage() {
     <div className="flex w-full min-h-screen bg-surface-gray font-body-md text-on-surface">
       <BiddingSidebar role="buyer" />
       <main className="md:ml-64 pt-16 min-h-screen flex flex-col">
+
         {/* Progress Stepper Header */}
         <section className="bg-white border-b border-border-subtle px-margin-desktop py-8">
           <div className="max-w-4xl mx-auto">
@@ -217,9 +234,11 @@ export default function BuyerTradePage() {
 
         {/* Execution Workspace */}
         <div className="flex-1 p-8 grid grid-cols-1 lg:grid-cols-12 gap-gutter max-w-container-max mx-auto w-full">
-          {/* Left Panel: Trade Details & Actions */}
+
+          {/* ── Left Panel ── */}
           <div className="lg:col-span-7 space-y-6">
-            {/* Trade Details Card */}
+
+            {/* Trade Specifications */}
             <div className="bg-white rounded-xl border border-border-subtle shadow-sm overflow-hidden">
               <div className="p-6 border-b border-border-subtle bg-surface-gray flex justify-between items-center">
                 <h2 className="font-headline-md text-headline-md text-primary text-lg">
@@ -231,28 +250,16 @@ export default function BuyerTradePage() {
               </div>
               <div className="p-6 grid grid-cols-2 md:grid-cols-3 gap-8">
                 <div>
-                  <p className="text-body-sm text-outline-variant uppercase tracking-wide font-bold mb-1">
-                    Total Value
-                  </p>
-                  <p className="font-label-md text-headline-md text-primary">
-                    {currentTrade.total_value}
-                  </p>
-                  <p className="text-body-sm text-outline mt-1">
-                    {currentTrade.currency}
-                  </p>
+                  <p className="text-body-sm text-outline-variant uppercase tracking-wide font-bold mb-1">Total Value</p>
+                  <p className="font-label-md text-headline-md text-primary">{currentTrade.total_value}</p>
+                  <p className="text-body-sm text-outline mt-1">{currentTrade.currency}</p>
                 </div>
                 <div>
-                  <p className="text-body-sm text-outline-variant uppercase tracking-wide font-bold mb-1">
-                    Seller
-                  </p>
-                  <p className="font-label-md text-body-lg text-primary">
-                    {currentTrade.seller_name}
-                  </p>
+                  <p className="text-body-sm text-outline-variant uppercase tracking-wide font-bold mb-1">Seller</p>
+                  <p className="font-label-md text-body-lg text-primary">{currentTrade.seller_name}</p>
                 </div>
                 <div>
-                  <p className="text-body-sm text-outline-variant uppercase tracking-wide font-bold mb-1">
-                    Quantity
-                  </p>
+                  <p className="text-body-sm text-outline-variant uppercase tracking-wide font-bold mb-1">Quantity</p>
                   <p className="font-label-md text-body-lg text-primary">
                     {currentTrade.quantity} {currentTrade.unit}
                   </p>
@@ -260,13 +267,12 @@ export default function BuyerTradePage() {
               </div>
             </div>
 
+            {/* Agree Terms */}
             {currentTrade.status === "negotiating" && (
               <div className="bg-white rounded-xl border border-border-subtle shadow-sm overflow-hidden p-6">
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                   <div>
-                    <h3 className="font-headline-md text-headline-md text-primary mb-1">
-                      Agree Trade Terms
-                    </h3>
+                    <h3 className="font-headline-md text-headline-md text-primary mb-1">Agree Trade Terms</h3>
                     <p className="text-body-sm text-on-surface-variant">
                       Confirm the negotiated quantity, pricing, delivery terms, and target delivery date.
                     </p>
@@ -290,10 +296,11 @@ export default function BuyerTradePage() {
               </div>
             )}
 
+            {/* Agreed state blocks */}
             {currentTrade.status === "agreed" && (
               <>
-                {/* Always show Inspection Module block during 'agreed' until it passes/skips */}
-                {(!inspectionStatus || !["skipped", "passed"].includes(inspectionStatus)) && (
+                {/* Inspection Module — shown until buyer approves or skips */}
+                {showInspectionModule && (
                   <InspectionModule
                     status={currentTrade.inspection_status}
                     role="buyer"
@@ -303,12 +310,8 @@ export default function BuyerTradePage() {
                     onSkip={() =>
                       dispatch(skipInspectionThunk({ token: token!, tradeId: id }))
                     }
-                    onApprove={() =>
-                      dispatch(approveInspectionThunk({ token: token!, tradeId: id }))
-                    }
-                    onReject={(reason) =>
-                      dispatch(rejectInspectionThunk({ token: token!, tradeId: id, reason }))
-                    }
+                    onApprove={handleApproveInspection}
+                    onReject={handleRejectInspection}
                     isActionLoading={
                       status.requestInspection === "loading" ||
                       status.skipInspection === "loading" ||
@@ -318,12 +321,61 @@ export default function BuyerTradePage() {
                   />
                 )}
 
-                {/* Show Trade Payment block when inspection is settled */}
+                {/* No inspection required yet — buyer hasn't requested */}
+                {!inspectionStatus && (
+                  <InspectionModule
+                    status={null}
+                    role="buyer"
+                    report={null}
+                    paymentSummary={tradeSummary}
+                    onRequest={handleRequestInspection}
+                    onSkip={() =>
+                      dispatch(skipInspectionThunk({ token: token!, tradeId: id }))
+                    }
+                    onApprove={handleApproveInspection}
+                    onReject={handleRejectInspection}
+                    isActionLoading={
+                      status.requestInspection === "loading" ||
+                      status.skipInspection === "loading"
+                    }
+                  />
+                )}
+
+                {/* Trade Payment — shown after inspection settled */}
                 {showTradePaymentCard && (
                   <div className="bg-white rounded-xl border border-border-subtle shadow-sm overflow-hidden p-6">
-                    <h3 className="font-headline-md text-headline-md text-primary mb-4">
-                      Trade Payment
-                    </h3>
+                    <h3 className="font-headline-md text-headline-md text-primary mb-4">Trade Payment</h3>
+
+                    {/* Inspection approved banner */}
+                    {inspectionStatus === "approved" && (
+                      <div className="mb-4 flex items-center gap-3 p-4 bg-trust-green-subtle border border-secondary/20 rounded-xl">
+                        <span className="material-symbols-outlined text-secondary text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>
+                          verified
+                        </span>
+                        <div>
+                          <p className="font-bold text-secondary text-body-sm">Inspection Approved</p>
+                          <p className="text-body-sm text-on-surface-variant">
+                            You've approved the inspection report. Complete payment to proceed.
+                          </p>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Skipped banner */}
+                    {inspectionStatus === "skipped" && (
+                      <div className="mb-4 flex items-center gap-3 p-4 bg-surface-gray border border-border-subtle rounded-xl">
+                        <span className="material-symbols-outlined text-outline text-[20px]">
+                          skip_next
+                        </span>
+                        <div>
+                          <p className="font-bold text-ameefar-navy text-body-sm">Inspection Skipped</p>
+                          <p className="text-body-sm text-on-surface-variant">
+                            Proceed directly to trade payment.
+                          </p>
+                        </div>
+                      </div>
+                    )}
+
                     <div
                       className={`rounded-xl border p-5 transition-all ${isTradePaymentPaid ? "border-secondary/30 bg-trust-green-subtle" : "border-border-subtle bg-surface-gray"}`}
                     >
@@ -342,8 +394,8 @@ export default function BuyerTradePage() {
                             <p className="font-bold text-primary">Trade Payment</p>
                             {tradeSummary && (
                               <p className="text-body-sm text-outline">
-                                GHS {tradeSummary.trade_payment_amount} (incl.{" "}
-                                {tradeSummary.platform_fee_percent}% fee)
+                                {currentTrade.currency} {tradeSummary.trade_payment_amount} (incl.{" "}
+                                {tradeSummary.platform_fee_percent}% platform fee)
                               </p>
                             )}
                           </div>
@@ -355,7 +407,7 @@ export default function BuyerTradePage() {
                           </span>
                         ) : (
                           <button
-                            onClick={handleOpenTradePaymentModal}
+                            onClick={() => setActiveModal("trade_payment")}
                             className="px-5 py-2 bg-ameefar-navy text-on-primary font-bold rounded-lg text-body-sm hover:opacity-90 transition-all active:scale-95 flex items-center gap-2"
                           >
                             <span className="material-symbols-outlined text-[16px]">payments</span>
@@ -364,11 +416,14 @@ export default function BuyerTradePage() {
                         )}
                       </div>
                     </div>
+
                     {isTradePaymentPaid && (
                       <div className="mt-4 p-4 bg-surface-gray rounded-xl border border-border-subtle text-center">
                         <span className="material-symbols-outlined text-ameefar-navy mb-2">local_shipping</span>
                         <p className="text-sm font-bold text-ameefar-navy">Payment Secured.</p>
-                        <p className="text-sm text-on-surface-variant">Awaiting the seller to mark the shipment as "In Progress".</p>
+                        <p className="text-sm text-on-surface-variant">
+                          Awaiting the seller to mark the shipment as "In Progress".
+                        </p>
                       </div>
                     )}
                   </div>
@@ -376,6 +431,7 @@ export default function BuyerTradePage() {
               </>
             )}
 
+            {/* In Progress */}
             {currentTrade.status === "in_progress" && (
               <div className="bg-white rounded-xl border border-border-subtle shadow-sm overflow-hidden p-6">
                 <h3 className="font-headline-md text-headline-md text-primary mb-4">
@@ -397,7 +453,6 @@ export default function BuyerTradePage() {
                     </p>
                   </div>
                 </div>
-
                 <div className="border-t border-border-subtle pt-6">
                   <p className="text-body-sm text-on-surface-variant mb-4">
                     Once you receive and inspect the goods, confirm completion.
@@ -426,7 +481,7 @@ export default function BuyerTradePage() {
             />
           </div>
 
-          {/* Right Panel: Chat & Inspection */}
+          {/* ── Right Panel ── */}
           <div className="lg:col-span-5 flex flex-col gap-6">
             <div className="h-[500px]">
               <ChatPanel
@@ -438,15 +493,13 @@ export default function BuyerTradePage() {
               />
             </div>
 
-            {/* Inspection fee payment prompt if payment pending */}
+            {/* Inspection fee payment prompt */}
             {inspectionFeePayment &&
               currentTrade.inspection_status === "requested" &&
               !tradeSummary?.inspection_fee_paid && (
                 <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
                   <div className="flex items-center gap-2 mb-3">
-                    <span className="material-symbols-outlined text-amber-600">
-                      payments
-                    </span>
+                    <span className="material-symbols-outlined text-amber-600">payments</span>
                     <p className="font-bold text-amber-800">Inspection Fee Pending</p>
                   </div>
                   <p className="text-body-sm text-amber-700 mb-3">
@@ -483,9 +536,7 @@ export default function BuyerTradePage() {
         <PaymentModal
           type="inspection"
           summary={tradeSummary}
-          authorizationUrl={
-            inspectionFeePayment?.paystack_authorization_url ?? null
-          }
+          authorizationUrl={inspectionFeePayment?.paystack_authorization_url ?? null}
           paystackReference={inspectionFeePayment?.paystack_reference ?? null}
           isInitiating={status.requestInspection === "loading"}
           isVerifying={isVerifying}

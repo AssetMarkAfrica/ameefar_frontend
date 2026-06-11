@@ -7,10 +7,12 @@ import type {
   CounterEnquiryPayload,
   CreateEnquiryPayload,
   DeclineEnquiryPayload,
+  DraftInspectionPayload,
   EnquiryDetailResponse,
   EnquiryListResponse,
   EnquiryMessageListResponse,
   EnquiryMessageResponse,
+  InspectionImageResponse,
   ListEnquiriesParams,
   ListTradesParams,
   MarkInProgressPayload,
@@ -22,6 +24,9 @@ import type {
   ScheduleInspectionPayload,
   SendEnquiryMessagePayload,
   SendTradeMessagePayload,
+  SetInspectionRequirementsPayload,
+  SetInspectionRequirementsResponse,
+  CreateInspectionRequirementsResponse,
   TradeDetailResponse,
   TradeDocumentListResponse,
   TradeDocumentResponse,
@@ -29,6 +34,7 @@ import type {
   TradeMessageListResponse,
   TradeMessageResponse,
   UpdateAdminNotesPayload,
+  UploadInspectionImagePayload,
   UploadTradeDocumentPayload,
 } from "@/types/bidding";
 
@@ -97,7 +103,7 @@ async function requestJson<TResponse, TPayload = undefined>({
   token,
 }: {
   endpoint: string;
-  method: "GET" | "POST" | "PATCH";
+  method: "GET" | "POST" | "PATCH" | "PUT" | "DELETE";
   payload?: TPayload;
   token: string;
 }): Promise<TResponse> {
@@ -128,7 +134,7 @@ async function requestFormData<TResponse>({
   endpoint: string;
   formData: FormData;
   token: string;
-  method?: "POST" | "PATCH";
+  method?: "POST" | "PATCH" | "PUT";
 }): Promise<TResponse> {
   const response = await fetch(getBiddingUrl(endpoint), {
     method,
@@ -238,6 +244,20 @@ export const BiddingService = {
   ): Promise<EnquiryDetailResponse> {
     return requestJson<EnquiryDetailResponse, CounterEnquiryPayload>({
       endpoint: `/enquiries/${enquiryId}/counter/`,
+      method: "POST",
+      payload,
+      token,
+    });
+  },
+
+  /** Buyer counter-back on a countered enquiry. */
+  buyerCounterEnquiry(
+    token: string,
+    enquiryId: string,
+    payload: CounterEnquiryPayload,
+  ): Promise<EnquiryDetailResponse> {
+    return requestJson<EnquiryDetailResponse, CounterEnquiryPayload>({
+      endpoint: `/enquiries/${enquiryId}/counter-back/`,
       method: "POST",
       payload,
       token,
@@ -459,6 +479,30 @@ export const BiddingService = {
     });
   },
 
+  /** Admin only. Saves draft of inspection report. Returns a full trade detail object. */
+  draftInspection(
+    token: string,
+    tradeId: string,
+    payload: DraftInspectionPayload,
+  ): Promise<TradeDetailResponse> {
+    const formData = new FormData();
+    if (payload.verdict) formData.append("verdict", payload.verdict);
+    if (payload.summary) formData.append("summary", payload.summary);
+    if (payload.findings) formData.append("findings", payload.findings);
+    if (payload.recommendation)
+      formData.append("recommendation", payload.recommendation);
+    if (payload.report_document)
+      formData.append("report_document", payload.report_document);
+    if (payload.requirement_results?.length)
+      formData.append("requirement_results", JSON.stringify(payload.requirement_results));
+
+    return requestFormData<TradeDetailResponse>({
+      endpoint: `/trades/${tradeId}/draft-inspection/`,
+      formData,
+      token,
+    });
+  },
+
   /** Admin only. Returns a full trade detail object. */
   completeInspection(
     token: string,
@@ -473,6 +517,8 @@ export const BiddingService = {
       formData.append("recommendation", payload.recommendation);
     if (payload.report_document)
       formData.append("report_document", payload.report_document);
+    if (payload.requirement_results?.length)
+      formData.append("requirement_results", JSON.stringify(payload.requirement_results));
 
     return requestFormData<TradeDetailResponse>({
       endpoint: `/trades/${tradeId}/complete-inspection/`,
@@ -584,6 +630,87 @@ export const BiddingService = {
       formData,
       token,
     });
+  },
+
+  // ── Inspection Requirements ────────────────────────────────────────────────
+
+  /**
+   * Buyer only. Submits requirements and initiates payment.
+   * POST /trades/{tradeId}/inspection-requirements/submit/
+   */
+  createInspectionRequirements(
+    token: string,
+    tradeId: string,
+    payload: SetInspectionRequirementsPayload,
+  ): Promise<CreateInspectionRequirementsResponse> {
+    return requestJson<CreateInspectionRequirementsResponse, SetInspectionRequirementsPayload>({
+      endpoint: `/trades/${tradeId}/inspection-requirements/submit/`,
+      method: "POST",
+      payload,
+      token,
+    });
+  },
+
+  /**
+   * Buyer only. Replaces all requirements (full update).
+   * PUT /trades/{tradeId}/inspection-requirements/
+   */
+  setInspectionRequirements(
+    token: string,
+    tradeId: string,
+    payload: SetInspectionRequirementsPayload,
+  ): Promise<SetInspectionRequirementsResponse> {
+    return requestJson<SetInspectionRequirementsResponse, SetInspectionRequirementsPayload>({
+      endpoint: `/trades/${tradeId}/inspection-requirements/`,
+      method: "PUT",
+      payload,
+      token,
+    });
+  },
+
+  // ── Inspection Images ──────────────────────────────────────────────────────
+
+  /** Upload an inspection photo. Returns the newly created image object. */
+  uploadInspectionImage(
+    token: string,
+    tradeId: string,
+    payload: UploadInspectionImagePayload,
+  ): Promise<InspectionImageResponse> {
+    const formData = new FormData();
+    formData.append("image", payload.image);
+    if (payload.caption) formData.append("caption", payload.caption);
+
+    return requestFormData<InspectionImageResponse>({
+      endpoint: `/trades/${tradeId}/inspection-images/`,
+      formData,
+      token,
+    });
+  },
+
+  /** Delete an inspection photo by image ID. */
+  async deleteInspectionImage(
+    token: string,
+    tradeId: string,
+    imageId: string,
+  ): Promise<BiddingAck> {
+    const response = await fetch(
+      getBiddingUrl(`/trades/${tradeId}/inspection-images/${imageId}/`),
+      {
+        method: "DELETE",
+        headers: getAuthHeaders(token),
+      },
+    );
+
+    // 204 No Content — treat as success with a synthetic ack
+    if (response.status === 204) {
+      return { success: true, message: "Deleted" };
+    }
+
+    const body = (await response.json().catch(() => null)) as { message?: string; detail?: string } | null;
+    if (!response.ok) {
+      throw new Error(body?.message ?? body?.detail ?? response.statusText);
+    }
+    return body as BiddingAck;
   },
 
   // ── Admin ──────────────────────────────────────────────────────────────────

@@ -480,6 +480,7 @@ export function ProductListingDetail({ listingId }: { listingId: string }) {
               <Link
                 className="flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#002627] px-4 font-semibold text-white transition hover:bg-slate-900"
                 href={`/product/${listingId}/edit`}
+                style={{ backgroundColor: '#ffffff', color: '#002627' }}
               >
                 <svg fill="none" height="16" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" width="16">
                   <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
@@ -511,12 +512,7 @@ export function ProductListingDetail({ listingId }: { listingId: string }) {
               >
                 {nonOwnerLabel}
               </button>
-              <button
-                className="mt-3 min-h-12 w-full rounded-xl border border-slate-200 bg-white px-4 font-semibold text-[#002627] transition hover:bg-slate-50"
-                type="button"
-              >
-                Message owner
-              </button>
+
             </>
           )}
 

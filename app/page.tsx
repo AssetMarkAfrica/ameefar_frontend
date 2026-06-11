@@ -1,10 +1,9 @@
 "use client";
 import Link from "next/link";
 import { Hanken_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { LogoutButton } from "@/components/auth/LogoutButton";
+import { useAppSelector } from "@/store/hooks";
 import { selectUser, selectIsAuthenticated } from "@/store/auth/authSelectors";
-import { logoutThunk } from "@/store/auth/authThunks";
-import { logout } from "@/store/auth/authSlice";
 
 const hanken = Hanken_Grotesk({ subsets: ["latin"], weight: ["600", "700"] });
 const inter = Inter({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
@@ -57,18 +56,8 @@ const categories = [
 ];
 
 export default function Home() {
-  const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
   const isAuthenticated = useAppSelector(selectIsAuthenticated);
-  const refreshToken = useAppSelector((state) => state.auth.refreshToken);
-
-  const handleLogout = async () => {
-    if (refreshToken) {
-      await dispatch(logoutThunk({ refresh: refreshToken }));
-    } else {
-      dispatch(logout());
-    }
-  };
 
   return (
     <div className={`${inter.className} min-h-screen bg-[#f8f9ff] text-slate-900`}>
@@ -85,7 +74,7 @@ export default function Home() {
             {isAuthenticated && user ? (
               <>
                 <span className="font-semibold text-primary">Welcome, {user.first_name}</span>
-                <button onClick={handleLogout} className="px-3 py-1 bg-surface-container rounded hover:bg-surface-gray">Logout</button>
+                <LogoutButton className="rounded bg-surface-container px-3 py-1 transition hover:bg-surface-gray disabled:cursor-not-allowed disabled:opacity-60" />
               </>
             ) : (
               <>

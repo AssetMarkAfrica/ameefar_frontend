@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Ameefar | Admin Trade Inspection Report</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "ameefar-navy": "#0F172A",
+                    "primary-fixed-dim": "#a3cfcf",
+                    "primary-container": "#0f3d3e",
+                    "on-surface": "#0b1c30",
+                    "surface-container-highest": "#d3e4fe",
+                    "tertiary": "#002819",
+                    "secondary-fixed": "#83fab4",
+                    "on-secondary-fixed-variant": "#00522f",
+                    "on-tertiary-container": "#06b77f",
+                    "on-background": "#0b1c30",
+                    "surface": "#f8f9ff",
+                    "on-primary-container": "#7da8a8",
+                    "tertiary-fixed": "#6ffbbe",
+                    "error": "#ba1a1a",
+                    "surface-container": "#e5eeff",
+                    "surface-bright": "#f8f9ff",
+                    "inverse-surface": "#213145",
+                    "surface-dim": "#cbdbf5",
+                    "surface-container-lowest": "#ffffff",
+                    "on-secondary": "#ffffff",
+                    "surface-container-high": "#dce9ff",
+                    "secondary-container": "#80f7b1",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary-container": "#007243",
+                    "inverse-on-surface": "#eaf1ff",
+                    "surface-variant": "#d3e4fe",
+                    "on-primary": "#ffffff",
+                    "trust-green-subtle": "#ECFDF5",
+                    "on-primary-fixed": "#002020",
+                    "secondary-fixed-dim": "#66dd99",
+                    "outline-variant": "#c0c8c8",
+                    "tertiary-container": "#00402a",
+                    "on-secondary-fixed": "#002110",
+                    "error-container": "#ffdad6",
+                    "on-surface-variant": "#404848",
+                    "border-subtle": "#E2E8F0",
+                    "surface-container-low": "#eff4ff",
+                    "secondary": "#006d40",
+                    "tertiary-fixed-dim": "#4edea3",
+                    "on-tertiary-fixed": "#002113",
+                    "surface-tint": "#3b6566",
+                    "primary": "#002627",
+                    "on-tertiary-fixed-variant": "#005236",
+                    "inverse-primary": "#a3cfcf",
+                    "surface-gray": "#F8FAFC",
+                    "outline": "#717978",
+                    "on-primary-fixed-variant": "#224d4e",
+                    "background": "#f8f9ff",
+                    "on-error-container": "#93000a",
+                    "primary-fixed": "#beebeb",
+                    "on-error": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "margin-mobile": "16px",
+                    "base": "4px",
+                    "container-max": "1440px",
+                    "gutter": "24px",
+                    "margin-desktop": "40px"
+            },
+            "fontFamily": {
+                    "display-lg": ["Hanken Grotesk"],
+                    "body-sm": ["Inter"],
+                    "headline-md": ["Hanken Grotesk"],
+                    "headline-lg-mobile": ["Hanken Grotesk"],
+                    "label-md": ["JetBrains Mono"],
+                    "body-lg": ["Inter"],
+                    "headline-lg": ["Hanken Grotesk"],
+                    "body-md": ["Inter"]
+            },
+            "fontSize": {
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8f9ff; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 24px;
+        }
+        .inspection-card {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .inspection-card:hover {
+            box-shadow: 0 10px 15px -3px rgba(15, 23, 42, 0.08);
+            transform: translateY(-2px);
+        }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #E2E8F0; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- Sidebar (Shared SideNavBar Implementation) -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-ameefar-navy flex flex-col py-6 px-4 gap-4 z-50 overflow-y-auto">
+<div class="mb-8 px-2">
+<h1 class="font-headline-md text-headline-md font-bold text-on-primary">Enterprise Portal</h1>
+<p class="text-on-primary-container text-xs opacity-70">Global Recycling Corp</p>
+</div>
+<nav class="flex-1 flex flex-col gap-2">
+<a class="flex items-center gap-3 px-4 py-3 text-surface-variant hover:bg-surface-container/10 rounded-lg transition-colors duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-surface-variant hover:bg-surface-container/10 rounded-lg transition-colors duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="storefront">storefront</span>
+<span class="font-label-md text-label-md">Marketplace</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 bg-primary-container text-on-primary-container rounded-lg font-semibold shadow-sm transition-transform active:translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="handshake">handshake</span>
+<span class="font-label-md text-label-md">My Trades</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-surface-variant hover:bg-surface-container/10 rounded-lg transition-colors duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-label-md text-label-md">Inventory</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-surface-variant hover:bg-surface-container/10 rounded-lg transition-colors duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</nav>
+<div class="pt-4 border-t border-white/10 mt-auto flex flex-col gap-2">
+<a class="flex items-center gap-3 px-4 py-3 text-error-container/80 hover:text-error-container transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-label-md text-label-md">Logout</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-64 min-h-screen">
+<!-- Header (Shared TopNavBar Implementation) -->
+<header class="w-full h-16 bg-surface border-b border-border-subtle flex justify-between items-center px-margin-desktop sticky top-0 z-40">
+<div class="flex items-center gap-4">
+<nav class="flex text-on-surface-variant text-sm font-medium gap-2 items-center">
+<a class="hover:text-primary" href="#">Inspections</a>
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+<a class="hover:text-primary" href="#">AM-8924-RE</a>
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+<span class="text-primary font-bold">Field Report</span>
+</nav>
+</div>
+<div class="flex items-center gap-6">
+<button class="text-on-surface-variant hover:bg-surface-gray p-2 rounded-full transition-all">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="h-8 w-px bg-border-subtle"></div>
+<div class="flex items-center gap-3">
+<div class="text-right hidden sm:block">
+<p class="text-sm font-bold text-ameefar-navy">David Chen</p>
+<p class="text-xs text-on-surface-variant">Senior Lead Inspector</p>
+</div>
+<img alt="User Profile" class="w-10 h-10 rounded-full border-2 border-surface-container object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCWZVF6GAf3RsWF6C7p0kcRYZdsiChNWz3JPyozi6oDA8o7t3Kefk0ogw39Mi_U4Qc7LWm1ecN_5V0ooEF-AnVlKlz8L--fajN9_Pv12KTmkYFoiOz3lrmIe_nln56O_wG3TmU2FsYMNs9shTavk33r2yX_h2dTQ6v8xPxr6tdByBSSRKzlUUt_DA3ykKw8dGVZ2EfOEP8cM6PKNpFQ4PBtFCyU2Y7M_MI_LMK9lxvJyzm9rUrQGOw-s7bVQfU5ahxzfBibMhmLvTUq"/>
+</div>
+<button class="bg-ameefar-navy text-white px-5 py-2.5 rounded-xl font-semibold text-sm hover:opacity-90 active:scale-95 transition-all">
+                    Submit Final Report
+                </button>
+</div>
+</header>
+<!-- Content Canvas -->
+<div class="p-8 max-w-[1400px] mx-auto">
+<!-- Summary Banner -->
+<section class="bg-white border border-border-subtle rounded-xl p-6 mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 shadow-sm">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-ameefar-navy mb-1">Trade Inspection: AM-8924-RE</h2>
+<div class="flex gap-4 items-center">
+<span class="bg-surface-container text-on-surface-variant px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Recycled PET Pellets</span>
+<div class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="material-symbols-outlined text-lg">scale</span>
+<span class="font-label-md text-label-md">250.00 MT</span>
+</div>
+<div class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="material-symbols-outlined text-lg">location_on</span>
+<span class="font-label-md text-label-md">Accra Port Terminal B</span>
+</div>
+</div>
+</div>
+<div class="flex gap-3">
+<div class="bg-trust-green-subtle border border-secondary/20 px-4 py-3 rounded-lg flex items-center gap-3">
+<div class="bg-secondary text-white w-8 h-8 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-sm">verified</span>
+</div>
+<div>
+<p class="text-[10px] uppercase font-bold text-secondary opacity-70">Current Phase</p>
+<p class="text-sm font-bold text-ameefar-navy">Field Testing</p>
+</div>
+</div>
+</div>
+</section>
+<div class="bento-grid">
+<!-- Main Checklist Area (8 cols) -->
+<div class="col-span-12 lg:col-span-8 space-y-6">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-md text-headline-md text-ameefar-navy">Inspection Checklist</h3>
+<span class="text-xs text-on-surface-variant font-medium">Auto-saved 2m ago</span>
+</div>
+<!-- Requirements List -->
+<div class="space-y-4">
+<!-- Item: Contamination -->
+<div class="inspection-card bg-white border border-border-subtle rounded-xl p-6">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h4 class="font-bold text-ameefar-navy">Contamination Level</h4>
+<p class="text-xs text-on-surface-variant mt-1">Target Threshold: <span class="font-bold text-ameefar-navy">&lt; 0.5%</span></p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" id="req-1" type="checkbox"/>
+<div class="w-14 h-7 bg-surface-container peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-secondary"></div>
+<span class="ml-3 text-sm font-bold text-secondary peer-checked:block hidden">Requirement Met</span>
+<span class="ml-3 text-sm font-bold text-error peer-checked:hidden block">Requirement Failed</span>
+</label>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+<div>
+<label class="text-[10px] font-bold text-on-surface-variant uppercase mb-1 block">Measured Value (%)</label>
+<input class="w-full bg-surface-gray border border-border-subtle rounded-lg px-4 py-3 font-label-md text-label-md focus:ring-2 focus:ring-primary focus:outline-none transition-all" step="0.01" type="number" value="0.32"/>
+</div>
+<div>
+<label class="text-[10px] font-bold text-on-surface-variant uppercase mb-1 block">Notes</label>
+<textarea class="w-full bg-surface-gray border border-border-subtle rounded-lg px-4 py-3 font-body-sm text-body-sm focus:ring-2 focus:ring-primary focus:outline-none transition-all" placeholder="Add observation details..." rows="1"></textarea>
+</div>
+</div>
+<div class="flex items-center gap-2 text-[10px] text-on-surface-variant italic">
+<span class="material-symbols-outlined text-sm">schedule</span>
+                                Checked by David Chen at 2023-11-20 09:45 AM
+                            </div>
+</div>
+<!-- Item: Moisture -->
+<div class="inspection-card bg-white border border-border-subtle rounded-xl p-6">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h4 class="font-bold text-ameefar-navy">Moisture Content</h4>
+<p class="text-xs text-on-surface-variant mt-1">Target Threshold: <span class="font-bold text-ameefar-navy">&lt; 0.1%</span></p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" id="req-2" type="checkbox"/>
+<div class="w-14 h-7 bg-surface-container peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-secondary"></div>
+<span class="ml-3 text-sm font-bold text-secondary">Met</span>
+</label>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+<div>
+<label class="text-[10px] font-bold text-on-surface-variant uppercase mb-1 block">Measured Value (%)</label>
+<input class="w-full bg-surface-gray border border-border-subtle rounded-lg px-4 py-3 font-label-md text-label-md focus:ring-2 focus:ring-primary focus:outline-none transition-all" step="0.01" type="number" value="0.08"/>
+</div>
+<div>
+<label class="text-[10px] font-bold text-on-surface-variant uppercase mb-1 block">Notes</label>
+<textarea class="w-full bg-surface-gray border border-border-subtle rounded-lg px-4 py-3 font-body-sm text-body-sm focus:ring-2 focus:ring-primary focus:outline-none transition-all" placeholder="Add observation details..." rows="1"></textarea>
+</div>
+</div>
+<div class="flex items-center gap-2 text-[10px] text-on-surface-variant italic">
+<span class="material-symbols-outlined text-sm">schedule</span>
+                                Checked by David Chen at 2023-11-20 10:12 AM
+                            </div>
+</div>
+<!-- Item: Hazardous Material -->
+<div class="inspection-card bg-error-container/5 border border-error/20 rounded-xl p-6">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h4 class="font-bold text-error">Hazardous Material Presence</h4>
+<p class="text-xs text-on-surface-variant mt-1">Target Threshold: <span class="font-bold text-ameefar-navy">None / 0%</span></p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" id="req-3" type="checkbox"/>
+<div class="w-14 h-7 bg-surface-container peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-secondary"></div>
+<span class="ml-3 text-sm font-bold text-error">Not Met</span>
+</label>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+<div>
+<label class="text-[10px] font-bold text-on-surface-variant uppercase mb-1 block">Measured Value (PPM)</label>
+<input class="w-full bg-white border-2 border-error/50 rounded-lg px-4 py-3 font-label-md text-label-md text-error focus:ring-2 focus:ring-error focus:outline-none transition-all" type="number" value="12"/>
+</div>
+<div>
+<label class="text-[10px] font-bold text-on-surface-variant uppercase mb-1 block">Notes</label>
+<textarea class="w-full bg-white border border-border-subtle rounded-lg px-4 py-3 font-body-sm text-body-sm focus:ring-2 focus:ring-primary focus:outline-none transition-all" rows="1">Found traces of industrial grease in the primary container. Requires immediate flagging for the buyer.</textarea>
+</div>
+</div>
+<div class="flex items-center gap-2 text-[10px] text-on-surface-variant italic">
+<span class="material-symbols-outlined text-sm">schedule</span>
+                                Checked by David Chen at 2023-11-20 10:35 AM
+                            </div>
+</div>
+<!-- Item: Purity -->
+<div class="inspection-card bg-white border border-border-subtle rounded-xl p-6">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h4 class="font-bold text-ameefar-navy">Polymer Purity</h4>
+<p class="text-xs text-on-surface-variant mt-1">Target Threshold: <span class="font-bold text-ameefar-navy">&gt; 99.5%</span></p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" id="req-4" type="checkbox"/>
+<div class="w-14 h-7 bg-surface-container peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-secondary"></div>
+<span class="ml-3 text-sm font-bold text-secondary">Met</span>
+</label>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+<div>
+<label class="text-[10px] font-bold text-on-surface-variant uppercase mb-1 block">Measured Value (%)</label>
+<input class="w-full bg-surface-gray border border-border-subtle rounded-lg px-4 py-3 font-label-md text-label-md focus:ring-2 focus:ring-primary focus:outline-none transition-all" step="0.01" type="number" value="99.68"/>
+</div>
+<div>
+<label class="text-[10px] font-bold text-on-surface-variant uppercase mb-1 block">Notes</label>
+<textarea class="w-full bg-surface-gray border border-border-subtle rounded-lg px-4 py-3 font-body-sm text-body-sm focus:ring-2 focus:ring-primary focus:outline-none transition-all" placeholder="Add observation details..." rows="1"></textarea>
+</div>
+</div>
+<div class="flex items-center gap-2 text-[10px] text-on-surface-variant italic">
+<span class="material-symbols-outlined text-sm">schedule</span>
+                                Checked by David Chen at 2023-11-20 11:05 AM
+                            </div>
+</div>
+</div>
+</div>
+<!-- Sidebar Panels (4 cols) -->
+<div class="col-span-12 lg:col-span-4 space-y-8">
+<!-- Evidence & Photos -->
+<section class="bg-white border border-border-subtle rounded-xl p-6 shadow-sm">
+<div class="flex items-center justify-between mb-6">
+<h3 class="font-bold text-ameefar-navy">Evidence &amp; Photos</h3>
+<button class="text-primary hover:bg-surface-container p-2 rounded-full transition-all">
+<span class="material-symbols-outlined">add_a_photo</span>
+</button>
+</div>
+<div class="grid grid-cols-2 gap-4 mb-6">
+<div class="group relative aspect-square rounded-lg overflow-hidden border border-border-subtle">
+<img alt="Material sample" class="w-full h-full object-cover transition-transform group-hover:scale-105" data-alt="A professional close-up macro photograph of clear recycled PET pellets in a laboratory setting. The pellets are crystalline and clean, lit with soft diffused white lighting to highlight their purity and shape. The background is a clean, minimalist sterile laboratory surface, reflecting the high-stakes quality control of a modern B2B marketplace." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA9yckzYldI-PoE9JE_WvKr7t6G1_P60gHABmsBM2yhBZJIUKuKuDp38dXyKlbCNVawk_3KmVt2Q407SsNVb-3cytJ-SV-dsG_Rc1wBOYC5xZRLQo5AxFm1hHN0rVVXVnuqBvzv3l7XaLU8GiceHPR_Gjjkrb7BW81ixE8lgb82upd86bM7vO3tqR6jm4-eBn3Su36tKkSXvez_Qe3OH82t4w48Y5h7NzWLOHR6Roh-p0slqN_qqHvgGId9tjCLN_ri5PDIiIjY29wg"/>
+<div class="absolute bottom-0 inset-x-0 bg-ameefar-navy/80 p-2 text-[10px] text-white opacity-0 group-hover:opacity-100 transition-opacity">
+                                    Contamination test sample
+                                </div>
+</div>
+<div class="group relative aspect-square rounded-lg overflow-hidden border border-border-subtle">
+<img alt="Equipment display" class="w-full h-full object-cover transition-transform group-hover:scale-105" data-alt="A sharp, detailed view of a digital moisture meter screen displaying a precise numeric readout of 0.08 percent. The device is held by a gloved technician's hand against the backdrop of a warehouse with soft industrial lighting. The aesthetic is professional, technical, and high-contrast, emphasizing precision and data transparency in recycling logistics." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbRJlUAMWNLtkeSbVPNRXyLZ0ZIRUHFAVIQ2vgSfLeIiVFIuEnIOls_QjRRmOMr79CHmY-ioqURt7On7_jV_QcbjF-SsY814Jh54BPToGGFLtCr8A4SGNt0MFWbapKYeeGaqZ2ZkVWBnPqHZPIU8wsOYNZlSxpnbfK5jjVX27crSuuf4B-Lnw2kMXFOvu88jt4LK3dRN5sulLpQtqdEWttP7CDxjzXa3RQTXu82iTwDM8CRkLoC_T8QkzE54YGGECAf7SB2J8FMPsT"/>
+<div class="absolute bottom-0 inset-x-0 bg-ameefar-navy/80 p-2 text-[10px] text-white opacity-0 group-hover:opacity-100 transition-opacity">
+                                    Moisture meter reading
+                                </div>
+</div>
+</div>
+<div class="border-2 border-dashed border-border-subtle rounded-xl p-8 text-center hover:border-primary/50 cursor-pointer transition-colors group">
+<span class="material-symbols-outlined text-4xl text-on-surface-variant group-hover:text-primary transition-colors">cloud_upload</span>
+<p class="text-sm font-bold text-ameefar-navy mt-2">Add New Evidence</p>
+<p class="text-[10px] text-on-surface-variant mt-1 uppercase">JPG, PNG up to 10MB</p>
+</div>
+</section>
+<!-- Final Verdict -->
+<section class="bg-ameefar-navy rounded-xl p-6 shadow-lg text-white">
+<h3 class="font-bold text-lg mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined">assignment_turned_in</span>
+                            Final Verdict
+                        </h3>
+<div class="mb-6">
+<label class="text-[10px] font-bold text-on-primary-container uppercase mb-2 block">Report Status</label>
+<div class="grid grid-cols-2 gap-2">
+<button class="flex items-center justify-center gap-2 border border-white/20 bg-white/5 hover:bg-secondary py-3 rounded-lg font-bold text-sm transition-all group">
+<span class="material-symbols-outlined text-sm group-hover:scale-110 transition-transform">check_circle</span>
+                                    Passed
+                                </button>
+<button class="flex items-center justify-center gap-2 border-2 border-error bg-error/20 py-3 rounded-lg font-bold text-sm transition-all shadow-[0_0_15px_rgba(186,26,26,0.3)]">
+<span class="material-symbols-outlined text-sm">cancel</span>
+                                    Failed
+                                </button>
+</div>
+</div>
+<div class="mb-8">
+<label class="text-[10px] font-bold text-on-primary-container uppercase mb-2 block">Overall Summary</label>
+<textarea class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 font-body-sm text-body-sm focus:ring-2 focus:ring-secondary focus:outline-none transition-all placeholder:text-white/40" placeholder="Type your final executive summary here..." rows="4">Material fails overall inspection due to contamination traces. While moisture and purity metrics are within acceptable ranges, the presence of unidentified hazardous grease poses a risk to processing. Recommend rejection or deep sanitization re-negotiation.</textarea>
+</div>
+<div class="space-y-3">
+<button class="w-full bg-secondary text-white font-bold py-4 rounded-xl hover:opacity-90 active:scale-95 transition-all shadow-md">
+                                Publish to Buyer &amp; Seller
+                            </button>
+<button class="w-full bg-white/10 text-white font-bold py-3 rounded-xl hover:bg-white/20 transition-all text-sm">
+                                Save as Draft
+                            </button>
+</div>
+</section>
+</div>
+</div>
+</div>
+</main>
+<script>
+        // Simple micro-interaction for checklist toggles
+        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const card = this.closest('.inspection-card');
+                const label = this.nextElementSibling.nextElementSibling;
+                if(this.checked) {
+                    card.classList.remove('bg-error-container/5', 'border-error/20');
+                    card.classList.add('bg-white', 'border-border-subtle');
+                } else {
+                    card.classList.add('bg-error-container/5', 'border-error/20');
+                    card.classList.remove('bg-white', 'border-border-subtle');
+                }
+            });
+        });
+    </script>
+</body></html>

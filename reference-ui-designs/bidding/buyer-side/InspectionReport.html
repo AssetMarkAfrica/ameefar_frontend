@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Inspection Report | Ameefar Energy</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Use predicted Tailwind config -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-dim": "#cbdbf5",
+                    "on-surface-variant": "#404848",
+                    "inverse-on-surface": "#eaf1ff",
+                    "surface-container-high": "#dce9ff",
+                    "background": "#f8f9ff",
+                    "on-secondary-fixed-variant": "#00522f",
+                    "on-primary-fixed-variant": "#224d4e",
+                    "primary-container": "#0f3d3e",
+                    "on-surface": "#0b1c30",
+                    "tertiary": "#002819",
+                    "outline-variant": "#c0c8c8",
+                    "on-error": "#ffffff",
+                    "on-secondary-fixed": "#002110",
+                    "secondary-fixed": "#83fab4",
+                    "on-secondary": "#ffffff",
+                    "inverse-surface": "#213145",
+                    "secondary-container": "#80f7b1",
+                    "primary-fixed": "#beebeb",
+                    "surface": "#f8f9ff",
+                    "secondary-fixed-dim": "#66dd99",
+                    "trust-green-subtle": "#ECFDF5",
+                    "primary-fixed-dim": "#a3cfcf",
+                    "error": "#ba1a1a",
+                    "tertiary-fixed": "#6ffbbe",
+                    "on-background": "#0b1c30",
+                    "on-secondary-container": "#007243",
+                    "tertiary-fixed-dim": "#4edea3",
+                    "on-tertiary": "#ffffff",
+                    "on-tertiary-fixed-variant": "#005236",
+                    "on-tertiary-fixed": "#002113",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary": "#ffffff",
+                    "surface-container": "#e5eeff",
+                    "surface-container-low": "#eff4ff",
+                    "on-tertiary-container": "#06b77f",
+                    "tertiary-container": "#00402a",
+                    "surface-tint": "#3b6566",
+                    "surface-container-highest": "#d3e4fe",
+                    "outline": "#717978",
+                    "error-container": "#ffdad6",
+                    "on-primary-fixed": "#002020",
+                    "border-subtle": "#E2E8F0",
+                    "secondary": "#006d40",
+                    "inverse-primary": "#a3cfcf",
+                    "surface-variant": "#d3e4fe",
+                    "surface-gray": "#F8FAFC",
+                    "surface-bright": "#f8f9ff",
+                    "ameefar-navy": "#0F172A",
+                    "primary": "#002627",
+                    "on-primary-container": "#7da8a8",
+                    "on-error-container": "#93000a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "container-max": "1440px",
+                    "gutter": "24px",
+                    "margin-mobile": "16px",
+                    "base": "4px",
+                    "margin-desktop": "40px"
+            },
+            "fontFamily": {
+                    "display-lg": ["Hanken Grotesk"],
+                    "label-md": ["JetBrains Mono"],
+                    "headline-lg-mobile": ["Hanken Grotesk"],
+                    "body-lg": ["Inter"],
+                    "headline-md": ["Hanken Grotesk"],
+                    "headline-lg": ["Hanken Grotesk"],
+                    "body-md": ["Inter"],
+                    "body-sm": ["Inter"]
+            },
+            "fontSize": {
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .glass-effect {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+      }
+    </style>
+</head>
+<body class="bg-surface font-body-md text-on-background min-h-screen">
+<!-- Side Navigation Bar (Standard Enterprise Portal) -->
+<aside class="flex flex-col h-full py-8 px-4 fixed left-0 top-0 border-r border-border-subtle w-64 overflow-y-auto bg-surface-container-lowest dark:bg-surface-dim z-50">
+<div class="mb-10 px-4">
+<h1 class="font-headline-md text-headline-md font-bold text-primary">Enterprise Portal</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Verified Member</p>
+</div>
+<nav class="flex-1 space-y-2">
+<!-- Active: My Trades -->
+<a class="flex items-center gap-3 text-on-surface-variant hover:text-primary px-4 py-3 transition-all duration-200 hover:bg-surface-gray" href="#">
+<span class="material-symbols-outlined" data-icon="storefront">storefront</span>
+<span class="font-label-md text-label-md">Marketplace</span>
+</a>
+<a class="flex items-center gap-3 bg-surface-container text-primary font-semibold rounded-lg px-4 py-3 cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="handshake" style="font-variation-settings: 'FILL' 1;">handshake</span>
+<span class="font-label-md text-label-md">My Trades</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:text-primary px-4 py-3 transition-all duration-200 hover:bg-surface-gray" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-label-md text-label-md">Inventory</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:text-primary px-4 py-3 transition-all duration-200 hover:bg-surface-gray" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</nav>
+<div class="mt-auto pt-8 border-t border-border-subtle space-y-2">
+<button class="w-full bg-primary text-white font-semibold py-3 rounded-xl mb-4 hover:opacity-90 transition-opacity">Post Material</button>
+<a class="flex items-center gap-3 text-on-surface-variant hover:text-primary px-4 py-3 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span class="font-label-md text-label-md">Help Center</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:text-primary px-4 py-3 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-label-md text-label-md">Sign Out</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-64 min-h-screen p-margin-desktop bg-background">
+<!-- Top Header & Breadcrumbs -->
+<header class="flex justify-between items-center mb-8">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2 text-on-surface-variant font-body-sm text-body-sm">
+<span>My Trades</span>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+<span>Inspection Records</span>
+</div>
+<div class="flex items-center gap-4">
+<h2 class="font-headline-lg text-headline-lg text-ameefar-navy">Inspection Report: AM-8924-RE</h2>
+<span class="px-4 py-1.5 rounded-full bg-error-container text-error font-bold text-label-md flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">cancel</span>
+            FAILED
+          </span>
+</div>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 px-5 py-2.5 rounded-xl border border-border-subtle bg-white text-ameefar-navy font-semibold hover:bg-surface-gray transition-colors">
+<span class="material-symbols-outlined text-[20px]">download</span>
+          Download PDF Report
+        </button>
+</div>
+</header>
+<!-- Content Grid -->
+<div class="grid grid-cols-12 gap-gutter">
+<!-- Summary Card & Timeline -->
+<div class="col-span-12 lg:col-span-4 space-y-gutter">
+<!-- Verdict Card -->
+<div class="bg-white rounded-xl p-8 border border-border-subtle shadow-sm flex flex-col items-center text-center">
+<div class="w-20 h-20 rounded-full bg-error-container flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-error text-[40px]" style="font-variation-settings: 'FILL' 1;">error</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-ameefar-navy mb-2">Final Verdict: REJECTED</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6">Material rejected due to hazardous material contamination (Industrial Grease found).</p>
+<div class="w-full pt-6 border-t border-border-subtle grid grid-cols-2 gap-4 text-left">
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider mb-1">Inspector</p>
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-surface-dim overflow-hidden">
+<img alt="David Chen" data-alt="A professional headshot of a senior quality control inspector named David Chen wearing a high-visibility safety vest and a hard hat. He has a friendly but authoritative expression, set against an industrial recycling facility background with clean, modern machinery. The lighting is bright and clear, emphasizing a high-stakes B2B corporate environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCiIlH_x-gUoMhi6ZqYzrdhe4xgIQfdGwFZcvWXyy7dmXA7AqaHm0ZhpaT8ThHIGNKric15mtF14uXBebUGcagwmBNH0slBIt1hCuJ0-r1X-UbBDECkEnhvTe3pffMRx6fo4c9kGw3_YULegawQYKup-p3BG7WKNngGjZR2k7oR1ouSPGrQ2DPzDK9PTgAtNrNVcbh1RuebMtLPwGrIxB-Zn5zsD2DNujzZ1I0l6I2X60bd46TVmclOmrFfdYTg4ga_VKgqrXNxmHUf"/>
+</div>
+<span class="font-body-sm text-body-sm font-semibold">David Chen</span>
+</div>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider mb-1">Completed</p>
+<span class="font-body-sm text-body-sm font-semibold">Oct 24, 2023 · 14:30</span>
+</div>
+</div>
+</div>
+<!-- History/Timeline Component -->
+<div class="bg-white rounded-xl p-8 border border-border-subtle shadow-sm">
+<h3 class="font-headline-md text-headline-md text-ameefar-navy mb-6">Inspection History</h3>
+<div class="relative pl-8 space-y-8">
+<!-- Connector Line -->
+<div class="absolute left-[11px] top-2 bottom-2 w-[2px] bg-border-subtle"></div>
+<div class="relative">
+<div class="absolute -left-[27px] top-1 w-4 h-4 rounded-full bg-trust-green-subtle border-2 border-secondary flex items-center justify-center z-10">
+<div class="w-2 h-2 rounded-full bg-secondary"></div>
+</div>
+<p class="font-body-sm text-body-sm font-bold">Report Generated</p>
+<p class="font-label-md text-label-md text-on-surface-variant">Today, 14:35</p>
+</div>
+<div class="relative">
+<div class="absolute -left-[27px] top-1 w-4 h-4 rounded-full bg-error-container border-2 border-error flex items-center justify-center z-10">
+<div class="w-2 h-2 rounded-full bg-error"></div>
+</div>
+<p class="font-body-sm text-body-sm font-bold">Final Verdict Logged</p>
+<p class="font-label-md text-label-md text-on-surface-variant">Today, 14:30</p>
+</div>
+<div class="relative">
+<div class="absolute -left-[27px] top-1 w-4 h-4 rounded-full bg-surface-dim border-2 border-primary flex items-center justify-center z-10">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+</div>
+<p class="font-body-sm text-body-sm font-bold">Site Visit Complete</p>
+<p class="font-label-md text-label-md text-on-surface-variant">Today, 13:15</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Parameter Results & Evidence Gallery -->
+<div class="col-span-12 lg:col-span-8 space-y-gutter">
+<!-- Parameter Comparison Table -->
+<div class="bg-white rounded-xl border border-border-subtle shadow-sm overflow-hidden">
+<div class="px-8 py-6 border-b border-border-subtle flex justify-between items-center">
+<h3 class="font-headline-md text-headline-md text-ameefar-navy">Parameter Results</h3>
+<span class="font-label-md text-label-md bg-surface-gray px-3 py-1 rounded border border-border-subtle">JETBRAINS MONO PRECISION DATA</span>
+</div>
+<table class="w-full text-left">
+<thead class="bg-surface-gray">
+<tr>
+<th class="px-8 py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Criteria</th>
+<th class="px-4 py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Required</th>
+<th class="px-4 py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Measured</th>
+<th class="px-8 py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider text-right">Result</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-subtle">
+<tr class="hover:bg-surface-gray transition-colors group">
+<td class="px-8 py-5 font-body-sm text-body-sm font-semibold">Contamination</td>
+<td class="px-4 py-5 font-label-md text-label-md text-on-surface-variant">&lt; 0.5%</td>
+<td class="px-4 py-5 font-label-md text-label-md text-primary">0.32%</td>
+<td class="px-8 py-5 text-right">
+<span class="inline-flex items-center gap-1.5 text-secondary font-bold font-label-md">
+<span class="material-symbols-outlined text-[16px]">check_circle</span> MET
+                  </span>
+</td>
+</tr>
+<tr class="hover:bg-surface-gray transition-colors group">
+<td class="px-8 py-5 font-body-sm text-body-sm font-semibold">Moisture</td>
+<td class="px-4 py-5 font-label-md text-label-md text-on-surface-variant">&lt; 0.1%</td>
+<td class="px-4 py-5 font-label-md text-label-md text-primary">0.08%</td>
+<td class="px-8 py-5 text-right">
+<span class="inline-flex items-center gap-1.5 text-secondary font-bold font-label-md">
+<span class="material-symbols-outlined text-[16px]">check_circle</span> MET
+                  </span>
+</td>
+</tr>
+<tr class="bg-error-container/20 hover:bg-error-container/30 transition-colors group">
+<td class="px-8 py-5 font-body-sm text-body-sm font-semibold">Hazardous Material</td>
+<td class="px-4 py-5 font-label-md text-label-md text-on-surface-variant">None</td>
+<td class="px-4 py-5 font-label-md text-label-md text-error font-bold">Industrial Grease found</td>
+<td class="px-8 py-5 text-right">
+<span class="inline-flex items-center gap-1.5 text-error font-bold font-label-md">
+<span class="material-symbols-outlined text-[16px]">error</span> NOT MET
+                  </span>
+</td>
+</tr>
+<tr class="hover:bg-surface-gray transition-colors group">
+<td class="px-8 py-5 font-body-sm text-body-sm font-semibold">Purity</td>
+<td class="px-4 py-5 font-label-md text-label-md text-on-surface-variant">&gt; 99.5%</td>
+<td class="px-4 py-5 font-label-md text-label-md text-primary">99.68%</td>
+<td class="px-8 py-5 text-right">
+<span class="inline-flex items-center gap-1.5 text-secondary font-bold font-label-md">
+<span class="material-symbols-outlined text-[16px]">check_circle</span> MET
+                  </span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Evidence Gallery -->
+<div class="bg-white rounded-xl p-8 border border-border-subtle shadow-sm">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-headline-md text-headline-md text-ameefar-navy">Evidence Gallery</h3>
+<button class="text-primary font-semibold text-body-sm hover:underline">View All 12 Photos</button>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="aspect-square rounded-xl overflow-hidden group relative cursor-pointer">
+<img alt="Inspection Photo 1" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A close-up high-resolution photograph of industrial recycled material showing small traces of thick dark sludge or industrial grease on a batch of plastic pellets. The lighting is harsh and direct to highlight the contamination for quality control purposes. The setting is a bright, laboratory-like inspection area in a modern B2B manufacturing plant." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYnlEfDSkHZO9yBme_UJFyYwU0c0tI8bZGWVBw9liormilx7ZQQsldN1carN99RUReP6QjFze2UVWRQRJwxWVxcdL-5Y0rB_TPcA4qUsGjqU_hWcAuyuHzvqdM5D3UrdmdehDVLepKauQch-jv5meEKlgqy_x7KD8y7tYjGs7PmXYnIozcNYI6R115wH10ritJqhrikJiqU_fXnuoMHEVZRB5-IVZKwg8S0pi3AG1c5_VC7M4IfGpNzdugs7tWlABsWJzlNzMFabgI"/>
+<div class="absolute inset-0 bg-ameefar-navy/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<span class="material-symbols-outlined text-white">zoom_in</span>
+</div>
+</div>
+<div class="aspect-square rounded-xl overflow-hidden group relative cursor-pointer">
+<img alt="Inspection Photo 2" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A macro shot of industrial moisture testing equipment displaying a digital reading of 0.08 percent moisture content on a clear LCD screen. The device is being held by a gloved hand in a sterile testing environment. The image is clean and professional, using a cool blue and silver color palette to convey technical precision and corporate transparency." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDe5NCw8jcV75b1jOcsYv5UuLXDAM38ZbvNbqjZjd-XcUNrQsActcP2aI9xjaLEkJkj_uuEHsP-fAIkuAq2YgOSDGakGETfbAwULodSHjVbZhnPdO095fpQul8TEtMQp1CDr8MWLqTph8ZjrbuhGmViBwBMDRsm17rZeXBh8GR7K2ZWwS-fumMvzwp6GYssT23i8lgC8iUuVbDEPSXIa8LLoudj6Z2wO5r1e2EY_yMwfHoc0bvFuq4EQAsmj-3Pq6Lmbq1ckUEsVUOd"/>
+<div class="absolute inset-0 bg-ameefar-navy/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<span class="material-symbols-outlined text-white">zoom_in</span>
+</div>
+</div>
+<div class="aspect-square rounded-xl overflow-hidden group relative cursor-pointer">
+<img alt="Inspection Photo 3" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A wide-angle shot of a large batch of recycled material awaiting processing inside a clean, modern warehouse. The material is neatly organized in industrial-grade storage containers. The atmosphere is professional and orderly, lit by natural sunlight streaming through high warehouse windows, reflecting a trustworthy and efficient B2B logistics operation." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC96h9T59Q2AAwPH4NreyW84zc-7QN7kw9EY9DPWEeqy5UYR1DvCP6UUEpgCwwtkQEoBqkKs6Na8_5I-GSPUYg7EpEGyFZE3jLNkMPuNkKnEJFzYs4NWNWkXVAWRSyl0jRr8kUaR_SBzQ1FUPi6kscY-tbc0uFOSPYMKzmmfOEzDJXK9M8kWYMvIMTV-I6w3jSWqhCLhpwqAaQ90zzdBYQUDjUluhMf8DcQRWdlbYMYjYLhtTNHDOmdfhY_i1CMROP6XyRb-vXOmMHl"/>
+<div class="absolute inset-0 bg-ameefar-navy/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<span class="material-symbols-outlined text-white">zoom_in</span>
+</div>
+</div>
+<div class="aspect-square rounded-xl overflow-hidden group relative cursor-pointer border-2 border-dashed border-border-subtle flex items-center justify-center bg-surface-gray">
+<span class="font-body-sm text-body-sm font-semibold text-on-surface-variant">+9 More</span>
+</div>
+</div>
+</div>
+<!-- Action Bar (Sticky Bottom for failed state) -->
+<div class="glass-effect rounded-xl p-6 border-2 border-error/20 flex flex-col sm:flex-row justify-between items-center gap-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-error" style="font-variation-settings: 'FILL' 1;">warning</span>
+<div>
+<p class="font-body-sm text-body-sm font-bold text-ameefar-navy">Report Requires Immediate Action</p>
+<p class="font-label-md text-label-md text-on-surface-variant">Your transaction is currently on hold due to the 'Failed' status.</p>
+</div>
+</div>
+<div class="flex gap-3 w-full sm:w-auto">
+<button class="flex-1 sm:flex-none px-6 py-3 rounded-xl border border-border-subtle font-semibold text-ameefar-navy hover:bg-white/50 transition-colors">Contact Seller</button>
+<button class="flex-1 sm:flex-none px-6 py-3 rounded-xl bg-error text-white font-semibold hover:bg-error/90 transition-colors shadow-lg shadow-error/20">Raise Dispute</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Micro-interactions & Interactivity -->
+<script>
+    // Simple hover effect for cards to add some "premium" feel
+    document.querySelectorAll('.bg-white.rounded-xl').forEach(card => {
+      card.addEventListener('mouseenter', () => {
+        card.style.transform = 'translateY(-2px)';
+        card.style.transition = 'transform 0.2s ease, box-shadow 0.2s ease';
+        card.style.boxShadow = '0 10px 25px -5px rgba(15, 23, 42, 0.1)';
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'translateY(0)';
+        card.style.boxShadow = '0 1px 3px 0 rgba(0, 0, 0, 0.1)';
+      });
+    });
+
+    // Handle "Raise Dispute" button click interaction
+    const disputeBtn = document.querySelector('button.bg-error');
+    if(disputeBtn) {
+        disputeBtn.addEventListener('click', () => {
+            if(confirm('Are you sure you want to open a formal dispute for Report AM-8924-RE? This will initiate the Ameefar Arbitration process.')) {
+                alert('Dispute case #DISP-9021 has been opened. Our mediation team will contact you within 24 hours.');
+            }
+        });
+    }
+  </script>
+</body></html>

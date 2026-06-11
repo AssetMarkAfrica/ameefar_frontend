@@ -1,6 +1,6 @@
 "use client";
-import React, { useEffect, useState, useRef } from "react";
-import { useParams } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import { useParams, useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { selectAccessToken } from "@/store/auth/authSelectors";
 import {
@@ -9,14 +9,13 @@ import {
   sendTradeMessageThunk,
   scheduleInspectionThunk,
   startInspectionThunk,
-  completeInspectionThunk
 } from "@/store/bidding/biddingThunks";
 import ChatPanel from "@/components/bidding/ChatPanel";
 import BiddingSidebar from "@/components/bidding/BiddingSidebar";
-import type { InspectionVerdict, InspectionRecommendation } from "@/types/bidding";
 
 export default function AdminTradePage() {
   const { id } = useParams() as { id: string };
+  const router = useRouter();
   const dispatch = useAppDispatch();
   const token = useAppSelector(selectAccessToken);
   const { currentTrade, tradeMessages, status } = useAppSelector((state) => state.bidding);
@@ -26,14 +25,6 @@ export default function AdminTradePage() {
   // Schedule State
   const [scheduleDate, setScheduleDate] = useState("");
   const [inspectorId, setInspectorId] = useState("");
-
-  // Complete State
-  const [verdict, setVerdict] = useState<InspectionVerdict>("passed");
-  const [summary, setSummary] = useState("");
-  const [findings, setFindings] = useState("");
-  const [recommendation, setRecommendation] = useState<InspectionRecommendation>("proceed");
-  const [reportFile, setReportFile] = useState<File | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (token && id) {
@@ -63,18 +54,6 @@ export default function AdminTradePage() {
     await dispatch(startInspectionThunk({ token, tradeId: id }));
   };
 
-  const handleComplete = async () => {
-    if (!token || !summary) return;
-    await dispatch(completeInspectionThunk({
-      token,
-      tradeId: id,
-      verdict,
-      summary,
-      findings,
-      recommendation,
-      report_document: reportFile || undefined
-    }));
-  };
 
   if (status.fetchTrade === "loading" || !currentTrade) {
     return <div className="p-8 text-center bg-surface-gray min-h-screen">Loading trade details...</div>;
@@ -194,78 +173,27 @@ export default function AdminTradePage() {
 
             {currentTrade.inspection_status === "in_progress" && (
               <div className="bg-white rounded-xl border border-border-subtle shadow-sm p-6 border-t-4 border-t-secondary">
-                <h3 className="font-headline-md text-headline-md text-ameefar-navy mb-4">Complete Inspection</h3>
-                <div className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-bold text-on-surface-variant mb-1">Verdict *</label>
-                      <select 
-                        className="w-full bg-surface-gray border border-border-subtle rounded-lg px-4 py-2 focus:ring-primary focus:border-transparent outline-none font-bold"
-                        value={verdict}
-                        onChange={(e) => setVerdict(e.target.value as InspectionVerdict)}
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-full bg-trust-green-subtle flex items-center justify-center shrink-0">
+                    <span className="material-symbols-outlined text-secondary text-[22px]">fact_check</span>
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="font-headline-md text-headline-md text-ameefar-navy mb-1">
+                      Complete Field Inspection
+                    </h3>
+                    <p className="text-on-surface-variant text-sm mb-4">
+                      The inspection is now in progress. Open the inspection checklist to record measured values against each buyer requirement and submit the final report.
+                    </p>
+                    <div className="flex flex-col sm:flex-row gap-3">
+                      <button
+                        onClick={() => router.push(`/bidding/admin/trade/${id}/complete-inspection`)}
+                        className="flex items-center justify-center gap-2 px-6 py-3 bg-secondary text-white font-bold rounded-lg hover:bg-secondary/90 transition-colors"
                       >
-                        <option value="passed">Passed</option>
-                        <option value="failed">Failed</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-bold text-on-surface-variant mb-1">Recommendation</label>
-                      <select 
-                        className="w-full bg-surface-gray border border-border-subtle rounded-lg px-4 py-2 focus:ring-primary focus:border-transparent outline-none"
-                        value={recommendation}
-                        onChange={(e) => setRecommendation(e.target.value as InspectionRecommendation)}
-                      >
-                        <option value="proceed">Proceed</option>
-                        <option value="renegotiate">Renegotiate</option>
-                        <option value="cancel">Cancel</option>
-                      </select>
+                        <span className="material-symbols-outlined text-[18px]">assignment_turned_in</span>
+                        Open Inspection Checklist
+                      </button>
                     </div>
                   </div>
-
-                  <div>
-                    <label className="block text-sm font-bold text-on-surface-variant mb-1">Executive Summary *</label>
-                    <textarea 
-                      className="w-full bg-surface-gray border border-border-subtle rounded-lg px-4 py-2 focus:ring-primary focus:border-transparent outline-none"
-                      rows={2}
-                      placeholder="High-level summary of the inspection result"
-                      value={summary}
-                      onChange={(e) => setSummary(e.target.value)}
-                    ></textarea>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-bold text-on-surface-variant mb-1">Detailed Findings</label>
-                    <textarea 
-                      className="w-full bg-surface-gray border border-border-subtle rounded-lg px-4 py-2 focus:ring-primary focus:border-transparent outline-none"
-                      rows={4}
-                      placeholder="Detailed notes on quality, weight, packaging..."
-                      value={findings}
-                      onChange={(e) => setFindings(e.target.value)}
-                    ></textarea>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-bold text-on-surface-variant mb-1">Report Document (Optional)</label>
-                    <input 
-                      type="file" 
-                      ref={fileInputRef}
-                      className="w-full bg-surface-gray border border-border-subtle rounded-lg px-4 py-2 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20"
-                      onChange={(e) => setReportFile(e.target.files?.[0] || null)}
-                    />
-                  </div>
-
-                  <button 
-                    onClick={handleComplete}
-                    disabled={!summary || status.completeInspection === "loading"}
-                    className="w-full mt-4 py-3 bg-secondary text-white font-bold rounded-lg hover:bg-secondary/90 transition-colors disabled:opacity-50 flex justify-center items-center gap-2"
-                  >
-                    {status.completeInspection === "loading" ? (
-                      <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                    ) : (
-                      <span className="material-symbols-outlined text-[18px]">task_alt</span>
-                    )}
-                    {status.completeInspection === "loading" ? "Submitting..." : "Submit Inspection Report"}
-                  </button>
                 </div>
               </div>
             )}

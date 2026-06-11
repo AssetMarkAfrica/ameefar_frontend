@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Trade Inspection Parameters | Ameefar Marketplace</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700;800&amp;family=Inter:wght@300;400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container": "#e5eeff",
+                        "primary": "#002627",
+                        "on-background": "#0b1c30",
+                        "on-secondary-fixed-variant": "#00522f",
+                        "on-secondary-fixed": "#002110",
+                        "surface-variant": "#d3e4fe",
+                        "ameefar-navy": "#0F172A",
+                        "surface-bright": "#f8f9ff",
+                        "surface": "#f8f9ff",
+                        "inverse-on-surface": "#eaf1ff",
+                        "secondary-fixed": "#83fab4",
+                        "on-secondary-container": "#007243",
+                        "surface-container-high": "#dce9ff",
+                        "surface-gray": "#F8FAFC",
+                        "tertiary-fixed": "#6ffbbe",
+                        "background": "#f8f9ff",
+                        "on-primary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed": "#002020",
+                        "on-error": "#ffffff",
+                        "tertiary-container": "#00402a",
+                        "on-surface": "#0b1c30",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-fixed-variant": "#224d4e",
+                        "surface-dim": "#cbdbf5",
+                        "secondary": "#006d40",
+                        "outline": "#717978",
+                        "tertiary-fixed-dim": "#4edea3",
+                        "on-error-container": "#93000a",
+                        "inverse-primary": "#a3cfcf",
+                        "surface-tint": "#3b6566",
+                        "surface-container-highest": "#d3e4fe",
+                        "primary-fixed-dim": "#a3cfcf",
+                        "primary-fixed": "#beebeb",
+                        "on-surface-variant": "#404848",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-container": "#0f3d3e",
+                        "outline-variant": "#c0c8c8",
+                        "tertiary": "#002819",
+                        "on-tertiary-fixed-variant": "#005236",
+                        "error": "#ba1a1a",
+                        "on-tertiary-fixed": "#002113",
+                        "secondary-fixed-dim": "#66dd99",
+                        "surface-container-low": "#eff4ff",
+                        "on-primary-container": "#7da8a8",
+                        "on-tertiary-container": "#06b77f",
+                        "border-subtle": "#E2E8F0",
+                        "secondary-container": "#80f7b1",
+                        "trust-green-subtle": "#ECFDF5",
+                        "inverse-surface": "#213145"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "container-max": "1440px",
+                        "margin-desktop": "40px",
+                        "gutter": "24px",
+                        "base": "4px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "label-md": ["JetBrains Mono"],
+                        "body-lg": ["Inter"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "body-sm": ["Inter"],
+                        "body-md": ["Inter"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #F8FAFC;
+            color: #0b1c30;
+            font-family: 'Inter', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .stepper-line {
+            background: repeating-linear-gradient(to bottom, #E2E8F0, #E2E8F0 4px, transparent 4px, transparent 8px);
+        }
+        .parameter-card:hover {
+            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.08);
+            transform: translateY(-2px);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="flex min-h-screen">
+<!-- Sidebar Navigation -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-ameefar-navy dark:bg-on-background flex flex-col py-6 px-4 gap-4 z-50">
+<div class="mb-6 px-2">
+<h1 class="font-headline-md text-headline-md font-bold text-on-primary">Enterprise Portal</h1>
+<p class="text-surface-variant font-label-md text-label-md opacity-80">Global Recycling Corp</p>
+</div>
+<nav class="flex flex-col gap-2 flex-grow">
+<a class="flex items-center gap-3 px-4 py-3 text-surface-variant hover:bg-surface-container/10 rounded-lg transition-colors duration-150" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-surface-variant hover:bg-surface-container/10 rounded-lg transition-colors duration-150" href="#">
+<span class="material-symbols-outlined">storefront</span>
+<span class="font-label-md text-label-md">Marketplace</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 bg-primary-container text-on-primary-container rounded-lg font-semibold translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined">handshake</span>
+<span class="font-label-md text-label-md">My Trades</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-surface-variant hover:bg-surface-container/10 rounded-lg transition-colors duration-150" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-label-md text-label-md">Inventory</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-surface-variant hover:bg-surface-container/10 rounded-lg transition-colors duration-150" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</nav>
+<div class="pt-6 border-t border-slate-700">
+<a class="flex items-center gap-3 px-4 py-3 text-surface-variant hover:bg-surface-container/10 rounded-lg" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-md text-label-md">Logout</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-64 flex-1 flex flex-col min-h-screen">
+<!-- Top Bar -->
+<header class="w-full h-16 bg-surface border-b border-border-subtle flex justify-between items-center px-margin-desktop sticky top-0 z-40">
+<div class="flex items-center gap-4">
+<span class="font-display-lg text-display-lg font-bold text-ameefar-navy">Ameefar Marketplace</span>
+<div class="h-6 w-[1px] bg-border-subtle mx-2"></div>
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">person</span>
+<span class="font-label-md text-label-md">Buyer Perspective</span>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4 text-on-surface-variant">
+<button class="material-symbols-outlined hover:text-primary transition-colors">notifications</button>
+<button class="material-symbols-outlined hover:text-primary transition-colors">help_outline</button>
+</div>
+<button class="bg-primary text-on-primary px-6 py-2 font-body-md text-body-md font-semibold hover:opacity-90 active:scale-95 transition-all">
+                    New Trade
+                </button>
+<div class="w-10 h-10 rounded-full bg-slate-200 overflow-hidden border border-border-subtle">
+<img alt="User Enterprise Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCEgjAXXWvsysZbnZ3K67e8su5GzXafej_ViLzAS3uq1eisg_1tDHiUiBWem8OBX2niaPDuzuBlrIJlfj3Z9d3oJHjlrIcxxtG9Jgnwjt1SWYDpqZLww3hc0W9SAaQ1vErzatvRwyIjmZh_BM0kTkNkq9YZghJmIvUhCllJs11W1q-a0h3fHhXmMzwVst7aj0O-qSFjdfCYZU2N5-JdCBCOtwI_u0s1TaDMfKP-vEFjb_22kA3dnBtzZ8VR5LOF9n4pyqHum1PdL3_o"/>
+</div>
+</div>
+</header>
+<!-- Page Content -->
+<div class="flex-1 px-margin-desktop py-10 max-w-container-max mx-auto w-full">
+<!-- Breadcrumbs -->
+<nav class="flex items-center gap-2 mb-8 text-on-surface-variant font-label-md text-label-md uppercase tracking-wider">
+<a class="hover:text-primary" href="#">Trades</a>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<a class="hover:text-primary" href="#">AM-8924-RE</a>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-primary font-bold">Inspection Parameters</span>
+</nav>
+<div class="grid grid-cols-12 gap-gutter">
+<!-- Header & Intro -->
+<div class="col-span-12 lg:col-span-8">
+<h2 class="font-display-lg text-headline-lg text-primary mb-2">Trade Inspection Parameters</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl">
+                        Define the precise technical thresholds that the material must adhere to. These parameters will be used by the third-party inspector to certify the batch for acceptance.
+                    </p>
+</div>
+<!-- Trade Context Summary Card -->
+<div class="col-span-12 lg:col-span-4">
+<div class="bg-white border border-border-subtle p-6 shadow-sm flex flex-col gap-4">
+<div class="flex justify-between items-start">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-tighter">Trade Context</span>
+<span class="bg-primary-container text-on-primary-container px-2 py-0.5 font-label-md text-[10px] font-bold rounded">INSPECTION PENDING</span>
+</div>
+<div>
+<div class="font-display-lg text-headline-md text-primary">AM-8924-RE</div>
+<div class="font-body-md text-body-md font-semibold text-on-surface">Recycled PET Pellets</div>
+</div>
+<div class="flex justify-between border-t border-border-subtle pt-4">
+<div>
+<p class="text-[10px] text-on-surface-variant font-label-md uppercase">Quantity</p>
+<p class="font-label-md text-body-md font-bold text-primary">250 MT</p>
+</div>
+<div class="text-right">
+<p class="text-[10px] text-on-surface-variant font-label-md uppercase">Location</p>
+<p class="font-label-md text-body-md font-bold text-primary">Port of Rotterdam</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Main Parameters Form -->
+<div class="col-span-12 lg:col-span-8">
+<div class="bg-white border border-border-subtle p-8 shadow-sm">
+<div class="flex justify-between items-center mb-8 pb-4 border-b border-border-subtle">
+<h3 class="font-headline-md text-headline-md text-primary">Define Acceptance Criteria</h3>
+<button class="text-primary flex items-center gap-2 font-body-md text-body-md font-semibold hover:underline">
+<span class="material-symbols-outlined">add_circle</span>
+                                Add Custom Parameter
+                            </button>
+</div>
+<div class="space-y-6">
+<!-- Parameter Card: Contamination -->
+<div class="parameter-card group grid grid-cols-1 md:grid-cols-2 gap-6 p-6 border border-border-subtle transition-all duration-200">
+<div>
+<h4 class="font-headline-md text-body-lg font-bold text-ameefar-navy mb-1 uppercase tracking-tight">Contamination Concentration</h4>
+<p class="text-on-surface-variant font-body-sm text-body-sm">Maximum allowable non-PET debris (paper, adhesives, other plastics).</p>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative flex-1">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="text-on-surface-variant font-label-md">&lt;</span>
+</div>
+<input class="w-full pl-8 pr-12 py-3 bg-surface-gray border-none focus:ring-2 focus:ring-primary font-label-md text-body-lg text-primary text-right" style="font-family: 'JetBrains Mono'" type="text" value="0.5"/>
+<div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+<span class="text-on-surface-variant font-label-md">%</span>
+</div>
+</div>
+<button class="text-on-surface-variant hover:text-error transition-colors">
+<span class="material-symbols-outlined">delete_outline</span>
+</button>
+</div>
+</div>
+<!-- Parameter Card: Moisture -->
+<div class="parameter-card group grid grid-cols-1 md:grid-cols-2 gap-6 p-6 border border-border-subtle transition-all duration-200">
+<div>
+<h4 class="font-headline-md text-body-lg font-bold text-ameefar-navy mb-1 uppercase tracking-tight">Moisture Level</h4>
+<p class="text-on-surface-variant font-body-sm text-body-sm">Cumulative water content relative to total batch weight.</p>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative flex-1">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="text-on-surface-variant font-label-md">≤</span>
+</div>
+<input class="w-full pl-8 pr-12 py-3 bg-surface-gray border-none focus:ring-2 focus:ring-primary font-label-md text-body-lg text-primary text-right" style="font-family: 'JetBrains Mono'" type="text" value="4"/>
+<div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+<span class="text-on-surface-variant font-label-md">%</span>
+</div>
+</div>
+<button class="text-on-surface-variant hover:text-error transition-colors">
+<span class="material-symbols-outlined">delete_outline</span>
+</button>
+</div>
+</div>
+<!-- Parameter Card: Hazardous Material (Toggle) -->
+<div class="parameter-card group grid grid-cols-1 md:grid-cols-2 gap-6 p-6 border border-border-subtle transition-all duration-200">
+<div>
+<h4 class="font-headline-md text-body-lg font-bold text-ameefar-navy mb-1 uppercase tracking-tight">Hazardous Material</h4>
+<p class="text-on-surface-variant font-body-sm text-body-sm">Presence of heavy metals, toxic chemical residues, or prohibited substances.</p>
+</div>
+<div class="flex items-center justify-end gap-4">
+<div class="flex items-center bg-surface-gray p-1 rounded-sm w-full max-w-[200px]">
+<button class="flex-1 py-2 font-label-md text-label-md bg-white shadow-sm text-primary font-bold">Absent</button>
+<button class="flex-1 py-2 font-label-md text-label-md text-on-surface-variant opacity-50">Tolerated</button>
+</div>
+<button class="text-on-surface-variant hover:text-error transition-colors">
+<span class="material-symbols-outlined">delete_outline</span>
+</button>
+</div>
+</div>
+<!-- Parameter Card: Purity -->
+<div class="parameter-card group grid grid-cols-1 md:grid-cols-2 gap-6 p-6 border border-border-subtle transition-all duration-200">
+<div>
+<h4 class="font-headline-md text-body-lg font-bold text-ameefar-navy mb-1 uppercase tracking-tight">Material Purity</h4>
+<p class="text-on-surface-variant font-body-sm text-body-sm">Minimum required percentage of prime PET polymer.</p>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative flex-1">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="text-on-surface-variant font-label-md">&gt;</span>
+</div>
+<input class="w-full pl-8 pr-12 py-3 bg-surface-gray border-none focus:ring-2 focus:ring-primary font-label-md text-body-lg text-primary text-right" style="font-family: 'JetBrains Mono'" type="text" value="98.5"/>
+<div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+<span class="text-on-surface-variant font-label-md">%</span>
+</div>
+</div>
+<button class="text-on-surface-variant hover:text-error transition-colors">
+<span class="material-symbols-outlined">delete_outline</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Inspection Workflow Sidebar -->
+<div class="col-span-12 lg:col-span-4">
+<div class="space-y-gutter sticky top-24">
+<div class="bg-white border border-border-subtle p-6 shadow-sm">
+<h4 class="font-headline-md text-body-md font-bold text-primary mb-6">Inspection Progress</h4>
+<div class="space-y-8 relative">
+<div class="absolute left-[11px] top-2 bottom-2 w-[2px] stepper-line"></div>
+<div class="relative flex gap-4 items-start">
+<div class="w-6 h-6 rounded-full bg-secondary flex items-center justify-center z-10">
+<span class="material-symbols-outlined text-white text-[14px]">check</span>
+</div>
+<div>
+<p class="font-body-sm text-body-sm font-bold text-primary">Inspection Requested</p>
+<p class="text-[12px] text-on-surface-variant">Completed Oct 24, 14:20</p>
+</div>
+</div>
+<div class="relative flex gap-4 items-start">
+<div class="w-6 h-6 rounded-full bg-primary flex items-center justify-center z-10 animate-pulse">
+<div class="w-2 h-2 rounded-full bg-white"></div>
+</div>
+<div>
+<p class="font-body-sm text-body-sm font-bold text-primary">Define Parameters</p>
+<p class="text-[12px] text-on-surface-variant font-medium">Active - Awaiting Input</p>
+</div>
+</div>
+<div class="relative flex gap-4 items-start opacity-50">
+<div class="w-6 h-6 rounded-full border-2 border-slate-300 bg-white z-10"></div>
+<div>
+<p class="font-body-sm text-body-sm font-bold text-slate-500">Inspector Assignment</p>
+<p class="text-[12px] text-slate-400">Pending parameter save</p>
+</div>
+</div>
+<div class="relative flex gap-4 items-start opacity-50">
+<div class="w-6 h-6 rounded-full border-2 border-slate-300 bg-white z-10"></div>
+<div>
+<p class="font-body-sm text-body-sm font-bold text-slate-500">Final Verification</p>
+<p class="text-[12px] text-slate-400">Locked</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Technical Reference Card -->
+<div class="bg-primary p-6 shadow-sm overflow-hidden relative">
+<div class="relative z-10">
+<h4 class="font-headline-md text-body-md font-bold text-white mb-4">Parameter Guidelines</h4>
+<ul class="space-y-3">
+<li class="flex gap-3 text-white/80 text-body-sm">
+<span class="material-symbols-outlined text-[18px] text-tertiary-fixed-dim">info</span>
+<span>Industry standard for High-Grade PET is &lt;0.7% contamination.</span>
+</li>
+<li class="flex gap-3 text-white/80 text-body-sm">
+<span class="material-symbols-outlined text-[18px] text-tertiary-fixed-dim">info</span>
+<span>Exceeding 5% moisture may lead to structural degradation during transport.</span>
+</li>
+</ul>
+<button class="mt-6 w-full py-2 bg-white/10 hover:bg-white/20 text-white font-label-md text-[11px] font-bold uppercase tracking-widest transition-colors">
+                                    View Global Standards
+                                </button>
+</div>
+<div class="absolute -right-8 -bottom-8 opacity-10">
+<span class="material-symbols-outlined text-[120px] text-white">science</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Sticky Footer Action Bar -->
+<footer class="mt-auto w-full bg-white border-t border-border-subtle py-6 px-margin-desktop shadow-[0_-10px_20px_rgba(15,23,42,0.04)] sticky bottom-0 z-40">
+<div class="max-w-container-max mx-auto flex justify-between items-center">
+<div class="flex items-center gap-6">
+<div class="flex flex-col">
+<span class="text-[10px] text-on-surface-variant font-label-md uppercase tracking-wider">Parameters Set</span>
+<span class="font-body-md text-body-md font-bold text-primary">04 Critical Criteria</span>
+</div>
+<div class="h-8 w-[1px] bg-border-subtle"></div>
+<p class="text-on-surface-variant font-body-sm text-body-sm max-w-sm">
+                        Saving will notify the seller of the required inspection thresholds.
+                    </p>
+</div>
+<div class="flex items-center gap-4">
+<button class="px-8 py-3 font-body-md text-body-md font-semibold text-primary hover:bg-surface-gray transition-colors">
+                        Cancel
+                    </button>
+<button class="px-10 py-3 font-body-md text-body-md font-bold bg-primary text-on-primary shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all" id="save-button">
+                        Save &amp; Proceed to Inspection
+                    </button>
+</div>
+</div>
+</footer>
+</main>
+<script>
+        document.getElementById('save-button').addEventListener('click', function() {
+            this.innerHTML = '<span class="flex items-center gap-2"><svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Initializing Protocol...</span>';
+            setTimeout(() => {
+                this.classList.remove('bg-primary');
+                this.classList.add('bg-secondary');
+                this.innerHTML = '<span class="flex items-center gap-2"><span class="material-symbols-outlined">check_circle</span> Inspection Protocol Defined</span>';
+            }, 1500);
+        });
+
+        // Numeric validation for the JetBrains inputs
+        document.querySelectorAll('input[type="text"]').forEach(input => {
+            input.addEventListener('input', function() {
+                this.value = this.value.replace(/[^0-9.]/g, '');
+            });
+        });
+    </script>
+</body></html>

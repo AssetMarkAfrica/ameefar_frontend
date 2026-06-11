@@ -9,11 +9,14 @@ import type {
   CompleteTradePayload,
   CounterEnquiryPayload,
   CreateEnquiryPayload,
+  CreateInspectionRequirementsResponse,
   DeclineEnquiryPayload,
+  DraftInspectionPayload,
   EnquiryDetailResponse,
   EnquiryListResponse,
   EnquiryMessageListResponse,
   EnquiryMessageResponse,
+  InspectionImageResponse,
   ListEnquiriesParams,
   ListTradesParams,
   MarkInProgressPayload,
@@ -25,6 +28,8 @@ import type {
   ScheduleInspectionPayload,
   SendEnquiryMessagePayload,
   SendTradeMessagePayload,
+  SetInspectionRequirementsPayload,
+  SetInspectionRequirementsResponse,
   TradeDetailResponse,
   TradeDocumentListResponse,
   TradeDocumentResponse,
@@ -32,6 +37,7 @@ import type {
   TradeMessageListResponse,
   TradeMessageResponse,
   UpdateAdminNotesPayload,
+  UploadInspectionImagePayload,
   UploadTradeDocumentPayload,
 } from "@/types/bidding";
 
@@ -90,6 +96,13 @@ export const withdrawEnquiryThunk = createAsyncThunk<
   TokenArg & EnquiryIdArg
 >("bidding/withdrawEnquiry", ({ token, enquiryId }) =>
   BiddingService.withdrawEnquiry(token, enquiryId),
+);
+
+export const buyerCounterEnquiryThunk = createAsyncThunk<
+  EnquiryDetailResponse,
+  TokenArg & EnquiryIdArg & CounterEnquiryPayload
+>("bidding/buyerCounterEnquiry", ({ token, enquiryId, ...payload }) =>
+  BiddingService.buyerCounterEnquiry(token, enquiryId, payload),
 );
 
 export const acceptCounterThunk = createAsyncThunk<
@@ -204,6 +217,13 @@ export const startInspectionThunk = createAsyncThunk<
   BiddingService.startInspection(token, tradeId),
 );
 
+export const draftInspectionThunk = createAsyncThunk<
+  TradeDetailResponse,
+  TokenArg & TradeIdArg & DraftInspectionPayload
+>("bidding/draftInspection", ({ token, tradeId, ...payload }) =>
+  BiddingService.draftInspection(token, tradeId, payload),
+);
+
 export const completeInspectionThunk = createAsyncThunk<
   TradeDetailResponse,
   TokenArg & TradeIdArg & CompleteInspectionPayload
@@ -246,6 +266,38 @@ export const sendTradeMessageThunk = createAsyncThunk<
   TokenArg & TradeIdArg & SendTradeMessagePayload
 >("bidding/sendTradeMessage", ({ token, tradeId, ...payload }) =>
   BiddingService.sendTradeMessage(token, tradeId, payload),
+);
+
+// ─── Trade Inspection Requirements Thunk ─────────────────────────────────────
+
+export const createInspectionRequirementsThunk = createAsyncThunk<
+  CreateInspectionRequirementsResponse,
+  TokenArg & TradeIdArg & SetInspectionRequirementsPayload
+>("bidding/createInspectionRequirements", ({ token, tradeId, ...payload }) =>
+  BiddingService.createInspectionRequirements(token, tradeId, payload),
+);
+
+export const setInspectionRequirementsThunk = createAsyncThunk<
+  SetInspectionRequirementsResponse,
+  TokenArg & TradeIdArg & SetInspectionRequirementsPayload
+>("bidding/setInspectionRequirements", ({ token, tradeId, ...payload }) =>
+  BiddingService.setInspectionRequirements(token, tradeId, payload),
+);
+
+// ─── Trade Inspection Image Thunks ──────────────────────────────────────────────
+
+export const uploadInspectionImageThunk = createAsyncThunk<
+  InspectionImageResponse,
+  TokenArg & TradeIdArg & UploadInspectionImagePayload
+>("bidding/uploadInspectionImage", ({ token, tradeId, ...payload }) =>
+  BiddingService.uploadInspectionImage(token, tradeId, payload),
+);
+
+export const deleteInspectionImageThunk = createAsyncThunk<
+  BiddingAck,
+  TokenArg & TradeIdArg & { imageId: string }
+>("bidding/deleteInspectionImage", ({ token, tradeId, imageId }) =>
+  BiddingService.deleteInspectionImage(token, tradeId, imageId),
 );
 
 // ─── Trade Document Thunks ────────────────────────────────────────────────────

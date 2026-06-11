@@ -16,9 +16,9 @@ export default function AdminInspectionsPage() {
     dispatch(listTradesThunk({ token, params: {} }));
   }, [dispatch, token]);
 
-  const activeInspections = trades.filter((t) => 
-    t.status === "agreed" || t.status === "in_progress"
-  );
+  const activeInspections = trades.filter((t) =>
+  ["requested", "scheduled", "in_progress"].includes(t.inspection_status ?? "")
+);
 
   return (
     <div className="flex w-full min-h-screen bg-surface-gray font-body-md text-on-surface">

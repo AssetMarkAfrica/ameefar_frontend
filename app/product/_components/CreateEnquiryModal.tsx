@@ -205,6 +205,7 @@ export function CreateEnquiryModal({
               </span>
               <input
                 type="date"
+                min={new Date().toISOString().split('T')[0]}
                 value={targetDeliveryDate}
                 onChange={(e) => setTargetDeliveryDate(e.target.value)}
                 className={inputClassName}

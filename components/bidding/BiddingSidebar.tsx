@@ -3,6 +3,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { LogoutButton } from "@/components/auth/LogoutButton";
 import { ameefarLogoSrc } from "@/app/product/_components/product-options";
 
 interface SidebarProps {
@@ -106,6 +107,12 @@ export default function BiddingSidebar({ role }: SidebarProps) {
             </Link>
           );
         })}
+
+        <LogoutButton
+          className="flex items-center gap-3 rounded-lg px-4 py-3 text-left text-[#404848] transition hover:bg-slate-50 hover:text-[#002627] disabled:cursor-not-allowed disabled:opacity-60"
+          iconClassName="material-symbols-outlined text-[20px]"
+          showIcon
+        />
 
         {/* Role badge */}
         <div className="mt-3 px-1">

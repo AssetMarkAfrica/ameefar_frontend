@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import Link from "next/link";
+import { LogoutButton } from "@/components/auth/LogoutButton";
 import { useAppSelector } from "@/store/hooks";
 import { selectUser } from "@/store/auth/authSelectors";
 
@@ -10,9 +11,12 @@ export default function BiddingHeader() {
   return (
     <header className="fixed top-0 w-full z-50 bg-surface-container-lowest border-b border-border-subtle h-16 flex justify-between items-center px-margin-desktop max-w-container-max mx-auto left-0 right-0">
       <div className="flex items-center gap-8">
-        <span className="text-headline-md font-headline-md font-bold text-primary">
+        <Link
+          href="/product"
+          className="text-headline-md font-headline-md font-bold text-primary transition-colors hover:text-[#003a3b]"
+        >
           Ameefar
-        </span>
+        </Link>
         <nav className="hidden md:flex gap-6">
           <Link
             href="/product"
@@ -41,6 +45,10 @@ export default function BiddingHeader() {
         <button className="material-symbols-outlined text-outline hover:text-primary transition-all">
           settings
         </button>
+        <LogoutButton
+          className="inline-flex items-center gap-1 rounded-lg border border-border-subtle px-3 py-2 text-sm font-semibold text-on-surface-variant transition hover:border-primary hover:text-primary disabled:cursor-not-allowed disabled:opacity-60"
+          showIcon
+        />
         <div className="h-8 w-8 rounded-full overflow-hidden border border-border-subtle">
           <img
             alt="User avatar"
