@@ -1,11 +1,14 @@
 "use client";
-import React from "react";
+import { usePathname } from "next/navigation";
+import { useAppSelector } from "@/store/hooks";
+import { selectIsAdmin, selectIsSeller, selectIsBoth } from "@/store/auth/authSelectors";
+import InspectionReportCard from "@/components/bidding/InspectionReportCard";
 import type { InspectionStatus, InspectionReport } from "@/types/bidding";
 import type { TradePaymentSummary } from "@/types/payment";
 
 interface InspectionModuleProps {
   status: InspectionStatus;
-  role: "buyer" | "seller" | "admin";
+  role?: "buyer" | "seller" | "admin";
   report?: InspectionReport | null;
   paymentSummary?: TradePaymentSummary | null;
   onRequest?: () => void;
@@ -17,7 +20,6 @@ interface InspectionModuleProps {
 
 export default function InspectionModule({
   status,
-  role,
   report,
   paymentSummary,
   onRequest,
@@ -25,7 +27,20 @@ export default function InspectionModule({
   onApprove,
   onReject,
   isActionLoading,
+  role: propRole,
 }: InspectionModuleProps) {
+  const pathname = usePathname();
+  const isAdmin = useAppSelector(selectIsAdmin);
+  const isGlobalSeller = useAppSelector(selectIsSeller);
+  const isBoth = useAppSelector(selectIsBoth);
+
+  let role = propRole || "buyer";
+  if (!propRole) {
+    if (isAdmin) role = "admin";
+    else if (isBoth) role = pathname?.includes("/seller") ? "seller" : "buyer";
+    else if (isGlobalSeller) role = "seller";
+  }
+
   return (
     <div className="bg-trust-green-subtle rounded-xl border border-secondary/20 p-6">
       <div className="flex items-center gap-3 mb-4">
@@ -44,7 +59,7 @@ export default function InspectionModule({
         <div className="flex items-center gap-2">
           <span className="font-label-md text-label-md uppercase text-secondary">Status:</span>
           <span className="font-bold text-ameefar-navy capitalize">
-            {status.replace("_", " ")}
+            {status?.replace(/_/g, " ") ?? "Not Requested"}
           </span>
         </div>
       </div>
@@ -88,51 +103,51 @@ export default function InspectionModule({
         </div>
       )}
 
-      {role === "buyer" && status === "buyer_approved" && (
-        <div className="space-y-3">
-          <div className="p-3 bg-secondary/10 rounded-lg text-secondary text-sm mb-4">
-            Inspection has passed! Please review the report and approve to proceed with settlement.
+      {role === "buyer" && status === "awaiting_requirements" && (
+        <div className="p-3 bg-secondary/10 rounded-lg text-secondary text-sm">
+          Please complete the inspection requirements form to proceed.
+        </div>
+      )}
+
+      {role === "buyer" && (status === "scheduled" || status === "in_progress") && (
+        <div className="p-3 bg-secondary/10 rounded-lg text-secondary text-sm">
+          {status === "scheduled"
+            ? "Inspection has been scheduled by the admin. Please stand by."
+            : "Inspection is currently in progress. Results will be available shortly."}
+        </div>
+      )}
+
+      {role === "buyer" && status === "passed" && (
+        <div className="space-y-4">
+          <div className="p-3 bg-secondary/10 rounded-lg text-secondary text-sm">
+            Inspection has passed! Please review the report below and approve to proceed.
           </div>
           {report && (
-            <div className="bg-white p-4 rounded-lg border border-border-subtle mb-4">
-              <h4 className="font-bold text-ameefar-navy mb-2">Inspection Report</h4>
-              <p className="text-sm text-on-surface-variant mb-2"><span className="font-semibold">Verdict:</span> {report.verdict}</p>
-              <p className="text-sm text-on-surface-variant mb-2"><span className="font-semibold">Summary:</span> {report.summary}</p>
-              <p className="text-sm text-on-surface-variant mb-2"><span className="font-semibold">Findings:</span> {report.findings}</p>
-            </div>
+            <InspectionReportCard
+              report={report}
+              showActions={true}
+              onApprove={onApprove}
+              onReject={onReject}
+              isActionLoading={isActionLoading}
+            />
           )}
-          <button
-            onClick={onApprove}
-            disabled={isActionLoading}
-            className="w-full bg-secondary text-on-secondary font-bold py-3 rounded-lg flex items-center justify-center gap-2 hover:opacity-90 transition-all active:scale-95 disabled:opacity-50"
-          >
-            <span className="material-symbols-outlined">thumb_up</span>
-            Approve Inspection
-          </button>
         </div>
       )}
 
       {role === "buyer" && status === "failed" && (
-        <div className="space-y-3">
-          <div className="p-3 bg-error-container/50 rounded-lg text-error text-sm mb-4">
-            Inspection has failed. You can reject the inspection and raise a dispute or cancel the trade.
+        <div className="space-y-4">
+          <div className="p-3 bg-error-container/50 rounded-lg text-error text-sm">
+            Inspection has failed. Review the report and reject to raise a dispute or cancel the trade.
           </div>
           {report && (
-            <div className="bg-white p-4 rounded-lg border border-border-subtle mb-4">
-              <h4 className="font-bold text-ameefar-navy mb-2">Inspection Report</h4>
-              <p className="text-sm text-on-surface-variant mb-2"><span className="font-semibold">Verdict:</span> {report.verdict}</p>
-              <p className="text-sm text-on-surface-variant mb-2"><span className="font-semibold">Summary:</span> {report.summary}</p>
-              <p className="text-sm text-on-surface-variant mb-2"><span className="font-semibold">Findings:</span> {report.findings}</p>
-            </div>
+            <InspectionReportCard
+              report={report}
+              showActions={true}
+              onApprove={onApprove}
+              onReject={onReject}
+              isActionLoading={isActionLoading}
+            />
           )}
-          <button
-            onClick={() => onReject?.("Failed quality standards")} // In a real app, open a modal for reason
-            disabled={isActionLoading}
-            className="w-full bg-error text-on-error font-bold py-3 rounded-lg flex items-center justify-center gap-2 hover:opacity-90 transition-all active:scale-95 disabled:opacity-50"
-          >
-            <span className="material-symbols-outlined">thumb_down</span>
-            Reject Inspection
-          </button>
         </div>
       )}
 
@@ -140,6 +155,30 @@ export default function InspectionModule({
         <p className="text-sm text-on-secondary-fixed-variant bg-white/50 p-3 rounded-lg">
           The buyer has requested an inspection. The platform admin will assign an inspector to verify the shipment.
         </p>
+      )}
+
+      {role === "admin" && status === "not_requested" && (
+        <p className="text-sm text-on-secondary-fixed-variant bg-white/50 p-3 rounded-lg">
+          Awaiting buyer to request or skip inspection.
+        </p>
+      )}
+
+      {role === "admin" && status === "requested" && (
+        <p className="text-sm text-on-secondary-fixed-variant bg-white/50 p-3 rounded-lg">
+          {paymentSummary?.inspection_fee_paid
+            ? "Inspection fee paid. Awaiting admin scheduling."
+            : "Buyer requested inspection. Awaiting fee payment."}
+        </p>
+      )}
+
+      {role === "admin" && status === "scheduled" && (
+        <p className="text-sm text-on-secondary-fixed-variant bg-white/50 p-3 rounded-lg">
+          Inspection scheduled. Awaiting inspection completion and results.
+        </p>
+      )}
+
+      {role === "admin" && (status === "passed" || status === "failed" || status === "buyer_approved" || status === "buyer_rejected") && report && (
+        <InspectionReportCard report={report} showActions={false} />
       )}
     </div>
   );

@@ -175,13 +175,19 @@ export function NotificationDropdown() {
       }
       
       const tradeId = details.metadata?.trade_id || notification.metadata?.trade_id;
-      if (tradeId) {
+      const enquiryId = details.metadata?.enquiry_id || notification.metadata?.enquiry_id;
+      
+      if (enquiryId || tradeId) {
         let rolePath = "buyer";
         if (isAdmin) rolePath = "admin";
         else if (isBoth) rolePath = window.location.pathname.includes("/seller") ? "seller" : "buyer";
         else if (isSeller) rolePath = "seller";
         
-        router.push(`/bidding/${rolePath}/trade/${tradeId}`);
+        if (enquiryId) {
+          router.push(`/bidding/${rolePath}/negotiation/${enquiryId}`);
+        } else if (tradeId) {
+          router.push(`/bidding/${rolePath}/trade/${tradeId}`);
+        }
       }
       setOpen(false);
     } catch (e) {

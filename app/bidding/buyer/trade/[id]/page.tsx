@@ -188,10 +188,13 @@ export default function BuyerTradePage() {
   const isTradePaymentPaid = tradeSummary?.trade_payment_paid || tradePaymentVerified;
 
   // Inspection is fully settled from the buyer's perspective
-  // Inspection is fully settled from the buyer's perspective
-  const inspectionSettled = localInspectionSettled || inspectionStatus === "skipped" || inspectionStatus === "approved";
+  const inspectionSettled =
+    localInspectionSettled ||
+    inspectionStatus === "skipped" ||
+    inspectionStatus === "buyer_approved" ||
+    inspectionStatus === "buyer_rejected";
 
-  // Show inspection module until buyer has approved or skipped
+  // Show inspection module until buyer has approved/rejected or skipped
   const showInspectionModule =
     tradeStatus === "agreed" &&
     !!inspectionStatus &&
@@ -345,7 +348,7 @@ export default function BuyerTradePage() {
                     <h3 className="font-headline-md text-headline-md text-primary mb-4">Trade Payment</h3>
 
                     {/* Inspection approved banner */}
-                    {inspectionStatus === "approved" && (
+                    {inspectionStatus === "buyer_approved" && (
                       <div className="mb-4 flex items-center gap-3 p-4 bg-trust-green-subtle border border-secondary/20 rounded-xl">
                         <span className="material-symbols-outlined text-secondary text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>
                           verified

@@ -11,7 +11,6 @@ import {
   uploadInspectionImageThunk,
   deleteInspectionImageThunk,
 } from "@/store/bidding/biddingThunks";
-import BiddingSidebar from "@/components/bidding/BiddingSidebar";
 import type {
   InspectionRequirement,
   InspectionVerdict,
@@ -199,10 +198,10 @@ function StepBar({ current }: { current: number }) {
               <div className="flex flex-col items-center gap-1.5 min-w-[80px]">
                 <div
                   className={`w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300 ${done
-                      ? "bg-secondary text-white"
-                      : active
-                        ? "bg-ameefar-navy text-white ring-4 ring-ameefar-navy/20"
-                        : "bg-surface-container text-on-surface-variant"
+                    ? "bg-secondary text-white"
+                    : active
+                      ? "bg-ameefar-navy text-white ring-4 ring-ameefar-navy/20"
+                      : "bg-surface-container text-on-surface-variant"
                     }`}
                 >
                   {done ? (
@@ -424,8 +423,7 @@ export default function AdminCompleteInspectionPage() {
   if (status.fetchTrade === "loading" || !currentTrade) {
     return (
       <div className="flex w-full min-h-screen bg-surface-gray">
-        <BiddingSidebar role="admin" />
-        <main className="md:ml-64 flex-1 flex items-center justify-center">
+        <main className="flex-1 flex items-center justify-center">
           <div className="flex flex-col items-center gap-4">
             <span className="w-10 h-10 border-4 border-ameefar-navy border-t-transparent rounded-full animate-spin" />
             <p className="text-on-surface-variant">Loading inspection data...</p>
@@ -437,9 +435,8 @@ export default function AdminCompleteInspectionPage() {
 
   return (
     <div className="flex w-full min-h-screen bg-surface-gray font-body-md text-on-surface">
-      <BiddingSidebar role="admin" />
 
-      <main className="md:ml-64 pt-16 min-h-screen flex flex-col w-full">
+      <main className="pt-16 min-h-screen flex flex-col w-full">
 
         {/* ── Page Header ── */}
         <section className="bg-white border-b border-border-subtle px-8 py-5 sticky top-16 z-30">
@@ -536,8 +533,8 @@ export default function AdminCompleteInspectionPage() {
               onClick={() => router.push(`/bidding/admin/trade/${id}`)}
               className="w-full bg-ameefar-navy text-white font-bold py-4 rounded-xl hover:opacity-90 transition-all flex items-center justify-center gap-2"
             >
-              <span className="material-symbols-outlined text-[18px]">arrow_back</span>
-              Back to Trade
+              <span className="material-symbols-outlined text-[18px]">check_circle</span>
+              Done
             </button>
           </div>
         ) : (
@@ -619,8 +616,8 @@ export default function AdminCompleteInspectionPage() {
                     <button
                       onClick={() => setVerdict("passed")}
                       className={`flex flex-col items-center gap-2 py-6 rounded-xl font-bold text-sm transition-all border-2 ${verdict === "passed"
-                          ? "border-secondary bg-trust-green-subtle text-secondary shadow-sm"
-                          : "border-border-subtle bg-surface-gray hover:border-secondary/40 text-on-surface-variant"
+                        ? "border-secondary bg-trust-green-subtle text-secondary shadow-sm"
+                        : "border-border-subtle bg-surface-gray hover:border-secondary/40 text-on-surface-variant"
                         }`}
                     >
                       <span className={`material-symbols-outlined text-3xl ${verdict === "passed" ? "text-secondary" : "text-on-surface-variant"}`}>check_circle</span>
@@ -630,8 +627,8 @@ export default function AdminCompleteInspectionPage() {
                     <button
                       onClick={() => setVerdict("failed")}
                       className={`flex flex-col items-center gap-2 py-6 rounded-xl font-bold text-sm transition-all border-2 ${verdict === "failed"
-                          ? "border-error bg-red-50 text-error shadow-sm"
-                          : "border-border-subtle bg-surface-gray hover:border-error/40 text-on-surface-variant"
+                        ? "border-error bg-red-50 text-error shadow-sm"
+                        : "border-border-subtle bg-surface-gray hover:border-error/40 text-on-surface-variant"
                         }`}
                     >
                       <span className={`material-symbols-outlined text-3xl ${verdict === "failed" ? "text-error" : "text-on-surface-variant"}`}>cancel</span>
