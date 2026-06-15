@@ -23,7 +23,6 @@ import {
 } from "@/store/payment/paymentThunks";
 import { clearPaymentState } from "@/store/payment/paymentSlice";
 import ChatPanel from "@/components/bidding/ChatPanel";
-import BiddingSidebar from "@/components/bidding/BiddingSidebar";
 import TradeStepper from "@/components/bidding/TradeStepper";
 import DocumentList from "@/components/bidding/DocumentList";
 import InspectionModule from "@/components/bidding/InspectionModule";
@@ -164,19 +163,19 @@ export default function BuyerTradePage() {
     }
   }, [dispatch, token, inspectionFeePayment, id]);
 
-const [localInspectionSettled, setLocalInspectionSettled] = useState(false);
+  const [localInspectionSettled, setLocalInspectionSettled] = useState(false);
 
-const handleApproveInspection = async () => {
-  if (!token) return;
-  const result = await dispatch(approveInspectionThunk({ token, tradeId: id }));
-  if (approveInspectionThunk.fulfilled.match(result)) {
-    // Optimistically mark inspection as settled locally
-    setLocalInspectionSettled(true);
-    // Also try to refresh from server
-    dispatch(fetchTradeThunk({ token, tradeId: id }));
-    dispatch(getTradePaymentSummaryThunk(id));
-  }
-};
+  const handleApproveInspection = async () => {
+    if (!token) return;
+    const result = await dispatch(approveInspectionThunk({ token, tradeId: id }));
+    if (approveInspectionThunk.fulfilled.match(result)) {
+      // Optimistically mark inspection as settled locally
+      setLocalInspectionSettled(true);
+      // Also try to refresh from server
+      dispatch(fetchTradeThunk({ token, tradeId: id }));
+      dispatch(getTradePaymentSummaryThunk(id));
+    }
+  };
 
   const handleRejectInspection = async (reason: string) => {
     if (!token) return;
@@ -190,7 +189,7 @@ const handleApproveInspection = async () => {
 
   // Inspection is fully settled from the buyer's perspective
   // Inspection is fully settled from the buyer's perspective
-const inspectionSettled = localInspectionSettled || inspectionStatus === "skipped" || inspectionStatus === "approved";
+  const inspectionSettled = localInspectionSettled || inspectionStatus === "skipped" || inspectionStatus === "approved";
 
   // Show inspection module until buyer has approved or skipped
   const showInspectionModule =
@@ -214,12 +213,11 @@ const inspectionSettled = localInspectionSettled || inspectionStatus === "skippe
 
   return (
     <div className="flex w-full min-h-screen bg-surface-gray font-body-md text-on-surface">
-      <BiddingSidebar role="buyer" />
-      <main className="md:ml-64 pt-16 min-h-screen flex flex-col">
+      <main className="pt-16 min-h-screen flex flex-col w-full">
 
         {/* Progress Stepper Header */}
-        <section className="bg-white border-b border-border-subtle px-margin-desktop py-8">
-          <div className="max-w-4xl mx-auto">
+        <section className="bg-white border-b border-border-subtle px-margin-desktop py-8 w-full">
+          <div className="w-full max-w-screen-2xl mx-auto">
             <div className="flex items-center justify-between mb-2">
               <h1 className="font-headline-md text-headline-md text-primary">
                 Trade #{currentTrade.reference} Execution
@@ -233,10 +231,10 @@ const inspectionSettled = localInspectionSettled || inspectionStatus === "skippe
         </section>
 
         {/* Execution Workspace */}
-        <div className="flex-1 p-8 grid grid-cols-1 lg:grid-cols-12 gap-gutter max-w-container-max mx-auto w-full">
+        <div className="flex-1 p-8 grid grid-cols-1 lg:grid-cols-12 gap-gutter w-full max-w-screen-2xl mx-auto">
 
           {/* ── Left Panel ── */}
-          <div className="lg:col-span-7 space-y-6">
+          <div className="lg:col-span-8 space-y-6">
 
             {/* Trade Specifications */}
             <div className="bg-white rounded-xl border border-border-subtle shadow-sm overflow-hidden">
@@ -482,7 +480,7 @@ const inspectionSettled = localInspectionSettled || inspectionStatus === "skippe
           </div>
 
           {/* ── Right Panel ── */}
-          <div className="lg:col-span-5 flex flex-col gap-6">
+          <div className="lg:col-span-4 flex flex-col gap-6">
             <div className="h-[500px]">
               <ChatPanel
                 title="Trade Channel"

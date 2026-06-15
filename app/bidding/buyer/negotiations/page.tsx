@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { listEnquiriesThunk } from "@/store/bidding/biddingThunks";
 import { selectAccessToken } from "@/store/auth/authSelectors";
-import BiddingSidebar from "@/components/bidding/BiddingSidebar";
 
 export default function BuyerNegotiationsPage() {
   const dispatch = useAppDispatch();
@@ -18,8 +17,7 @@ export default function BuyerNegotiationsPage() {
 
   return (
     <div className="flex w-full min-h-screen bg-surface-gray font-body-md text-on-surface">
-      <BiddingSidebar role="buyer" />
-      <main className="md:ml-64 pt-16 min-h-screen flex flex-col w-full">
+      <main className="pt-16 min-h-screen flex flex-col w-full">
         <div className="flex-1 p-8 max-w-container-max mx-auto w-full">
           <h1 className="font-headline-lg text-headline-lg text-primary mb-8">All Negotiations</h1>
 
@@ -48,16 +46,15 @@ export default function BuyerNegotiationsPage() {
                     </div>
                     <div className="flex items-center gap-6">
                       <div className="text-right">
-                        <span className={`px-3 py-1 rounded-full text-[12px] font-bold uppercase ${
-                          enquiry.status === 'accepted' ? 'bg-trust-green-subtle text-secondary' : 
-                          enquiry.status === 'declined' || enquiry.status === 'withdrawn' ? 'bg-error-container text-error' :
-                          'bg-surface-container-high text-primary'
-                        }`}>
+                        <span className={`px-3 py-1 rounded-full text-[12px] font-bold uppercase ${enquiry.status === 'accepted' ? 'bg-trust-green-subtle text-secondary' :
+                            enquiry.status === 'declined' || enquiry.status === 'withdrawn' ? 'bg-error-container text-error' :
+                              'bg-surface-container-high text-primary'
+                          }`}>
                           {enquiry.status}
                         </span>
                         <p className="font-bold text-ameefar-navy mt-2">{enquiry.total_value} {enquiry.currency}</p>
                       </div>
-                      <Link 
+                      <Link
                         href={`/bidding/buyer/negotiation/${enquiry.id}`}
                         className="p-2 text-outline hover:text-primary hover:bg-surface-container-low rounded-lg transition-colors"
                       >

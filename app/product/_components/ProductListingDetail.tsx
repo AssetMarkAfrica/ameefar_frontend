@@ -62,8 +62,7 @@ export function ProductListingDetail({ listingId }: { listingId: string }) {
   // Always re-fetch when listingId changes. We don't guard on listing?.id here
   // because the effect must fire even if a prior listing is already loaded.
   useEffect(() => {
-    if (!token) return;
-    void dispatch(fetchProductListingThunk({ token, listingId }));
+    void dispatch(fetchProductListingThunk({ token: token || "", listingId }));
   }, [dispatch, listingId, token]);
 
   // Reset selected image when listing changes
@@ -503,14 +502,13 @@ export function ProductListingDetail({ listingId }: { listingId: string }) {
                 type="button"
                 onClick={() => {
                   if (!token) {
-                    // Ideally we'd redirect to login or show auth modal
-                    alert("Please log in to make a request.");
+                    window.location.href = "/auth/login";
                     return;
                   }
                   setIsEnquiryModalOpen(true);
                 }}
               >
-                {nonOwnerLabel}
+                {!token ? "Log in to bid / request" : nonOwnerLabel}
               </button>
 
             </>

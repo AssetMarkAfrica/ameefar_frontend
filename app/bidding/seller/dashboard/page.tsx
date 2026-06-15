@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { listEnquiriesThunk, listTradesThunk } from "@/store/bidding/biddingThunks";
 import { selectAccessToken } from "@/store/auth/authSelectors";
-import BiddingSidebar from "@/components/bidding/BiddingSidebar";
 
 export default function SellerDashboardPage() {
   const dispatch = useAppDispatch();
@@ -22,8 +21,7 @@ export default function SellerDashboardPage() {
 
   return (
     <div className="flex w-full min-h-screen bg-surface-gray font-body-md text-on-surface">
-      <BiddingSidebar role="seller" />
-      <main className="md:ml-64 pt-16 min-h-screen flex flex-col w-full">
+      <main className="pt-16 min-h-screen flex flex-col w-full">
         <div className="flex-1 p-8 max-w-container-max mx-auto w-full">
           <h1 className="font-headline-lg text-headline-lg text-primary mb-8">Seller Dashboard</h1>
 
@@ -34,7 +32,7 @@ export default function SellerDashboardPage() {
                 View All
               </Link>
             </div>
-            
+
             {status.listEnquiries === "loading" ? (
               <div className="animate-pulse space-y-4">
                 {[1, 2].map((i) => (
@@ -79,7 +77,7 @@ export default function SellerDashboardPage() {
             <div className="flex items-center justify-between mb-6">
               <h2 className="font-headline-md text-headline-md text-ameefar-navy">Active Trades</h2>
             </div>
-            
+
             {status.listTrades === "loading" ? (
               <div className="animate-pulse space-y-4">
                 {[1, 2].map((i) => (

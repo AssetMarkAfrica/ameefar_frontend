@@ -2,24 +2,24 @@
 import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAppSelector } from "@/store/hooks";
-import { selectUser, selectIsAuthenticated } from "@/store/auth/authSelectors";
+import { selectIsAuthenticated, selectIsAdmin } from "@/store/auth/authSelectors";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
-  const user = useAppSelector(selectUser);
   const isAuthenticated = useAppSelector(selectIsAuthenticated);
+  const isAdmin = useAppSelector(selectIsAdmin);
 
   useEffect(() => {
     if (!isAuthenticated) {
       router.push("/auth/login");
       return;
     }
-    if (user && user.role !== "admin") {
-      router.push("/bidding/buyer/dashboard"); // Default fallback
+    if (!isAdmin) {
+      router.push("/product"); // Generic fallback to let root handler route them
     }
-  }, [isAuthenticated, user, router]);
+  }, [isAuthenticated, isAdmin, router]);
 
-  if (!isAuthenticated || !user || user.role !== "admin") {
+  if (!isAuthenticated || !isAdmin) {
     return null;
   }
 

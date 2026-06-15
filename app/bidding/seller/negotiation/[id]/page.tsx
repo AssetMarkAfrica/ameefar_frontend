@@ -12,7 +12,6 @@ import {
   counterEnquiryThunk,
 } from "@/store/bidding/biddingThunks";
 // import ChatPanel from "@/components/bidding/ChatPanel";
-import BiddingSidebar from "@/components/bidding/BiddingSidebar";
 
 // ─── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -199,8 +198,7 @@ export default function SellerNegotiationPage() {
 
   return (
     <div className="flex w-full min-h-screen bg-surface-gray font-body-md text-on-background">
-      <BiddingSidebar role="seller" />
-      <main className="flex-1 md:ml-64 flex flex-col w-full max-w-container-max mx-auto px-4 md:px-margin-desktop py-8">
+      <main className="flex flex-col w-full max-w-container-max mx-auto px-4 md:px-margin-desktop py-8">
 
         {/* Header & Breadcrumbs */}
         <section className="mb-8">
@@ -291,8 +289,8 @@ export default function SellerNegotiationPage() {
                 value={
                   currentEnquiry.target_delivery_date
                     ? new Date(currentEnquiry.target_delivery_date).toLocaleDateString("en-GB", {
-                        day: "numeric", month: "short", year: "numeric",
-                      })
+                      day: "numeric", month: "short", year: "numeric",
+                    })
                     : null
                 }
               />

@@ -29,6 +29,7 @@ export type InspectionStatus =
   | "scheduled"
   | "in_progress"
   | "passed"
+  | "buyer_approved"
   | "failed";
 
 export type CancellationReason =

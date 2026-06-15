@@ -66,7 +66,7 @@ export default function Home() {
           <div className="flex items-center gap-8">
             <a className={`${hanken.className} text-2xl font-bold text-[#002627]`} href="#">Ameefar</a>
             <nav className="hidden gap-6 md:flex text-slate-600">
-              <a href="#">Marketplace</a><a href="#">Inspections</a><a href="#">About</a>
+              <a href="/product">Marketplace</a><a href="#">Inspections</a><a href="#">About</a>
             </nav>
           </div>
           <div className="hidden md:flex items-center gap-3 text-sm text-slate-600">

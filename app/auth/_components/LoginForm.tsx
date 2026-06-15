@@ -6,7 +6,13 @@ import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { selectAuthError, selectAuthStatus } from "@/store/auth/authSelectors";
+import {
+  selectAuthError,
+  selectAuthStatus,
+  selectIsVerified,
+  selectIsActive,
+} from "@/store/auth/authSelectors";
+import { store } from "@/store";
 import { loginThunk } from "@/store/auth/authThunks";
 
 import { logoSrc, tradeVisualSrc } from "./auth-constants";
@@ -26,7 +32,16 @@ export function LoginForm() {
     event.preventDefault();
     try {
       await dispatch(loginThunk({ email, password })).unwrap();
-      router.push("/profile");
+
+      const state = store.getState();
+      const isVerified = selectIsVerified(state);
+      const isActive = selectIsActive(state);
+
+      if (!isVerified && !isActive) {
+        router.push("/profile");
+      } else {
+        router.push("/product");
+      }
     } catch {
       // The slice stores and renders the backend error message.
     }

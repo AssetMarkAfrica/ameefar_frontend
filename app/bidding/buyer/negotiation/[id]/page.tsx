@@ -12,7 +12,6 @@ import {
   buyerCounterEnquiryThunk,
 } from "@/store/bidding/biddingThunks";
 // import ChatPanel from "@/components/bidding/ChatPanel";
-import BiddingSidebar from "@/components/bidding/BiddingSidebar";
 
 // ─── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -194,13 +193,12 @@ export default function BuyerNegotiationPage() {
     return <div className="p-8 text-center">Loading negotiation details...</div>;
   }
 
-const hasCounter = !!currentEnquiry.counter_price_per_unit;
-const sellerCountered = hasCounter && currentEnquiry.status === "countered";
-const buyerCounteredBack = hasCounter && currentEnquiry.status === "pending";
+  const hasCounter = !!currentEnquiry.counter_price_per_unit;
+  const sellerCountered = hasCounter && currentEnquiry.status === "countered";
+  const buyerCounteredBack = hasCounter && currentEnquiry.status === "pending";
   return (
     <div className="flex w-full min-h-screen bg-surface-gray font-body-md text-on-background">
-      <BiddingSidebar role="buyer" />
-      <main className="flex-1 md:ml-64 flex flex-col w-full max-w-container-max mx-auto px-4 md:px-margin-desktop py-8">
+      <main className="flex flex-col w-full max-w-container-max mx-auto px-4 md:px-margin-desktop py-8">
 
         {/* Header & Breadcrumbs */}
         <section className="mb-8">
@@ -290,8 +288,8 @@ const buyerCounteredBack = hasCounter && currentEnquiry.status === "pending";
                 value={
                   currentEnquiry.target_delivery_date
                     ? new Date(currentEnquiry.target_delivery_date).toLocaleDateString("en-GB", {
-                        day: "numeric", month: "short", year: "numeric",
-                      })
+                      day: "numeric", month: "short", year: "numeric",
+                    })
                     : null
                 }
               />
@@ -299,25 +297,25 @@ const buyerCounteredBack = hasCounter && currentEnquiry.status === "pending";
             </SectionCard>
 
             {/* Counter Details — only shown when seller has countered */}
-          {hasCounter && (
-  <div className={`bg-white rounded-xl overflow-hidden border ${sellerCountered ? "border-amber-200" : "border-border-subtle"}`}>
-    <div className={`px-5 py-3.5 border-b flex items-center justify-between ${sellerCountered ? "bg-amber-50 border-amber-200" : "bg-surface-gray border-border-subtle"}`}>
-      <div className="flex items-center gap-2">
-        <span className={`material-symbols-outlined text-[18px] ${sellerCountered ? "text-amber-600" : "text-primary"}`}>gavel</span>
-        <h3 className={`font-label-md text-label-md uppercase tracking-wider ${sellerCountered ? "text-amber-800" : "text-ameefar-navy"}`}>
-          {sellerCountered ? "Seller's Counter" : "Your Counter"}
-        </h3>
-      </div>
-      {sellerCountered ? (
-        <span className="text-label-md text-amber-700 font-bold bg-amber-100 px-3 py-1 rounded-full">
-          Action Required
-        </span>
-      ) : (
-        <span className="text-label-md text-on-surface-variant font-bold bg-surface-gray px-3 py-1 rounded-full border border-border-subtle">
-          Awaiting Seller
-        </span>
-      )}
-    </div>
+            {hasCounter && (
+              <div className={`bg-white rounded-xl overflow-hidden border ${sellerCountered ? "border-amber-200" : "border-border-subtle"}`}>
+                <div className={`px-5 py-3.5 border-b flex items-center justify-between ${sellerCountered ? "bg-amber-50 border-amber-200" : "bg-surface-gray border-border-subtle"}`}>
+                  <div className="flex items-center gap-2">
+                    <span className={`material-symbols-outlined text-[18px] ${sellerCountered ? "text-amber-600" : "text-primary"}`}>gavel</span>
+                    <h3 className={`font-label-md text-label-md uppercase tracking-wider ${sellerCountered ? "text-amber-800" : "text-ameefar-navy"}`}>
+                      {sellerCountered ? "Seller's Counter" : "Your Counter"}
+                    </h3>
+                  </div>
+                  {sellerCountered ? (
+                    <span className="text-label-md text-amber-700 font-bold bg-amber-100 px-3 py-1 rounded-full">
+                      Action Required
+                    </span>
+                  ) : (
+                    <span className="text-label-md text-on-surface-variant font-bold bg-surface-gray px-3 py-1 rounded-full border border-border-subtle">
+                      Awaiting Seller
+                    </span>
+                  )}
+                </div>
                 <div className="px-5 divide-y divide-border-subtle">
                   <DetailRow label="Counter Price / Unit" value={`${currentEnquiry.counter_price_per_unit} ${currentEnquiry.currency}`} />
                   <DetailRow label="Counter Quantity" value={`${currentEnquiry.counter_quantity} ${currentEnquiry.unit?.toUpperCase()}`} />

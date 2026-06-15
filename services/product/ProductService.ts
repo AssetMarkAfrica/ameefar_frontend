@@ -36,10 +36,13 @@ function getProductUrl(endpoint: string): string {
 }
 
 function getAuthHeaders(token: string): HeadersInit {
-  return {
+  const headers: Record<string, string> = {
     Accept: "application/json",
-    Authorization: `Bearer ${token}`,
   };
+  if (token) {
+    headers["Authorization"] = `Bearer ${token}`;
+  }
+  return headers;
 }
 
 async function requestJson<TResponse, TPayload = undefined>({

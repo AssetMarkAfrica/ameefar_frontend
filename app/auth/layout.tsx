@@ -5,6 +5,12 @@ export const metadata: Metadata = {
   description: "Secure account access for the Ameefar Energy marketplace.",
 };
 
+import GuestGuard from "./_components/GuestGuard";
+
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
-  return children;
+  return (
+    <GuestGuard>
+      {children}
+    </GuestGuard>
+  );
 }

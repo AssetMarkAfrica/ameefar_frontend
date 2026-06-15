@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { listTradesThunk } from "@/store/bidding/biddingThunks";
 import { selectAccessToken } from "@/store/auth/authSelectors";
-import BiddingSidebar from "@/components/bidding/BiddingSidebar";
+
 
 export default function BuyerInspectionsPage() {
   const dispatch = useAppDispatch();
@@ -17,15 +17,15 @@ export default function BuyerInspectionsPage() {
   }, [dispatch, token]);
 
   // Filter for trades that require inspection or have an active inspection process
-  const inspectionTrades = trades.filter((t) => 
-    t.status === "agreed" || 
+  const inspectionTrades = trades.filter((t) =>
+    t.status === "agreed" ||
     t.status === "in_progress"
   ); // Normally backend should return `inspection_required` flag in TradeSummary, but this is a reasonable proxy
 
   return (
     <div className="flex w-full min-h-screen bg-surface-gray font-body-md text-on-surface">
-      <BiddingSidebar role="buyer" />
-      <main className="md:ml-64 pt-16 min-h-screen flex flex-col w-full">
+
+      <main className="pt-16 min-h-screen flex flex-col w-full">
         <div className="flex-1 p-8 max-w-container-max mx-auto w-full">
           <h1 className="font-headline-lg text-headline-lg text-primary mb-8">Inspections</h1>
 
@@ -51,7 +51,7 @@ export default function BuyerInspectionsPage() {
                       </div>
                     </div>
                     <div className="flex items-center gap-6">
-                      <Link 
+                      <Link
                         href={`/bidding/buyer/trade/${trade.id}`}
                         className="px-4 py-2 border border-primary text-primary hover:bg-primary hover:text-white rounded-lg font-bold transition-colors text-sm"
                       >

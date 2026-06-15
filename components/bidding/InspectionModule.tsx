@@ -88,7 +88,7 @@ export default function InspectionModule({
         </div>
       )}
 
-      {role === "buyer" && status === "passed" && (
+      {role === "buyer" && status === "buyer_approved" && (
         <div className="space-y-3">
           <div className="p-3 bg-secondary/10 rounded-lg text-secondary text-sm mb-4">
             Inspection has passed! Please review the report and approve to proceed with settlement.

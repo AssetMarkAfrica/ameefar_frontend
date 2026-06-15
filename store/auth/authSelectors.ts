@@ -37,3 +37,22 @@ export const selectAuthError = <TOperation extends keyof AuthState["errors"]>(
   state: RootState,
   operation: TOperation,
 ): AuthState["errors"][TOperation] => state.auth.errors[operation];
+
+export const selectIsVerified = (state: RootState): boolean =>
+  state.auth.user?.is_verified ?? false;
+
+export const selectIsActive = (state: RootState): boolean =>
+  state.auth.user?.is_active ?? false;
+
+export const selectIsBuyer = (state: RootState): boolean =>
+  state.auth.user?.role === "buyer";
+
+export const selectIsSeller = (state: RootState): boolean =>
+  state.auth.user?.role === "seller";
+
+export const selectIsBoth = (state: RootState): boolean =>
+  state.auth.user?.role === "both";
+
+export const selectIsAdmin = (state: RootState): boolean =>
+  state.auth.user?.role === "admin";
+

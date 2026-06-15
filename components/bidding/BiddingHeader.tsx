@@ -1,12 +1,23 @@
 "use client";
 import React from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { LogoutButton } from "@/components/auth/LogoutButton";
 import { useAppSelector } from "@/store/hooks";
-import { selectUser } from "@/store/auth/authSelectors";
+import { selectIsBoth, selectIsSeller, selectIsAdmin } from "@/store/auth/authSelectors";
 
 export default function BiddingHeader() {
-  const user = useAppSelector(selectUser);
+  const pathname = usePathname();
+  const isBoth = useAppSelector(selectIsBoth);
+  const isSeller = useAppSelector(selectIsSeller);
+  const isAdmin = useAppSelector(selectIsAdmin);
+
+  const getLinkClass = (pathCheck: string) => {
+    const isActive = pathname.startsWith(pathCheck);
+    return isActive
+      ? "text-primary font-bold border-b-2 border-primary pb-1"
+      : "text-on-surface-variant font-body-md text-body-md hover:text-primary transition-colors duration-200";
+  };
 
   return (
     <header className="fixed top-0 w-full z-50 bg-surface-container-lowest border-b border-border-subtle h-16 flex justify-between items-center px-margin-desktop max-w-container-max mx-auto left-0 right-0">
@@ -17,25 +28,45 @@ export default function BiddingHeader() {
         >
           Ameefar
         </Link>
-        <nav className="hidden md:flex gap-6">
+        <nav className="hidden md:flex gap-6 items-center">
           <Link
             href="/product"
-            className="text-on-surface-variant font-body-md text-body-md hover:text-primary transition-colors duration-200"
+            className={getLinkClass("/product")}
           >
             Marketplace
           </Link>
-          <Link
-            href={`/bidding/${user?.role === 'seller' ? 'seller' : 'buyer'}`}
-            className="text-primary font-bold border-b-2 border-primary pb-1"
-          >
-            My Trades
-          </Link>
-          <Link
-            href="#"
-            className="text-on-surface-variant font-body-md text-body-md hover:text-primary transition-colors duration-200"
-          >
-            Reports
-          </Link>
+
+          {isAdmin ? (
+            <Link
+              href="/bidding/admin"
+              className={getLinkClass("/bidding/admin")}
+            >
+              Admin Panel
+            </Link>
+          ) : isBoth ? (
+            <>
+              <Link
+                href="/bidding/buyer/dashboard"
+                className={getLinkClass("/bidding/buyer/dashboard")}
+              >
+                Buyer Trades
+              </Link>
+              <Link
+                href="/bidding/seller/dashboard"
+                className={getLinkClass("/bidding/seller/dashboard")}
+              >
+                Seller Trades
+              </Link>
+            </>
+          ) : (
+            <Link
+              href={`/bidding/${isSeller ? 'seller' : 'buyer'}/dashboard`}
+              className={getLinkClass(`/bidding/${isSeller ? 'seller' : 'buyer'}/dashboard`)}
+            >
+              My Trades
+            </Link>
+          )}
+
         </nav>
       </div>
       <div className="flex items-center gap-4">

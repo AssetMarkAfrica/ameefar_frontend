@@ -63,9 +63,7 @@ export function ProductBrowse() {
   const params = useMemo(() => buildListParams(filters, page), [filters, page]);
 
   useEffect(() => {
-    if (token) {
-      void dispatch(listProductListingsThunk({ token, params }));
-    }
+    void dispatch(listProductListingsThunk({ token: token || "", params }));
   }, [dispatch, params, token]);
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -85,9 +83,7 @@ export function ProductBrowse() {
       {/* Page header */}
       <section className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <div>
-          <p className="font-[var(--font-jetbrains)] text-xs font-bold uppercase tracking-wide text-[#006d40]">
-            Marketplace
-          </p>
+
           <h1 className="mt-2 font-[var(--font-hanken)] text-4xl font-semibold text-[#002627]">
             Browse listings
           </h1>
@@ -121,22 +117,24 @@ export function ProductBrowse() {
               </button>
             </div>
 
-            <label className="flex cursor-pointer items-center justify-between gap-4 rounded-lg border border-slate-200 bg-slate-50 p-3 transition hover:border-[#002627]/20 hover:bg-[#eff4ff]">
-              <span className="text-sm font-semibold text-[#0b1c30]">
-                My listings only
-              </span>
-              <input
-                className="size-5 accent-[#002627]"
-                checked={filters.mine}
-                onChange={(event) =>
-                  setFilters((current) => ({
-                    ...current,
-                    mine: event.target.checked,
-                  }))
-                }
-                type="checkbox"
-              />
-            </label>
+            {token && (
+              <label className="flex cursor-pointer items-center justify-between gap-4 rounded-lg border border-slate-200 bg-slate-50 p-3 transition hover:border-[#002627]/20 hover:bg-[#eff4ff]">
+                <span className="text-sm font-semibold text-[#0b1c30]">
+                  My listings only
+                </span>
+                <input
+                  className="size-5 accent-[#002627]"
+                  checked={filters.mine}
+                  onChange={(event) =>
+                    setFilters((current) => ({
+                      ...current,
+                      mine: event.target.checked,
+                    }))
+                  }
+                  type="checkbox"
+                />
+              </label>
+            )}
 
             <SelectField
               label="Listing type"
@@ -435,65 +433,63 @@ function FilterPill({
 
 function ProductListingCard({ listing }: { listing: ProductListingSummary }) {
   return (
-    <article className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg">
-      {/* Fix: image section is NOT a link to avoid nested <a> with the button below */}
-      <div className="relative h-48 overflow-hidden bg-[#eff4ff]">
-        {listing.primary_image_url ? (
-          /* Fix: use <img> instead of background-image <span> for reliable rendering */
-          <img
-            alt={listing.material_name}
-            className="size-full object-cover transition duration-500 hover:scale-105"
-            src={listing.primary_image_url}
-          />
-        ) : (
-          <div className="grid size-full place-items-center">
-            <span className="font-[var(--font-jetbrains)] text-sm font-bold uppercase tracking-widest text-[#002627]/30">
-              {formatMaterialType(listing.material_type)}
+    <Link
+      href={`/product/${listing.id}`}
+      className="block overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg"
+    >
+      <article>
+        <div className="relative h-48 overflow-hidden bg-[#eff4ff]">
+          {listing.primary_image_url ? (
+            /* Fix: use <img> instead of background-image <span> for reliable rendering */
+            <img
+              alt={listing.material_name}
+              className="size-full object-cover transition duration-500 hover:scale-105"
+              src={listing.primary_image_url}
+            />
+          ) : (
+            <div className="grid size-full place-items-center">
+              <span className="font-[var(--font-jetbrains)] text-sm font-bold uppercase tracking-widest text-[#002627]/30">
+                {formatMaterialType(listing.material_type)}
+              </span>
+            </div>
+          )}
+          {listing.seller_verified_snapshot && (
+            <span className="absolute left-3 top-3 rounded-md bg-[#006d40] px-2 py-1 text-xs font-bold text-white shadow-sm">
+              Verified
             </span>
-          </div>
-        )}
-        {listing.seller_verified_snapshot && (
-          <span className="absolute left-3 top-3 rounded-md bg-[#006d40] px-2 py-1 text-xs font-bold text-white shadow-sm">
-            Verified
+          )}
+          {/* Listing type badge top-right */}
+          <span
+            className={
+              listing.listing_type === "sell"
+                ? "absolute right-3 top-3 rounded-md bg-[#beebeb] px-2 py-1 text-xs font-bold text-[#002627]"
+                : "absolute right-3 top-3 rounded-md bg-[#ecfdf5] px-2 py-1 text-xs font-bold text-[#006d40]"
+            }
+          >
+            {listing.listing_type === "sell" ? "Sell" : "Buy"}
           </span>
-        )}
-        {/* Listing type badge top-right */}
-        <span
-          className={
-            listing.listing_type === "sell"
-              ? "absolute right-3 top-3 rounded-md bg-[#beebeb] px-2 py-1 text-xs font-bold text-[#002627]"
-              : "absolute right-3 top-3 rounded-md bg-[#ecfdf5] px-2 py-1 text-xs font-bold text-[#006d40]"
-          }
-        >
-          {listing.listing_type === "sell" ? "Sell" : "Buy"}
-        </span>
-      </div>
-
-      <div className="grid gap-4 p-5">
-        <div>
-          <h2 className="line-clamp-2 font-[var(--font-hanken)] text-xl font-semibold leading-snug text-[#002627]">
-            {listing.material_name}
-          </h2>
         </div>
 
-        <dl className="grid grid-cols-2 gap-x-3 gap-y-3 text-sm">
-          <Fact label="Material" value={formatMaterialType(listing.material_type)} />
-          <Fact label="Quantity" value={`${listing.quantity_available_mt} MT`} />
-          <Fact label="Origin" value={listing.material_location_country} />
-          <Fact
-            label="Availability"
-            value={formatAvailability(listing.availability_status)}
-          />
-        </dl>
+        <div className="grid gap-4 p-5">
+          <div>
+            <h2 className="line-clamp-2 font-[var(--font-hanken)] text-xl font-semibold leading-snug text-[#002627]">
+              {listing.material_name}
+            </h2>
+          </div>
 
-        <Link
-          className="inline-flex min-h-10 items-center justify-center rounded-lg border border-slate-200 bg-slate-50 px-4 text-sm font-semibold text-[#002627] transition hover:bg-[#eff4ff] hover:border-[#002627]/30"
-          href={`/product/${listing.id}`}
-        >
-          View details →
-        </Link>
-      </div>
-    </article>
+          <dl className="grid grid-cols-2 gap-x-3 gap-y-3 text-sm">
+            <Fact label="Material" value={formatMaterialType(listing.material_type)} />
+            <Fact label="Quantity" value={`${listing.quantity_available_mt} MT`} />
+            <Fact label="Origin" value={listing.material_location_country} />
+            <Fact
+              label="Availability"
+              value={formatAvailability(listing.availability_status)}
+            />
+          </dl>
+
+        </div>
+      </article>
+    </Link>
   );
 }
 

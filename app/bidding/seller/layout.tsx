@@ -2,24 +2,27 @@
 import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAppSelector } from "@/store/hooks";
-import { selectUser, selectIsAuthenticated } from "@/store/auth/authSelectors";
+import { selectIsAuthenticated, selectIsSeller, selectIsBoth } from "@/store/auth/authSelectors";
 
 export default function SellerLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
-  const user = useAppSelector(selectUser);
   const isAuthenticated = useAppSelector(selectIsAuthenticated);
+  const isSeller = useAppSelector(selectIsSeller);
+  const isBoth = useAppSelector(selectIsBoth);
+
+  const canAccessSeller = isSeller || isBoth;
 
   useEffect(() => {
     if (!isAuthenticated) {
       router.push("/auth/login");
       return;
     }
-    if (user && user.role !== "seller" && user.role !== "both") {
-      router.push("/bidding/buyer");
+    if (!canAccessSeller) {
+      router.push("/bidding");
     }
-  }, [isAuthenticated, user, router]);
+  }, [isAuthenticated, canAccessSeller, router]);
 
-  if (!isAuthenticated || !user || (user.role !== "seller" && user.role !== "both")) {
+  if (!isAuthenticated || !canAccessSeller) {
     return null; // Or a loading spinner
   }
 

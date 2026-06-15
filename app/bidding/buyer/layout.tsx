@@ -2,24 +2,28 @@
 import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAppSelector } from "@/store/hooks";
-import { selectUser, selectIsAuthenticated } from "@/store/auth/authSelectors";
+import { selectIsAuthenticated, selectIsBuyer, selectIsBoth } from "@/store/auth/authSelectors";
 
 export default function BuyerLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
-  const user = useAppSelector(selectUser);
   const isAuthenticated = useAppSelector(selectIsAuthenticated);
+  const isBuyer = useAppSelector(selectIsBuyer);
+  const isBoth = useAppSelector(selectIsBoth);
+
+  const canAccessBuyer = isBuyer || isBoth;
 
   useEffect(() => {
     if (!isAuthenticated) {
       router.push("/auth/login");
       return;
     }
-    if (user && user.role !== "buyer" && user.role !== "both") {
-      router.push("/bidding/seller");
+    if (!canAccessBuyer) {
+      // Redirect sellers to their dashboard, otherwise fall back to generic bidding page
+      router.push("/bidding/seller/dashboard");
     }
-  }, [isAuthenticated, user, router]);
+  }, [isAuthenticated, canAccessBuyer, router]);
 
-  if (!isAuthenticated || !user || (user.role !== "buyer" && user.role !== "both")) {
+  if (!isAuthenticated || !canAccessBuyer) {
     return null; // Or a loading spinner
   }
 

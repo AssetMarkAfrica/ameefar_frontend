@@ -1,124 +1,186 @@
 "use client";
+
 import React from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useAppSelector } from "@/store/hooks";
+import { selectIsBoth } from "@/store/auth/authSelectors";
 import { LogoutButton } from "@/components/auth/LogoutButton";
-import { ameefarLogoSrc } from "@/app/product/_components/product-options";
 
 interface SidebarProps {
   role: "buyer" | "seller" | "admin";
 }
 
-function AmeefarWordmark() {
-  return (
-    <span>
-      <strong className="block font-[var(--font-hanken)] text-xl leading-5 text-[#002627]">
-        Ameefar
-      </strong>
-      <small className="block text-[11px] font-medium tracking-wide text-[#404848]">
-        Enterprise marketplace
-      </small>
-    </span>
-  );
-}
+type NavItem = {
+  name: string;
+  href: string;
+  icon: string;
+  /** Substring match — use when href alone isn't specific enough */
+  activePath?: string;
+};
 
 export default function BiddingSidebar({ role }: SidebarProps) {
   const pathname = usePathname();
+  const isBoth = useAppSelector(selectIsBoth);
 
-  const navItems = [
-    { name: "Dashboard", href: `/bidding/${role}/dashboard`, icon: "dashboard" },
-    { name: "Market", href: "/product", icon: "storefront" },
-    { name: "Negotiations", href: `/bidding/${role}/negotiations`, icon: "handshake", activePath: "negotiation" },
-    { name: "Inspections", href: `/bidding/${role}/inspections`, icon: "fact_check" },
-    { name: "Profile", href: "/profile", icon: "person" },
+  // ── Build nav items ──────────────────────────────────────────────
+  const topNavItems: NavItem[] = [
+    {
+      name: "Marketplace",
+      href: "/product",
+      icon: "storefront",
+    },
   ];
+
+  if (role === "admin") {
+    topNavItems.push({
+      name: "Admin Panel",
+      href: "/bidding/admin",
+      icon: "admin_panel_settings",
+      activePath: "/bidding/admin",
+    });
+  } else if (isBoth) {
+    topNavItems.push(
+      {
+        name: "Buyer Dashboard",
+        href: "/bidding/buyer/dashboard",
+        icon: "shopping_bag",
+        activePath: "/bidding/buyer/dashboard",
+      },
+      {
+        name: "Seller Dashboard",
+        href: "/bidding/seller/dashboard",
+        icon: "inventory_2",
+        activePath: "/bidding/seller/dashboard",
+      },
+      {
+        name: "Buyer Negotiations",
+        href: "/bidding/buyer/negotiations",
+        icon: "handshake",
+        activePath: "/bidding/buyer/negot",
+      },
+      {
+        name: "Seller Negotiations",
+        href: "/bidding/seller/negotiations",
+        icon: "handshake",
+        activePath: "/bidding/seller/negot",
+      },
+      {
+        name: "Inspections",
+        href: `/bidding/${role}/inspections`,
+        icon: "fact_check",
+        activePath: "inspection",
+      }
+    );
+  } else {
+    topNavItems.push(
+      {
+        name: "Dashboard",
+        href: `/bidding/${role}/dashboard`,
+        icon: "dashboard",
+        activePath: `/bidding/${role}/dashboard`,
+      },
+      {
+        name: "Negotiations",
+        href: `/bidding/${role}/negotiations`,
+        icon: "handshake",
+        activePath: "negotiation",
+      },
+      {
+        name: "Inspections",
+        href: `/bidding/${role}/inspections`,
+        icon: "fact_check",
+        activePath: "inspection",
+      }
+    );
+  }
+
+  topNavItems.push({
+    name: "Profile",
+    href: "/profile",
+    icon: "person",
+  });
+
+  const bottomNavItems: NavItem[] = [
+    { name: "Support", href: "/support", icon: "help" },
+    { name: "Settings", href: "/settings", icon: "settings" },
+  ];
+
+  // ── Active check helper ──────────────────────────────────────────
+  const isItemActive = (item: NavItem): boolean => {
+    if (item.activePath) return pathname.includes(item.activePath);
+    return pathname === item.href || pathname.startsWith(item.href + "/");
+  };
+
+  // ── Shared link renderer ─────────────────────────────────────────
+  const NavLink = ({ item }: { item: NavItem }) => {
+    const active = isItemActive(item);
+    return (
+      <Link
+        href={item.href}
+        className={
+          active
+            ? "flex items-center gap-3 rounded-xl bg-[#eff4ff] px-4 py-3 text-sm font-semibold text-[#002627]"
+            : "flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold text-[#404848] transition-colors hover:bg-slate-50 hover:text-[#002627]"
+        }
+      >
+        <span
+          className="material-symbols-outlined text-[20px] shrink-0"
+          style={{ fontVariationSettings: active ? "'FILL' 1" : "'FILL' 0" }}
+        >
+          {item.icon}
+        </span>
+        <span className="truncate">{item.name}</span>
+      </Link>
+    );
+  };
+
+  // ── Role badge label ─────────────────────────────────────────────
+  const roleLabel = isBoth ? "Buyer & Seller" : role;
+  const roleBadgeColor =
+    role === "admin"
+      ? "bg-amber-50 text-amber-700"
+      : isBoth
+        ? "bg-violet-50 text-violet-700"
+        : role === "seller"
+          ? "bg-[#ecfdf5] text-[#006d40]"
+          : "bg-[#eff4ff] text-[#002d90]";
 
   return (
     <aside
       aria-label="Bidding navigation"
-      className="fixed left-0 top-0 z-40 hidden h-screen w-64 flex-col border-r border-slate-200 bg-white px-4 py-6 md:flex"
+      className="fixed left-0 top-20 z-30 hidden h-[calc(100vh-5rem)] w-64 flex-col border-r border-slate-200 bg-white md:flex"
     >
-      {/* Logo — identical to ProductShell */}
-      <Link className="flex items-center gap-3" href="/product">
-        <Image
-          alt="Ameefar Energy Logo"
-          className="shrink-0 rounded-lg object-cover"
-          height={40}
-          src={ameefarLogoSrc}
-          width={40}
-        />
-        <AmeefarWordmark />
-      </Link>
+      <div className="flex h-full flex-col overflow-y-auto px-3 py-5">
+        {/* Top nav */}
+        <nav className="grid gap-0.5">
+          {topNavItems.map((item) => (
+            <NavLink key={item.href + item.name} item={item} />
+          ))}
+        </nav>
 
-      {/* Nav links */}
-      <nav className="mt-8 grid gap-1 text-sm font-semibold">
-        {navItems.map((item) => {
-          const isActive = item.activePath
-            ? pathname.includes(item.activePath)
-            : pathname === item.href || pathname.startsWith(item.href + "/");
+        {/* Footer */}
+        <div className="mt-auto border-t border-slate-100 pt-4">
+          <nav className="grid gap-0.5">
+            {bottomNavItems.map((item) => (
+              <NavLink key={item.href} item={item} />
+            ))}
 
-          return (
-            <Link
-              key={item.name}
-              href={item.href}
-              className={
-                isActive
-                  ? "flex items-center gap-3 rounded-lg bg-[#eff4ff] px-4 py-3 text-[#002627]"
-                  : "flex items-center gap-3 rounded-lg px-4 py-3 text-[#404848] transition hover:bg-slate-50 hover:text-[#002627]"
-              }
+            <LogoutButton
+              className="flex items-center gap-3 rounded-xl px-4 py-3 text-left text-sm font-semibold text-[#404848] transition-colors hover:bg-slate-50 hover:text-[#002627] disabled:cursor-not-allowed disabled:opacity-60"
+              iconClassName="material-symbols-outlined text-[20px] shrink-0"
+              showIcon
+            />
+          </nav>
+
+          {/* Role badge */}
+          <div className="mt-4 px-2">
+            <span
+              className={`inline-flex rounded-full px-3 py-1 font-[var(--font-jetbrains)] text-[11px] font-bold uppercase tracking-widest ${roleBadgeColor}`}
             >
-              <span
-                className="material-symbols-outlined text-[20px]"
-                style={{ fontVariationSettings: isActive ? "'FILL' 1" : "" }}
-              >
-                {item.icon}
-              </span>
-              {item.name}
-            </Link>
-          );
-        })}
-      </nav>
-
-      {/* Footer links */}
-      <div className="mt-auto grid gap-1 border-t border-slate-100 pt-4 text-sm font-semibold">
-        {[
-          { name: "Support", href: "/support", icon: "help" },
-          { name: "Settings", href: "/settings", icon: "settings" },
-        ].map((item) => {
-          const isActive = pathname.startsWith(item.href);
-          return (
-            <Link
-              key={item.name}
-              href={item.href}
-              className={
-                isActive
-                  ? "flex items-center gap-3 rounded-lg bg-[#eff4ff] px-4 py-3 text-[#002627]"
-                  : "flex items-center gap-3 rounded-lg px-4 py-3 text-[#404848] transition hover:bg-slate-50 hover:text-[#002627]"
-              }
-            >
-              <span
-                className="material-symbols-outlined text-[20px]"
-                style={{ fontVariationSettings: isActive ? "'FILL' 1" : "" }}
-              >
-                {item.icon}
-              </span>
-              {item.name}
-            </Link>
-          );
-        })}
-
-        <LogoutButton
-          className="flex items-center gap-3 rounded-lg px-4 py-3 text-left text-[#404848] transition hover:bg-slate-50 hover:text-[#002627] disabled:cursor-not-allowed disabled:opacity-60"
-          iconClassName="material-symbols-outlined text-[20px]"
-          showIcon
-        />
-
-        {/* Role badge */}
-        <div className="mt-3 px-1">
-          <span className="inline-block rounded-full bg-[#ecfdf5] px-3 py-1 font-[var(--font-jetbrains)] text-xs font-bold uppercase tracking-wide text-[#006d40]">
-            {role}
-          </span>
+              {roleLabel}
+            </span>
+          </div>
         </div>
       </div>
     </aside>

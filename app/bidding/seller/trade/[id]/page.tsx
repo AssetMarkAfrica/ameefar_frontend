@@ -14,7 +14,7 @@ import {
 } from "@/store/bidding/biddingThunks";
 import { getTradePaymentSummaryThunk } from "@/store/payment/paymentThunks";
 import ChatPanel from "@/components/bidding/ChatPanel";
-import BiddingSidebar from "@/components/bidding/BiddingSidebar";
+
 import TradeStepper from "@/components/bidding/TradeStepper";
 import DocumentList from "@/components/bidding/DocumentList";
 import InspectionModule from "@/components/bidding/InspectionModule";
@@ -26,7 +26,7 @@ export default function SellerTradePage() {
   const token = useAppSelector(selectAccessToken);
   const { currentTrade, tradeMessages, tradeDocuments, status, errors } = useAppSelector((state) => state.bidding);
   const { tradeSummary } = useAppSelector((state) => state.payment);
-  
+
   const messages = tradeMessages[id] || [];
   const documents = tradeDocuments[id] || [];
   const [eta, setEta] = useState("");
@@ -74,12 +74,12 @@ export default function SellerTradePage() {
 
   return (
     <div className="flex w-full min-h-screen bg-surface-gray font-body-md text-on-surface">
-      <BiddingSidebar role="seller" />
-      <main className="md:ml-64 pt-16 min-h-screen flex flex-col">
-        
+
+      <main className="pt-16 min-h-screen flex flex-col w-full">
+
         {/* Progress Stepper Header */}
-        <section className="bg-white border-b border-border-subtle px-margin-desktop py-8">
-          <div className="max-w-4xl mx-auto">
+        <section className="bg-white border-b border-border-subtle px-margin-desktop py-8 w-full">
+          <div className="w-full max-w-screen-2xl mx-auto">
             <div className="flex items-center justify-between mb-2">
               <h1 className="font-headline-md text-headline-md text-primary">Trade #{currentTrade.reference} Execution</h1>
               <span className="px-3 py-1 bg-trust-green-subtle text-secondary font-label-md text-[10px] rounded-full uppercase tracking-wider">Active Room</span>
@@ -89,11 +89,11 @@ export default function SellerTradePage() {
         </section>
 
         {/* Execution Workspace */}
-        <div className="flex-1 p-8 grid grid-cols-1 lg:grid-cols-12 gap-gutter max-w-container-max mx-auto w-full">
-          
+        <div className="flex-1 p-8 grid grid-cols-1 lg:grid-cols-12 gap-gutter w-full max-w-screen-2xl mx-auto">
+
           {/* Left Panel: Trade Details & Action */}
-          <div className="lg:col-span-7 space-y-6">
-            
+          <div className="lg:col-span-8 space-y-6">
+
             {/* Trade Details Card */}
             <div className="bg-white rounded-xl border border-border-subtle shadow-sm overflow-hidden">
               <div className="p-6 border-b border-border-subtle bg-surface-gray flex justify-between items-center">
@@ -166,8 +166,8 @@ export default function SellerTradePage() {
                     <div className="space-y-4">
                       <div>
                         <label className="block text-sm font-bold text-on-surface-variant mb-1">Estimated Arrival Date (ETA)</label>
-                        <input 
-                          type="date" 
+                        <input
+                          type="date"
                           className="w-full bg-surface-gray border border-border-subtle rounded-lg px-4 py-2 focus:ring-primary focus:border-transparent outline-none"
                           value={eta}
                           onChange={(e) => setEta(e.target.value)}
@@ -175,14 +175,14 @@ export default function SellerTradePage() {
                       </div>
                       <div>
                         <label className="block text-sm font-bold text-on-surface-variant mb-1">Tracking Info / Logistics Details</label>
-                        <textarea 
+                        <textarea
                           className="w-full bg-surface-gray border border-border-subtle rounded-lg px-4 py-2 focus:ring-primary focus:border-transparent outline-none"
                           rows={3}
                           value={trackingInfo}
                           onChange={(e) => setTrackingInfo(e.target.value)}
                         ></textarea>
                       </div>
-                      <button 
+                      <button
                         onClick={handleMarkInProgress}
                         disabled={status.markInProgress === "loading" || !eta}
                         className="w-full bg-secondary text-white font-bold py-3 rounded-lg hover:bg-secondary/90 transition-colors disabled:opacity-50"
@@ -194,28 +194,28 @@ export default function SellerTradePage() {
                 )}
               </>
             )}
-            
-            <DocumentList 
-              documents={documents} 
-              onUpload={handleUploadDocument} 
-              canUpload={true} 
+
+            <DocumentList
+              documents={documents}
+              onUpload={handleUploadDocument}
+              canUpload={true}
             />
           </div>
-          
+
           {/* Right Panel: Chat & Logs */}
-          <div className="lg:col-span-5 flex flex-col gap-6">
+          <div className="lg:col-span-4 flex flex-col gap-6">
             <div className="h-[500px]">
-              <ChatPanel 
+              <ChatPanel
                 title="Trade Channel"
                 subtitle="2 Participants"
-                messages={messages} 
+                messages={messages}
                 onSendMessage={handleSendMessage}
                 isSending={status.sendTradeMessage === "loading"}
               />
             </div>
 
             {currentTrade.inspection_status !== "not_requested" && currentTrade.inspection_status !== "skipped" && (
-              <InspectionModule 
+              <InspectionModule
                 status={currentTrade.inspection_status}
                 report={currentTrade.inspection_report}
                 paymentSummary={tradeSummary}

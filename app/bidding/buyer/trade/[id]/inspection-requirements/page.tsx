@@ -5,7 +5,6 @@ import { useParams, useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { selectAccessToken } from "@/store/auth/authSelectors";
 import { fetchTradeThunk, createInspectionRequirementsThunk, setInspectionRequirementsThunk } from "@/store/bidding/biddingThunks";
-import BiddingSidebar from "@/components/bidding/BiddingSidebar";
 import type { InspectionRequirementInput, InspectionValueType, InspectionOperator } from "@/types/bidding";
 
 interface DraftRequirement extends InspectionRequirementInput {
@@ -162,7 +161,7 @@ export default function TradeInspectionRequirementsPage() {
     setIsSaving(true);
     const payload = buildPayload();
     const result = await dispatch(createInspectionRequirementsThunk({ token, tradeId: id, ...payload }));
-    
+
     if (createInspectionRequirementsThunk.fulfilled.match(result)) {
       const paymentInfo = result.payload.data.inspection_fee_payment;
       if (paymentInfo && paymentInfo.paystack_authorization_url) {
@@ -199,9 +198,8 @@ export default function TradeInspectionRequirementsPage() {
 
   return (
     <div className="flex w-full min-h-screen bg-surface-gray font-body-md text-on-surface">
-      <BiddingSidebar role="buyer" />
-      <main className="md:ml-64 flex-1 flex flex-col min-h-screen pt-16">
-        
+      <main className="flex-1 flex flex-col min-h-screen pt-16">
+
         {/* Page Content */}
         <div className="flex-1 px-margin-desktop py-10 max-w-container-max mx-auto w-full">
           {/* Breadcrumbs */}
@@ -251,7 +249,7 @@ export default function TradeInspectionRequirementsPage() {
               <div className="bg-white border border-border-subtle p-8 shadow-sm">
                 <div className="flex justify-between items-center mb-8 pb-4 border-b border-border-subtle">
                   <h3 className="font-headline-md text-headline-md text-primary">Define Acceptance Criteria</h3>
-                  <button 
+                  <button
                     onClick={addCustomRequirement}
                     className="text-primary flex items-center gap-2 font-body-md text-body-md font-semibold hover:underline"
                   >
@@ -265,18 +263,18 @@ export default function TradeInspectionRequirementsPage() {
                     <div key={req.ui_id} className="parameter-card group grid grid-cols-1 md:grid-cols-2 gap-6 p-6 border border-border-subtle transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5">
                       <div>
                         {req.ui_id.startsWith("custom-") ? (
-                          <input 
-                            value={req.name} 
+                          <input
+                            value={req.name}
                             onChange={(e) => updateRequirement(req.ui_id, { name: e.target.value })}
                             className="font-headline-md text-body-lg font-bold text-ameefar-navy mb-1 uppercase tracking-tight bg-transparent border-b border-dashed border-border-subtle outline-none focus:border-primary w-full"
                           />
                         ) : (
                           <h4 className="font-headline-md text-body-lg font-bold text-ameefar-navy mb-1 uppercase tracking-tight">{req.name}</h4>
                         )}
-                        
+
                         {req.ui_id.startsWith("custom-") ? (
-                          <input 
-                            value={req.description} 
+                          <input
+                            value={req.description}
                             onChange={(e) => updateRequirement(req.ui_id, { description: e.target.value })}
                             className="text-on-surface-variant font-body-sm text-body-sm bg-transparent border-b border-dashed border-border-subtle outline-none focus:border-primary w-full"
                           />
@@ -289,13 +287,13 @@ export default function TradeInspectionRequirementsPage() {
                         {req.value_type === "boolean" ? (
                           <div className="flex items-center justify-end flex-1">
                             <div className="flex items-center bg-surface-gray p-1 rounded-sm w-full max-w-[200px]">
-                              <button 
+                              <button
                                 onClick={() => updateRequirement(req.ui_id, { target_boolean: true, operator: "absent" })}
                                 className={`flex-1 py-2 font-label-md text-label-md ${req.target_boolean ? 'bg-white shadow-sm text-primary font-bold' : 'text-on-surface-variant opacity-50'}`}
                               >
                                 Absent
                               </button>
-                              <button 
+                              <button
                                 onClick={() => updateRequirement(req.ui_id, { target_boolean: false, operator: "eq" })}
                                 className={`flex-1 py-2 font-label-md text-label-md ${!req.target_boolean ? 'bg-white shadow-sm text-primary font-bold' : 'text-on-surface-variant opacity-50'}`}
                               >
@@ -306,7 +304,7 @@ export default function TradeInspectionRequirementsPage() {
                         ) : (
                           <div className="relative flex-1 flex gap-2">
                             {req.ui_id.startsWith("custom-") && (
-                              <select 
+                              <select
                                 value={req.operator}
                                 onChange={(e) => updateRequirement(req.ui_id, { operator: e.target.value as InspectionOperator })}
                                 className="bg-surface-gray border-none focus:ring-2 focus:ring-primary font-label-md text-primary rounded-md"
@@ -324,16 +322,16 @@ export default function TradeInspectionRequirementsPage() {
                                   <span className="text-on-surface-variant font-label-md">{getOperatorSymbol(req.operator)}</span>
                                 </div>
                               )}
-                              <input 
-                                className={`w-full ${!req.ui_id.startsWith("custom-") ? 'pl-8' : 'pl-3'} py-3 bg-surface-gray border-none focus:ring-2 focus:ring-primary font-label-md text-body-lg text-primary text-right rounded-md`} 
+                              <input
+                                className={`w-full ${!req.ui_id.startsWith("custom-") ? 'pl-8' : 'pl-3'} py-3 bg-surface-gray border-none focus:ring-2 focus:ring-primary font-label-md text-body-lg text-primary text-right rounded-md`}
                                 style={{ fontFamily: "'JetBrains Mono'" }}
-                                type="text" 
+                                type="text"
                                 value={req.target_value || ""}
                                 onChange={(e) => updateRequirement(req.ui_id, { target_value: e.target.value.replace(/[^0-9.]/g, '') })}
                                 placeholder="Value"
                               />
                             </div>
-                            <input 
+                            <input
                               list="unit-options"
                               className="w-24 bg-surface-gray border-none focus:ring-2 focus:ring-primary font-label-md text-primary rounded-md px-3 py-3"
                               value={req.unit || ""}
@@ -342,8 +340,8 @@ export default function TradeInspectionRequirementsPage() {
                             />
                           </div>
                         )}
-                        
-                        <button 
+
+                        <button
                           onClick={() => removeRequirement(req.ui_id)}
                           className="text-on-surface-variant hover:text-error transition-colors"
                         >
@@ -368,7 +366,7 @@ export default function TradeInspectionRequirementsPage() {
                   <h4 className="font-headline-md text-body-md font-bold text-primary mb-6">Inspection Progress</h4>
                   <div className="space-y-8 relative">
                     <div className="absolute left-[11px] top-2 bottom-2 w-[2px] bg-border-subtle" style={{ background: "repeating-linear-gradient(to bottom, #E2E8F0, #E2E8F0 4px, transparent 4px, transparent 8px)" }}></div>
-                    
+
                     <div className="relative flex gap-4 items-start">
                       <div className="w-6 h-6 rounded-full bg-secondary flex items-center justify-center z-10">
                         <span className="material-symbols-outlined text-white text-[14px]">check</span>
@@ -378,7 +376,7 @@ export default function TradeInspectionRequirementsPage() {
                         <p className="text-[12px] text-on-surface-variant">Completed</p>
                       </div>
                     </div>
-                    
+
                     <div className="relative flex gap-4 items-start">
                       <div className="w-6 h-6 rounded-full bg-primary flex items-center justify-center z-10 animate-pulse">
                         <div className="w-2 h-2 rounded-full bg-white"></div>
@@ -445,14 +443,14 @@ export default function TradeInspectionRequirementsPage() {
               </p>
             </div>
             <div className="flex items-center gap-4">
-              <button 
+              <button
                 onClick={handleSaveDraft}
                 disabled={isSaving}
                 className="px-8 py-3 font-body-md text-body-md font-semibold text-primary hover:bg-surface-gray transition-colors disabled:opacity-50"
               >
                 Save Draft
               </button>
-              <button 
+              <button
                 onClick={handleSaveAndProceed}
                 disabled={isSaving || requirements.length === 0}
                 className="px-10 py-3 font-body-md text-body-md font-bold bg-primary text-on-primary shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 flex items-center gap-2"
