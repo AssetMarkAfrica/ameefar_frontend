@@ -48,7 +48,7 @@ export default function SellerInspectionsPage() {
                   <div className="flex items-center gap-4 text-body-sm text-on-surface-variant">
                     <span>Ref: {trade.reference}</span>
                     <span>•</span>
-                    <span>Buyer: {trade.buyer_name}</span>
+                    <span>Buyer: Confidential</span>
                   </div>
                 </div>
                 <div className="flex items-center gap-6">

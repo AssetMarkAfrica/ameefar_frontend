@@ -46,3 +46,17 @@ export const getTradePaymentSummaryThunk = createAsyncThunk(
     return PaymentService.getTradePaymentSummary(selectToken(getState()), tradeId);
   }
 );
+
+export const listPendingPayoutsThunk = createAsyncThunk(
+  "payment/listPendingPayouts",
+  async (_, { getState }) => {
+    return PaymentService.listPendingPayouts(selectToken(getState()));
+  }
+);
+
+export const approvePayoutThunk = createAsyncThunk(
+  "payment/approvePayout",
+  async (payoutId: string, { getState }) => {
+    return PaymentService.approvePayout(selectToken(getState()), payoutId);
+  }
+);

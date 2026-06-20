@@ -24,12 +24,14 @@ export type TradeStatus =
 
 export type InspectionStatus =
   | "not_requested"
+  | "skipped"
   | "awaiting_requirements"
   | "requested"
   | "scheduled"
   | "in_progress"
   | "passed"
   | "buyer_approved"
+  | "buyer_rejected"
   | "failed";
 
 export type CancellationReason =

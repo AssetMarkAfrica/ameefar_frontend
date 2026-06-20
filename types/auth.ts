@@ -52,6 +52,7 @@ export interface User {
   is_verified: boolean;
   date_joined: string;
   profile: UserProfile | null;
+  avatar_url?: string;
 }
 
 export interface RegisterPayload {

@@ -12,6 +12,10 @@ const jetbrains = JetBrains_Mono({ variable: "--font-jetbrains", subsets: ["lati
 export const metadata: Metadata = {
   title: "Ameefar | Trust-First Landing Page",
   description: "Secure African trade marketplace with escrow and inspection protection.",
+  icons: {
+    icon: "/ameefarLogo.png",
+    apple: "/ameefarLogo.png",
+  },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

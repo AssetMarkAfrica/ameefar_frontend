@@ -70,3 +70,24 @@ export type InitiateTradePaymentResponse = ApiResponse<TradePayment>;
 export type PaymentSummaryResponse = ApiResponse<TradePaymentSummary>;
 export type VerifyPaymentResponse = ApiResponse<InspectionFeePayment | TradePayment>;
 export type SubaccountResponse = ApiResponse<Subaccount>;
+
+export interface TradePayout {
+  id: string;
+  trade: string;
+  trade_reference: string;
+  seller: string;
+  seller_name: string;
+  seller_email: string;
+  amount_major: string;
+  currency: string;
+  status: "pending" | "success" | "failed";
+  paystack_transfer_code: string;
+  paystack_reference: string;
+  paid_at: string | null;
+  failure_reason: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export type PayoutListResponse = ApiResponse<TradePayout[]>;
+export type PayoutDetailResponse = ApiResponse<TradePayout>;

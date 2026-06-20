@@ -257,7 +257,7 @@ export default function BuyerTradePage() {
                 </div>
                 <div>
                   <p className="text-body-sm text-outline-variant uppercase tracking-wide font-bold mb-1">Seller</p>
-                  <p className="font-label-md text-body-lg text-primary">{currentTrade.seller_name}</p>
+                  <p className="font-label-md text-body-lg text-primary">Confidential</p>
                 </div>
                 <div>
                   <p className="text-body-sm text-outline-variant uppercase tracking-wide font-bold mb-1">Quantity</p>

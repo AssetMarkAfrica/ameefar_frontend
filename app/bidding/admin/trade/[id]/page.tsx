@@ -40,9 +40,9 @@ export default function AdminTradePage() {
 
   const handleSchedule = async () => {
     if (!token || !scheduleDate) return;
-    await dispatch(scheduleInspectionThunk({
-      token,
-      tradeId: id,
+    await dispatch(scheduleInspectionThunk({ 
+      token, 
+      tradeId: id, 
       scheduled_for: new Date(scheduleDate).toISOString(),
       inspector_id: inspectorId || undefined
     }));
@@ -61,7 +61,7 @@ export default function AdminTradePage() {
   return (
     <div className="flex w-full min-h-screen bg-surface-gray font-body-md text-on-surface">
       <main className="pt-16 min-h-screen flex flex-col w-full">
-
+        
         {/* Header */}
         <section className="bg-white border-b border-border-subtle px-margin-desktop py-8">
           <div className="max-w-container-max mx-auto">
@@ -74,10 +74,11 @@ export default function AdminTradePage() {
                 <span className="px-3 py-1 bg-surface-container-high text-primary font-bold text-[12px] rounded-full uppercase tracking-wider">
                   Trade: {currentTrade.status.replace("_", " ")}
                 </span>
-                <span className={`px-3 py-1 font-bold text-[12px] rounded-full uppercase tracking-wider ${currentTrade.inspection_status === "in_progress" || currentTrade.inspection_status === "passed" ? "bg-trust-green-subtle text-secondary" :
-                    currentTrade.inspection_status === "failed" ? "bg-error-container text-error" :
-                      "bg-amber-100 text-amber-800"
-                  }`}>
+                <span className={`px-3 py-1 font-bold text-[12px] rounded-full uppercase tracking-wider ${
+                  currentTrade.inspection_status === "in_progress" || currentTrade.inspection_status === "passed" ? "bg-trust-green-subtle text-secondary" : 
+                  currentTrade.inspection_status === "failed" ? "bg-error-container text-error" : 
+                  "bg-amber-100 text-amber-800"
+                }`}>
                   Inspection: {currentTrade.inspection_status?.replace("_", " ") || "N/A"}
                 </span>
               </div>
@@ -87,10 +88,10 @@ export default function AdminTradePage() {
 
         {/* Workspace */}
         <div className="flex-1 p-8 grid grid-cols-1 lg:grid-cols-12 gap-gutter max-w-container-max mx-auto w-full">
-
+          
           {/* Left Panel: Details & Inspection Actions */}
           <div className="lg:col-span-7 space-y-6">
-
+            
             {/* Trade Details Summary */}
             <div className="bg-white rounded-xl border border-border-subtle shadow-sm overflow-hidden">
               <div className="p-6 border-b border-border-subtle bg-surface-gray">
@@ -123,8 +124,8 @@ export default function AdminTradePage() {
                 <div className="space-y-4">
                   <div>
                     <label className="block text-sm font-bold text-on-surface-variant mb-1">Scheduled Date & Time *</label>
-                    <input
-                      type="datetime-local"
+                    <input 
+                      type="datetime-local" 
                       className="w-full bg-surface-gray border border-border-subtle rounded-lg px-4 py-2 focus:ring-primary focus:border-transparent outline-none"
                       value={scheduleDate}
                       onChange={(e) => setScheduleDate(e.target.value)}
@@ -132,15 +133,15 @@ export default function AdminTradePage() {
                   </div>
                   <div>
                     <label className="block text-sm font-bold text-on-surface-variant mb-1">Inspector ID / Email (Optional)</label>
-                    <input
-                      type="text"
+                    <input 
+                      type="text" 
                       placeholder="Assignee email or internal ID"
                       className="w-full bg-surface-gray border border-border-subtle rounded-lg px-4 py-2 focus:ring-primary focus:border-transparent outline-none"
                       value={inspectorId}
                       onChange={(e) => setInspectorId(e.target.value)}
                     />
                   </div>
-                  <button
+                  <button 
                     onClick={handleSchedule}
                     disabled={!scheduleDate || status.scheduleInspection === "loading"}
                     className="w-full py-3 bg-ameefar-navy text-white font-bold rounded-lg hover:bg-primary transition-colors disabled:opacity-50"
@@ -155,10 +156,10 @@ export default function AdminTradePage() {
               <div className="bg-white rounded-xl border border-border-subtle shadow-sm p-6 border-t-4 border-t-blue-500">
                 <h3 className="font-headline-md text-headline-md text-ameefar-navy mb-2">Inspection Scheduled</h3>
                 <p className="text-on-surface-variant mb-6">
-                  Scheduled For: {currentTrade.inspection_scheduled_for ? new Date(currentTrade.inspection_scheduled_for).toLocaleString() : "N/A"}<br />
+                  Scheduled For: {currentTrade.inspection_scheduled_for ? new Date(currentTrade.inspection_scheduled_for).toLocaleString() : "N/A"}<br/>
                   Assigned To: {currentTrade.inspection_assigned_to_name || "Unassigned"}
                 </p>
-                <button
+                <button 
                   onClick={handleStart}
                   disabled={status.startInspection === "loading"}
                   className="w-full py-3 bg-secondary text-white font-bold rounded-lg hover:bg-secondary/90 transition-colors disabled:opacity-50"
@@ -227,10 +228,10 @@ export default function AdminTradePage() {
           {/* Right Panel: Admin Chat & Logs */}
           <div className="lg:col-span-5 flex flex-col gap-6">
             <div className="h-[600px]">
-              <ChatPanel
+              <ChatPanel 
                 title="Trade Communications"
                 subtitle="Admin Oversight"
-                messages={messages}
+                messages={messages} 
                 onSendMessage={handleSendMessage}
                 isSending={status.sendTradeMessage === "loading"}
               />

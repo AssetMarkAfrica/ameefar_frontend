@@ -108,7 +108,7 @@ export default function SellerTradePage() {
                 </div>
                 <div>
                   <p className="text-body-sm text-outline-variant uppercase tracking-wide font-bold mb-1">Buyer</p>
-                  <p className="font-label-md text-body-lg text-primary">{currentTrade.buyer_name}</p>
+                  <p className="font-label-md text-body-lg text-primary">Confidential</p>
                 </div>
               </div>
             </div>
@@ -149,9 +149,9 @@ export default function SellerTradePage() {
                       <span className="material-symbols-outlined text-amber-600 text-3xl">hourglass_empty</span>
                     </div>
                     <h3 className="font-headline-md text-headline-md text-primary mb-2">Awaiting Settlement</h3>
-                    <p className="text-body-md text-on-surface-variant max-w-sm mx-auto">
+                    <p className="text-body-md text-on-surface-variant max-w-md mx-auto">
                       {currentTrade.inspection_status === "skipped" || currentTrade.inspection_status === "passed"
-                        ? "The inspection phase has concluded. Awaiting the buyer to complete the trade payment."
+                        ? "The inspection phase has concluded. Awaiting the buyer to complete the trade payment to Ameefar. As per our secure escrow process, Ameefar will hold the funds securely and directly transfer the payout to your registered bank account once the trade is marked as completed."
                         : "The buyer is currently completing the inspection phase."}
                     </p>
                   </div>

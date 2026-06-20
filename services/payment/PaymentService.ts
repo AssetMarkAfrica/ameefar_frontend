@@ -5,6 +5,8 @@ import type {
   VerifyPaymentPayload,
   VerifyPaymentResponse,
   SubaccountResponse,
+  PayoutListResponse,
+  PayoutDetailResponse,
 } from "@/types/payment";
 
 const PAYMENT_API =
@@ -130,6 +132,22 @@ export const PaymentService = {
     return requestJson<PaymentSummaryResponse>({
       endpoint: `/trades/${tradeId}/summary/`,
       method: "GET",
+      token,
+    });
+  },
+
+  listPendingPayouts(token: string): Promise<PayoutListResponse> {
+    return requestJson<PayoutListResponse>({
+      endpoint: `/admin/payouts/?status=pending`,
+      method: "GET",
+      token,
+    });
+  },
+
+  approvePayout(token: string, payoutId: string): Promise<PayoutDetailResponse> {
+    return requestJson<PayoutDetailResponse>({
+      endpoint: `/admin/payouts/${payoutId}/approve/`,
+      method: "POST",
       token,
     });
   },

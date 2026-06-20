@@ -7,7 +7,7 @@ import type { InspectionStatus, InspectionReport } from "@/types/bidding";
 import type { TradePaymentSummary } from "@/types/payment";
 
 interface InspectionModuleProps {
-  status: InspectionStatus;
+  status: InspectionStatus | null;
   role?: "buyer" | "seller" | "admin";
   report?: InspectionReport | null;
   paymentSummary?: TradePaymentSummary | null;

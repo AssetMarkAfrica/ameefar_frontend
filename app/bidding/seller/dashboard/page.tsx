@@ -102,7 +102,7 @@ export default function SellerDashboardPage() {
                           {trade.listing_name}
                         </h3>
                         <p className="text-body-sm text-on-surface-variant">
-                          Ref: {trade.reference} • Buyer: {trade.buyer_name}
+                          Ref: {trade.reference} • Buyer: Confidential
                         </p>
                       </div>
                       <div className="text-right">

@@ -33,12 +33,20 @@ export default function BiddingSidebar({ role }: SidebarProps) {
   ];
 
   if (role === "admin") {
-    topNavItems.push({
-      name: "Admin Panel",
-      href: "/bidding/admin",
-      icon: "admin_panel_settings",
-      activePath: "/bidding/admin",
-    });
+    topNavItems.push(
+      {
+        name: "Admin Panel",
+        href: "/bidding/admin/dashboard",
+        icon: "admin_panel_settings",
+        activePath: "/bidding/admin/dashboard",
+      },
+      {
+        name: "Payouts",
+        href: "/bidding/admin/payouts",
+        icon: "payments",
+        activePath: "/bidding/admin/payouts",
+      }
+    );
   } else if (isBoth) {
     topNavItems.push(
       {

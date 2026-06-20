@@ -211,7 +211,7 @@ export default function SellerNegotiationPage() {
             <div>
               <h1 className="font-headline-lg text-headline-lg text-ameefar-navy">{currentEnquiry.listing_name}</h1>
               <p className="text-body-md text-on-surface-variant">
-                {currentEnquiry.reference} · Buyer: {currentEnquiry.buyer_name}
+                {currentEnquiry.reference} · Buyer: Confidential
               </p>
             </div>
             <div className="flex items-center gap-3">
@@ -257,8 +257,7 @@ export default function SellerNegotiationPage() {
 
             {/* Buyer Info */}
             <SectionCard title="Buyer" icon="person">
-              <DetailRow label="Name" value={currentEnquiry.buyer_name} />
-              <DetailRow label="Email" value={currentEnquiry.buyer_email} />
+              <DetailRow label="Name" value="Confidential" />
             </SectionCard>
 
             {/* Offer Message */}
