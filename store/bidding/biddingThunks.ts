@@ -231,6 +231,13 @@ export const completeInspectionThunk = createAsyncThunk<
   BiddingService.completeInspection(token, tradeId, payload),
 );
 
+export const generateAiReportThunk = createAsyncThunk<
+  import("@/types/bidding").AIGenerateReportResponse,
+  TokenArg & TradeIdArg & import("@/types/bidding").AIGenerateReportPayload
+>("bidding/generateAiReport", ({ token, tradeId, ...payload }) =>
+  BiddingService.generateAiReport(token, tradeId, payload),
+);
+
 export const approveInspectionThunk = createAsyncThunk<
   BiddingAck,
   TokenArg & TradeIdArg

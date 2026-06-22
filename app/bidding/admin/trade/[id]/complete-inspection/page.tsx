@@ -10,6 +10,7 @@ import {
   draftInspectionThunk,
   uploadInspectionImageThunk,
   deleteInspectionImageThunk,
+  generateAiReportThunk,
 } from "@/store/bidding/biddingThunks";
 import type {
   InspectionRequirement,
@@ -417,8 +418,29 @@ export default function AdminCompleteInspectionPage() {
     }
   };
 
+  const handleGenerateAiReport = async () => {
+    if (!token || !id) return;
+    const reqResults = buildResults();
+    if (!reqResults.length) {
+      alert("No requirements defined to generate a report from.");
+      return;
+    }
+    const result = await dispatch(
+      generateAiReportThunk({
+        token,
+        tradeId: id,
+        requirement_results: reqResults,
+      })
+    );
+    if (generateAiReportThunk.fulfilled.match(result)) {
+      setSummary(result.payload.data.summary);
+      setFindings(result.payload.data.findings);
+    }
+  };
+
   const isSubmitting = status.completeInspection === "loading";
   const isDrafting = status.draftInspection === "loading";
+  const isGeneratingAi = status.generateAiReport === "loading";
 
   if (status.fetchTrade === "loading" || !currentTrade) {
     return (
@@ -670,11 +692,26 @@ export default function AdminCompleteInspectionPage() {
                 </div>
 
                 {/* Executive Summary */}
-                <div className="bg-white border border-border-subtle rounded-xl p-6">
-                  <h3 className="font-bold text-ameefar-navy mb-1 flex items-center gap-2">
-                    <span className="material-symbols-outlined text-[20px]">summarize</span>
-                    Executive Summary <span className="text-error ml-1">*</span>
-                  </h3>
+                <div className="bg-white border border-border-subtle rounded-xl p-6 relative overflow-hidden">
+                  <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-primary via-secondary to-primary opacity-20" />
+                  <div className="flex items-start justify-between mb-1">
+                    <h3 className="font-bold text-ameefar-navy flex items-center gap-2">
+                      <span className="material-symbols-outlined text-[20px]">summarize</span>
+                      Executive Summary <span className="text-error ml-1">*</span>
+                    </h3>
+                    <button
+                      onClick={handleGenerateAiReport}
+                      disabled={isGeneratingAi}
+                      className="flex items-center gap-1.5 text-xs font-bold text-secondary bg-secondary/10 hover:bg-secondary/20 px-3 py-1.5 rounded-lg transition-all disabled:opacity-50"
+                    >
+                      {isGeneratingAi ? (
+                        <span className="w-3 h-3 border-2 border-secondary border-t-transparent rounded-full animate-spin" />
+                      ) : (
+                        <span className="material-symbols-outlined text-[16px]">magic_button</span>
+                      )}
+                      Generate with AI
+                    </button>
+                  </div>
                   <p className="text-xs text-on-surface-variant mb-3">
                     A concise summary visible to both buyer and seller. Min. 10 characters.
                   </p>

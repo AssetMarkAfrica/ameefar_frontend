@@ -423,6 +423,10 @@ export interface CompleteInspectionPayload {
   requirement_results?: RequirementResultPayload[];
 }
 
+export interface AIGenerateReportPayload {
+  requirement_results: RequirementResultPayload[];
+}
+
 export interface RejectInspectionPayload {
   reason: string;
 }
@@ -521,6 +525,12 @@ export type TradeDocumentListResponse = BiddingEnvelope<TradeDocument[]>;
 export type TradeDocumentResponse = BiddingEnvelope<TradeDocument>;
 export type InspectionRequirementsListResponse =
   BiddingEnvelope<InspectionRequirement[]>;
+
+export interface AIGeneratedReportData {
+  summary: string;
+  findings: string;
+}
+export type AIGenerateReportResponse = BiddingEnvelope<AIGeneratedReportData>;
 
 export type BiddingAdminOverviewResponse = BiddingEnvelope<BiddingAdminOverview>;
 

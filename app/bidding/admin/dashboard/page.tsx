@@ -13,14 +13,14 @@ export default function AdminDashboardPage() {
 
   useEffect(() => {
     if (!token) return;
-    dispatch(fetchAdminOverviewThunk({ token })); 
+    dispatch(fetchAdminOverviewThunk({ token }));
     dispatch(listTradesThunk({ token, params: {} }));
   }, [dispatch, token]);
 
   return (
     <div className="flex w-full min-h-screen bg-surface-gray font-body-md text-on-surface">
       <BiddingSidebar role="admin" />
-      <main className="md:ml-64 pt-16 min-h-screen flex flex-col w-full">
+      <main className="pt-16 min-h-screen flex flex-col w-full">
         <div className="flex-1 p-8 max-w-container-max mx-auto w-full">
           <h1 className="font-headline-lg text-headline-lg text-primary mb-8">Admin Dashboard</h1>
 
@@ -28,7 +28,7 @@ export default function AdminDashboardPage() {
             <div className="p-8 text-center animate-pulse text-on-surface-variant">Loading overview...</div>
           ) : (
             <div className="space-y-12">
-              
+
               <section>
                 <h2 className="font-headline-md text-headline-md text-ameefar-navy mb-6">Overview Statistics</h2>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

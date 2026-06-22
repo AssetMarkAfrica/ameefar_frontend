@@ -527,12 +527,26 @@ export const BiddingService = {
     });
   },
 
-  /** Buyer only. Can only approve after a passed inspection. */
+  /** Admin only. Can only approve after a passed inspection. */
   approveInspection(token: string, tradeId: string): Promise<BiddingAck> {
     return requestJson<BiddingAck, Record<string, never>>({
       endpoint: `/trades/${tradeId}/approve-inspection/`,
       method: "POST",
       payload: {},
+      token,
+    });
+  },
+
+  /** Admin only. Generates AI summary and findings based on current requirement results. */
+  generateAiReport(
+    token: string,
+    tradeId: string,
+    payload: import("@/types/bidding").AIGenerateReportPayload,
+  ): Promise<import("@/types/bidding").AIGenerateReportResponse> {
+    return requestJson<import("@/types/bidding").AIGenerateReportResponse, import("@/types/bidding").AIGenerateReportPayload>({
+      endpoint: `/trades/${tradeId}/inspection-report/ai-generate/`,
+      method: "POST",
+      payload,
       token,
     });
   },

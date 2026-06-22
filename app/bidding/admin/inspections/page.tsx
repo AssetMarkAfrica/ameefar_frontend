@@ -17,13 +17,13 @@ export default function AdminInspectionsPage() {
   }, [dispatch, token]);
 
   const activeInspections = trades.filter((t) =>
-  ["requested", "scheduled", "in_progress"].includes(t.inspection_status ?? "")
-);
+    ["requested", "scheduled", "in_progress"].includes(t.inspection_status ?? "")
+  );
 
   return (
     <div className="flex w-full min-h-screen bg-surface-gray font-body-md text-on-surface">
       <BiddingSidebar role="admin" />
-      <main className="md:ml-64 pt-16 min-h-screen flex flex-col w-full">
+      <main className="pt-16 min-h-screen flex flex-col w-full">
         <div className="flex-1 p-8 max-w-container-max mx-auto w-full">
           <div className="flex items-center justify-between mb-8">
             <div>

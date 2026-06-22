@@ -49,6 +49,7 @@ import {
   uploadInspectionImageThunk,
   deleteInspectionImageThunk,
   withdrawEnquiryThunk,
+  generateAiReportThunk,
 } from "./biddingThunks";
 
 // ─── Operation Types ──────────────────────────────────────────────────────────
@@ -93,6 +94,7 @@ export type BiddingOperation =
   | "uploadTradeDocument"
   | "uploadInspectionImage"
   | "deleteInspectionImage"
+  | "generateAiReport"
   // Admin
   | "fetchAdminOverview";
 
@@ -168,6 +170,7 @@ const ops: BiddingOperation[] = [
   "uploadTradeDocument",
   "uploadInspectionImage",
   "deleteInspectionImage",
+  "generateAiReport",
   "fetchAdminOverview",
 ];
 
@@ -862,6 +865,20 @@ export const biddingSlice = createSlice({
       .addCase(completeInspectionThunk.rejected, (state, action) => {
         state.status.completeInspection = "failed";
         state.errors.completeInspection = rejectedMessage(action.error.message);
+      })
+
+    // ── Generate AI Report ──────────────────────────────────────────────────
+
+      .addCase(generateAiReportThunk.pending, (state) => {
+        state.status.generateAiReport = "loading";
+        state.errors.generateAiReport = null;
+      })
+      .addCase(generateAiReportThunk.fulfilled, (state) => {
+        state.status.generateAiReport = "succeeded";
+      })
+      .addCase(generateAiReportThunk.rejected, (state, action) => {
+        state.status.generateAiReport = "failed";
+        state.errors.generateAiReport = rejectedMessage(action.error.message);
       })
 
     // ── Approve Inspection ──────────────────────────────────────────────────
