@@ -57,7 +57,7 @@ export default function AdminInspectionsPage() {
                 return (
                   <Link
                     key={trade.id}
-                    href={`/bidding/admin/trade/${trade.id}`}
+                    href={`/bidding/trade/${trade.id}`}
                     className="block bg-white p-6 rounded-xl border border-border-subtle hover:border-primary transition-colors group shadow-sm"
                   >
                     <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">

@@ -250,3 +250,9 @@ export interface ListDocumentsResponse {
   message: string;
   data: ProfileDocument[];
 }
+
+export interface ListPendingProfilesResponse {
+  success: true;
+  message: string;
+  data: CompanyProfile[];
+}

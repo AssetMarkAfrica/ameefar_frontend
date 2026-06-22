@@ -1,7 +1,7 @@
 import type {
   AddSitePayload,
   GetProfileResponse,
-  ListDocumentsResponse,
+  ListPendingProfilesResponse,
   ListSitesResponse,
   ProfileStepResponse,
   SiteResponse,
@@ -142,6 +142,14 @@ export const ProfileService = {
   getProfile(token: string): Promise<GetProfileResponse> {
     return requestJson<GetProfileResponse>({
       endpoint: "/",
+      method: "GET",
+      token,
+    });
+  },
+
+  getProfileById(token: string, profileId: string): Promise<GetProfileResponse> {
+    return requestJson<GetProfileResponse>({
+      endpoint: `/${profileId}/`,
       method: "GET",
       token,
     });
@@ -294,5 +302,24 @@ export const ProfileService = {
       method: "POST",
       token,
     });// THIS WILL BE FOR ADMIN
+  },
+
+  getPendingProfiles(token: string): Promise<ListPendingProfilesResponse> {
+    return requestJson<ListPendingProfilesResponse>({
+      endpoint: "/pending/",
+      method: "GET",
+      token,
+    });
+  },
+
+  rejectProfile(
+    token: string,
+    profileId: string,
+  ): Promise<ProfileStepResponse> {
+    return requestJson<ProfileStepResponse>({
+      endpoint: `/${profileId}/reject/`,
+      method: "POST",
+      token,
+    });
   },
 };

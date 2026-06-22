@@ -38,8 +38,8 @@ export default function BiddingHeader() {
 
           {isAdmin ? (
             <Link
-              href="/bidding/admin"
-              className={getLinkClass("/bidding/admin")}
+              href="/bidding"
+              className={getLinkClass("/bidding")}
             >
               Admin Panel
             </Link>

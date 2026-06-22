@@ -5,6 +5,7 @@ import type {
   AddSitePayload,
   DocType,
   GetProfileResponse,
+  ListPendingProfilesResponse,
   ProfileStepResponse,
   SiteResponse,
   Step1DraftPayload,
@@ -24,6 +25,13 @@ export const fetchProfileThunk = createAsyncThunk<
   GetProfileResponse,
   TokenArg
 >("profile/fetch", ({ token }) => ProfileService.getProfile(token));
+
+export const fetchProfileByIdThunk = createAsyncThunk<
+  GetProfileResponse,
+  TokenArg & { profileId: string }
+>("profile/fetchById", ({ token, profileId }) =>
+  ProfileService.getProfileById(token, profileId),
+);
 
 export const updatePersonalProfileThunk = createAsyncThunk<
   UpdatePersonalProfileResponse,
@@ -89,4 +97,18 @@ export const approveProfileThunk = createAsyncThunk<
   TokenArg & { profileId: string }
 >("profile/approve", ({ token, profileId }) =>
   ProfileService.approveProfile(token, profileId),
+);
+
+export const fetchPendingProfilesThunk = createAsyncThunk<
+  ListPendingProfilesResponse,
+  TokenArg
+>("profile/fetchPending", ({ token }) =>
+  ProfileService.getPendingProfiles(token),
+);
+
+export const rejectProfileThunk = createAsyncThunk<
+  ProfileStepResponse,
+  TokenArg & { profileId: string }
+>("profile/reject", ({ token, profileId }) =>
+  ProfileService.rejectProfile(token, profileId),
 );

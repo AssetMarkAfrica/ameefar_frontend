@@ -184,7 +184,7 @@ export default function AdminTradePage() {
                     </p>
                     <div className="flex flex-col sm:flex-row gap-3">
                       <button
-                        onClick={() => router.push(`/bidding/admin/trade/${id}/complete-inspection`)}
+                        onClick={() => router.push(`/bidding/trade/${id}/complete-inspection`)}
                         className="flex items-center justify-center gap-2 px-6 py-3 bg-secondary text-white font-bold rounded-lg hover:bg-secondary/90 transition-colors"
                       >
                         <span className="material-symbols-outlined text-[18px]">assignment_turned_in</span>

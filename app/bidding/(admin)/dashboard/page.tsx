@@ -68,7 +68,7 @@ export default function AdminDashboardPage() {
                 </div>
                 <div className="bg-white rounded-xl border border-border-subtle shadow-sm p-8 text-center">
                   <p className="text-on-surface-variant mb-4">Manage trades requiring pre-shipment quality inspection.</p>
-                  <Link href="/bidding/admin/inspections" className="px-6 py-2 bg-secondary text-on-secondary font-bold rounded-lg hover:opacity-90 transition-all inline-flex items-center gap-2">
+                  <Link href="/bidding/inspections" className="px-6 py-2 bg-secondary text-on-secondary font-bold rounded-lg hover:opacity-90 transition-all inline-flex items-center gap-2">
                     <span className="material-symbols-outlined text-[18px]">assignment_turned_in</span>
                     Manage Inspections
                   </Link>

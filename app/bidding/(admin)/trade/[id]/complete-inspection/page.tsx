@@ -396,7 +396,7 @@ export default function AdminCompleteInspectionPage() {
       })
     );
     if (draftInspectionThunk.fulfilled.match(result)) {
-      router.push(`/bidding/admin/trade/${id}`);
+      router.push(`/bidding/trade/${id}`);
     }
   };
 
@@ -465,11 +465,11 @@ export default function AdminCompleteInspectionPage() {
           <div className="max-w-4xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-3">
             <div>
               <nav className="flex items-center gap-2 text-on-surface-variant text-xs font-medium mb-1.5">
-                <button onClick={() => router.push("/bidding/admin/negotiations")} className="hover:text-primary transition-colors">
+                <button onClick={() => router.push("/bidding/negotiations")} className="hover:text-primary transition-colors">
                   Inspections
                 </button>
                 <span className="material-symbols-outlined text-sm">chevron_right</span>
-                <button onClick={() => router.push(`/bidding/admin/trade/${id}`)} className="hover:text-primary transition-colors">
+                <button onClick={() => router.push(`/bidding/trade/${id}`)} className="hover:text-primary transition-colors">
                   {currentTrade.reference}
                 </button>
                 <span className="material-symbols-outlined text-sm">chevron_right</span>
@@ -552,7 +552,7 @@ export default function AdminCompleteInspectionPage() {
 
             {/* Done button */}
             <button
-              onClick={() => router.push(`/bidding/admin/trade/${id}`)}
+              onClick={() => router.push(`/bidding/trade/${id}`)}
               className="w-full bg-ameefar-navy text-white font-bold py-4 rounded-xl hover:opacity-90 transition-all flex items-center justify-center gap-2"
             >
               <span className="material-symbols-outlined text-[18px]">check_circle</span>

@@ -157,3 +157,13 @@ export interface UploadProductImageAndActivateResponse {
   image: ProductImageResponse;
   listing: ProductListingResponse;
 }
+
+export interface EnhanceDescriptionPayload {
+  description: string;
+}
+
+export interface EnhanceDescriptionResponseData {
+  enhanced_description: string;
+}
+
+export type EnhanceDescriptionResponse = ProductEnvelope<EnhanceDescriptionResponseData>;

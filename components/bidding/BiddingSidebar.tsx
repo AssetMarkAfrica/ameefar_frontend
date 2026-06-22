@@ -36,15 +36,15 @@ export default function BiddingSidebar({ role }: SidebarProps) {
     topNavItems.push(
       {
         name: "Admin Panel",
-        href: "/bidding/admin/dashboard",
+        href: "/bidding/dashboard",
         icon: "admin_panel_settings",
-        activePath: "/bidding/admin/dashboard",
+        activePath: "/bidding/dashboard",
       },
       {
         name: "Payouts",
-        href: "/bidding/admin/payouts",
+        href: "/bidding/payouts",
         icon: "payments",
-        activePath: "/bidding/admin/payouts",
+        activePath: "/bidding/payouts",
       }
     );
   } else if (isBoth) {

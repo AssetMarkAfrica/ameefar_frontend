@@ -9,6 +9,8 @@ import type {
   UploadProductImageAndActivateResponse,
   UploadProductImagePayload,
   UploadProductSpecificationPayload,
+  EnhanceDescriptionPayload,
+  EnhanceDescriptionResponse,
 } from "@/types/product";
 
 type ErrorBody = {
@@ -282,6 +284,18 @@ export const ProductService = {
     return requestFormData<ProductSpecificationResponse>({
       endpoint: `/${listingId}/specifications/`,
       formData: buildSpecificationFormData(payload),
+      token,
+    });
+  },
+
+  enhanceDescription(
+    token: string,
+    payload: EnhanceDescriptionPayload,
+  ): Promise<EnhanceDescriptionResponse> {
+    return requestJson<EnhanceDescriptionResponse, EnhanceDescriptionPayload>({
+      endpoint: "/ai-enhance/",
+      method: "POST",
+      payload,
       token,
     });
   },

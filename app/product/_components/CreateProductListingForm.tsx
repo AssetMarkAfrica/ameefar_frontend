@@ -12,6 +12,7 @@ import {
 } from "@/store/product/productSelectors";
 import {
   createProductListingThunk,
+  enhanceProductDescriptionThunk,
   uploadProductImageAndActivateThunk,
   uploadProductImageThunk,
 } from "@/store/product/productThunks";
@@ -76,6 +77,8 @@ export function CreateProductListingForm() {
   const [form, setForm] = useState<ListingFormState>(initialFormState);
   const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [isEnhancing, setIsEnhancing] = useState(false);
+  const [hasEnhancedDescription, setHasEnhancedDescription] = useState(false);
 
   const selectedListingType =
     form.listing_type && allowedListingTypes.includes(form.listing_type)
@@ -91,6 +94,27 @@ export function CreateProductListingForm() {
 
   function handleFiles(event: ChangeEvent<HTMLInputElement>) {
     setImageFiles(Array.from(event.target.files ?? []));
+  }
+
+  async function handleEnhanceDescription() {
+    if (!token || !form.description.trim() || hasEnhancedDescription || isEnhancing) return;
+
+    setIsEnhancing(true);
+    try {
+      const response = await dispatch(
+        enhanceProductDescriptionThunk({
+          token,
+          description: form.description.trim(),
+        }),
+      ).unwrap();
+
+      updateForm("description", response.data.enhanced_description);
+      setHasEnhancedDescription(true);
+    } catch (err) {
+      console.error("Failed to enhance description:", err);
+    } finally {
+      setIsEnhancing(false);
+    }
   }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -371,7 +395,29 @@ export function CreateProductListingForm() {
         {/* Details */}
         <FormSection title="Details">
           <div className="grid gap-5">
-            <Field label="Description">
+            <div className="grid gap-2">
+              <div className="flex items-center justify-between">
+                <span className="font-[var(--font-jetbrains)] text-xs font-bold uppercase tracking-wide text-[#404848]">
+                  Description
+                </span>
+                <button
+                  type="button"
+                  disabled={isEnhancing || hasEnhancedDescription || !form.description.trim()}
+                  onClick={handleEnhanceDescription}
+                  className="flex items-center gap-1.5 text-xs font-semibold text-[#006d40] transition hover:text-[#004d2d] disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  <svg
+                    className="h-4 w-4"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M5 3l1 2.5L8.5 6.5 6 7.5 5 10l-1-2.5L1.5 6.5 4 5.5z M19 3l1 2.5L22.5 6.5 20 7.5 19 10l-1-2.5L15.5 6.5 18 5.5z M12 7l1.5 4.5L18 13l-4.5 1.5L12 19l-1.5-4.5L6 13l4.5-1.5z" />
+                  </svg>
+                  {isEnhancing ? "Enhancing..." : hasEnhancedDescription ? "Enhanced ✨" : "AI Enhance"}
+                </button>
+              </div>
               <textarea
                 className={textareaClassName}
                 onChange={(event) => updateForm("description", event.target.value)}
@@ -380,7 +426,7 @@ export function CreateProductListingForm() {
                 rows={5}
                 value={form.description}
               />
-            </Field>
+            </div>
             <Field label="Seller / buyer notes">
               <textarea
                 className={textareaClassName}

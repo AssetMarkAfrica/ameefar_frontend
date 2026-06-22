@@ -176,8 +176,9 @@ export function NotificationDropdown() {
       
       const tradeId = details.metadata?.trade_id || notification.metadata?.trade_id;
       const enquiryId = details.metadata?.enquiry_id || notification.metadata?.enquiry_id;
+      const profileId = details.metadata?.profile_id || notification.metadata?.profile_id;
       
-      if (enquiryId || tradeId) {
+      if (enquiryId || tradeId || profileId) {
         let rolePath = "buyer";
         if (isAdmin) rolePath = "admin";
         else if (isBoth) rolePath = window.location.pathname.includes("/seller") ? "seller" : "buyer";
@@ -187,6 +188,8 @@ export function NotificationDropdown() {
           router.push(`/bidding/${rolePath}/negotiation/${enquiryId}`);
         } else if (tradeId) {
           router.push(`/bidding/${rolePath}/trade/${tradeId}`);
+        } else if (profileId && isAdmin) {
+          router.push(`/profile/${profileId}`);
         }
       }
       setOpen(false);

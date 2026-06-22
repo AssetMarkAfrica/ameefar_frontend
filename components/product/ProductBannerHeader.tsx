@@ -84,7 +84,7 @@ export default function ProductBannerHeader() {
             {isAuthenticated && (
               <>
                 {isAdmin ? (
-                  <Link href="/bidding/admin" className={getLinkClass("/bidding/admin")}>
+                  <Link href="/bidding" className={getLinkClass("/bidding")}>
                     Admin Panel
                   </Link>
                 ) : isBoth ? (

@@ -12,6 +12,8 @@ import type {
   UploadProductImageAndActivateResponse,
   UploadProductImagePayload,
   UploadProductSpecificationPayload,
+  EnhanceDescriptionPayload,
+  EnhanceDescriptionResponse,
 } from "@/types/product";
 
 type TokenArg = {
@@ -87,4 +89,11 @@ export const uploadProductSpecificationThunk = createAsyncThunk<
   TokenArg & ListingIdArg & UploadProductSpecificationPayload
 >("product/uploadSpecification", ({ token, listingId, ...payload }) =>
   ProductService.uploadSpecification(token, listingId, payload),
+);
+
+export const enhanceProductDescriptionThunk = createAsyncThunk<
+  EnhanceDescriptionResponse,
+  TokenArg & EnhanceDescriptionPayload
+>("product/enhanceDescription", ({ token, ...payload }) =>
+  ProductService.enhanceDescription(token, payload),
 );
