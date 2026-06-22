@@ -31,11 +31,11 @@ export default function ProductBannerHeader() {
 
   const avatarFallback = user?.full_name
     ? user.full_name
-        .split(" ")
-        .map((n: string) => n[0])
-        .join("")
-        .toUpperCase()
-        .slice(0, 2)
+      .split(" ")
+      .map((n: string) => n[0])
+      .join("")
+      .toUpperCase()
+      .slice(0, 2)
     : "U";
 
   const getLinkClass = (pathCheck: string) => {
@@ -84,7 +84,7 @@ export default function ProductBannerHeader() {
             {isAuthenticated && (
               <>
                 {isAdmin ? (
-                  <Link href="/bidding" className={getLinkClass("/bidding")}>
+                  <Link href="/bidding/dashboard" className={getLinkClass("/bidding")}>
                     Admin Panel
                   </Link>
                 ) : isBoth ? (

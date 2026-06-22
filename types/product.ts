@@ -118,6 +118,7 @@ export interface ListProductListingsParams {
   availability_status?: ProductAvailabilityStatus;
   country?: string;
   q?: string;
+  ordering?: string;
 }
 
 export type ProductMaterialType =

@@ -12,6 +12,7 @@ import {
   selectProductOpStatus,
 } from "@/store/product/productSelectors";
 import { listProductListingsThunk } from "@/store/product/productThunks";
+import { selectIsAdmin } from "@/store/auth/authSelectors";
 import type {
   ListProductListingsParams,
   ProductAvailabilityStatus,
@@ -36,6 +37,7 @@ type BrowseFilters = {
   availability_status: "" | ProductAvailabilityStatus;
   country: string;
   mine: boolean;
+  ordering: string;
 };
 
 const initialFilters: BrowseFilters = {
@@ -45,6 +47,7 @@ const initialFilters: BrowseFilters = {
   availability_status: "",
   country: "",
   mine: false,
+  ordering: "-listed_at",
 };
 
 export function ProductBrowse() {
@@ -55,6 +58,7 @@ export function ProductBrowse() {
   const listStatus = useAppSelector((state) =>
     selectProductOpStatus(state, "listListings"),
   );
+  const isAdmin = useAppSelector(selectIsAdmin);
   const listError = useAppSelector((state) =>
     selectProductError(state, "listListings"),
   );
@@ -92,12 +96,14 @@ export function ProductBrowse() {
             country, and name.
           </p>
         </div>
-        <Link
-          className="inline-flex min-h-11 items-center justify-center rounded-xl bg-[#beebeb] px-5 font-semibold text-[#002627] shadow-sm transition hover:bg-[#a3cfcf]"
-          href="/product/create"
-        >
-          Create listing
-        </Link>
+        {!isAdmin && (
+          <Link
+            className="inline-flex min-h-11 items-center justify-center rounded-xl bg-[#beebeb] px-5 font-semibold text-[#002627] shadow-sm transition hover:bg-[#a3cfcf]"
+            href="/product/create"
+          >
+            Create listing
+          </Link>
+        )}
       </section>
 
       <div className="grid gap-6 lg:grid-cols-[272px_minmax(0,1fr)]">
@@ -202,6 +208,22 @@ export function ProductBrowse() {
                 </option>
               ))}
             </SelectField>
+
+            <label className={`grid gap-2 ${filters.q.trim() ? "opacity-50" : ""}`}>
+              <span className="font-[var(--font-jetbrains)] text-xs font-bold uppercase tracking-wide text-[#404848]">
+                Sort by {filters.q.trim() && "(Disabled by search)"}
+              </span>
+              <select
+                disabled={!!filters.q.trim()}
+                className="min-h-11 rounded-lg border border-slate-200 bg-slate-50 px-3 text-sm text-[#0b1c30] outline-none transition focus:border-[#002627] focus:ring-2 focus:ring-[#002627]/20 disabled:cursor-not-allowed"
+                onChange={(event) => setFilters((current) => ({ ...current, ordering: event.target.value }))}
+                value={filters.ordering}
+              >
+                <option value="-listed_at">Newest first</option>
+                <option value="quantity_available_mt">Quantity (Low to High)</option>
+                <option value="-quantity_available_mt">Quantity (High to Low)</option>
+              </select>
+            </label>
 
             <button
               className="min-h-11 rounded-xl bg-[#002627] px-4 font-semibold text-white transition hover:bg-slate-900"
@@ -339,12 +361,14 @@ export function ProductBrowse() {
                   Try clearing filters or create a new listing.
                 </p>
               </div>
-              <Link
-                className="inline-flex min-h-11 items-center rounded-xl bg-[#beebeb] px-5 font-semibold text-[#002627] transition hover:bg-[#a3cfcf]"
-                href="/product/create"
-              >
-                Create listing
-              </Link>
+              {!isAdmin && (
+                <Link
+                  className="inline-flex min-h-11 items-center rounded-xl bg-[#beebeb] px-5 font-semibold text-[#002627] transition hover:bg-[#a3cfcf]"
+                  href="/product/create"
+                >
+                  Create listing
+                </Link>
+              )}
             </div>
           )}
 
@@ -509,7 +533,11 @@ function buildListParams(
   page: number,
 ): ListProductListingsParams {
   const params: ListProductListingsParams = { page };
-  if (filters.q.trim()) params.q = filters.q.trim();
+  if (filters.q.trim()) {
+    params.q = filters.q.trim();
+  } else if (filters.ordering) {
+    params.ordering = filters.ordering;
+  }
   if (filters.listing_type) params.listing_type = filters.listing_type;
   if (filters.material_type) params.material_type = filters.material_type;
   if (filters.availability_status) params.availability_status = filters.availability_status;
