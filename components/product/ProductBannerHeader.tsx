@@ -172,7 +172,7 @@ export default function ProductBannerHeader() {
               <>
                 <NotificationDropdown />
                 <LogoutButton
-                  className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 px-3 py-2 text-sm font-semibold text-slate-600 transition hover:border-[#002627] hover:text-[#002627] disabled:cursor-not-allowed disabled:opacity-60"
+                  className="inline-flex items-center gap-1 sm:gap-1.5 rounded-lg border border-red-200 bg-red-50 px-2 py-1.5 sm:px-3 sm:py-2 text-[11px] sm:text-sm font-semibold text-red-600 transition hover:bg-red-100 hover:border-red-300 disabled:cursor-not-allowed disabled:opacity-60"
                   showIcon
                 />
                 <div className="relative h-8 w-8 shrink-0">
@@ -293,7 +293,7 @@ export default function ProductBannerHeader() {
             <div className="mt-4 border-t border-slate-100 pt-4 flex flex-col gap-2">
               {isAuthenticated ? (
                 <LogoutButton
-                  className="w-full flex items-center justify-center gap-2 rounded-lg border border-slate-200 px-4 py-3 text-[14px] font-semibold text-slate-600 transition hover:border-[#002627] hover:text-[#002627] disabled:opacity-60"
+                  className="w-full flex items-center justify-center gap-2 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-[14px] font-semibold text-red-600 transition hover:bg-red-100 hover:border-red-300 disabled:opacity-60"
                   showIcon
                 />
               ) : (
