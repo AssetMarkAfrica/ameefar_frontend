@@ -64,6 +64,7 @@ export function ProductBrowse() {
   );
   const [filters, setFilters] = useState<BrowseFilters>(initialFilters);
   const [page, setPage] = useState(1);
+  const [filtersOpen, setFiltersOpen] = useState(false);
   const params = useMemo(() => buildListParams(filters, page), [filters, page]);
 
   useEffect(() => {
@@ -79,6 +80,15 @@ export function ProductBrowse() {
     setFilters(initialFilters);
     setPage(1);
   }
+
+  // Count active filters for the mobile badge
+  const activeFilterCount = [
+    filters.listing_type,
+    filters.material_type,
+    filters.availability_status,
+    filters.country,
+    filters.mine ? "mine" : "",
+  ].filter(Boolean).length;
 
   const isLoading = listStatus === "loading";
 
@@ -107,8 +117,17 @@ export function ProductBrowse() {
       </section>
 
       <div className="grid gap-6 lg:grid-cols-[272px_minmax(0,1fr)]">
-        {/* Filter sidebar */}
-        <aside className="h-fit rounded-xl border border-slate-200 bg-white p-5 shadow-sm lg:sticky lg:top-6">
+        {/* Filter sidebar – desktop: always visible; mobile: collapsible drawer */}
+        <aside
+          className={[
+            "h-fit rounded-xl border border-slate-200 bg-white p-5 shadow-sm lg:sticky lg:top-6",
+            // On mobile, collapse/expand via max-height trick
+            "overflow-hidden transition-all duration-300 ease-in-out",
+            filtersOpen
+              ? "max-h-[2000px] opacity-100"
+              : "max-h-0 border-0 p-0 opacity-0 shadow-none lg:max-h-[2000px] lg:border lg:p-5 lg:opacity-100 lg:shadow-sm",
+          ].join(" ")}
+        >
           <form className="grid gap-5" onSubmit={handleSubmit}>
             <div className="flex items-center justify-between gap-4">
               <h2 className="font-[var(--font-hanken)] text-xl font-semibold text-[#002627]">
@@ -236,6 +255,33 @@ export function ProductBrowse() {
 
         {/* Main content */}
         <section className="grid gap-5">
+          {/* Mobile filter toggle – only visible below lg */}
+          <button
+            className="flex items-center justify-between gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 font-semibold text-[#002627] shadow-sm transition hover:bg-slate-50 lg:hidden"
+            onClick={() => setFiltersOpen((prev) => !prev)}
+            type="button"
+            aria-expanded={filtersOpen}
+          >
+            <span className="flex items-center gap-2">
+              <svg fill="none" height="16" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" width="16">
+                <line x1="4" x2="20" y1="6" y2="6" />
+                <line x1="8" x2="16" y1="12" y2="12" />
+                <line x1="12" x2="12" y1="18" y2="18" />
+              </svg>
+              Filters
+              {activeFilterCount > 0 && (
+                <span className="inline-flex size-5 items-center justify-center rounded-full bg-[#002627] text-[10px] font-bold text-white">
+                  {activeFilterCount}
+                </span>
+              )}
+            </span>
+            <svg
+              className={`transition-transform duration-200 ${filtersOpen ? "rotate-180" : ""}`}
+              fill="none" height="16" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" width="16"
+            >
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </button>
           {/* Search bar */}
           <form
             className="flex flex-col gap-3 rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:flex-row"

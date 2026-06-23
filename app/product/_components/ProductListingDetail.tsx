@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from "react";
 
-import { selectAccessToken, selectUser } from "@/store/auth/authSelectors";
+import { selectAccessToken, selectIsAdmin, selectUser } from "@/store/auth/authSelectors";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
   selectCurrentProductListing,
@@ -31,6 +31,7 @@ export function ProductListingDetail({ listingId }: { listingId: string }) {
   const dispatch = useAppDispatch();
   const token = useAppSelector(selectAccessToken);
   const user = useAppSelector(selectUser);
+  const isAdmin = useAppSelector(selectIsAdmin);
   const listing = useAppSelector(selectCurrentProductListing);
   const fetchStatus = useAppSelector((state) =>
     selectProductOpStatus(state, "fetchListing"),
@@ -495,6 +496,13 @@ export function ProductListingDetail({ listingId }: { listingId: string }) {
                 </p>
               )}
             </>
+          ) : isAdmin ? (
+            <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 text-center">
+              <p className="font-[var(--font-jetbrains)] text-xs font-bold uppercase tracking-wide text-[#404848]">Admin view</p>
+              <p className="mt-1.5 text-sm leading-relaxed text-[#404848]">
+                You are viewing this listing as an administrator. Supply requests are not available in admin mode.
+              </p>
+            </div>
           ) : (
             <>
               <button
@@ -510,7 +518,6 @@ export function ProductListingDetail({ listingId }: { listingId: string }) {
               >
                 {!token ? "Log in to bid / request" : nonOwnerLabel}
               </button>
-
             </>
           )}
 
