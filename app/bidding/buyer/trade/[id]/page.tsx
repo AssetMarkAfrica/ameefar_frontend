@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState, useCallback } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { selectAccessToken } from "@/store/auth/authSelectors";
 import {
@@ -56,6 +56,19 @@ export default function BuyerTradePage() {
   const [inspectionFeePayment, setInspectionFeePayment] = useState<InspectionFeePayment | null>(null);
   const [tradePaymentVerified, setTradePaymentVerified] = useState(false);
 
+  const searchParams = useSearchParams();
+
+  // If Paystack redirected back to this page with callback params (shouldn't happen
+  // with the corrected callback_url, but handles legacy/browser-back edge cases),
+  // immediately forward the user to the dedicated payment-callback route.
+  useEffect(() => {
+    const reference = searchParams.get("reference") || searchParams.get("trxref");
+    const isCallback = searchParams.get("payment_callback") === "true";
+    if (isCallback && reference) {
+      router.replace(`/bidding/buyer/trade/${id}/payment-callback?reference=${reference}`);
+    }
+  }, [searchParams, id, router]);
+
   useEffect(() => {
     if (token && id) {
       dispatch(fetchTradeThunk({ token, tradeId: id }));
@@ -107,13 +120,17 @@ export default function BuyerTradePage() {
       initiateTradePaymentThunk({
         tradeId: id,
         payload: {
-          callback_url: `${window.location.origin}/bidding/buyer/trade/${id}?payment_callback=true`,
+          // Must match the backend's _default_callback_url path so Paystack
+          // returns to the dedicated callback page (not the main trade page).
+          callback_url: `${window.location.origin}/bidding/buyer/trade/${id}/payment-callback`,
         },
       }),
     );
     if (initiateTradePaymentThunk.fulfilled.match(result)) {
       const url = result.payload.data.paystack_authorization_url;
-      window.open(url, "_blank");
+      // Redirect in the SAME tab so the browser history back-button works
+      // and there is no orphan tab landing on this page with callback params.
+      window.location.href = url;
     }
   }, [dispatch, token, id]);
 

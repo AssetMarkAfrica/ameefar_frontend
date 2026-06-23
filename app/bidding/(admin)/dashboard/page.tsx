@@ -18,11 +18,8 @@ export default function AdminDashboardPage() {
   }, [dispatch, token]);
 
   return (
-    <div className="flex w-full min-h-screen bg-surface-gray font-body-md text-on-surface">
-      <BiddingSidebar role="admin" />
-      <main className="pt-16 min-h-screen flex flex-col w-full">
-        <div className="flex-1 p-8 max-w-container-max mx-auto w-full">
-          <h1 className="font-headline-lg text-headline-lg text-primary mb-8">Admin Dashboard</h1>
+    <div className="flex-1 p-8 max-w-container-max mx-auto w-full">
+      <h1 className="font-headline-lg text-headline-lg text-primary mb-8">Admin Dashboard</h1>
 
           {status.fetchAdminOverview === "loading" || !adminOverview ? (
             <div className="p-8 text-center animate-pulse text-on-surface-variant">Loading overview...</div>
@@ -77,8 +74,6 @@ export default function AdminDashboardPage() {
 
             </div>
           )}
-        </div>
-      </main>
     </div>
   );
 }

@@ -21,11 +21,8 @@ export default function AdminInspectionsPage() {
   );
 
   return (
-    <div className="flex w-full min-h-screen bg-surface-gray font-body-md text-on-surface">
-      <BiddingSidebar role="admin" />
-      <main className="pt-16 min-h-screen flex flex-col w-full">
-        <div className="flex-1 p-8 max-w-container-max mx-auto w-full">
-          <div className="flex items-center justify-between mb-8">
+    <div className="flex-1 p-8 max-w-container-max mx-auto w-full">
+      <div className="flex items-center justify-between mb-8">
             <div>
               <h1 className="font-headline-lg text-headline-lg text-primary">Inspection Management</h1>
               <p className="text-on-surface-variant mt-1">Manage trades requiring physical inspection.</p>
@@ -81,8 +78,6 @@ export default function AdminInspectionsPage() {
               })}
             </div>
           )}
-        </div>
-      </main>
     </div>
   );
 }

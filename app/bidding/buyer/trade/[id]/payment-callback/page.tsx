@@ -5,7 +5,6 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { selectAccessToken } from "@/store/auth/authSelectors";
 import { verifyReferenceThunk, getTradePaymentSummaryThunk } from "@/store/payment/paymentThunks";
 import { fetchTradeThunk } from "@/store/bidding/biddingThunks";
-import BiddingSidebar from "@/components/bidding/BiddingSidebar";
 
 type VerifyState = "idle" | "verifying" | "success" | "error";
 
@@ -47,13 +46,18 @@ export default function PaymentCallbackPage() {
     verify();
   }, [token, reference]);
 
+  // Auto-redirect back to trade page 2.5s after a successful verification
+  useEffect(() => {
+    if (verifyState !== "success") return;
+    const t = setTimeout(() => router.replace(`/bidding/buyer/trade/${id}`), 2500);
+    return () => clearTimeout(t);
+  }, [verifyState, router, id]);
+
   const handleBack = () => router.replace(`/bidding/buyer/trade/${id}`);
 
   return (
-    <div className="flex w-full min-h-screen bg-surface-gray font-body-md text-on-surface">
-      <BiddingSidebar role="buyer" />
-      <main className="md:ml-64 pt-16 min-h-screen flex items-center justify-center p-8">
-        <div className="bg-white rounded-2xl shadow-xl p-10 max-w-md w-full text-center space-y-6">
+    <div className="flex items-center justify-center min-h-screen p-8">
+      <div className="bg-white rounded-2xl shadow-xl p-10 max-w-md w-full text-center space-y-6">
           {verifyState === "verifying" && (
             <>
               <div className="w-16 h-16 border-4 border-ameefar-navy border-t-transparent rounded-full animate-spin mx-auto" />
@@ -132,7 +136,6 @@ export default function PaymentCallbackPage() {
             </>
           )}
         </div>
-      </main>
-    </div>
+      </div>
   );
 }

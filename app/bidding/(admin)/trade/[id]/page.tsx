@@ -59,10 +59,8 @@ export default function AdminTradePage() {
   }
 
   return (
-    <div className="flex w-full min-h-screen bg-surface-gray font-body-md text-on-surface">
-      <main className="pt-16 min-h-screen flex flex-col w-full">
-        
-        {/* Header */}
+    <div className="w-full">
+      {/* Header */}
         <section className="bg-white border-b border-border-subtle px-margin-desktop py-8">
           <div className="max-w-container-max mx-auto">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -239,7 +237,6 @@ export default function AdminTradePage() {
           </div>
 
         </div>
-      </main>
     </div>
   );
 }
