@@ -72,16 +72,7 @@ export function LoginForm() {
                 trade. Secure, transparent, and built for enterprise scale.
               </p>
             </div>
-            <div className="auth-stats">
-              <div>
-                <span>Global Trades</span>
-                <strong>1.2M+</strong>
-              </div>
-              <div>
-                <span>Market Liquidity</span>
-                <strong>$4.8B</strong>
-              </div>
-            </div>
+
           </div>
         </div>
 

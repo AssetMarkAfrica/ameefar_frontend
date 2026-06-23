@@ -133,19 +133,21 @@ export function RegisterForm() {
 
           <blockquote className="auth-quote">
             <p>
-              The transition to sustainable energy requires a rigorous,
-              data-driven marketplace. Ameefar provides exactly that.
+              "The transition to sustainable secondary raw materials requires a rigorous, data-driven marketplace. Ameefar provides exactly that."
             </p>
             <div>
               <Image
-                alt="Marcus Thorne"
+                alt="Abdulai Pascal Mohammed"
                 height={40}
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbKOk8dBuyRBuSkAiYo74cRL4U_YgQV2ko_VkCF9zaqfflW1V43qXfYPJSzEQePYHXN5IQoJpQxcpcP8YpZskMdcdWlN_8byq8MRBmg43xqUKxqXNttebFRRk6VhHXwm7k1gtOCcFv-GMltHchwu7F6g-kGQhUDm1faF5AuPAyPRT3JqxfTdFC0M6j3WpQAdZst-UQfbbg4UbcjW8NVF2dr059g-LXsEga-KGMQAdHUHyJiMTjmpHI39H92TmwZHfsMhrtP_KqcSgb"
+                src="https://res.cloudinary.com/dqwub0fhb/image/upload/v1782219057/pascal_nsd1sq.jpg"
                 width={40}
+                className="object-cover rounded-full"
               />
               <span>
-                <strong>Marcus Thorne</strong>
-                <small>Chief Operations, GreenTech Global</small>
+                <a href="https://www.linkedin.com/in/abdulai-pascal-mohammed-222059345/" target="_blank" rel="noreferrer" className="hover:underline">
+                  <strong>Abdulai Pascal Mohammed</strong>
+                </a>
+                <small>CEO · Sustainability | rPET | Recycling</small>
               </span>
             </div>
           </blockquote>
