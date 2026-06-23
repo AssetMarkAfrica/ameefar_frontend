@@ -1,6 +1,7 @@
 import type {
   AddSitePayload,
   GetProfileResponse,
+  ListDocumentsResponse,
   ListPendingProfilesResponse,
   ListSitesResponse,
   ProfileStepResponse,
