@@ -221,11 +221,19 @@ export function NotificationDropdown() {
 
       {/* Dropdown Panel */}
       {open && (
-        <div className="absolute right-0 top-full z-[9999] mt-2 w-[380px] origin-top-right overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl shadow-slate-200/80 animate-in fade-in-0 zoom-in-95 duration-150">
+        <div className="fixed inset-0 z-[10000] flex flex-col bg-white sm:absolute sm:inset-auto sm:right-0 sm:top-full sm:mt-2 sm:h-auto sm:w-[380px] sm:origin-top-right sm:rounded-2xl sm:border sm:border-slate-200 sm:shadow-2xl sm:shadow-slate-200/80 animate-in fade-in-0 zoom-in-95 duration-150">
           {/* Header */}
-          <div className="flex items-center justify-between border-b border-slate-100 px-4 py-3">
-            <div className="flex items-center gap-2">
-              <h2 className="font-[var(--font-hanken)] text-base font-semibold text-[#002627]">
+          <div className="flex shrink-0 items-center justify-between border-b border-slate-100 px-4 py-4 sm:py-3">
+            <div className="flex items-center gap-3 sm:gap-2">
+              <button
+                className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200 sm:hidden"
+                onClick={(e) => { e.stopPropagation(); setOpen(false); }}
+                type="button"
+                aria-label="Close"
+              >
+                <span className="material-symbols-outlined text-[20px]">close</span>
+              </button>
+              <h2 className="font-[var(--font-hanken)] text-lg sm:text-base font-semibold text-[#002627]">
                 Notifications
               </h2>
               {unreadCount > 0 && (
@@ -246,7 +254,7 @@ export function NotificationDropdown() {
           </div>
 
           {/* Notification List */}
-          <div className="max-h-[420px] overflow-y-auto divide-y divide-slate-100">
+          <div className="flex-1 overflow-y-auto sm:max-h-[420px] divide-y divide-slate-100 overscroll-contain pb-[env(safe-area-inset-bottom)]">
             {isLoading && notifications.length === 0 ? (
               <div className="grid gap-3 p-4">
                 {[...Array(4)].map((_, i) => (

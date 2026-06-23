@@ -106,7 +106,7 @@ export default function BiddingBannerHeader() {
           <NotificationDropdown />
 
           <LogoutButton
-            className="hidden sm:inline-flex items-center gap-1.5 rounded-lg border border-slate-200 px-3 py-2 text-sm font-semibold text-slate-600 transition hover:border-[#002627] hover:text-[#002627] disabled:cursor-not-allowed disabled:opacity-60"
+            className="inline-flex items-center gap-1 sm:gap-1.5 rounded-lg border border-slate-200 px-2 py-1.5 sm:px-3 sm:py-2 text-[11px] sm:text-sm font-semibold text-slate-600 transition hover:border-[#002627] hover:text-[#002627] disabled:cursor-not-allowed disabled:opacity-60"
             showIcon
           />
 

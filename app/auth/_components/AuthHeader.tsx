@@ -40,18 +40,18 @@ export function AuthHeader() {
             <a href="#" className="hover:text-slate-900 transition-colors">About</a>
           </nav>
         </div>
-        <div className="hidden md:flex items-center gap-4 text-sm">
+        <div className="flex items-center gap-3 sm:gap-4 text-sm">
           {isAuthenticated && user ? (
             <>
-              <span className={`${jetbrains.className} text-xs text-[#006d40] font-medium`}>
+              <span className={`hidden sm:inline-block ${jetbrains.className} text-xs text-[#006d40] font-medium`}>
                 {user.first_name}
               </span>
-              <LogoutButton className="rounded-lg border border-slate-200 bg-white px-4 py-1.5 text-[13px] font-medium text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60" />
+              <LogoutButton className="rounded-lg border border-slate-200 bg-white px-3 py-1.5 sm:px-4 sm:py-1.5 text-[12px] sm:text-[13px] font-medium text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60" />
             </>
           ) : (
             <Link
               href="/auth/login"
-              className="rounded-lg bg-[#002627] px-5 py-2 text-[13px] font-semibold !text-white transition hover:bg-[#003a3c]"
+              className="rounded-lg bg-[#002627] px-4 py-1.5 sm:px-5 sm:py-2 text-[12px] sm:text-[13px] font-semibold !text-white transition hover:bg-[#003a3c]"
             >
               Log in
             </Link>
