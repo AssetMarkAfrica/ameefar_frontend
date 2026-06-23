@@ -308,7 +308,7 @@ export default function ProductBannerHeader() {
                   <Link
                     href="/auth/register"
                     onClick={() => setMenuOpen(false)}
-                    className="w-full flex items-center justify-center rounded-xl bg-[#002627] px-4 py-3 text-[14px] font-semibold text-white transition hover:bg-slate-900"
+                    className="w-full flex items-center justify-center rounded-xl bg-white px-4 py-3 text-[14px] font-semibold text-white transition hover:bg-slate-900"
                   >
                     Get Started
                   </Link>
