@@ -8,6 +8,7 @@ import {
   selectHasAuthSession,
 } from "@/store/auth/authSelectors";
 import ProductBannerHeader from "@/components/product/ProductBannerHeader";
+import SiteFooter from "@/components/SiteFooter";
 
 type ProductShellProps = {
   active: "marketplace" | "create";
@@ -37,6 +38,7 @@ export function ProductShell({ children }: ProductShellProps) {
       <ProductBannerHeader />
       {/* pt-20 offsets the fixed 80px header */}
       <main className="pt-20 px-4 pb-16 md:px-10">{children}</main>
+      {!token && <SiteFooter />}
     </div>
   );
 }

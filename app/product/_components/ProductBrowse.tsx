@@ -536,7 +536,7 @@ function ProductListingCard({ listing }: { listing: ProductListingSummary }) {
                 : "absolute right-3 top-3 rounded-md bg-[#ecfdf5] px-2 py-1 text-xs font-bold text-[#006d40]"
             }
           >
-            {listing.listing_type === "sell" ? "Sell" : "Buy"}
+            {listing.listing_type === "sell" ? "For Sale" : "Buy Request"}
           </span>
         </div>
 

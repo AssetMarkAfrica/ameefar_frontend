@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Hanken_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
 import { LogoutButton } from "@/components/auth/LogoutButton";
+import SiteFooter from "@/components/SiteFooter";
 import { useAppSelector } from "@/store/hooks";
 import { selectUser, selectIsAuthenticated } from "@/store/auth/authSelectors";
 
@@ -89,7 +90,7 @@ export default function Home() {
             </Link>
             <nav className="hidden gap-7 md:flex text-[13.5px] font-medium text-slate-500">
               <a href="/product" className="hover:text-slate-900 transition-colors">Marketplace</a>
-              <a href="#" className="hover:text-slate-900 transition-colors">About</a>
+              <a href="/about" className="hover:text-slate-900 transition-colors">About</a>
             </nav>
           </div>
           <div className="hidden md:flex items-center gap-4 text-sm">
@@ -195,7 +196,7 @@ export default function Home() {
         {/* ── PILLARS ── */}
         <section className="bg-[#f8fffe] px-6 py-24 md:px-12">
           <div className="mx-auto max-w-[1440px]">
-            <div className="max-w-xl">
+            <div className="max-w-2xl mx-auto text-center">
               <span className={`${jetbrains.className} text-[11px] tracking-[0.15em] text-[#006d40] uppercase font-medium`}>
                 Our Protocol
               </span>
@@ -341,46 +342,7 @@ export default function Home() {
         </section>
       </main>
 
-      {/* ── FOOTER ── */}
-      <footer className="bg-[#001a1a] px-6 py-14 text-slate-400 md:px-12">
-        <div className="mx-auto grid max-w-[1440px] gap-10 md:grid-cols-4">
-          <div>
-            <div className={`${hanken.className} text-[18px] font-bold text-white`}>Ameefar</div>
-            <p className="mt-3 text-[13px] leading-relaxed text-slate-400/80">
-              Trusted global B2B marketplace for secondary raw materials, protected by the African Trade Protection protocol.
-            </p>
-          </div>
-          <div>
-            <h4 className={`${hanken.className} text-[13px] font-semibold text-white/80 uppercase tracking-wider`}>Platform</h4>
-            <ul className="mt-3 space-y-2 text-[13px] text-slate-400/80">
-              <li><a href="/product" className="hover:text-white transition-colors">Marketplace</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Inspections</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Pricing</a></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className={`${hanken.className} text-[13px] font-semibold text-white/80 uppercase tracking-wider`}>Legal</h4>
-            <ul className="mt-3 space-y-2 text-[13px] text-slate-400/80">
-              <li><a href="#" className="hover:text-white transition-colors">Terms of Use</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Privacy Policy</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Compliance</a></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className={`${hanken.className} text-[13px] font-semibold text-white/80 uppercase tracking-wider`}>Support</h4>
-            <ul className="mt-3 space-y-2 text-[13px] text-slate-400/80">
-              <li><a href="#" className="hover:text-white transition-colors">Contact Us</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Help Center</a></li>
-            </ul>
-          </div>
-        </div>
-        <div className="mx-auto mt-10 max-w-[1440px] border-t border-white/5 pt-6 flex flex-col items-center justify-between gap-3 text-[12px] text-slate-500 md:flex-row">
-          <span>© 2026 Ameefar B2B Marketplace. All rights reserved.</span>
-          <span className={`${jetbrains.className} text-[10px] tracking-widest uppercase text-slate-600`}>
-            African Trade Protection Protocol
-          </span>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }
