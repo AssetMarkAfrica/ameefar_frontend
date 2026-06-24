@@ -5,14 +5,16 @@ import {
   loginThunk,
   logoutThunk,
   registerThunk,
+  verifyAdmin2faThunk,
   requestPasswordResetThunk,
   verifyOtpThunk,
 } from "./authThunks";
-import type { User } from "@/types/auth";
+import type { AdminLogin2faResponse, LoginResult, User } from "@/types/auth";
 
 export type AuthOperation =
   | "register"
   | "verifyOtp"
+  | "verifyAdmin2fa"
   | "login"
   | "logout"
   | "passwordResetRequest"
@@ -28,6 +30,9 @@ export interface AuthState {
   pendingToken: string | null;
   pendingEmail: string | null;
   otpDelivery: { email: boolean; sms: boolean } | null;
+  adminChallengeToken: string | null;
+  adminChallengeEmail: string | null;
+  admin2faDelivery: { email: boolean; sms: boolean } | null;
   status: Record<AuthOperation, AuthStatus>;
   errors: Record<AuthOperation, string | null>;
 }
@@ -37,6 +42,7 @@ type AuthSessionState = Pick<AuthState, "accessToken" | "refreshToken" | "user">
 const initialStatus: Record<AuthOperation, AuthStatus> = {
   register: "idle",
   verifyOtp: "idle",
+  verifyAdmin2fa: "idle",
   login: "idle",
   logout: "idle",
   passwordResetRequest: "idle",
@@ -46,6 +52,7 @@ const initialStatus: Record<AuthOperation, AuthStatus> = {
 const initialErrors: Record<AuthOperation, string | null> = {
   register: null,
   verifyOtp: null,
+  verifyAdmin2fa: null,
   login: null,
   logout: null,
   passwordResetRequest: null,
@@ -63,6 +70,9 @@ export function createInitialAuthState(
     pendingToken: null,
     pendingEmail: null,
     otpDelivery: null,
+    adminChallengeToken: null,
+    adminChallengeEmail: null,
+    admin2faDelivery: null,
     status: { ...initialStatus },
     errors: { ...initialErrors },
   };
@@ -82,6 +92,15 @@ function setAuthenticatedSession(
   state.accessToken = session.access;
   state.refreshToken = session.refresh;
   state.isAuthenticated = Boolean(session.access);
+  state.adminChallengeToken = null;
+  state.adminChallengeEmail = null;
+  state.admin2faDelivery = null;
+}
+
+function isAdminLogin2faResponse(
+  response: LoginResult,
+): response is AdminLogin2faResponse {
+  return "requires_2fa" in response && response.requires_2fa;
 }
 
 export const authSlice = createSlice({
@@ -93,6 +112,9 @@ export const authSlice = createSlice({
       state.accessToken = null;
       state.refreshToken = null;
       state.isAuthenticated = false;
+      state.adminChallengeToken = null;
+      state.adminChallengeEmail = null;
+      state.admin2faDelivery = null;
     },
     clearAuthErrors(state) {
       state.errors = { ...initialErrors };
@@ -101,6 +123,9 @@ export const authSlice = createSlice({
       state.pendingToken = null;
       state.pendingEmail = null;
       state.otpDelivery = null;
+      state.adminChallengeToken = null;
+      state.adminChallengeEmail = null;
+      state.admin2faDelivery = null;
     },
   },
   extraReducers: (builder) => {
@@ -137,14 +162,37 @@ export const authSlice = createSlice({
       .addCase(loginThunk.pending, (state) => {
         state.status.login = "loading";
         state.errors.login = null;
+        state.errors.verifyAdmin2fa = null;
+        state.adminChallengeToken = null;
+        state.adminChallengeEmail = null;
+        state.admin2faDelivery = null;
       })
       .addCase(loginThunk.fulfilled, (state, action) => {
         state.status.login = "succeeded";
+        if (isAdminLogin2faResponse(action.payload)) {
+          state.adminChallengeToken = action.payload.admin_challenge_token;
+          state.adminChallengeEmail = action.meta.arg.email;
+          state.admin2faDelivery = action.payload.delivery;
+          return;
+        }
+
         setAuthenticatedSession(state, action.payload);
       })
       .addCase(loginThunk.rejected, (state, action) => {
         state.status.login = "failed";
         state.errors.login = rejectedMessage(action.error.message);
+      })
+      .addCase(verifyAdmin2faThunk.pending, (state) => {
+        state.status.verifyAdmin2fa = "loading";
+        state.errors.verifyAdmin2fa = null;
+      })
+      .addCase(verifyAdmin2faThunk.fulfilled, (state, action) => {
+        state.status.verifyAdmin2fa = "succeeded";
+        setAuthenticatedSession(state, action.payload.data);
+      })
+      .addCase(verifyAdmin2faThunk.rejected, (state, action) => {
+        state.status.verifyAdmin2fa = "failed";
+        state.errors.verifyAdmin2fa = rejectedMessage(action.error.message);
       })
       .addCase(logoutThunk.pending, (state) => {
         state.status.logout = "loading";
@@ -156,6 +204,9 @@ export const authSlice = createSlice({
         state.accessToken = null;
         state.refreshToken = null;
         state.isAuthenticated = false;
+        state.adminChallengeToken = null;
+        state.adminChallengeEmail = null;
+        state.admin2faDelivery = null;
       })
       .addCase(logoutThunk.rejected, (state, action) => {
         state.status.logout = "failed";
@@ -165,6 +216,9 @@ export const authSlice = createSlice({
         state.accessToken = null;
         state.refreshToken = null;
         state.isAuthenticated = false;
+        state.adminChallengeToken = null;
+        state.adminChallengeEmail = null;
+        state.admin2faDelivery = null;
       })
       .addCase(requestPasswordResetThunk.pending, (state) => {
         state.status.passwordResetRequest = "loading";

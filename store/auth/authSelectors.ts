@@ -28,6 +28,18 @@ export const selectOtpDelivery = (
   state: RootState,
 ): AuthState["otpDelivery"] => state.auth.otpDelivery;
 
+export const selectAdminChallengeToken = (
+  state: RootState,
+): AuthState["adminChallengeToken"] => state.auth.adminChallengeToken;
+
+export const selectAdminChallengeEmail = (
+  state: RootState,
+): AuthState["adminChallengeEmail"] => state.auth.adminChallengeEmail;
+
+export const selectAdmin2faDelivery = (
+  state: RootState,
+): AuthState["admin2faDelivery"] => state.auth.admin2faDelivery;
+
 export const selectAuthStatus = <TOperation extends keyof AuthState["status"]>(
   state: RootState,
   operation: TOperation,
@@ -55,4 +67,3 @@ export const selectIsBoth = (state: RootState): boolean =>
 
 export const selectIsAdmin = (state: RootState): boolean =>
   state.auth.user?.role === "admin";
-

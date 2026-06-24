@@ -2,8 +2,10 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import { AuthService } from "@/services/auth/AuthService";
 import type {
+  AdminVerify2faPayload,
+  AdminVerify2faResponse,
   LoginPayload,
-  LoginResponse,
+  LoginResult,
   PasswordResetConfirmPayload,
   PasswordResetConfirmResponse,
   PasswordResetRequestPayload,
@@ -25,10 +27,15 @@ export const verifyOtpThunk = createAsyncThunk<
   VerifyOtpPayload
 >("auth/verifyOtp", (payload) => AuthService.verifyOtp(payload));
 
-export const loginThunk = createAsyncThunk<LoginResponse, LoginPayload>(
+export const loginThunk = createAsyncThunk<LoginResult, LoginPayload>(
   "auth/login",
   (payload) => AuthService.login(payload),
 );
+
+export const verifyAdmin2faThunk = createAsyncThunk<
+  AdminVerify2faResponse,
+  AdminVerify2faPayload
+>("auth/verifyAdmin2fa", (payload) => AuthService.verifyAdmin2fa(payload));
 
 export const requestPasswordResetThunk = createAsyncThunk<
   PasswordResetRequestResponse,

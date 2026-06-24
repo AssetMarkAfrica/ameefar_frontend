@@ -1,5 +1,9 @@
 import type {
+  AdminVerify2faPayload,
+  AdminVerify2faResponse,
+  AdminLogin2faResponse,
   LoginPayload,
+  LoginResult,
   LoginResponse,
   PasswordResetConfirmPayload,
   PasswordResetConfirmResponse,
@@ -110,6 +114,48 @@ function normalizeLoginResponse(body: unknown): LoginResponse {
   return candidate;
 }
 
+function normalizeLoginResult(body: unknown): LoginResult {
+  if (isAdminLogin2faResponse(body)) {
+    return body;
+  }
+
+  return normalizeLoginResponse(body);
+}
+
+function normalizeAdminVerify2faResponse(body: unknown): AdminVerify2faResponse {
+  const candidate =
+    body && typeof body === "object" && "data" in body
+      ? (body as { data?: unknown }).data
+      : body;
+
+  if (!isAuthSessionResponse(candidate)) {
+    throw new Error("Admin 2FA response did not include a valid auth session.");
+  }
+
+  return {
+    success: true,
+    message:
+      body && typeof body === "object" && "message" in body
+        ? String((body as { message?: unknown }).message)
+        : "Admin login verified successfully.",
+    data: candidate,
+  };
+}
+
+function isAdminLogin2faResponse(value: unknown): value is AdminLogin2faResponse {
+  if (!value || typeof value !== "object") {
+    return false;
+  }
+
+  const response = value as Partial<AdminLogin2faResponse>;
+
+  return (
+    response.requires_2fa === true &&
+    typeof response.admin_challenge_token === "string" &&
+    response.admin_challenge_token.length > 0
+  );
+}
+
 function isAuthSessionResponse(value: unknown): value is AuthSessionResponse {
   if (!value || typeof value !== "object") {
     return false;
@@ -139,10 +185,19 @@ export const AuthService = {
     );
   },
 
-  login(payload: LoginPayload): Promise<LoginResponse> {
+  login(payload: LoginPayload): Promise<LoginResult> {
     return postJson<unknown, LoginPayload>("/login/", payload).then(
-      normalizeLoginResponse,
+      normalizeLoginResult,
     );
+  },
+
+  verifyAdmin2fa(
+    payload: AdminVerify2faPayload,
+  ): Promise<AdminVerify2faResponse> {
+    return postJson<unknown, AdminVerify2faPayload>(
+      "/login/admin/verify-2fa/",
+      payload,
+    ).then(normalizeAdminVerify2faResponse);
   },
 
   logout(payload: LogoutPayload): Promise<unknown> {

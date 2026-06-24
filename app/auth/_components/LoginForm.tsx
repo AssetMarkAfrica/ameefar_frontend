@@ -7,6 +7,7 @@ import { FormEvent, useState } from "react";
 
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
+  selectAdminChallengeToken,
   selectAuthError,
   selectAuthStatus,
   selectIsVerified,
@@ -16,6 +17,7 @@ import { store } from "@/store";
 import { loginThunk } from "@/store/auth/authThunks";
 
 import { logoSrc, tradeVisualSrc } from "./auth-constants";
+import { AdminTwoFactorForm } from "./AdminTwoFactorForm";
 import { StatusMessage } from "./StatusMessage";
 
 export function LoginForm() {
@@ -23,6 +25,7 @@ export function LoginForm() {
   const router = useRouter();
   const status = useAppSelector((state) => selectAuthStatus(state, "login"));
   const error = useAppSelector((state) => selectAuthError(state, "login"));
+  const adminChallengeToken = useAppSelector(selectAdminChallengeToken);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -31,7 +34,11 @@ export function LoginForm() {
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     try {
-      await dispatch(loginThunk({ email, password })).unwrap();
+      const result = await dispatch(loginThunk({ email, password })).unwrap();
+
+      if ("requires_2fa" in result && result.requires_2fa) {
+        return;
+      }
 
       const state = store.getState();
       const isVerified = selectIsVerified(state);
@@ -45,6 +52,10 @@ export function LoginForm() {
     } catch {
       // The slice stores and renders the backend error message.
     }
+  }
+
+  if (adminChallengeToken) {
+    return <AdminTwoFactorForm />;
   }
 
   return (

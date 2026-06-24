@@ -90,6 +90,11 @@ export interface LoginPayload {
   password: string;
 }
 
+export interface AdminVerify2faPayload {
+  admin_challenge_token: string;
+  code: string;
+}
+
 export interface LogoutPayload {
   refresh: string;
 }
@@ -130,6 +135,28 @@ export interface LoginResponse {
   access: string;
   refresh: string;
   user: User;
+}
+
+export interface AdminLogin2faResponse {
+  requires_2fa: true;
+  admin_challenge_token: string;
+  delivery: {
+    email: boolean;
+    sms: boolean;
+  };
+  detail: string;
+}
+
+export type LoginResult = LoginResponse | AdminLogin2faResponse;
+
+export interface AdminVerify2faResponse {
+  success: true;
+  message: string;
+  data: {
+    access: string;
+    refresh: string;
+    user: User;
+  };
 }
 
 export interface PasswordResetRequestResponse {
