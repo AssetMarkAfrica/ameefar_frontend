@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 
 import { selectAccessToken } from "@/store/auth/authSelectors";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
@@ -58,6 +58,7 @@ export function ComplianceDocumentsStep() {
     selectProfileError(state, "submitProfile"),
   );
   const [banking, setBanking] = useState<BankingForm>(emptyBanking);
+  const [banks, setBanks] = useState<{ name: string, code: string, country: string }[]>([]);
   const [declarationAccepted, setDeclarationAccepted] = useState(
     Boolean(profile?.declaration_accepted),
   );
@@ -66,6 +67,29 @@ export function ComplianceDocumentsStep() {
     documents.some((document) => document.doc_type === requiredDocument.type),
   ).length;
   const hasAllDocuments = uploadedRequiredCount === requiredDocuments.length;
+  const isBankingComplete = Object.values(banking).every(Boolean);
+
+  useEffect(() => {
+    async function fetchBanks() {
+      try {
+        const countries = ["nigeria", "ghana", "kenya", "south africa"];
+        const requests = countries.map(country => 
+          fetch(`https://api.paystack.co/bank?country=${country}`).then(res => res.json())
+        );
+        
+        const responses = await Promise.all(requests);
+        const allBanks = responses.flatMap(res => res.status ? res.data : []);
+        
+        const uniqueBanks = Array.from(new Map(allBanks.map(b => [`${b.country}-${b.code}`, b])).values()) as any[];
+        uniqueBanks.sort((a, b) => a.name.localeCompare(b.name));
+        
+        setBanks(uniqueBanks.map(b => ({ name: b.name, code: b.code, country: b.country })));
+      } catch (err) {
+        console.error("Failed to fetch banks", err);
+      }
+    }
+    fetchBanks();
+  }, []);
 
   async function uploadFile(type: DocType, event: ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
@@ -91,17 +115,16 @@ export function ComplianceDocumentsStep() {
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (!token || readOnly || !hasAllDocuments || !declarationAccepted) {
+    if (!token || readOnly || !hasAllDocuments || !declarationAccepted || !isBankingComplete) {
       return;
     }
 
-    const hasBanking = Object.values(banking).some(Boolean);
     try {
       await dispatch(
         saveStep3Thunk({
           token,
           declaration_accepted: true,
-          ...(hasBanking ? { banking } : {}),
+          banking,
         }),
       ).unwrap();
       await dispatch(submitProfileThunk({ token })).unwrap();
@@ -119,7 +142,7 @@ export function ComplianceDocumentsStep() {
             <p className="profile-eyebrow">Step 3</p>
             <h1>Compliance & Documents</h1>
             <p>
-              Upload each required document separately, add optional banking,
+              Upload each required document separately, complete your banking details,
               then submit your profile for review.
             </p>
           </section>
@@ -160,29 +183,39 @@ export function ComplianceDocumentsStep() {
           <section className="profile-form-section">
             <div className="profile-panel-heading">
               <h2>Banking Details</h2>
-              <span>Optional</span>
+              <span style={{ color: "var(--color-primary, #2563eb)" }}>Required</span>
             </div>
             <div className="profile-form-grid">
               <label className="profile-field">
-                <span>Bank Name</span>
-                <input
-                  disabled={readOnly}
-                  onChange={(event) => updateBanking("bank_name", event.target.value)}
-                  value={banking.bank_name}
-                />
-              </label>
-              <label className="profile-field">
-                <span>Bank Code</span>
-                <input
-                  disabled={readOnly}
-                  onChange={(event) => updateBanking("bank_code", event.target.value)}
-                  value={banking.bank_code}
-                />
+                <span>Bank</span>
+                <select
+                  disabled={readOnly || banks.length === 0}
+                  required
+                  onChange={(event) => {
+                    const [country, code] = event.target.value.split("::");
+                    const selectedBank = banks.find(b => b.code === code && b.country === country);
+                    updateBanking("bank_code", code);
+                    updateBanking("bank_name", selectedBank?.name || "");
+                  }}
+                  value={
+                    banks.find(b => b.code === banking.bank_code && b.name === banking.bank_name)
+                      ? `${banks.find(b => b.code === banking.bank_code && b.name === banking.bank_name)!.country}::${banking.bank_code}`
+                      : ""
+                  }
+                >
+                  <option value="" disabled>Select your bank</option>
+                  {banks.map((bank) => (
+                    <option key={`${bank.country}::${bank.code}`} value={`${bank.country}::${bank.code}`}>
+                      {bank.name} ({bank.country})
+                    </option>
+                  ))}
+                </select>
               </label>
               <label className="profile-field">
                 <span>Account Name</span>
                 <input
                   disabled={readOnly}
+                  required
                   onChange={(event) =>
                     updateBanking("account_name", event.target.value)
                   }
@@ -193,6 +226,7 @@ export function ComplianceDocumentsStep() {
                 <span>Account Number</span>
                 <input
                   disabled={readOnly}
+                  required
                   onChange={(event) =>
                     updateBanking("account_number", event.target.value)
                   }
@@ -224,6 +258,7 @@ export function ComplianceDocumentsStep() {
               <li className={profile?.step1_complete ? "complete" : ""}>Company information complete</li>
               <li className={profile?.step2_complete ? "complete" : ""}>At least one site confirmed</li>
               <li className={hasAllDocuments ? "complete" : ""}>All required documents uploaded</li>
+              <li className={isBankingComplete ? "complete" : ""}>Banking details provided</li>
               <li className={declarationAccepted ? "complete" : ""}>Declaration accepted</li>
             </ul>
           </section>
@@ -235,6 +270,7 @@ export function ComplianceDocumentsStep() {
                 readOnly ||
                 !hasAllDocuments ||
                 !declarationAccepted ||
+                !isBankingComplete ||
                 saveStatus === "loading" ||
                 submitStatus === "loading"
               }

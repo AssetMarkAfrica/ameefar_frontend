@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { FormEvent, useState } from "react";
+import { FormEvent, ReactNode, useState } from "react";
 
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { selectAuthError, selectAuthStatus } from "@/store/auth/authSelectors";
@@ -58,6 +58,93 @@ const initialForm: RegisterFormState = {
   referral_source: "google_search",
   terms_accepted: false,
 };
+
+// ─── Benefit icons ────────────────────────────────────────────────────────────
+
+function IconVerified() {
+  return (
+    <svg
+      aria-hidden="true"
+      fill="none"
+      height="22"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="1.75"
+      viewBox="0 0 24 24"
+      width="22"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      {/* Shield with a checkmark */}
+      <path d="M12 2 L20 5.5 V12 C20 16.4 16.4 20.4 12 22 C7.6 20.4 4 16.4 4 12 V5.5 Z" />
+      <polyline points="9 12 11 14 15 10" />
+    </svg>
+  );
+}
+
+function IconSecure() {
+  return (
+    <svg
+      aria-hidden="true"
+      fill="none"
+      height="22"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="1.75"
+      viewBox="0 0 24 24"
+      width="22"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      {/* Padlock */}
+      <rect height="11" rx="2" ry="2" width="14" x="5" y="11" />
+      <path d="M8 11V7a4 4 0 0 1 8 0v4" />
+      <circle cx="12" cy="16" fill="currentColor" r="1" stroke="none" />
+    </svg>
+  );
+}
+
+function IconRealtime() {
+  return (
+    <svg
+      aria-hidden="true"
+      fill="none"
+      height="22"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="1.75"
+      viewBox="0 0 24 24"
+      width="22"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      {/* Activity / pulse line */}
+      <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+    </svg>
+  );
+}
+
+function ArrowForwardIcon() {
+  return (
+    <svg
+      aria-hidden="true"
+      fill="none"
+      height="20"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+      viewBox="0 0 24 24"
+      width="20"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <line x1="5" x2="19" y1="12" y2="12" />
+      <polyline points="12 5 19 12 12 19" />
+    </svg>
+  );
+}
+
+// ─── Component ────────────────────────────────────────────────────────────────
 
 export function RegisterForm() {
   const dispatch = useAppDispatch();
@@ -119,41 +206,69 @@ export function RegisterForm() {
       <AuthHeader />
       <main className="auth-register-main">
         <section className="auth-register-intro">
-          <h1>Empower Your Energy Future</h1>
-          <p>
-            Join the global B2B marketplace for professional energy recycling
-            and marketplace intelligence.
-          </p>
-
-          <div className="auth-benefit-list">
-            <AuthBenefit title="Verified Marketplace" text="Access a network of vetted enterprise partners." />
-            <AuthBenefit title="Secure Transactions" text="Fintech-grade security for high-stakes trades." />
-            <AuthBenefit title="Real-time Intelligence" text="Live market pricing and professional compliance data." />
-          </div>
-
-          <blockquote className="auth-quote">
+          <div className="auth-register-intro-inner">
+            <span className="auth-register-badge">Recycling Marketplace</span>
+            <h1>Empower Your Energy Future</h1>
             <p>
-              "The transition to sustainable secondary raw materials requires a rigorous, data-driven marketplace. Ameefar provides exactly that."
+              Join the enterprise network reshaping the industrial recycling supply
+              chain with precision and transparency.
             </p>
-            <div>
-              <Image
-                alt="Abdulai Pascal Mohammed"
-                height={40}
-                src="https://res.cloudinary.com/dqwub0fhb/image/upload/v1782219057/pascal_nsd1sq.jpg"
-                width={40}
-                className="object-cover rounded-full"
+
+            <div className="auth-benefit-list">
+              <AuthBenefit
+                icon={<IconVerified />}
+                title="Verified Enterprise Network"
+                text="Only vetted high-stakes buyers and sellers participate."
               />
-              <span>
-                <a href="https://www.linkedin.com/in/abdulai-pascal-mohammed-222059345/" target="_blank" rel="noreferrer" className="hover:underline">
-                  <strong>Abdulai Pascal Mohammed</strong>
-                </a>
-                <small>CEO · Sustainability | rPET | Recycling</small>
-              </span>
+              <AuthBenefit
+                icon={<IconSecure />}
+                title="Secure Escrow Trades"
+                text="Financial protection built into every transaction flow."
+              />
+              <AuthBenefit
+                icon={<IconRealtime />}
+                title="Real-time Analytics"
+                text="Live market data to inform your procurement strategy."
+              />
             </div>
-          </blockquote>
+
+            <blockquote className="auth-quote">
+              <div className="auth-quote-author">
+                <Image
+                  alt="Abdulai Pascal Mohammed"
+                  height={48}
+                  src="https://res.cloudinary.com/dqwub0fhb/image/upload/v1782219057/pascal_nsd1sq.jpg"
+                  width={48}
+                  className="object-cover rounded-full border-2 border-[#a3cfcf]"
+                />
+                <span>
+                  <a
+                    href="https://www.linkedin.com/in/abdulai-pascal-mohammed-222059345/"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="hover:underline"
+                  >
+                    <strong>Abdulai Pascal Mohammed</strong>
+                  </a>
+                  <small>CEO · Sustainability | rPET | Recycling</small>
+                </span>
+              </div>
+              <p>
+                &ldquo;We are building more than a marketplace; we are creating the
+                infrastructure for a sustainable industrial future.&rdquo;
+              </p>
+            </blockquote>
+          </div>
         </section>
 
         <section className="auth-register-card" aria-label="Registration form">
+          <div className="auth-register-form-header">
+            <h2>Create Your Account</h2>
+            <p>
+              Complete the fields below to start trading on the professional
+              exchange.
+            </p>
+          </div>
           <form className="auth-form auth-register-form" onSubmit={handleSubmit}>
             <FormSection title="Account Credentials">
               <label className="auth-field auth-span-2">
@@ -351,32 +466,49 @@ export function RegisterForm() {
                 </select>
               </label>
 
-              <label className="auth-terms">
-                <input
-                  checked={form.terms_accepted}
-                  onChange={(event) =>
-                    updateField("terms_accepted", event.target.checked)
-                  }
-                  required
-                  type="checkbox"
-                />
-                <span>
-                  I agree to the <Link href="#">Terms of Service</Link>,{" "}
-                  <Link href="#">Privacy Policy</Link>, and{" "}
-                  <Link href="#">Trading Rules</Link>.
-                </span>
-              </label>
+              <div className="auth-register-actions">
+                <label className="auth-terms auth-terms-register">
+                  <input
+                    checked={form.terms_accepted}
+                    onChange={(event) =>
+                      updateField("terms_accepted", event.target.checked)
+                    }
+                    required
+                    type="checkbox"
+                  />
+                  <span>
+                    I agree to the Ameefar Energy{" "}
+                    <Link href="#">Terms of Service</Link> and{" "}
+                    <Link href="#">Privacy Policy</Link>. I understand that my
+                    company profile will be subject to identity verification.
+                  </span>
+                </label>
+
+                {localError ? <StatusMessage>{localError}</StatusMessage> : null}
+                {error ? <StatusMessage>{error}</StatusMessage> : null}
+
+                <div className="auth-register-submit-bar">
+                  <button
+                    className="auth-primary-button"
+                    disabled={isLoading}
+                    type="submit"
+                  >
+                    {isLoading ? (
+                      "Processing Verification..."
+                    ) : (
+                      <>
+                        Complete Registration
+                        <ArrowForwardIcon />
+                      </>
+                    )}
+                  </button>
+                </div>
+
+                <p className="auth-form-note auth-form-note-desktop">
+                  Already have an account? <Link href="/auth/login">Log in</Link>
+                </p>
+              </div>
             </div>
-
-            {localError ? <StatusMessage>{localError}</StatusMessage> : null}
-            {error ? <StatusMessage>{error}</StatusMessage> : null}
-
-            <button className="auth-primary-button" disabled={isLoading} type="submit">
-              {isLoading ? "Processing..." : "Complete Registration"}
-            </button>
-            <p className="auth-form-note">
-              Already have an account? <Link href="/auth/login">Log in</Link>
-            </p>
           </form>
         </section>
       </main>
@@ -385,10 +517,14 @@ export function RegisterForm() {
   );
 }
 
-function AuthBenefit({ title, text }: { title: string; text: string }) {
+// ─── Sub-components ───────────────────────────────────────────────────────────
+
+function AuthBenefit({ icon, title, text }: { icon: ReactNode; title: string; text: string }) {
   return (
     <div className="auth-benefit">
-      <span aria-hidden="true" />
+      <span className="auth-benefit-icon" aria-hidden="true">
+        {icon}
+      </span>
       <div>
         <h3>{title}</h3>
         <p>{text}</p>

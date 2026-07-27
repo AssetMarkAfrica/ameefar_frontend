@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Register | Ameefar Energy</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed-variant": "#00522f",
+                        "primary-fixed": "#beebeb",
+                        "surface-bright": "#f8f9ff",
+                        "ameefar-navy": "#0F172A",
+                        "surface-dim": "#cbdbf5",
+                        "on-surface": "#0b1c30",
+                        "surface-variant": "#d3e4fe",
+                        "tertiary-fixed": "#6ffbbe",
+                        "on-primary-fixed-variant": "#224d4e",
+                        "surface-gray": "#F8FAFC",
+                        "secondary-fixed": "#83fab4",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-tint": "#3b6566",
+                        "on-tertiary-fixed-variant": "#005236",
+                        "primary": "#002627",
+                        "inverse-primary": "#a3cfcf",
+                        "trust-green-subtle": "#ECFDF5",
+                        "surface-container-highest": "#d3e4fe",
+                        "primary-container": "#0f3d3e",
+                        "primary-fixed-dim": "#a3cfcf",
+                        "on-secondary": "#ffffff",
+                        "surface-container-low": "#eff4ff",
+                        "surface-container-high": "#dce9ff",
+                        "tertiary-fixed-dim": "#4edea3",
+                        "surface": "#f8f9ff",
+                        "secondary-fixed-dim": "#66dd99",
+                        "on-tertiary-fixed": "#002113",
+                        "on-primary-fixed": "#002020",
+                        "error-container": "#ffdad6",
+                        "on-surface-variant": "#404848",
+                        "on-error-container": "#93000a",
+                        "secondary": "#006d40",
+                        "inverse-on-surface": "#eaf1ff",
+                        "tertiary-container": "#00402a",
+                        "on-primary-container": "#7da8a8",
+                        "on-tertiary-container": "#06b77f",
+                        "outline-variant": "#c0c8c8",
+                        "secondary-container": "#80f7b1",
+                        "outline": "#717978",
+                        "on-error": "#ffffff",
+                        "on-background": "#0b1c30",
+                        "error": "#ba1a1a",
+                        "inverse-surface": "#213145",
+                        "on-secondary-fixed": "#002110",
+                        "on-secondary-container": "#007243",
+                        "tertiary": "#002819",
+                        "surface-container": "#e5eeff",
+                        "border-subtle": "#E2E8F0",
+                        "on-primary": "#ffffff",
+                        "background": "#f8f9ff",
+                        "on-tertiary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-desktop": "40px",
+                        "base": "4px",
+                        "container-max": "1440px",
+                        "margin-mobile": "16px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Hanken Grotesk"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "label-md": ["JetBrains Mono"],
+                        "body-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-md": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        input:focus, select:focus {
+            box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #002627;
+            outline: none;
+        }
+        .form-card {
+            background-color: #ffffff;
+            border: 1px solid #E2E8F0;
+        }
+        .bento-glow {
+            position: relative;
+            overflow: hidden;
+        }
+        .bento-glow::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(163, 207, 207, 0.05) 0%, transparent 70%);
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="bg-surface-gray font-body-md text-on-surface min-h-screen flex flex-col">
+<!-- Top Navigation Placeholder (Simplified for focused registration) -->
+<header class="bg-surface h-16 flex items-center px-margin-mobile md:px-margin-desktop sticky top-0 z-50">
+<div class="flex justify-between items-center w-full max-w-container-max mx-auto">
+<img alt="Ameefar Energy Logo" class="h-8 md:h-10" src="https://lh3.googleusercontent.com/aida/AP1WRLu6x6qeqMErWVQCXpFhuZkwFo0nHvDacLL1GByP2Af4MduhqLX1cLj2q1DhK2lJfuH0hgXQ5S1BVAPl4PN2T_i3d7MIOHJllm1ofjdEgeRAoVjPYvdcnn3KvsYMPz1HhNr70HGdXdKCGxrnQH4puWpNGm7UdWeFXD5DzhbBNDmvWPohfBRCPESPciXSLA-3Ch9wxNhDEwrtHtXRa6jdLso8a5kz1kOJo-z0ObdRD2oD3uoR7dYBssI1IVI"/>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors flex items-center gap-2" href="#">
+                Already registered? <span class="text-primary font-bold">Sign In</span>
+</a>
+</div>
+</header>
+<main class="flex-grow flex flex-col md:flex-row max-w-container-max mx-auto w-full">
+<!-- Left Section: Empower Intro (Mobile Top) -->
+<section class="bg-primary-container text-on-primary-container w-full md:w-5/12 p-margin-mobile md:p-12 flex flex-col justify-center">
+<div class="max-w-md mx-auto md:mx-0">
+<span class="inline-block px-3 py-1 bg-primary text-primary-fixed rounded-full font-label-md text-label-md mb-6">RECYCLING MARKETPLACE</span>
+<h1 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-white mb-6">
+                    Empower Your Energy Future
+                </h1>
+<p class="font-body-lg text-body-lg opacity-90 mb-10">
+                    Join the enterprise network reshaping the industrial recycling supply chain with precision and transparency.
+                </p>
+<ul class="space-y-6 mb-12">
+<li class="flex items-start gap-4">
+<div class="bg-primary p-2 rounded-lg shrink-0">
+<span class="material-symbols-outlined text-tertiary-fixed-dim" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+</div>
+<div>
+<h4 class="font-bold text-white">Verified Enterprise Network</h4>
+<p class="text-body-sm opacity-80">Only vetted high-stakes buyers and sellers participate.</p>
+</div>
+</li>
+<li class="flex items-start gap-4">
+<div class="bg-primary p-2 rounded-lg shrink-0">
+<span class="material-symbols-outlined text-tertiary-fixed-dim" style="font-variation-settings: 'FILL' 1;">security</span>
+</div>
+<div>
+<h4 class="font-bold text-white">Secure Escrow Trades</h4>
+<p class="text-body-sm opacity-80">Financial protection built into every transaction flow.</p>
+</div>
+</li>
+<li class="flex items-start gap-4">
+<div class="bg-primary p-2 rounded-lg shrink-0">
+<span class="material-symbols-outlined text-tertiary-fixed-dim" style="font-variation-settings: 'FILL' 1;">monitoring</span>
+</div>
+<div>
+<h4 class="font-bold text-white">Real-time Analytics</h4>
+<p class="text-body-sm opacity-80">Live market data to inform your procurement strategy.</p>
+</div>
+</li>
+</ul>
+<div class="bg-ameefar-navy/40 p-6 rounded-xl border border-white/10 backdrop-blur-sm">
+<div class="flex items-center gap-4 mb-4">
+<img class="w-12 h-12 rounded-full border-2 border-primary-fixed" data-alt="A professional headshot of a mature Middle Eastern male executive in a sharp business suit, looking confidently at the camera with a slight smile. The background is a blurred corporate office setting with cool blue tones, conveying leadership and authority in the energy sector." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_bQ8j9mKCeCfEQgsJbKCgujwsxrCWiIzga37mNy9EOgPJvjOogOij_oJ6cB_O6fVWjdemoNf3Z6WQE1nTbGIPqyHqISeduu7BnZC0akKhh-q33DgUUQSihD5O_d5iWulft7Vi2UWFRUrtyexPkl3CpptRG9-ciCr43BW9IyKUSt_ytVx2aMmz3pn-nxsw-7colVb-fTM8qD_vjPk6Z8czILOW861l6nPGlOmBWWVOHdJ6CQut2YO2YF7__e9cBnzYJPzAX-vBDkFa"/>
+<div>
+<h5 class="text-white font-bold leading-tight">Ahmed Farrah</h5>
+<p class="text-label-md text-primary-fixed-dim opacity-70">CEO, Ameefar Energy</p>
+</div>
+</div>
+<p class="italic text-body-md text-white/90">"We are building more than a marketplace; we are creating the infrastructure for a sustainable industrial future."</p>
+</div>
+</div>
+</section>
+<!-- Right Section: Registration Form (Mobile Bottom) -->
+<section class="w-full md:w-7/12 p-margin-mobile md:p-12 md:px-16 lg:px-24">
+<div class="max-w-2xl mx-auto">
+<div class="mb-8">
+<h2 class="font-headline-md text-headline-md text-primary">Create Your Account</h2>
+<p class="text-on-surface-variant font-body-md mt-2">Complete the fields below to start trading on the professional exchange.</p>
+</div>
+<form class="space-y-10 pb-24" id="registrationForm">
+<!-- Section: Account Credentials -->
+<fieldset class="space-y-6">
+<legend class="text-label-md font-label-md uppercase tracking-wider text-primary mb-2 border-l-4 border-primary pl-3">Account Credentials</legend>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="relative group">
+<label class="block font-bold text-on-surface-variant text-body-sm mb-1.5" for="username">Username</label>
+<input class="w-full h-12 px-4 rounded-lg border-border-subtle focus:border-primary transition-all font-body-md" id="username" placeholder="johndoe_corp" required="" type="text"/>
+</div>
+<div class="relative group">
+<label class="block font-bold text-on-surface-variant text-body-sm mb-1.5" for="email">Work Email</label>
+<input class="w-full h-12 px-4 rounded-lg border-border-subtle focus:border-primary transition-all font-body-md" id="email" placeholder="john@company.com" required="" type="email"/>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="relative group">
+<label class="block font-bold text-on-surface-variant text-body-sm mb-1.5" for="password">Password</label>
+<input class="w-full h-12 px-4 rounded-lg border-border-subtle focus:border-primary transition-all font-body-md" id="password" required="" type="password"/>
+</div>
+<div class="relative group">
+<label class="block font-bold text-on-surface-variant text-body-sm mb-1.5" for="confirm-password">Confirm Password</label>
+<input class="w-full h-12 px-4 rounded-lg border-border-subtle focus:border-primary transition-all font-body-md" id="confirm-password" required="" type="password"/>
+</div>
+</div>
+</fieldset>
+<!-- Section: Professional Identity -->
+<fieldset class="space-y-6">
+<legend class="text-label-md font-label-md uppercase tracking-wider text-primary mb-2 border-l-4 border-primary pl-3">Professional Identity</legend>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="relative group">
+<label class="block font-bold text-on-surface-variant text-body-sm mb-1.5" for="full-name">Full Name</label>
+<input class="w-full h-12 px-4 rounded-lg border-border-subtle focus:border-primary transition-all font-body-md" id="full-name" placeholder="Johnathan Doe" required="" type="text"/>
+</div>
+<div class="relative group">
+<label class="block font-bold text-on-surface-variant text-body-sm mb-1.5" for="role">Job Title</label>
+<select class="w-full h-12 px-4 rounded-lg border-border-subtle focus:border-primary transition-all font-body-md bg-white" id="role">
+<option disabled="" selected="" value="">Select Role</option>
+<option value="procurement">Procurement Manager</option>
+<option value="logistics">Logistics Coordinator</option>
+<option value="executive">Managing Director</option>
+<option value="operations">Operations Lead</option>
+</select>
+</div>
+</div>
+<div class="relative group">
+<label class="block font-bold text-on-surface-variant text-body-sm mb-1.5" for="phone">Phone Number (Direct)</label>
+<input class="w-full h-12 px-4 rounded-lg border-border-subtle focus:border-primary transition-all font-body-md" id="phone" placeholder="+44 20 7946 0958" required="" type="tel"/>
+</div>
+</fieldset>
+<!-- Section: Company Profile -->
+<fieldset class="space-y-6">
+<legend class="text-label-md font-label-md uppercase tracking-wider text-primary mb-2 border-l-4 border-primary pl-3">Company Profile</legend>
+<div class="relative group">
+<label class="block font-bold text-on-surface-variant text-body-sm mb-1.5" for="company-name">Registered Company Name</label>
+<input class="w-full h-12 px-4 rounded-lg border-border-subtle focus:border-primary transition-all font-body-md" id="company-name" placeholder="Ameefar Logistics Ltd" required="" type="text"/>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="relative group">
+<label class="block font-bold text-on-surface-variant text-body-sm mb-1.5" for="vat-number">VAT / Tax ID</label>
+<input class="w-full h-12 px-4 rounded-lg border-border-subtle focus:border-primary transition-all font-body-md" id="vat-number" placeholder="GB 123 4567 89" type="text"/>
+</div>
+<div class="relative group">
+<label class="block font-bold text-on-surface-variant text-body-sm mb-1.5" for="industry">Primary Industry</label>
+<select class="w-full h-12 px-4 rounded-lg border-border-subtle focus:border-primary transition-all font-body-md bg-white" id="industry">
+<option disabled="" selected="" value="">Select Sector</option>
+<option value="scrap">Scrap Metal</option>
+<option value="plastics">Polymer Recycling</option>
+<option value="ewaste">Electronic Waste</option>
+<option value="renewables">Renewable Energy Components</option>
+</select>
+</div>
+</div>
+<div class="relative group">
+<label class="block font-bold text-on-surface-variant text-body-sm mb-3">Materials of Interest</label>
+<div class="grid grid-cols-2 gap-4">
+<label class="flex items-center gap-3 p-3 rounded-lg border border-border-subtle bg-surface hover:bg-surface-container-low transition-colors cursor-pointer">
+<input class="w-5 h-5 rounded border-border-subtle text-primary focus:ring-primary" name="materials" type="checkbox" value="copper"/>
+<span class="font-body-sm">Copper &amp; Brass</span>
+</label>
+<label class="flex items-center gap-3 p-3 rounded-lg border border-border-subtle bg-surface hover:bg-surface-container-low transition-colors cursor-pointer">
+<input class="w-5 h-5 rounded border-border-subtle text-primary focus:ring-primary" name="materials" type="checkbox" value="aluminum"/>
+<span class="font-body-sm">Aluminum Scrap</span>
+</label>
+<label class="flex items-center gap-3 p-3 rounded-lg border border-border-subtle bg-surface hover:bg-surface-container-low transition-colors cursor-pointer">
+<input class="w-5 h-5 rounded border-border-subtle text-primary focus:ring-primary" name="materials" type="checkbox" value="batteries"/>
+<span class="font-body-sm">EV Batteries</span>
+</label>
+<label class="flex items-center gap-3 p-3 rounded-lg border border-border-subtle bg-surface hover:bg-surface-container-low transition-colors cursor-pointer">
+<input class="w-5 h-5 rounded border-border-subtle text-primary focus:ring-primary" name="materials" type="checkbox" value="solar"/>
+<span class="font-body-sm">Solar Panels</span>
+</label>
+<label class="flex items-center gap-3 p-3 rounded-lg border border-border-subtle bg-surface hover:bg-surface-container-low transition-colors cursor-pointer">
+<input class="w-5 h-5 rounded border-border-subtle text-primary focus:ring-primary" name="materials" type="checkbox" value="plastics"/>
+<span class="font-body-sm">LDPE / HDPE</span>
+</label>
+<label class="flex items-center gap-3 p-3 rounded-lg border border-border-subtle bg-surface hover:bg-surface-container-low transition-colors cursor-pointer">
+<input class="w-5 h-5 rounded border-border-subtle text-primary focus:ring-primary" name="materials" type="checkbox" value="steel"/>
+<span class="font-body-sm">Ferrous Steel</span>
+</label>
+</div>
+</div>
+</fieldset>
+<!-- Consent and Submit -->
+<div class="space-y-6 pt-4">
+<label class="flex items-start gap-3">
+<input class="mt-1 w-5 h-5 rounded border-border-subtle text-primary focus:ring-primary" required="" type="checkbox"/>
+<span class="text-body-sm text-on-surface-variant">
+                                I agree to the Ameefar Energy <a class="text-primary underline font-bold" href="#">Terms of Service</a> and <a class="text-primary underline font-bold" href="#">Privacy Policy</a>. I understand that my company profile will be subject to identity verification.
+                            </span>
+</label>
+<!-- Sticky Mobile Action / Desktop Prominent Action -->
+<div class="md:relative fixed bottom-0 left-0 right-0 p-4 bg-white/80 backdrop-blur-md md:bg-transparent md:p-0 md:backdrop-blur-none z-40 border-t border-border-subtle md:border-t-0">
+<button class="w-full bg-primary text-white h-14 rounded-lg font-bold text-body-lg hover:bg-primary-container active:scale-[0.98] transition-all flex items-center justify-center gap-2 shadow-lg md:shadow-none" type="submit">
+                                Complete Registration
+                                <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+</form>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-ameefar-navy text-white py-12 mt-auto">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+<div class="space-y-4">
+<img alt="Ameefar Energy Logo" class="h-8 invert" src="https://lh3.googleusercontent.com/aida/AP1WRLu6x6qeqMErWVQCXpFhuZkwFo0nHvDacLL1GByP2Af4MduhqLX1cLj2q1DhK2lJfuH0hgXQ5S1BVAPl4PN2T_i3d7MIOHJllm1ofjdEgeRAoVjPYvdcnn3KvsYMPz1HhNr70HGdXdKCGxrnQH4puWpNGm7UdWeFXD5DzhbBNDmvWPohfBRCPESPciXSLA-3Ch9wxNhDEwrtHtXRa6jdLso8a5kz1kOJo-z0ObdRD2oD3uoR7dYBssI1IVI"/>
+<p class="text-label-md font-label-md opacity-60">© 2024 Ameefar Energy. Professional Recycling Marketplace.</p>
+</div>
+<nav class="flex flex-wrap gap-x-8 gap-y-4">
+<a class="text-body-sm opacity-80 hover:opacity-100 hover:text-tertiary-fixed transition-colors" href="#">Privacy Policy</a>
+<a class="text-body-sm opacity-80 hover:opacity-100 hover:text-tertiary-fixed transition-colors" href="#">Terms of Service</a>
+<a class="text-body-sm opacity-80 hover:opacity-100 hover:text-tertiary-fixed transition-colors" href="#">Compliance</a>
+<a class="text-body-sm opacity-80 hover:opacity-100 hover:text-tertiary-fixed transition-colors" href="#">Support</a>
+</nav>
+</div>
+</div>
+</footer>
+<script>
+        // Micro-interactions and Form Logic
+        document.getElementById('registrationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const btn = e.target.querySelector('button[type="submit"]');
+            const originalContent = btn.innerHTML;
+            
+            btn.disabled = true;
+            btn.innerHTML = '<span class="material-symbols-outlined animate-spin">progress_activity</span> Processing Verification...';
+            
+            // Artificial delay to simulate processing
+            setTimeout(() => {
+                alert('Registration submitted! Our verification team will review your application within 24 hours.');
+                btn.disabled = false;
+                btn.innerHTML = originalContent;
+            }, 2000);
+        });
+
+        // Floating label/focus effects for better accessibility on mobile
+        const inputs = document.querySelectorAll('input, select');
+        inputs.forEach(input => {
+            input.addEventListener('focus', () => {
+                input.parentElement.classList.add('scale-[1.01]');
+                input.parentElement.classList.add('transition-transform');
+            });
+            input.addEventListener('blur', () => {
+                input.parentElement.classList.remove('scale-[1.01]');
+            });
+        });
+    </script>
+</body></html>

@@ -63,6 +63,7 @@ type WsStatusListener = (status: WsConnectionStatus) => void;
 export class BiddingRoomSocket {
   private ws: WebSocket | null = null;
   private activeUrl: string | null = null;
+  private activeToken: string | null = null;
   private reconnectTimer: ReturnType<typeof setTimeout> | null = null;
   private shouldReconnect = false;
 
@@ -73,15 +74,15 @@ export class BiddingRoomSocket {
 
   /** Opens a WebSocket to the enquiry room for the given enquiry ID. */
   connectToEnquiryRoom(enquiryId: string, token: string): this {
-    const url = `${getBiddingWsBase()}/ws/bidding/enquiries/${enquiryId}/?token=${token}`;
-    this.open(url);
+    const url = `${getBiddingWsBase()}/ws/bidding/enquiries/${enquiryId}/`;
+    this.open(url, token);
     return this;
   }
 
   /** Opens a WebSocket to the trade room for the given trade ID. */
   connectToTradeRoom(tradeId: string, token: string): this {
-    const url = `${getBiddingWsBase()}/ws/bidding/trades/${tradeId}/?token=${token}`;
-    this.open(url);
+    const url = `${getBiddingWsBase()}/ws/bidding/trades/${tradeId}/`;
+    this.open(url, token);
     return this;
   }
 
@@ -96,6 +97,7 @@ export class BiddingRoomSocket {
     }
 
     this.activeUrl = null;
+    this.activeToken = null;
   }
 
   get isConnected(): boolean {
@@ -162,7 +164,7 @@ export class BiddingRoomSocket {
 
   // ── Private ────────────────────────────────────────────────────────────────
 
-  private open(url: string): void {
+  private open(url: string, token: string): void {
     // Close any existing connection before opening a new one.
     if (this.ws) {
       this.shouldReconnect = false;
@@ -170,16 +172,19 @@ export class BiddingRoomSocket {
     }
 
     this.activeUrl = url;
+    this.activeToken = token;
     this.shouldReconnect = true;
-    this.createWebSocket(url);
+    this.createWebSocket(url, token);
   }
 
-  private createWebSocket(url: string): void {
+  private createWebSocket(url: string, token: string): void {
     this.ws = new WebSocket(url);
     this.emitStatus("connecting");
 
     this.ws.onopen = () => {
       this.emitStatus("connected");
+      // Send the authentication frame immediately upon connection.
+      this.sendRaw({ action: "authenticate", token });
     };
 
     this.ws.onmessage = (event: MessageEvent<string>) => {
@@ -201,9 +206,11 @@ export class BiddingRoomSocket {
       // 4401 = Unauthorized, 4403 = Forbidden — do not reconnect.
       const permanent = event.code === 4401 || event.code === 4403;
 
-      if (this.shouldReconnect && !permanent && this.activeUrl) {
+      if (this.shouldReconnect && !permanent && this.activeUrl && this.activeToken) {
         this.reconnectTimer = setTimeout(() => {
-          if (this.activeUrl) this.createWebSocket(this.activeUrl);
+          if (this.activeUrl && this.activeToken) {
+            this.createWebSocket(this.activeUrl, this.activeToken);
+          }
         }, 3_000);
       }
     };

@@ -34,14 +34,27 @@ export default function BuyerDashboardPage() {
             </div>
 
             {status.listEnquiries === "loading" ? (
-              <div className="animate-pulse space-y-4">
+              <div className="space-y-4">
                 {[1, 2].map((i) => (
-                  <div key={i} className="h-24 bg-surface-gray rounded-xl border border-border-subtle"></div>
+                  <div key={i} className="block bg-white p-6 rounded-xl border border-border-subtle shadow-sm animate-pulse">
+                    <div className="flex justify-between items-center">
+                      <div className="space-y-3 w-1/2">
+                        <div className="h-5 bg-surface-gray rounded w-3/4"></div>
+                        <div className="h-4 bg-surface-gray rounded w-1/2"></div>
+                      </div>
+                      <div className="space-y-3 flex flex-col items-end w-1/4">
+                        <div className="h-6 bg-surface-gray rounded-full w-20"></div>
+                        <div className="h-5 bg-surface-gray rounded w-full"></div>
+                      </div>
+                    </div>
+                  </div>
                 ))}
               </div>
             ) : activeEnquiries.length === 0 ? (
-              <div className="text-center p-8 bg-surface-gray rounded-xl border border-border-subtle text-on-surface-variant italic">
-                No active negotiations.
+              <div className="text-center p-12 bg-white rounded-xl border border-border-subtle shadow-sm flex flex-col items-center justify-center">
+                <span className="material-symbols-outlined text-[48px] text-outline mb-4">forum</span>
+                <h3 className="font-headline-md text-headline-md text-ameefar-navy mb-2">No active negotiations</h3>
+                <p className="text-body-md text-on-surface-variant max-w-sm">You don't have any ongoing negotiations at the moment.</p>
               </div>
             ) : (
               <div className="space-y-4">
@@ -79,14 +92,27 @@ export default function BuyerDashboardPage() {
             </div>
 
             {status.listTrades === "loading" ? (
-              <div className="animate-pulse space-y-4">
+              <div className="space-y-4">
                 {[1, 2].map((i) => (
-                  <div key={i} className="h-24 bg-surface-gray rounded-xl border border-border-subtle"></div>
+                  <div key={i} className="block bg-white p-6 rounded-xl border border-border-subtle shadow-sm animate-pulse">
+                    <div className="flex justify-between items-center">
+                      <div className="space-y-3 w-1/2">
+                        <div className="h-5 bg-surface-gray rounded w-3/4"></div>
+                        <div className="h-4 bg-surface-gray rounded w-1/2"></div>
+                      </div>
+                      <div className="space-y-3 flex flex-col items-end w-1/4">
+                        <div className="h-6 bg-surface-gray rounded-full w-20"></div>
+                        <div className="h-5 bg-surface-gray rounded w-full"></div>
+                      </div>
+                    </div>
+                  </div>
                 ))}
               </div>
             ) : activeTrades.length === 0 ? (
-              <div className="text-center p-8 bg-surface-gray rounded-xl border border-border-subtle text-on-surface-variant italic">
-                No active trades.
+              <div className="text-center p-12 bg-white rounded-xl border border-border-subtle shadow-sm flex flex-col items-center justify-center">
+                <span className="material-symbols-outlined text-[48px] text-outline mb-4">inventory_2</span>
+                <h3 className="font-headline-md text-headline-md text-ameefar-navy mb-2">No active trades</h3>
+                <p className="text-body-md text-on-surface-variant max-w-sm">You don't have any ongoing trades at the moment.</p>
               </div>
             ) : (
               <div className="space-y-4">

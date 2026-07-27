@@ -62,6 +62,7 @@ export function OperationalSitesStep() {
   const [isDrawerOpen, setDrawerOpen] = useState(false);
   const [form, setForm] = useState<AddSitePayload>(emptySite);
   const [localError, setLocalError] = useState<string | null>(null);
+  const [isLocating, setIsLocating] = useState(false);
   const readOnly = profile?.status === "pending" || profile?.status === "verified";
 
   function updateField<TKey extends keyof AddSitePayload>(
@@ -81,6 +82,81 @@ export function OperationalSitesStep() {
           : [...current.materials_handled, material],
       };
     });
+  }
+
+  async function doReverseGeocode(latitude: number | string, longitude: number | string) {
+    updateField("latitude", latitude.toString());
+    updateField("longitude", longitude.toString());
+
+    try {
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
+      );
+      if (!response.ok) throw new Error("Reverse geocoding failed");
+      const data = await response.json();
+      
+      if (data && data.address) {
+        const addr = data.address;
+        const street = addr.road || addr.pedestrian || addr.street || "";
+        const house = addr.house_number || "";
+        const streetAddress = `${house} ${street}`.trim();
+        const city = addr.city || addr.town || addr.village || addr.county || "";
+        const state = addr.state || addr.region || "";
+        const postcode = addr.postcode || "";
+        const country = addr.country || "";
+
+        setForm(current => ({
+          ...current,
+          street_address: streetAddress || current.street_address,
+          city: city || current.city,
+          state_region: state || current.state_region,
+          postcode: postcode || current.postcode,
+          country: country || current.country,
+        }));
+      }
+    } catch (err) {
+      console.error("Geocoding error", err);
+    } finally {
+      setIsLocating(false);
+    }
+  }
+
+  function handleLocateMe() {
+    setIsLocating(true);
+    setLocalError(null);
+
+    const fallbackToIp = async () => {
+      try {
+        const res = await fetch("https://get.geojs.io/v1/ip/geo.json");
+        if (!res.ok) throw new Error("IP Geolocation failed");
+        const data = await res.json();
+        
+        if (data.latitude && data.longitude) {
+           await doReverseGeocode(data.latitude, data.longitude);
+        } else {
+           throw new Error("No coordinates from IP");
+        }
+      } catch (err) {
+        console.error("IP fallback error", err);
+        setLocalError("Location access denied. Please enable location permissions in your browser or enter details manually.");
+        setIsLocating(false);
+      }
+    };
+
+    if (!navigator.geolocation) {
+      fallbackToIp();
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        doReverseGeocode(position.coords.latitude, position.coords.longitude);
+      },
+      (error) => {
+        console.error("Geolocation error", error);
+        fallbackToIp();
+      }
+    );
   }
 
   async function handleAddSite(event: FormEvent<HTMLFormElement>) {
@@ -291,23 +367,21 @@ export function OperationalSitesStep() {
                     />
                   </label>
                 </div>
-                <div className="profile-two-col">
-                  <label className="profile-field">
-                    <span>Latitude</span>
-                    <input
-                      onChange={(event) => updateField("latitude", event.target.value)}
-                      placeholder="0.000"
-                      value={form.latitude}
-                    />
-                  </label>
-                  <label className="profile-field">
-                    <span>Longitude</span>
-                    <input
-                      onChange={(event) => updateField("longitude", event.target.value)}
-                      placeholder="0.000"
-                      value={form.longitude}
-                    />
-                  </label>
+                <div className="profile-field" style={{ display: "flex", flexDirection: "column", gap: "0.5rem", marginBottom: "1rem" }}>
+                  <button
+                    className="profile-primary-button"
+                    type="button"
+                    onClick={handleLocateMe}
+                    disabled={isLocating}
+                    style={{ width: "fit-content", padding: "0.5rem 1rem", fontSize: "0.875rem" }}
+                  >
+                    {isLocating ? "Locating..." : "Use Current Location"}
+                  </button>
+                  {form.latitude && form.longitude && (
+                    <span style={{ fontSize: "0.75rem", color: "var(--color-success, #10b981)" }}>
+                      ✓ Location captured
+                    </span>
+                  )}
                 </div>
                 <label className="profile-field">
                   <span>Contact Person</span>
