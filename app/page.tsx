@@ -343,31 +343,31 @@ export default function Home() {
         </section>
 
         {/* ── ENERGY SOLUTIONS TEASER ── */}
-        <section className="relative overflow-hidden bg-[#030d0d] px-6 py-24 md:px-12">
+        <section className="relative overflow-hidden bg-slate-50 px-6 py-24 md:px-12 border-t border-slate-200">
           {/* ambient glows */}
-          <div className="absolute -top-32 -left-32 h-[500px] w-[500px] rounded-full bg-[#00bfa5]/10 blur-[140px] pointer-events-none" />
-          <div className="absolute -bottom-20 right-0 h-[400px] w-[400px] rounded-full bg-[#006d40]/15 blur-[120px] pointer-events-none" />
+          <div className="absolute -top-32 -left-32 h-[500px] w-[500px] rounded-full bg-[#00bfa5]/5 blur-[140px] pointer-events-none" />
+          <div className="absolute -bottom-20 right-0 h-[400px] w-[400px] rounded-full bg-[#006d40]/5 blur-[120px] pointer-events-none" />
 
           <div className="relative z-10 mx-auto max-w-[1440px]">
             {/* heading */}
             <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end mb-14">
               <div className="max-w-xl">
-                <span className={`${jetbrains.className} text-[11px] tracking-[0.15em] text-[#00bfa5] uppercase font-medium`}>
+                <span className={`${jetbrains.className} text-[11px] tracking-[0.15em] text-[#00bfa5] font-semibold uppercase`}>
                   Ameefar Energy
                 </span>
-                <h2 className={`${hanken.className} mt-3 text-[34px] font-bold leading-tight text-white md:text-[44px]`}>
+                <h2 className={`${hanken.className} mt-3 text-[34px] font-bold leading-tight text-slate-900 md:text-[44px]`}>
                   Clean Energy,{" "}
                   <span className="bg-gradient-to-r from-[#00bfa5] to-[#006d40] bg-clip-text text-transparent">
                     Built for Africa
                   </span>
                 </h2>
-                <p className="mt-4 text-[15px] leading-relaxed text-white/60">
+                <p className="mt-4 text-[15px] leading-relaxed text-slate-600">
                   Beyond commodities — Ameefar powers communities with renewable energy, electric mobility, and green infrastructure across the continent.
                 </p>
               </div>
               <Link
                 href="/energy"
-                className={`${jetbrains.className} shrink-0 inline-flex items-center gap-2 rounded-xl border border-[#00bfa5]/40 bg-[#00bfa5]/10 px-5 py-2.5 text-[12px] font-medium text-[#00bfa5] tracking-wide transition hover:bg-[#00bfa5]/20`}
+                className={`${jetbrains.className} shrink-0 inline-flex items-center gap-2 rounded-xl border border-[#00bfa5]/20 bg-[#00bfa5]/10 px-5 py-2.5 text-[12px] font-semibold text-[#006d40] tracking-wide transition hover:bg-[#00bfa5]/20`}
               >
                 View all services →
               </Link>
@@ -398,14 +398,14 @@ export default function Home() {
                 <Link
                   href="/energy"
                   key={service.title}
-                  className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-6 transition duration-300 hover:-translate-y-1 hover:border-white/20 hover:shadow-[0_8px_40px_rgba(0,0,0,0.4)]"
+                  className="group relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-6 transition duration-300 hover:-translate-y-1 hover:border-slate-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)]"
                 >
-                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl border border-white/15 bg-white/10 text-2xl">
+                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 text-2xl shadow-sm transition-colors group-hover:border-[#00bfa5]/20 group-hover:bg-[#00bfa5]/5">
                     {service.icon}
                   </div>
                   <div className={`mb-3 h-0.5 w-8 rounded-full bg-gradient-to-r ${service.gradient}`} />
-                  <h3 className={`${hanken.className} text-[17px] font-bold text-white`}>{service.title}</h3>
-                  <p className="mt-2 text-[13px] leading-relaxed text-white/55">{service.desc}</p>
+                  <h3 className={`${hanken.className} text-[17px] font-bold text-slate-900`}>{service.title}</h3>
+                  <p className="mt-2 text-[13px] leading-relaxed text-slate-600">{service.desc}</p>
                   <p className={`mt-4 text-[12px] font-semibold bg-gradient-to-r ${service.gradient} bg-clip-text text-transparent`}>
                     Learn more →
                   </p>
@@ -414,11 +414,11 @@ export default function Home() {
             </div>
 
             {/* bottom CTA strip */}
-            <div className="mt-10 flex items-center justify-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-8 py-5">
-              <span className="text-[13px] text-white/50">7 clean energy services across solar, wind, battery, EV mobility & aviation</span>
+            <div className="mt-10 flex items-center justify-center gap-3 rounded-2xl border border-slate-200 bg-white px-8 py-5 shadow-sm">
+              <span className="text-[13px] text-slate-600 font-medium">7 clean energy services across solar, wind, battery, EV mobility & aviation</span>
               <Link
                 href="/energy"
-                className={`${hanken.className} ml-4 shrink-0 inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-[#00bfa5] to-[#006d40] px-5 py-2 text-[13px] font-bold text-white transition hover:opacity-90`}
+                className={`${hanken.className} ml-4 shrink-0 inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-[#00bfa5] to-[#006d40] px-5 py-2 text-[13px] font-bold text-white transition hover:opacity-90 shadow-[0_2px_10px_rgba(0,191,165,0.2)]`}
               >
                 Explore All
                 <svg fill="none" height="14" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24" width="14">
