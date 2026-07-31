@@ -9,6 +9,8 @@ import { selectIsAdmin, selectIsAuthenticated } from "@/store/auth/authSelectors
 
 const NAV_ITEMS = [
   { href: "/blog/admin", icon: "edit_note", label: "Blog Admin" },
+  { href: "/bidding/inspections", icon: "edit_note", label: "Manage Trades" },
+
   { href: "/blog/admin/posts/create", icon: "post_add", label: "Create Post" },
   { href: "/blog/admin/subscribers", icon: "groups", label: "Subscribers" },
   { href: "/blog/admin/campaigns", icon: "campaign", label: "Campaigns" },
@@ -78,11 +80,10 @@ export default function BlogAdminLayout({ children }: { children: React.ReactNod
             <Link
               key={item.href}
               href={item.href}
-              className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-all active:scale-95 duration-150 ${
-                isActive(item.href)
-                  ? "bg-surface-container text-primary font-semibold"
-                  : "text-on-surface-variant hover:bg-surface-container-low"
-              }`}
+              className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-all active:scale-95 duration-150 ${isActive(item.href)
+                ? "bg-surface-container text-primary font-semibold"
+                : "text-on-surface-variant hover:bg-surface-container-low"
+                }`}
             >
               <span
                 className="material-symbols-outlined text-[20px]"

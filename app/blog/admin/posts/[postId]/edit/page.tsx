@@ -56,10 +56,11 @@ export default function EditPostPage({
   useEffect(() => {
     if (post) {
       setTitle(post.title);
+      setContent(post.content);
       setExcerpt(post.excerpt ?? "");
       setFeaturedImage(post.featured_image ?? "");
       setCategoryId(post.category?.id ?? "");
-      setSelectedTagIds(post.tags.map((t) => t.id));
+      setSelectedTagIds((post.tags || []).map((t) => t.id));
       setStatus(post.status);
     }
   }, [post]);

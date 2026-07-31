@@ -8,6 +8,7 @@ import SiteFooter from "@/components/SiteFooter";
 import { useAppSelector } from "@/store/hooks";
 import { selectUser, selectIsAuthenticated } from "@/store/auth/authSelectors";
 import { FeaturedListings } from "@/components/product/FeaturedListings";
+import { FeaturedArticles } from "@/components/content/FeaturedArticles";
 
 const hanken = Hanken_Grotesk({ subsets: ["latin"], weight: ["400", "600", "700", "800"] });
 const inter = Inter({ subsets: ["latin"], weight: ["400", "500", "600"] });
@@ -435,11 +436,24 @@ export default function Home() {
   const user = useAppSelector(selectUser);
   const isAuthenticated = useAppSelector(selectIsAuthenticated);
   const [scrolled, setScrolled] = useState(false);
+  const [isFooterVisible, setIsFooterVisible] = useState(false);
+  const footerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handler, { passive: true });
     return () => window.removeEventListener("scroll", handler);
+  }, []);
+
+  useEffect(() => {
+    const el = footerRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => setIsFooterVisible(entry.isIntersecting),
+      { threshold: 0 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
   }, []);
 
   return (
@@ -448,6 +462,8 @@ export default function Home() {
       {/* ── NAV ── */}
       <header
         className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
+          isFooterVisible ? "-translate-y-full" : "translate-y-0"
+        } ${
           scrolled
             ? "border-b border-slate-100 bg-white/98 backdrop-blur-xl shadow-sm"
             : "border-b border-white/10 bg-transparent backdrop-blur-sm"
@@ -479,13 +495,19 @@ export default function Home() {
           {/* Desktop Nav */}
           <nav className={`hidden gap-7 md:flex text-[13.5px] font-medium transition-colors duration-300 ${scrolled ? "text-slate-500" : "text-white/80"}`}>
             {[
-              { href: "/product", label: "Marketplace" },
-              { href: "/energy", label: "Energy Solutions" },
-              { href: "/about", label: "About" },
-            ].map(({ href, label }) => (
-              <Link key={href} href={href} className={`transition-colors hover:text-emerald-500 ${scrolled ? "hover:text-emerald-600" : "hover:text-white"}`}>
+              { id: "products", label: "What We Sell" },
+              { id: "sourcing", label: "What We Buy" },
+              { id: "protocol", label: "Protocol" },
+              { id: "materials", label: "Materials" },
+              { id: "news", label: "News" },
+            ].map(({ id, label }) => (
+              <button
+                key={id}
+                onClick={() => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" })}
+                className={`transition-colors hover:text-emerald-500 ${scrolled ? "hover:text-emerald-600" : "hover:text-white"}`}
+              >
                 {label}
-              </Link>
+              </button>
             ))}
           </nav>
 
@@ -517,6 +539,9 @@ export default function Home() {
 
         {/* ── FEATURED LISTINGS ── */}
         <FeaturedListings />
+
+        {/* ── FEATURED ARTICLES ── */}
+        <FeaturedArticles />
 
         {/* ── TRUST BAR ── */}
         <section className="border-b border-slate-100 bg-gradient-to-r from-[#f0faf9] via-white to-[#f0faf9] overflow-hidden relative">
@@ -588,7 +613,7 @@ export default function Home() {
         </section>
 
         {/* ── WHAT WE SELL ── */}
-        <section className="bg-white px-6 py-28 md:px-12 border-b border-slate-100 relative overflow-hidden">
+        <section id="products" className="bg-white px-6 py-28 md:px-12 border-b border-slate-100 relative overflow-hidden">
           {/* Decorative blob */}
           <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full bg-emerald-50/60 blur-[120px] pointer-events-none translate-x-1/3 -translate-y-1/4" />
 
@@ -653,7 +678,7 @@ export default function Home() {
         </section>
 
         {/* ── WHAT WE BUY ── */}
-        <section className="bg-[#001a1a] px-6 py-28 md:px-12 relative overflow-hidden">
+        <section id="sourcing" className="bg-[#001a1a] px-6 py-28 md:px-12 relative overflow-hidden">
           {/* Grid background */}
           <div className="absolute inset-0 opacity-[0.03]" style={{
             backgroundImage: "linear-gradient(rgba(0,191,165,0.5) 1px, transparent 1px), linear-gradient(to right, rgba(0,191,165,0.5) 1px, transparent 1px)",
@@ -717,7 +742,7 @@ export default function Home() {
         </section>
 
         {/* ── TRUST PILLARS ── */}
-        <section className="relative overflow-hidden bg-white px-6 py-28 md:px-12">
+        <section id="protocol" className="relative overflow-hidden bg-white px-6 py-28 md:px-12">
           <div className="pointer-events-none absolute inset-0">
             <div className="absolute right-0 top-0 h-[600px] w-[600px] translate-x-1/3 -translate-y-1/4 rounded-full bg-emerald-50 blur-3xl" />
             <div className="absolute bottom-0 left-0 h-[500px] w-[500px] -translate-x-1/4 translate-y-1/3 rounded-full bg-teal-50 blur-3xl" />
@@ -785,7 +810,7 @@ export default function Home() {
         </section>
 
         {/* ── MATERIALS (7 Types) ── */}
-        <section className="bg-[#0a1a1a] px-6 py-28 md:px-12 relative overflow-hidden">
+        <section id="materials" className="bg-[#0a1a1a] px-6 py-28 md:px-12 relative overflow-hidden">
           <div className="pointer-events-none absolute inset-0">
             <div className="absolute right-0 top-0 h-[600px] w-[600px] translate-x-1/3 -translate-y-1/4 rounded-full bg-[#006d40]/10 blur-3xl" />
             <div className="absolute bottom-0 left-0 h-[500px] w-[500px] -translate-x-1/4 translate-y-1/3 rounded-full bg-[#00bfa5]/10 blur-3xl" />
@@ -808,7 +833,7 @@ export default function Home() {
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {plasticTypes.map((plastic, i) => (
                 <FadeInSection key={plastic.name} delay={i * 60}>
-                  <Link href="/product" className="group flex h-full flex-col">
+                  <Link href={`/product?q=${encodeURIComponent(plastic.name)}`} className="group flex h-full flex-col">
                     <div className="relative flex-1 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] shadow-lg transition-all duration-500 hover:-translate-y-2 hover:border-white/20 hover:bg-white/[0.06] hover:shadow-[0_20px_60px_rgba(0,0,0,0.5)]">
                       {/* Image Area */}
                       <div className="relative h-60 overflow-hidden">
@@ -1052,7 +1077,9 @@ export default function Home() {
 
       </main>
 
-      <SiteFooter />
+      <div ref={footerRef}>
+        <SiteFooter />
+      </div>
     </div>
   );
 }

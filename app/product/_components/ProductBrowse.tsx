@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { FormEvent, useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
 
 import { selectAccessToken } from "@/store/auth/authSelectors";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
@@ -62,7 +63,13 @@ export function ProductBrowse() {
   const listError = useAppSelector((state) =>
     selectProductError(state, "listListings"),
   );
-  const [filters, setFilters] = useState<BrowseFilters>(initialFilters);
+  const searchParams = useSearchParams();
+  const initialQ = searchParams.get("q") || "";
+
+  const [filters, setFilters] = useState<BrowseFilters>({
+    ...initialFilters,
+    q: initialQ
+  });
   const [page, setPage] = useState(1);
   const [filtersOpen, setFiltersOpen] = useState(false);
   const params = useMemo(() => buildListParams(filters, page), [filters, page]);

@@ -29,7 +29,7 @@ export default function BlogAdminPage() {
         </div>
         <Link
           href="/blog/admin/posts/create"
-          className="bg-primary text-on-primary px-4 py-2 rounded-lg font-body-sm text-body-sm hover:bg-ameefar-navy transition-colors flex items-center gap-2"
+          className="bg-secondary/80 text-black px-4 py-2 rounded-lg font-body-sm text-body-sm hover:bg-white transition-colors flex items-center gap-2"
         >
           <span className="material-symbols-outlined text-[18px]">add</span>
           New Post
@@ -85,11 +85,10 @@ export default function BlogAdminPage() {
               </Link>
               <div className="flex items-center gap-3 flex-shrink-0 ml-4">
                 <span
-                  className={`px-2.5 py-0.5 rounded-full font-label-md text-label-md ${
-                    post.status === "published"
-                      ? "bg-trust-green-subtle text-secondary"
-                      : "bg-surface-gray text-on-surface-variant"
-                  }`}
+                  className={`px-2.5 py-0.5 rounded-full font-label-md text-label-md ${post.status === "published"
+                    ? "bg-trust-green-subtle text-secondary"
+                    : "bg-surface-gray text-on-surface-variant"
+                    }`}
                 >
                   {post.status.charAt(0).toUpperCase() + post.status.slice(1)}
                 </span>
