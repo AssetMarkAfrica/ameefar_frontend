@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>How Recycling Works | Ameefar Energy Insights</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-low": "#eff4ff",
+                        "surface-bright": "#f8f9ff",
+                        "surface-container": "#e5eeff",
+                        "primary-fixed": "#beebeb",
+                        "on-primary": "#ffffff",
+                        "surface-container-high": "#dce9ff",
+                        "secondary": "#006d40",
+                        "trust-green-subtle": "#ECFDF5",
+                        "on-secondary-fixed-variant": "#00522f",
+                        "surface-dim": "#cbdbf5",
+                        "tertiary": "#002819",
+                        "surface-variant": "#d3e4fe",
+                        "on-tertiary": "#ffffff",
+                        "on-tertiary-fixed": "#002113",
+                        "inverse-surface": "#213145",
+                        "surface-tint": "#3b6566",
+                        "on-secondary-container": "#007243",
+                        "primary-container": "#0f3d3e",
+                        "error": "#ba1a1a",
+                        "primary": "#002627",
+                        "inverse-on-surface": "#eaf1ff",
+                        "on-secondary": "#ffffff",
+                        "inverse-primary": "#a3cfcf",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed": "#6ffbbe",
+                        "on-error": "#ffffff",
+                        "background": "#f8f9ff",
+                        "secondary-fixed": "#83fab4",
+                        "surface-gray": "#F8FAFC",
+                        "ameefar-navy": "#0F172A",
+                        "outline": "#717978",
+                        "border-subtle": "#E2E8F0",
+                        "on-surface": "#0b1c30",
+                        "secondary-fixed-dim": "#66dd99",
+                        "on-surface-variant": "#404848",
+                        "surface-container-highest": "#d3e4fe",
+                        "surface": "#f8f9ff",
+                        "on-primary-fixed-variant": "#224d4e",
+                        "on-tertiary-fixed-variant": "#005236",
+                        "on-tertiary-container": "#06b77f",
+                        "on-secondary-fixed": "#002110",
+                        "on-background": "#0b1c30",
+                        "on-primary-container": "#7da8a8",
+                        "error-container": "#ffdad6",
+                        "tertiary-fixed-dim": "#4edea3",
+                        "outline-variant": "#c0c8c8",
+                        "tertiary-container": "#00402a",
+                        "on-primary-fixed": "#002020",
+                        "secondary-container": "#80f7b1",
+                        "primary-fixed-dim": "#a3cfcf",
+                        "surface-container-lowest": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-desktop": "40px",
+                        "gutter": "24px",
+                        "margin-mobile": "16px",
+                        "container-max": "1440px",
+                        "base": "4px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["JetBrains Mono"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "body-md": ["Inter"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "body-lg": ["Inter"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "body-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-md": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: theme('colors.background');
+            color: theme('colors.on-background');
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .icon-fill {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+</head>
+
+<body class="antialiased min-h-screen flex flex-col">
+    <!-- TopNavBar -->
+    <header
+        class="docked full-width top-0 bg-surface-bright dark:bg-ameefar-navy shadow-sm z-50 sticky transition-all duration-200">
+        <div
+            class="flex justify-between items-center px-margin-mobile md:px-margin-desktop h-20 w-full max-w-container-max mx-auto">
+            <!-- Brand -->
+            <div class="flex items-center gap-2">
+                <span
+                    class="material-symbols-outlined text-primary dark:text-surface-bright icon-fill text-3xl">energy_savings_leaf</span>
+                <span
+                    class="font-headline-md text-headline-md font-bold text-ameefar-navy dark:text-surface-bright tracking-tight">Ameefar
+                    Energy</span>
+            </div>
+            <!-- Desktop Nav -->
+            <nav class="hidden md:flex items-center gap-8 font-body-md text-body-md">
+                <a class="text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors active:opacity-80"
+                    href="#">Marketplace</a>
+                <a class="text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors active:opacity-80"
+                    href="#">Solutions</a>
+                <a class="text-primary dark:text-primary-fixed-dim border-b-2 border-primary dark:border-primary-fixed-dim pb-1 transition-all duration-200 active:opacity-80 font-medium"
+                    href="#">Insights</a>
+                <a class="text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors active:opacity-80"
+                    href="#">About</a>
+            </nav>
+            <!-- Actions -->
+            <div class="flex items-center gap-4">
+                <button
+                    class="hidden md:flex items-center justify-center px-4 py-2 bg-primary text-on-primary font-label-md text-label-md rounded hover:bg-ameefar-navy transition-colors">
+                    Contact Sales
+                </button>
+                <button class="md:hidden text-on-surface">
+                    <span class="material-symbols-outlined text-2xl">menu</span>
+                </button>
+            </div>
+        </div>
+    </header>
+    <!-- Main Content -->
+    <main class="flex-grow w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-8 md:py-12">
+        <!-- Breadcrumb & Category -->
+        <div class="flex items-center justify-between mb-8">
+            <a class="inline-flex items-center gap-2 text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md"
+                href="#">
+                <span class="material-symbols-outlined text-sm">arrow_back</span>
+                Back to blog
+            </a>
+            <span
+                class="px-3 py-1 bg-surface-container-high text-primary font-label-md text-label-md rounded-full uppercase tracking-wider">
+                Industrial Processes
+            </span>
+        </div>
+        <!-- Article Header -->
+        <header class="mb-10 text-center md:text-left max-w-4xl">
+            <h1
+                class="font-headline-lg-mobile text-headline-lg-mobile md:font-display-lg md:text-display-lg text-ameefar-navy mb-6">
+                How Recycling Works: A Technical Deep Dive into Modern Material Recovery
+            </h1>
+            <div
+                class="flex flex-wrap items-center justify-center md:justify-start gap-6 font-label-md text-label-md text-on-surface-variant">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-full bg-surface-tint overflow-hidden flex-shrink-0">
+                        <img class="w-full h-full object-cover"
+                            data-alt="A professional headshot of an industrial engineer, clear lighting, modern corporate aesthetic, neutral background."
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbXpfGaSy44FmX48DS-0YR4VR2zUszgbYyLCwYvP6Ep7XFLNlhGj_tlyck0SOsWq_n_oWwiuJau-uzLxxXwjwQMWKKJVzXEC8dRKuPV5rjzjl3B4J9QTlnFCX2OcMuRHHc04S7bxbWLwZ6W9L3JV-Xzr7aRqsFmqjuVs0BqGxG6YCQyQJ6LYGNFKpZcdzwkXleKUHnBSLF0VS6dDqhyNcNO5r55cjwjMJBIBfQvYIE6f9Y6BxLvZXBKg" />
+                    </div>
+                    <span class="font-medium text-on-surface">Jane Doe</span>
+                </div>
+                <div class="flex items-center gap-1.5">
+                    <span class="material-symbols-outlined text-base">calendar_today</span>
+                    October 24, 2024
+                </div>
+                <div class="flex items-center gap-1.5">
+                    <span class="material-symbols-outlined text-base">visibility</span>
+                    <span class="font-label-md text-label-md">1,243 views</span>
+                </div>
+                <div class="flex items-center gap-1.5">
+                    <span class="material-symbols-outlined text-base">timer</span>
+                    8 min read
+                </div>
+            </div>
+        </header>
+        <!-- Hero Image -->
+        <div
+            class="w-full h-[300px] md:h-[500px] rounded-xl overflow-hidden mb-12 shadow-sm border border-border-subtle bg-surface-gray relative">
+            <img class="w-full h-full object-cover"
+                data-alt="A wide, high-resolution shot of a highly automated, pristine industrial recycling facility. Gleaming conveyor belts transport sorted metallic materials. Cold, bright LED lighting illuminates complex machinery in a clean, high-tech B2B marketplace environment. The aesthetic is modern, efficient, and corporate, dominated by deep blues, sterile whites, and metallic silvers."
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbRuaX-PTeYc35wgOdGZlkYWQMGGGxGZ25xjRUiuGqKrd6ZvvFdtu4O92oU0m_virgN68GEHbPBty674S8_4vW7LLEGyg7djYCi2JgtSBQV9zl_LxcGK1ht16jctMNLmH5B8Lf8hhZ6Le6nYZgl54NRapxY70HZYritUuA3fOpdM5NJjQ7_zQRHJFKEiIObPFTbC9NIEX8plyCcpvzEZlru5lKUWgmYRI9-SRdiAd1jfY_Klp_bUoI_Q" />
+        </div>
+        <!-- Content Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+            <!-- Article Body -->
+            <article
+                class="md:col-span-8 lg:col-span-8 font-body-lg text-body-lg text-on-surface-variant space-y-8 leading-relaxed">
+                <p class="font-body-lg text-body-lg text-on-surface font-medium">
+                    The modern circular economy relies on a complex web of logistics, precision engineering, and
+                    rigorous data tracking. Understanding the lifecycle of recovered materials is paramount for
+                    enterprise procurement teams looking to secure sustainable supply chains without compromising on
+                    quality standards.
+                </p>
+                <h2 class="font-headline-lg text-headline-lg text-ameefar-navy mt-12 mb-6">The Sorting Matrix</h2>
+                <p>
+                    Initial processing involves sophisticated sorting matrices. Optical scanners utilizing near-infrared
+                    (NIR) sensors rapidly identify material compositions on high-speed conveyors. This automated triage
+                    ensures that contamination rates are kept below strict industry thresholds, a critical factor for
+                    high-grade remanufacturing.
+                </p>
+                <p>
+                    When dealing with complex alloys or composites, density separation techniques such as float-sink
+                    tanks or eddy current separators are employed. These methods allow for the extraction of valuable
+                    non-ferrous metals from heterogeneous shredder streams.
+                </p>
+                <div class="my-10 p-6 bg-surface-container border-l-4 border-primary rounded-r-lg">
+                    <p class="font-headline-md text-headline-md text-primary italic">
+                        "Precision in the initial sorting phase dictates the economic viability of the entire downstream
+                        recovery process. Contamination is the enemy of the circular economy."
+                    </p>
+                </div>
+                <h2 class="font-headline-lg text-headline-lg text-ameefar-navy mt-12 mb-6">Thermal &amp; Chemical
+                    Recovery</h2>
+                <p>
+                    Once physical sorting is complete, materials often undergo thermal or chemical refinement. In the
+                    case of advanced polymers, chemical depolymerization breaks down plastics into their constituent
+                    monomers, allowing for 'virgin-like' material recovery.
+                </p>
+                <ul class="list-disc pl-6 space-y-3 my-6 font-body-md text-body-md">
+                    <li><strong>Pyrolysis:</strong> Thermal degradation in the absence of oxygen to produce syngas or
+                        bio-oils.</li>
+                    <li><strong>Hydrometallurgy:</strong> Aqueous chemistry used for the recovery of metals from ores,
+                        concentrates, and recycled materials.</li>
+                    <li><strong>Electrowinning:</strong> Electrodeposition of metals from their ores that have been put
+                        in solution via a process commonly referred to as leaching.</li>
+                </ul>
+                <p>
+                    These energy-intensive processes are increasingly being powered by renewable sources, aligning with
+                    broader ESG mandates across the industrial sector.
+                </p>
+                <!-- Tags -->
+                <div class="mt-16 pt-8 border-t border-border-subtle flex flex-wrap gap-2">
+                    <span
+                        class="px-3 py-1 bg-surface-gray border border-border-subtle text-on-surface-variant font-label-md text-label-md rounded hover:bg-surface-container-low cursor-pointer transition-colors">Supply
+                        Chain</span>
+                    <span
+                        class="px-3 py-1 bg-surface-gray border border-border-subtle text-on-surface-variant font-label-md text-label-md rounded hover:bg-surface-container-low cursor-pointer transition-colors">Metallurgy</span>
+                    <span
+                        class="px-3 py-1 bg-surface-gray border border-border-subtle text-on-surface-variant font-label-md text-label-md rounded hover:bg-surface-container-low cursor-pointer transition-colors">ESG
+                        Compliance</span>
+                    <span
+                        class="px-3 py-1 bg-surface-gray border border-border-subtle text-on-surface-variant font-label-md text-label-md rounded hover:bg-surface-container-low cursor-pointer transition-colors">Procurement</span>
+                </div>
+            </article>
+            <!-- Sidebar -->
+            <aside class="md:col-span-4 lg:col-span-4 space-y-8 mt-12 md:mt-0">
+                <div class="sticky top-28">
+                    <!-- Newsletter Widget -->
+                    <div class="bg-surface-bright border border-border-subtle rounded-xl p-6 shadow-sm">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div
+                                class="w-10 h-10 rounded bg-surface-container flex items-center justify-center text-primary">
+                                <span class="material-symbols-outlined icon-fill">mark_email_read</span>
+                            </div>
+                            <h3 class="font-headline-md text-headline-md text-ameefar-navy">Market Insights</h3>
+                        </div>
+                        <p class="font-body-sm text-body-sm text-on-surface-variant mb-6">
+                            Subscribe to receive weekly analyses on material spot prices, regulatory shifts, and
+                            technical innovations directly to your inbox.
+                        </p>
+                        <form class="space-y-4">
+                            <div>
+                                <label class="sr-only" for="email">Email address</label>
+                                <input
+                                    class="w-full bg-surface-gray border border-border-subtle rounded font-body-sm text-body-sm px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-on-surface placeholder:text-outline transition-shadow"
+                                    id="email" placeholder="Corporate email address" type="email" />
+                            </div>
+                            <button
+                                class="w-full bg-primary text-on-primary font-label-md text-label-md py-3 rounded hover:bg-ameefar-navy transition-colors flex items-center justify-center gap-2"
+                                type="button">
+                                Subscribe
+                                <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                            </button>
+                        </form>
+                        <p class="font-label-md text-label-md text-outline mt-4 text-center text-[10px]">
+                            By subscribing, you agree to our Privacy Policy.
+                        </p>
+                    </div>
+                    <!-- Related Articles (Optional contextual fill) -->
+                    <div class="mt-8">
+                        <h4 class="font-label-md text-label-md text-outline uppercase tracking-wider mb-4">Related
+                            Reading</h4>
+                        <div class="space-y-4">
+                            <a class="block group" href="#">
+                                <h5
+                                    class="font-body-md text-body-md font-medium text-ameefar-navy group-hover:text-primary transition-colors line-clamp-2">
+                                    Navigating EU Waste Shipment Regulations in Q4</h5>
+                                <span class="font-label-md text-label-md text-outline mt-1 block">Oct 18, 2024</span>
+                            </a>
+                            <div class="w-full h-px bg-border-subtle"></div>
+                            <a class="block group" href="#">
+                                <h5
+                                    class="font-body-md text-body-md font-medium text-ameefar-navy group-hover:text-primary transition-colors line-clamp-2">
+                                    Spot Price Volatility: Copper vs. Aluminum Recovery</h5>
+                                <span class="font-label-md text-label-md text-outline mt-1 block">Oct 12, 2024</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+    <!-- Footer -->
+    <footer class="w-full relative bottom-0 bg-ameefar-navy dark:bg-black mt-20 transition-all duration-200">
+        <div
+            class="w-full py-12 px-margin-mobile md:px-margin-desktop grid grid-cols-1 md:grid-cols-12 gap-gutter max-w-container-max mx-auto">
+            <div class="md:col-span-4 lg:col-span-6 flex flex-col gap-4">
+                <span class="font-headline-md text-headline-md text-surface-bright font-bold">Ameefar Energy</span>
+                <p class="font-body-sm text-body-sm text-surface-variant opacity-80 max-w-sm">
+                    © 2024 Ameefar Energy. Powering the Circular Economy.
+                </p>
+            </div>
+            <div class="md:col-span-8 lg:col-span-6 flex flex-wrap gap-x-8 gap-y-4 md:justify-end items-center">
+                <a class="font-body-sm text-body-sm text-surface-variant opacity-80 hover:opacity-100 hover:text-primary-fixed-dim transition-opacity"
+                    href="#">Privacy Policy</a>
+                <a class="font-body-sm text-body-sm text-surface-variant opacity-80 hover:opacity-100 hover:text-primary-fixed-dim transition-opacity"
+                    href="#">Terms of Service</a>
+                <a class="font-body-sm text-body-sm text-surface-variant opacity-80 hover:opacity-100 hover:text-primary-fixed-dim transition-opacity"
+                    href="#">Locations</a>
+                <a class="font-body-sm text-body-sm text-surface-variant opacity-80 hover:opacity-100 hover:text-primary-fixed-dim transition-opacity"
+                    href="#">Global Compliance</a>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

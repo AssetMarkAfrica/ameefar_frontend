@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Ameefar Energy - Insights &amp; Innovations</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-low": "#eff4ff",
+                        "surface-bright": "#f8f9ff",
+                        "surface-container": "#e5eeff",
+                        "primary-fixed": "#beebeb",
+                        "on-primary": "#ffffff",
+                        "surface-container-high": "#dce9ff",
+                        "secondary": "#006d40",
+                        "trust-green-subtle": "#ECFDF5",
+                        "on-secondary-fixed-variant": "#00522f",
+                        "surface-dim": "#cbdbf5",
+                        "tertiary": "#002819",
+                        "surface-variant": "#d3e4fe",
+                        "on-tertiary": "#ffffff",
+                        "on-tertiary-fixed": "#002113",
+                        "inverse-surface": "#213145",
+                        "surface-tint": "#3b6566",
+                        "on-secondary-container": "#007243",
+                        "primary-container": "#0f3d3e",
+                        "error": "#ba1a1a",
+                        "primary": "#002627",
+                        "inverse-on-surface": "#eaf1ff",
+                        "on-secondary": "#ffffff",
+                        "inverse-primary": "#a3cfcf",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed": "#6ffbbe",
+                        "on-error": "#ffffff",
+                        "background": "#f8f9ff",
+                        "secondary-fixed": "#83fab4",
+                        "surface-gray": "#F8FAFC",
+                        "ameefar-navy": "#0F172A",
+                        "outline": "#717978",
+                        "border-subtle": "#E2E8F0",
+                        "on-surface": "#0b1c30",
+                        "secondary-fixed-dim": "#66dd99",
+                        "on-surface-variant": "#404848",
+                        "surface-container-highest": "#d3e4fe",
+                        "surface": "#f8f9ff",
+                        "on-primary-fixed-variant": "#224d4e",
+                        "on-tertiary-fixed-variant": "#005236",
+                        "on-tertiary-container": "#06b77f",
+                        "on-secondary-fixed": "#002110",
+                        "on-background": "#0b1c30",
+                        "on-primary-container": "#7da8a8",
+                        "error-container": "#ffdad6",
+                        "tertiary-fixed-dim": "#4edea3",
+                        "outline-variant": "#c0c8c8",
+                        "tertiary-container": "#00402a",
+                        "on-primary-fixed": "#002020",
+                        "secondary-container": "#80f7b1",
+                        "primary-fixed-dim": "#a3cfcf",
+                        "surface-container-lowest": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-desktop": "40px",
+                        "gutter": "24px",
+                        "margin-mobile": "16px",
+                        "container-max": "1440px",
+                        "base": "4px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["JetBrains Mono"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "body-md": ["Inter"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "body-lg": ["Inter"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "body-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-md": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-surface-gray min-h-screen font-body-md text-on-surface antialiased flex flex-col">
+    <!-- TopNavBar -->
+    <header class="bg-surface-bright shadow-sm docked full-width top-0 z-50">
+        <div
+            class="flex justify-between items-center px-margin-mobile md:px-margin-desktop h-20 w-full max-w-container-max mx-auto">
+            <div class="flex items-center gap-2">
+                <span class="font-headline-md text-headline-md font-bold text-ameefar-navy">Ameefar Energy</span>
+            </div>
+            <nav class="hidden md:flex items-center gap-8 font-body-md text-body-md">
+                <a class="text-on-surface-variant hover:text-primary transition-colors transition-all duration-200 active:opacity-80"
+                    href="#">Marketplace</a>
+                <a class="text-on-surface-variant hover:text-primary transition-colors transition-all duration-200 active:opacity-80"
+                    href="#">Solutions</a>
+                <a class="text-primary border-b-2 border-primary pb-1 hover:text-primary transition-colors transition-all duration-200 active:opacity-80"
+                    href="#">Insights</a>
+                <a class="text-on-surface-variant hover:text-primary transition-colors transition-all duration-200 active:opacity-80"
+                    href="#">About</a>
+            </nav>
+            <div class="flex items-center gap-4">
+                <button
+                    class="hidden md:flex items-center gap-2 px-6 py-2 bg-primary text-on-primary rounded font-label-md text-label-md hover:bg-ameefar-navy transition-colors">
+                    Contact Sales
+                </button>
+                <button class="md:hidden text-on-surface-variant p-2">
+                    <span class="material-symbols-outlined" data-icon="menu">menu</span>
+                </button>
+            </div>
+        </div>
+    </header>
+    <!-- Main Content -->
+    <main class="flex-grow w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-12 md:py-20">
+        <!-- Header Section -->
+        <section class="mb-16 md:mb-24 text-center md:text-left max-w-3xl mx-auto md:mx-0">
+            <h1 class="font-display-lg text-display-lg text-ameefar-navy mb-6">Insights &amp; Innovations</h1>
+            <p class="font-body-lg text-body-lg text-on-surface-variant">
+                Expert analysis, market trends, and technological breakthroughs driving the circular economy forward.
+                Stay informed with our latest editorial content.
+            </p>
+        </section>
+        <!-- Blog Grid -->
+        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+            <!-- Article Card 1 -->
+            <article
+                class="bg-surface-bright rounded-xl overflow-hidden border border-border-subtle group hover:shadow-lg transition-all duration-300 flex flex-col h-full">
+                <div class="relative h-64 overflow-hidden bg-surface-container-low">
+                    <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        data-alt="A high-quality, professional photograph of a modern, automated recycling facility focused on plastics. The scene features bright, clean white lighting reflecting off sleek machinery, conveying a sense of high-tech efficiency and cleanliness. The color palette emphasizes the industrial setting with metallic grays and crisp whites, highlighted by subtle Ameefar navy and trust green accents on the equipment panels. The composition is balanced, showcasing a conveyor belt of sorted materials fading into a shallow depth of field, establishing a corporate, modern aesthetic."
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAb0KZdSNCBa8_KwEhhjN4nDW30owR5Bj_DSjkN_TQRTg4A-_qWCnfDoBJuplqoBZrxrkIt5euAFLnSVw_OODkeDa0oeFltSGfR3XAG7etn0oLv8Vso3NaQaUqXTXa1Xt3gCleJ8hn5TJsYvkCKANs3RECD5Kt0oxoZCf6W2-4s8kxIeBAPaD0FI4UF4CgOT1Jl6q1CnfX4ZAQOO2Q6dYbuGJ0wSPAxTJ2sX5zDkWrZovpxILulo7vocQ" />
+                    <div class="absolute top-4 left-4">
+                        <span
+                            class="px-3 py-1 bg-surface-bright/90 backdrop-blur-sm text-primary font-label-md text-label-md rounded shadow-sm">Plastics</span>
+                    </div>
+                </div>
+                <div class="p-6 flex flex-col flex-grow">
+                    <div class="flex items-center gap-3 text-on-surface-variant font-label-md text-label-md mb-4">
+                        <span class="material-symbols-outlined text-[16px]"
+                            data-icon="calendar_month">calendar_month</span>
+                        <span>Oct 12, 2024</span>
+                    </div>
+                    <h3
+                        class="font-headline-md text-headline-md text-ameefar-navy mb-3 group-hover:text-primary transition-colors line-clamp-2">
+                        Advanced Sorting Technologies in Polyethylene Recycling
+                    </h3>
+                    <p class="font-body-md text-body-md text-on-surface-variant mb-6 line-clamp-3 flex-grow">
+                        An in-depth look at how near-infrared (NIR) sensors and AI-driven robotic arms are
+                        revolutionizing the purity rates of recovered HDPE and LDPE streams, enabling high-grade
+                        secondary raw materials for enterprise buyers.
+                    </p>
+                    <div class="flex items-center justify-between pt-4 border-t border-border-subtle mt-auto">
+                        <div class="flex items-center gap-2 text-on-surface-variant font-label-md text-label-md">
+                            <span class="material-symbols-outlined text-[16px]" data-icon="person">person</span>
+                            <span>Dr. E. Vance</span>
+                        </div>
+                        <div class="flex items-center gap-1 text-on-surface-variant font-label-md text-label-md">
+                            <span class="material-symbols-outlined text-[16px]" data-icon="visibility">visibility</span>
+                            <span>1.2k</span>
+                        </div>
+                    </div>
+                </div>
+            </article>
+            <!-- Article Card 2 -->
+            <article
+                class="bg-surface-bright rounded-xl overflow-hidden border border-border-subtle group hover:shadow-lg transition-all duration-300 flex flex-col h-full">
+                <div class="relative h-64 overflow-hidden bg-surface-container-low">
+                    <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        data-alt="A professional, macro photograph of polished scrap metal fragments, specifically aluminum and copper, resting on a clean, light gray surface. The lighting is crisp and diffused, highlighting the metallic textures and minimizing harsh shadows, aligning with a premium corporate B2B aesthetic. Subtle hints of deep blue and vibrant green ambient light reflect off the metal edges, integrating the brand's primary color palette. The image conveys precision, high value, and material purity in a modern industrial context."
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCXQPgkh6kILYhfBQzrSw7Qbthp8kIiYaqZ_d1a398CuVWapVBFYbxlWG8OGlutsyYZhdAQEW59DIP4FXNKFarkCapZ29OY18lLKcbHYaQqvvUM5wBJmxgWdtEto6RHu0Cwq7DKRTF9JXTIyiMZCpC8cE9iphg7qBdFravQ2e66NwIY8xh7A8lOd6NjBlGugJgKSyxBvL9B_GqUC3uI0s6HJlL_444T2YU0SUXdQiIKrGFjxTYMbbIWxg" />
+                    <div class="absolute top-4 left-4">
+                        <span
+                            class="px-3 py-1 bg-surface-bright/90 backdrop-blur-sm text-secondary font-label-md text-label-md rounded shadow-sm">Metals</span>
+                    </div>
+                </div>
+                <div class="p-6 flex flex-col flex-grow">
+                    <div class="flex items-center gap-3 text-on-surface-variant font-label-md text-label-md mb-4">
+                        <span class="material-symbols-outlined text-[16px]"
+                            data-icon="calendar_month">calendar_month</span>
+                        <span>Oct 08, 2024</span>
+                    </div>
+                    <h3
+                        class="font-headline-md text-headline-md text-ameefar-navy mb-3 group-hover:text-primary transition-colors line-clamp-2">
+                        Navigating Q4 Fluctuations in the Aluminum Market
+                    </h3>
+                    <p class="font-body-md text-body-md text-on-surface-variant mb-6 line-clamp-3 flex-grow">
+                        Our quarterly market analysis breaks down the supply chain disruptions affecting secondary
+                        aluminum pricing. Learn strategies for hedging against volatility and securing reliable
+                        feedstock for the upcoming manufacturing cycle.
+                    </p>
+                    <div class="flex items-center justify-between pt-4 border-t border-border-subtle mt-auto">
+                        <div class="flex items-center gap-2 text-on-surface-variant font-label-md text-label-md">
+                            <span class="material-symbols-outlined text-[16px]" data-icon="person">person</span>
+                            <span>Market Intelligence Team</span>
+                        </div>
+                        <div class="flex items-center gap-1 text-on-surface-variant font-label-md text-label-md">
+                            <span class="material-symbols-outlined text-[16px]" data-icon="visibility">visibility</span>
+                            <span>3.4k</span>
+                        </div>
+                    </div>
+                </div>
+            </article>
+            <!-- Article Card 3 -->
+            <article
+                class="bg-surface-bright rounded-xl overflow-hidden border border-border-subtle group hover:shadow-lg transition-all duration-300 flex flex-col h-full">
+                <div class="relative h-64 overflow-hidden bg-surface-container-low">
+                    <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        data-alt="An abstract, high-end conceptual image representing data flow and digital marketplaces in a corporate setting. The visual features glowing, interconnected geometric nodes on a clean, light-mode background, illustrating transparency and efficient digital trading. The color scheme strictly utilizes Ameefar navy blue and trust green, creating a sophisticated and professional atmosphere suitable for a B2B SaaS platform. The overall mood is authoritative, precise, and technologically advanced."
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKeyIsNc98UHGp5rslxlsEGP7PGmTOtDhIWPi5Z9399SBXVSSEMdFGO42EvlKSrI9sZQD09vPRv3AmBtLe8A9xOKzzEGRoSiOQXANsZU-0o7PkiNboN55uIxwUfFlwTaNAsxzYc29u0Kp4IV0taHhgr40N_Iv2T4GE8lrJafugTSHQ5Qi2_uHHScuEVW9FEpq2aKNVEEl1aawRbAN4a8JsTqy9bc17LhSfmGpGmkAkIv4iNAxmTvWIig" />
+                    <div class="absolute top-4 left-4">
+                        <span
+                            class="px-3 py-1 bg-surface-bright/90 backdrop-blur-sm text-tertiary font-label-md text-label-md rounded shadow-sm">Platform</span>
+                    </div>
+                </div>
+                <div class="p-6 flex flex-col flex-grow">
+                    <div class="flex items-center gap-3 text-on-surface-variant font-label-md text-label-md mb-4">
+                        <span class="material-symbols-outlined text-[16px]"
+                            data-icon="calendar_month">calendar_month</span>
+                        <span>Sep 29, 2024</span>
+                    </div>
+                    <h3
+                        class="font-headline-md text-headline-md text-ameefar-navy mb-3 group-hover:text-primary transition-colors line-clamp-2">
+                        Enhancing Transparency with Blockchain Verification
+                    </h3>
+                    <p class="font-body-md text-body-md text-on-surface-variant mb-6 line-clamp-3 flex-grow">
+                        We announce the integration of a new decentralized ledger protocol on the Ameefar marketplace.
+                        Discover how this upgrade guarantees the provenance and ESG compliance of all traded secondary
+                        raw materials.
+                    </p>
+                    <div class="flex items-center justify-between pt-4 border-t border-border-subtle mt-auto">
+                        <div class="flex items-center gap-2 text-on-surface-variant font-label-md text-label-md">
+                            <span class="material-symbols-outlined text-[16px]" data-icon="person">person</span>
+                            <span>Sarah Jenkins, CTO</span>
+                        </div>
+                        <div class="flex items-center gap-1 text-on-surface-variant font-label-md text-label-md">
+                            <span class="material-symbols-outlined text-[16px]" data-icon="visibility">visibility</span>
+                            <span>850</span>
+                        </div>
+                    </div>
+                </div>
+            </article>
+            <!-- Article Card 4 -->
+            <article
+                class="bg-surface-bright rounded-xl overflow-hidden border border-border-subtle group hover:shadow-lg transition-all duration-300 flex flex-col h-full">
+                <div class="relative h-64 overflow-hidden bg-surface-container-low">
+                    <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        data-alt="A brightly lit, wide-angle shot of a massive warehouse filled with neatly stacked, compacted bales of recycled paper and cardboard. The scene emphasizes order, efficiency, and scale, characteristic of enterprise operations. Soft, natural daylight streams in from high windows, illuminating the textures of the bales against the clean, light industrial background. The brand's authoritative and transparent aesthetic is reflected in the organized composition and crisp, high-resolution clarity."
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCoPG-HR8GasybAZ-u1YJCLxfr68p3Sosqh6iVoIM4pQChOWPfU1MbGAqNDJ2gEoZJ7BX1eoeNZirskgMdIXkGaN7v0quEB1IXnWN1Mr3dusXiKXESZXa8iCCasFLbpGI2JpRXA2KojjEpG2i_hhGNTTik36V4h3s0rOdjw8xuouVz1MycL6m7Gts-q4dJnarOiwmZm0Ot74oj8IFMNVU70sk8xNCZR2UcDjrYk3TiJAvotHQKhQQv3-Q" />
+                    <div class="absolute top-4 left-4">
+                        <span
+                            class="px-3 py-1 bg-surface-bright/90 backdrop-blur-sm text-on-secondary-fixed-variant font-label-md text-label-md rounded shadow-sm">Paper</span>
+                    </div>
+                </div>
+                <div class="p-6 flex flex-col flex-grow">
+                    <div class="flex items-center gap-3 text-on-surface-variant font-label-md text-label-md mb-4">
+                        <span class="material-symbols-outlined text-[16px]"
+                            data-icon="calendar_month">calendar_month</span>
+                        <span>Sep 15, 2024</span>
+                    </div>
+                    <h3
+                        class="font-headline-md text-headline-md text-ameefar-navy mb-3 group-hover:text-primary transition-colors line-clamp-2">
+                        Quality Control Standards for OCC Bales
+                    </h3>
+                    <p class="font-body-md text-body-md text-on-surface-variant mb-6 line-clamp-3 flex-grow">
+                        A comprehensive guide for sellers on meeting the strict moisture and contamination thresholds
+                        required by top-tier paper mills when trading Old Corrugated Containers (OCC) on the global
+                        market.
+                    </p>
+                    <div class="flex items-center justify-between pt-4 border-t border-border-subtle mt-auto">
+                        <div class="flex items-center gap-2 text-on-surface-variant font-label-md text-label-md">
+                            <span class="material-symbols-outlined text-[16px]" data-icon="person">person</span>
+                            <span>Compliance Team</span>
+                        </div>
+                        <div class="flex items-center gap-1 text-on-surface-variant font-label-md text-label-md">
+                            <span class="material-symbols-outlined text-[16px]" data-icon="visibility">visibility</span>
+                            <span>2.1k</span>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </section>
+        <!-- Pagination -->
+        <div class="mt-16 flex justify-center items-center gap-2">
+            <button
+                class="p-2 border border-border-subtle rounded hover:bg-surface-container-low transition-colors text-on-surface-variant">
+                <span class="material-symbols-outlined text-[20px]" data-icon="chevron_left">chevron_left</span>
+            </button>
+            <button
+                class="w-10 h-10 bg-primary text-on-primary rounded font-label-md text-label-md flex items-center justify-center">1</button>
+            <button
+                class="w-10 h-10 border border-border-subtle text-on-surface-variant rounded font-label-md text-label-md flex items-center justify-center hover:bg-surface-container-low transition-colors">2</button>
+            <button
+                class="w-10 h-10 border border-border-subtle text-on-surface-variant rounded font-label-md text-label-md flex items-center justify-center hover:bg-surface-container-low transition-colors">3</button>
+            <span class="px-2 text-on-surface-variant">...</span>
+            <button
+                class="p-2 border border-border-subtle rounded hover:bg-surface-container-low transition-colors text-on-surface-variant">
+                <span class="material-symbols-outlined text-[20px]" data-icon="chevron_right">chevron_right</span>
+            </button>
+        </div>
+    </main>
+    <!-- Footer -->
+    <footer class="bg-ameefar-navy w-full relative bottom-0 font-body-sm text-body-sm">
+        <div
+            class="w-full py-12 px-margin-mobile md:px-margin-desktop grid grid-cols-1 md:grid-cols-12 gap-gutter max-w-container-max mx-auto">
+            <div class="md:col-span-4 flex flex-col gap-4">
+                <span class="font-headline-md text-headline-md text-surface-bright">Ameefar Energy</span>
+                <p class="text-surface-variant opacity-80 mt-2">© 2024 Ameefar Energy. Powering the Circular Economy.
+                </p>
+            </div>
+            <div class="md:col-span-8 flex flex-wrap gap-x-8 gap-y-4 md:justify-end items-start pt-2">
+                <a class="text-surface-variant opacity-80 hover:opacity-100 hover:text-primary-fixed-dim transition-opacity transition-all duration-200"
+                    href="#">Privacy Policy</a>
+                <a class="text-surface-variant opacity-80 hover:opacity-100 hover:text-primary-fixed-dim transition-opacity transition-all duration-200"
+                    href="#">Terms of Service</a>
+                <a class="text-surface-variant opacity-80 hover:opacity-100 hover:text-primary-fixed-dim transition-opacity transition-all duration-200"
+                    href="#">Locations</a>
+                <a class="text-surface-variant opacity-80 hover:opacity-100 hover:text-primary-fixed-dim transition-opacity transition-all duration-200"
+                    href="#">Global Compliance</a>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

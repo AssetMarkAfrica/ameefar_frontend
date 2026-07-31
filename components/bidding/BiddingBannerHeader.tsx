@@ -34,7 +34,7 @@ export default function BiddingBannerHeader() {
     : "U";
 
   const getLinkClass = (pathCheck: string, mobile = false) => {
-    const isActive = pathname.startsWith(pathCheck);
+    const isActive = pathCheck === "/" ? pathname === "/" : pathname.startsWith(pathCheck);
     if (mobile) {
       return isActive
         ? "block px-4 py-3 text-[15px] font-semibold text-[#002627] bg-[#f0faf9] rounded-lg"
@@ -47,6 +47,10 @@ export default function BiddingBannerHeader() {
 
   const navLinks = (
     <>
+      <Link href="/" className={getLinkClass("/", true)} onClick={() => setMenuOpen(false)}>
+        Home
+      </Link>
+
       <Link href="/product" className={getLinkClass("/product", true)} onClick={() => setMenuOpen(false)}>
         Marketplace
       </Link>
@@ -78,29 +82,36 @@ export default function BiddingBannerHeader() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 h-20 bg-white border-b border-slate-200">
+      <header className="fixed top-0 left-0 right-0 z-50 h-[68px] bg-white border-b border-slate-200">
         <div className="mx-auto flex h-full max-w-[1440px] items-center justify-between px-6 md:px-10">
           {/* Logo + Nav */}
           <div className="flex items-center gap-8">
-            <Link href="/product" className="flex items-center gap-3 shrink-0">
-              <Image
-                alt="Ameefar logo"
-                className="rounded-lg object-cover"
-                height={40}
-                width={40}
-                src={ameefarLogoSrc}
-              />
+            <Link href="/" className="flex items-center gap-3 shrink-0 group">
+              <div className="relative">
+                <div className="absolute inset-0 rounded-xl bg-emerald-500/15 blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <Image
+                  alt="Ameefar logo"
+                  className="relative rounded-xl object-cover ring-1 ring-slate-100 transition-transform duration-300 group-hover:scale-105"
+                  height={44}
+                  width={44}
+                  src={ameefarLogoSrc}
+                />
+              </div>
               <div className="flex flex-col leading-tight">
                 <span className="font-[var(--font-hanken)] text-[17px] font-bold text-[#002627]">
                   Ameefar
                 </span>
-                <span className="text-[10px] font-semibold tracking-widest text-[#006d40] uppercase">
-                  Commodity Trading
+                <span className="text-[9px] font-semibold tracking-[0.15em] text-[#006d40] uppercase">
+                  Energy Africa
                 </span>
               </div>
             </Link>
 
             <nav className="hidden md:flex items-center gap-6">
+              <Link href="/" className={getLinkClass("/")}>
+                Home
+              </Link>
+
               <Link href="/product" className={getLinkClass("/product")}>
                 Marketplace
               </Link>
@@ -206,7 +217,7 @@ export default function BiddingBannerHeader() {
         <div className="fixed inset-0 z-40 md:hidden" onClick={() => setMenuOpen(false)}>
           <div className="absolute inset-0 bg-black/20 backdrop-blur-sm" />
           <div
-            className="absolute top-20 left-0 right-0 bg-white border-b border-slate-100 shadow-lg px-4 py-4"
+            className="absolute top-[68px] left-0 right-0 bg-white border-b border-slate-100 shadow-lg px-4 py-4"
             onClick={(e) => e.stopPropagation()}
           >
             {user && (

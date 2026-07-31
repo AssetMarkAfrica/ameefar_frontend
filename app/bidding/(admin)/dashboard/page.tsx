@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { fetchAdminOverviewThunk, listTradesThunk } from "@/store/bidding/biddingThunks";
 import { selectAccessToken } from "@/store/auth/authSelectors";
-import BiddingSidebar from "@/components/bidding/BiddingSidebar";
+
 
 export default function AdminDashboardPage() {
   const dispatch = useAppDispatch();

@@ -5,3 +5,5 @@ export * from "./product";
 export * from "./profile";
 export * from "./payment";
 export * from "./notification";
+export * from "./blog";
+export * from "./newsletter";

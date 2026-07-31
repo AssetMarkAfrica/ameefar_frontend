@@ -42,7 +42,7 @@ export default function ProductBannerHeader() {
     : "U";
 
   const getLinkClass = (pathCheck: string, mobile = false) => {
-    const isActive = pathname.startsWith(pathCheck);
+    const isActive = pathCheck === "/" ? pathname === "/" : pathname.startsWith(pathCheck);
     if (mobile) {
       return isActive
         ? "block px-4 py-3 text-[15px] font-semibold text-[#002627] bg-[#f0faf9] rounded-lg"
@@ -56,8 +56,16 @@ export default function ProductBannerHeader() {
   // Collect nav links for reuse in mobile menu
   const navLinks = (
     <>
+      <Link href="/" className={getLinkClass("/", true)} onClick={() => setMenuOpen(false)}>
+        Home
+      </Link>
+
       <Link href="/product" className={getLinkClass("/product", true)} onClick={() => setMenuOpen(false)}>
         Marketplace
+      </Link>
+
+      <Link href="/blog" className={getLinkClass("/blog", true)} onClick={() => setMenuOpen(false)}>
+        Blog
       </Link>
 
       {isAuthenticated && canCreate && (
@@ -75,6 +83,9 @@ export default function ProductBannerHeader() {
               </Link>
               <Link href="/profile/pending-verifications" className={getLinkClass("/profile", true)} onClick={() => setMenuOpen(false)}>
                 Pending Verifications
+              </Link>
+                 <Link href="/blog/admin" className={getLinkClass("/blog/admin", true)} onClick={() => setMenuOpen(false)}>
+                Blog Admin
               </Link>
             </>
           ) : isBoth ? (
@@ -102,30 +113,41 @@ export default function ProductBannerHeader() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 h-16 bg-white border-b border-slate-100 shadow-sm">
+      <header className="fixed top-0 left-0 right-0 z-50 h-[68px] bg-white border-b border-slate-100 shadow-sm">
         <div className="mx-auto flex h-full max-w-[1440px] items-center justify-between px-4 md:px-10">
 
           {/* ── Logo ── */}
-          <Link href="/product" className="flex items-center gap-2.5 shrink-0">
-            <Image
-              alt="Ameefar logo"
-              className="rounded-lg object-cover"
-              height={34}
-              width={34}
-              src={ameefarLogoSrc}
-            />
+          <Link href="/" className="flex items-center gap-3 shrink-0 group">
+            <div className="relative">
+              <div className="absolute inset-0 rounded-xl bg-emerald-500/15 blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <Image
+                alt="Ameefar logo"
+                className="relative rounded-xl object-cover ring-1 ring-slate-100 transition-transform duration-300 group-hover:scale-105"
+                height={44}
+                width={44}
+                src={ameefarLogoSrc}
+              />
+            </div>
             <div className="flex flex-col leading-none">
-              <span className="text-[15px] font-bold text-[#002627] tracking-tight">Ameefar</span>
-              <span className="text-[9px] font-semibold tracking-[0.14em] text-[#006d40] uppercase mt-0.5">
-                Commodity Trading
+              <span className="text-[17px] font-bold text-[#002627] tracking-tight">Ameefar</span>
+              <span className="text-[9px] font-semibold tracking-[0.15em] text-[#006d40] uppercase mt-0.5">
+                Energy Africa
               </span>
             </div>
           </Link>
 
           {/* ── Desktop nav ── */}
           <nav className="hidden md:flex items-center gap-6">
+            <Link href="/" className={getLinkClass("/") + " shrink-0"}>
+              Home
+            </Link>
+
             <Link href="/product" className={getLinkClass("/product")}>
               Marketplace
+            </Link>
+
+            <Link href="/blog" className={getLinkClass("/blog")}>
+              Blog
             </Link>
 
             {isAuthenticated && canCreate && (

@@ -246,6 +246,14 @@ export const ProductService = {
     });
   },
 
+  listFeaturedListings(): Promise<ProductListResponse> {
+    return requestJson<ProductListResponse>({
+      endpoint: `/?featured=true`,
+      method: "GET",
+      token: "",
+    });
+  },
+
   listMyListings(
     token: string,
     params?: Omit<ListProductListingsParams, "mine">,

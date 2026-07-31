@@ -45,6 +45,12 @@ export default function BiddingSidebar({ role }: SidebarProps) {
         href: "/bidding/payouts",
         icon: "payments",
         activePath: "/bidding/payouts",
+      },
+          {
+        name: "Blog Posts",
+        href: "/blog/admin",
+        icon: "payments",
+        activePath: "/blog/admin",
       }
     );
   } else if (isBoth) {

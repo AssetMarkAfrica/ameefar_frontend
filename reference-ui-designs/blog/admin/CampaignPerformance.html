@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Newsletter Campaign Performance - Ameefar Energy</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@600;700&amp;family=Inter:wght@400;500&amp;family=JetBrains+Mono:wght@500&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-low": "#eff4ff",
+                        "surface-bright": "#f8f9ff",
+                        "surface-container": "#e5eeff",
+                        "primary-fixed": "#beebeb",
+                        "on-primary": "#ffffff",
+                        "surface-container-high": "#dce9ff",
+                        "secondary": "#006d40",
+                        "trust-green-subtle": "#ECFDF5",
+                        "on-secondary-fixed-variant": "#00522f",
+                        "surface-dim": "#cbdbf5",
+                        "tertiary": "#002819",
+                        "surface-variant": "#d3e4fe",
+                        "on-tertiary": "#ffffff",
+                        "on-tertiary-fixed": "#002113",
+                        "inverse-surface": "#213145",
+                        "surface-tint": "#3b6566",
+                        "on-secondary-container": "#007243",
+                        "primary-container": "#0f3d3e",
+                        "error": "#ba1a1a",
+                        "primary": "#002627",
+                        "inverse-on-surface": "#eaf1ff",
+                        "on-secondary": "#ffffff",
+                        "inverse-primary": "#a3cfcf",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed": "#6ffbbe",
+                        "on-error": "#ffffff",
+                        "background": "#f8f9ff",
+                        "secondary-fixed": "#83fab4",
+                        "surface-gray": "#F8FAFC",
+                        "ameefar-navy": "#0F172A",
+                        "outline": "#717978",
+                        "border-subtle": "#E2E8F0",
+                        "on-surface": "#0b1c30",
+                        "secondary-fixed-dim": "#66dd99",
+                        "on-surface-variant": "#404848",
+                        "surface-container-highest": "#d3e4fe",
+                        "surface": "#f8f9ff",
+                        "on-primary-fixed-variant": "#224d4e",
+                        "on-tertiary-fixed-variant": "#005236",
+                        "on-tertiary-container": "#06b77f",
+                        "on-secondary-fixed": "#002110",
+                        "on-background": "#0b1c30",
+                        "on-primary-container": "#7da8a8",
+                        "error-container": "#ffdad6",
+                        "tertiary-fixed-dim": "#4edea3",
+                        "outline-variant": "#c0c8c8",
+                        "tertiary-container": "#00402a",
+                        "on-primary-fixed": "#002020",
+                        "secondary-container": "#80f7b1",
+                        "primary-fixed-dim": "#a3cfcf",
+                        "surface-container-lowest": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-desktop": "40px",
+                        "gutter": "24px",
+                        "margin-mobile": "16px",
+                        "container-max": "1440px",
+                        "base": "4px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["JetBrains Mono"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "body-md": ["Inter"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "body-lg": ["Inter"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "body-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-md": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .ambient-shadow {
+            box-shadow: 0 4px 24px -4px rgba(15, 23, 42, 0.08);
+        }
+
+        .hover-lift {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .hover-lift:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px -4px rgba(15, 23, 42, 0.12);
+        }
+    </style>
+</head>
+
+<body class="bg-surface-gray min-h-screen text-on-surface flex font-body-md">
+    <!-- SideNavBar (Shared Component) -->
+    <nav
+        class="bg-surface-gray h-full w-64 fixed left-0 top-0 border-r border-border-subtle flex flex-col p-4 gap-2 z-40 md:flex hidden">
+        <!-- Brand / Header -->
+        <div class="mb-6 px-2 flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-surface-container overflow-hidden shrink-0">
+                <img alt="Admin User Profile" class="object-cover w-full h-full"
+                    data-alt="Professional corporate headshot of a female admin user in a modern office setting. High-end lighting, corporate modern aesthetic, subtle deep blue background elements to match the UI theme."
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuB0pcAkXVytJzxq992Qck3u1E6t4Jgucg4OKw-0YgPR7T7XXklapcJH-qRU-UHQv8L0WzEKV7ibnbGCLK5FYbvkJRfuJmzLDdguuqKCxpRGY00MemIGSs2JgrurCRsd2ZsBH7jknqXqjEV9pFUCoMFco756XVKhbWEGxy38pkFE3AaB1ueDJvTzFgQWfZxRUntqEB2n53B9iYJBFFv4j_FrNt019wZcFBZK5ElFogH305OZ3iUkAANthQ" />
+            </div>
+            <div>
+                <h2 class="font-headline-md text-headline-md font-bold text-primary truncate leading-tight">Management
+                </h2>
+                <p class="font-label-md text-label-md text-on-surface-variant truncate">Circular Economy Hub</p>
+            </div>
+        </div>
+        <!-- Create CTA -->
+        <button
+            class="bg-primary text-on-primary py-2 px-4 rounded-lg font-body-sm text-body-sm mb-4 w-full flex items-center justify-center gap-2 hover:bg-ameefar-navy transition-colors">
+            <span class="material-symbols-outlined text-[18px]">add</span>
+            Create New Post
+        </button>
+        <!-- Main Navigation -->
+        <div class="flex-1 flex flex-col gap-1">
+            <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-all active:scale-95 duration-150"
+                href="#">
+                <span class="material-symbols-outlined text-[20px]">edit_note</span>
+                <span class="font-label-md text-label-md">Blog Admin</span>
+            </a>
+            <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-all active:scale-95 duration-150"
+                href="#">
+                <span class="material-symbols-outlined text-[20px]">groups</span>
+                <span class="font-label-md text-label-md">Subscribers</span>
+            </a>
+            <!-- Active State -->
+            <a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-surface-container text-primary font-semibold transition-all active:scale-95 duration-150"
+                href="#">
+                <span class="material-symbols-outlined text-[20px]"
+                    style="font-variation-settings: 'FILL' 1;">campaign</span>
+                <span class="font-label-md text-label-md">Campaigns</span>
+            </a>
+        </div>
+        <!-- Footer Navigation -->
+        <div class="mt-auto flex flex-col gap-1 pt-4 border-t border-border-subtle">
+            <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-all active:scale-95 duration-150"
+                href="#">
+                <span class="material-symbols-outlined text-[20px]">settings</span>
+                <span class="font-label-md text-label-md">Settings</span>
+            </a>
+            <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-all active:scale-95 duration-150"
+                href="#">
+                <span class="material-symbols-outlined text-[20px]">help</span>
+                <span class="font-label-md text-label-md">Support</span>
+            </a>
+        </div>
+    </nav>
+    <!-- Main Content Canvas -->
+    <main class="flex-1 md:ml-64 p-margin-mobile md:p-margin-desktop max-w-container-max mx-auto w-full">
+        <!-- Header -->
+        <header class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+            <div>
+                <div class="flex items-center gap-2 mb-2">
+                    <a class="text-on-surface-variant hover:text-primary transition-colors flex items-center gap-1 font-body-sm text-body-sm"
+                        href="#">
+                        <span class="material-symbols-outlined text-[16px]">arrow_back</span>
+                        Back to Campaigns
+                    </a>
+                </div>
+                <div class="flex items-center gap-4">
+                    <h1 class="font-headline-lg text-headline-lg text-primary">March Newsletter</h1>
+                    <span
+                        class="bg-trust-green-subtle text-on-tertiary-container border border-on-tertiary-container/20 px-3 py-1 rounded-full font-label-md text-label-md flex items-center gap-1">
+                        <span class="material-symbols-outlined text-[14px]">check_circle</span>
+                        Sent
+                    </span>
+                </div>
+                <p class="font-body-md text-body-md text-on-surface-variant mt-1">Sent on Mar 15, 2024 at 09:00 AM EST
+                    to 148 subscribers.</p>
+            </div>
+            <div class="flex gap-3">
+                <button
+                    class="bg-white border border-border-subtle text-ameefar-navy px-4 py-2 rounded-lg font-body-sm text-body-sm hover:bg-surface-container-low transition-colors flex items-center gap-2">
+                    <span class="material-symbols-outlined text-[18px]">download</span>
+                    Export Report
+                </button>
+                <button
+                    class="bg-primary text-on-primary px-4 py-2 rounded-lg font-body-sm text-body-sm hover:bg-ameefar-navy transition-colors flex items-center gap-2">
+                    <span class="material-symbols-outlined text-[18px]">content_copy</span>
+                    Duplicate
+                </button>
+            </div>
+        </header>
+        <!-- KPI Grid (Bento style) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter mb-8">
+            <!-- Sent -->
+            <div
+                class="bg-white rounded-xl p-6 ambient-shadow border border-border-subtle hover-lift flex flex-col justify-between h-32">
+                <div class="flex justify-between items-start">
+                    <span class="font-body-sm text-body-sm text-on-surface-variant">Total Sent</span>
+                    <span class="material-symbols-outlined text-outline p-1 bg-surface-gray rounded-md">send</span>
+                </div>
+                <div>
+                    <span class="font-display-lg text-display-lg text-primary font-label-md">148</span>
+                </div>
+            </div>
+            <!-- Opens -->
+            <div
+                class="bg-white rounded-xl p-6 ambient-shadow border border-border-subtle hover-lift flex flex-col justify-between h-32 relative overflow-hidden">
+                <!-- Subtle background decorative element -->
+                <div
+                    class="absolute -right-4 -top-4 w-24 h-24 bg-surface-container-low rounded-full opacity-50 pointer-events-none">
+                </div>
+                <div class="flex justify-between items-start relative z-10">
+                    <span class="font-body-sm text-body-sm text-on-surface-variant">Unique Opens</span>
+                    <span
+                        class="material-symbols-outlined text-secondary p-1 bg-trust-green-subtle rounded-md">visibility</span>
+                </div>
+                <div class="relative z-10 flex items-end justify-between">
+                    <span class="font-display-lg text-display-lg text-primary font-label-md">72</span>
+                    <span class="font-label-md text-label-md text-on-surface-variant pb-2">subscribers</span>
+                </div>
+            </div>
+            <!-- Open Rate -->
+            <div
+                class="bg-primary rounded-xl p-6 ambient-shadow hover-lift flex flex-col justify-between h-32 relative overflow-hidden">
+                <!-- Data visualization abstract background -->
+                <div class="absolute right-0 bottom-0 w-32 h-20 opacity-20"
+                    style="background: linear-gradient(135deg, transparent 49%, #ffffff 50%, transparent 51%) 0 0 / 8px 8px;">
+                </div>
+                <div class="flex justify-between items-start relative z-10">
+                    <span class="font-body-sm text-body-sm text-inverse-on-surface opacity-80">Open Rate</span>
+                    <span
+                        class="material-symbols-outlined text-primary-fixed p-1 bg-white/10 rounded-md">monitoring</span>
+                </div>
+                <div class="relative z-10 flex items-baseline gap-2">
+                    <span class="font-display-lg text-display-lg text-white font-label-md">48.6</span>
+                    <span class="font-headline-md text-headline-md text-primary-fixed">%</span>
+                </div>
+            </div>
+            <!-- Clicks -->
+            <div
+                class="bg-white rounded-xl p-6 ambient-shadow border border-border-subtle hover-lift flex flex-col justify-between h-32">
+                <div class="flex justify-between items-start">
+                    <span class="font-body-sm text-body-sm text-on-surface-variant">Total Clicks</span>
+                    <span
+                        class="material-symbols-outlined text-surface-tint p-1 bg-surface-container-low rounded-md">touch_app</span>
+                </div>
+                <div class="flex items-end justify-between">
+                    <span class="font-display-lg text-display-lg text-primary font-label-md">23</span>
+                    <span
+                        class="font-label-md text-label-md text-secondary bg-trust-green-subtle px-2 py-0.5 rounded-full flex items-center">
+                        <span class="material-symbols-outlined text-[12px] mr-1">trending_up</span>
+                        15.5% CTR
+                    </span>
+                </div>
+            </div>
+        </div>
+        <!-- Content Area: Preview & Detailed Stats -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+            <!-- Email Preview Section (Main Content Canvas) -->
+            <div
+                class="lg:col-span-8 bg-white rounded-xl border border-border-subtle ambient-shadow flex flex-col overflow-hidden">
+                <!-- Preview Header/Controls -->
+                <div class="bg-surface-gray border-b border-border-subtle p-4 flex justify-between items-center">
+                    <h3 class="font-headline-md text-headline-md text-primary text-[18px]">Email Preview</h3>
+                    <div class="flex gap-2 bg-white rounded-lg border border-border-subtle p-1">
+                        <button
+                            class="p-1.5 bg-surface-container-low text-primary rounded-md hover:bg-surface-container transition-colors"
+                            title="Desktop View">
+                            <span class="material-symbols-outlined text-[18px]">desktop_windows</span>
+                        </button>
+                        <button class="p-1.5 text-on-surface-variant rounded-md hover:bg-surface-gray transition-colors"
+                            title="Mobile View">
+                            <span class="material-symbols-outlined text-[18px]">smartphone</span>
+                        </button>
+                    </div>
+                </div>
+                <!-- Simulated Email Rendering -->
+                <div class="p-8 bg-[#F3F4F6] flex-1 flex justify-center overflow-y-auto max-h-[600px]">
+                    <!-- Email Container -->
+                    <div
+                        class="bg-white max-w-[600px] w-full shadow-sm rounded border border-gray-200 p-8 flex flex-col gap-6">
+                        <!-- Email Header -->
+                        <div class="text-center pb-6 border-b border-gray-100">
+                            <h2 class="font-headline-md text-headline-md text-ameefar-navy tracking-tight mb-2">Ameefar
+                                Energy Insights</h2>
+                            <p class="font-body-sm text-body-sm text-gray-500 uppercase tracking-widest">March 2024
+                                Edition</p>
+                        </div>
+                        <!-- Email Hero Image -->
+                        <div class="w-full h-48 bg-gray-100 rounded-lg overflow-hidden">
+                            <img alt="Newsletter Hero" class="w-full h-full object-cover"
+                                data-alt="Abstract representation of clean energy and circular economy. Modern 3D render showing intersecting glowing rings in deep blue and green hues, symbolizing renewable energy cycles. Clean, well-lit studio environment, high contrast, corporate fintech aesthetic."
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSTKbCUWoIH58bcZ2djYoja6DWZQ5w_2F750DLwUA2T-1TSycbus5QUqYqxGDTOdvSs7vsd5-e2IZGv4dXcZYoEP3Dehj-gqGJIfFQiq0DZuWEzcgbDMkmLc6UhaoHu37x6SRoPRIarojoW9m66EGRLWW0ClEWChZfHJfvOkGOzKSdVAJ20qfTIf3wLMmCK5JnF2CZkWXePDZNR6tTaX3g51PmS_srxWPXKYF9w8Kx1_EvHeZvZ9PriQ" />
+                        </div>
+                        <!-- Email Body -->
+                        <div>
+                            <h3 class="font-headline-md text-headline-md text-gray-900 text-[20px] mb-4">Accelerating
+                                the Transition</h3>
+                            <p class="font-body-md text-body-md text-gray-600 mb-4 leading-relaxed">
+                                Welcome to the latest edition of Ameefar Insights. This month, we explore the
+                                stabilization of the secondary battery market and new compliance frameworks for EU
+                                operations.
+                            </p>
+                            <p class="font-body-md text-body-md text-gray-600 mb-6 leading-relaxed">
+                                Our data shows a 14% increase in successful negotiations on the platform for
+                                industrial-grade materials over the last quarter.
+                            </p>
+                            <div class="text-center mt-8">
+                                <a class="inline-block bg-[#002627] text-white px-6 py-3 rounded text-sm font-medium tracking-wide"
+                                    href="#">Read Full Report</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Sidebar Stats & Actions (Contextual Data) -->
+            <div class="lg:col-span-4 flex flex-col gap-gutter">
+                <!-- Link Performance -->
+                <div class="bg-white rounded-xl border border-border-subtle ambient-shadow p-6">
+                    <h3 class="font-headline-md text-headline-md text-primary text-[18px] mb-4">Top Clicked Links</h3>
+                    <div class="space-y-4">
+                        <!-- Link 1 -->
+                        <div class="flex flex-col gap-1">
+                            <div class="flex justify-between items-end">
+                                <a class="font-body-sm text-body-sm text-ameefar-navy truncate hover:underline hover:text-primary pr-4 max-w-[80%]"
+                                    href="#">ameefar.com/reports/mar24</a>
+                                <span class="font-label-md text-label-md text-primary font-bold">14</span>
+                            </div>
+                            <div class="w-full bg-surface-gray h-2 rounded-full overflow-hidden">
+                                <div class="bg-primary h-full rounded-full" style="width: 60%"></div>
+                            </div>
+                        </div>
+                        <!-- Link 2 -->
+                        <div class="flex flex-col gap-1">
+                            <div class="flex justify-between items-end">
+                                <a class="font-body-sm text-body-sm text-ameefar-navy truncate hover:underline hover:text-primary pr-4 max-w-[80%]"
+                                    href="#">ameefar.com/marketplace</a>
+                                <span class="font-label-md text-label-md text-primary font-bold">6</span>
+                            </div>
+                            <div class="w-full bg-surface-gray h-2 rounded-full overflow-hidden">
+                                <div class="bg-surface-tint h-full rounded-full" style="width: 26%"></div>
+                            </div>
+                        </div>
+                        <!-- Link 3 -->
+                        <div class="flex flex-col gap-1">
+                            <div class="flex justify-between items-end">
+                                <a class="font-body-sm text-body-sm text-ameefar-navy truncate hover:underline hover:text-primary pr-4 max-w-[80%]"
+                                    href="#">ameefar.com/compliance</a>
+                                <span class="font-label-md text-label-md text-primary font-bold">3</span>
+                            </div>
+                            <div class="w-full bg-surface-gray h-2 rounded-full overflow-hidden">
+                                <div class="bg-border-subtle h-full rounded-full" style="width: 14%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Recipient Engagement -->
+                <div class="bg-white rounded-xl border border-border-subtle ambient-shadow p-6 flex-1">
+                    <h3 class="font-headline-md text-headline-md text-primary text-[18px] mb-4">Engagement Breakdown
+                    </h3>
+                    <div class="flex flex-col gap-4">
+                        <div
+                            class="flex justify-between items-center p-3 rounded-lg border border-border-subtle bg-surface-gray/50">
+                            <div class="flex items-center gap-3">
+                                <span class="material-symbols-outlined text-outline">mark_email_read</span>
+                                <span class="font-body-sm text-body-sm text-on-surface">Delivered</span>
+                            </div>
+                            <span class="font-label-md text-label-md">99.3%</span>
+                        </div>
+                        <div
+                            class="flex justify-between items-center p-3 rounded-lg border border-border-subtle bg-surface-gray/50">
+                            <div class="flex items-center gap-3">
+                                <span class="material-symbols-outlined text-error">report</span>
+                                <span class="font-body-sm text-body-sm text-on-surface">Bounced</span>
+                            </div>
+                            <span class="font-label-md text-label-md">1 (0.7%)</span>
+                        </div>
+                        <div
+                            class="flex justify-between items-center p-3 rounded-lg border border-border-subtle bg-surface-gray/50">
+                            <div class="flex items-center gap-3">
+                                <span class="material-symbols-outlined text-outline">unsubscribe</span>
+                                <span class="font-body-sm text-body-sm text-on-surface">Unsubscribed</span>
+                            </div>
+                            <span class="font-label-md text-label-md">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

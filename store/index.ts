@@ -9,6 +9,8 @@ import productReducer from "./product/productSlice";
 import profileReducer from "./profile/profileSlice";
 import paymentReducer from "./payment/paymentSlice";
 import notificationReducer from "./notification/notificationSlice";
+import blogReducer from "./blog/blogSlice";
+import newsletterReducer from "./newsletter/newsletterSlice";
 import type { User } from "@/types/auth";
 
 const AUTH_STORAGE_KEY = "ameefar.auth.session";
@@ -91,6 +93,8 @@ export const store = configureStore({
     profile: profileReducer,
     payment: paymentReducer,
     notification: notificationReducer,
+    blog: blogReducer,
+    newsletter: newsletterReducer,
   },
   preloadedState: preloadedAuthState
     ? {
