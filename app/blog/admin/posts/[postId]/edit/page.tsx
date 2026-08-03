@@ -4,13 +4,14 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
-  selectAdminPosts,
+  selectCurrentPost,
   selectCategories,
   selectTags,
   selectAdminBlogLoading,
+  selectBlogError,
 } from "@/store/blog/blogSelectors";
 import {
-  fetchAdminPosts,
+  fetchAdminPost,
   fetchCategories,
   fetchTags,
   updatePost,
@@ -23,12 +24,13 @@ export default function EditPostPage({
 }) {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const posts = useAppSelector(selectAdminPosts);
+  const currentPost = useAppSelector(selectCurrentPost);
   const categoriesRaw = useAppSelector(selectCategories);
   const tagsRaw = useAppSelector(selectTags);
   const categories = Array.isArray(categoriesRaw) ? categoriesRaw : [];
   const tags = Array.isArray(tagsRaw) ? tagsRaw : [];
   const loading = useAppSelector(selectAdminBlogLoading);
+  const blogError = useAppSelector(selectBlogError);
 
   const [postId, setPostId] = useState<string | null>(null);
 
@@ -45,31 +47,27 @@ export default function EditPostPage({
   useEffect(() => {
     params.then(({ postId: id }) => {
       setPostId(id);
-      dispatch(fetchAdminPosts());
+      dispatch(fetchAdminPost(id));
       dispatch(fetchCategories());
       dispatch(fetchTags());
     });
   }, [dispatch, params]);
 
-  const post = posts.find((p) => p.id === postId);
+  useEffect(() => {
+    if (currentPost && currentPost.id === postId) {
+      setTitle(currentPost.title);
+      setContent(currentPost.content);
+      setExcerpt(currentPost.excerpt ?? "");
+      setFeaturedImage(currentPost.featured_image ?? "");
+      setCategoryId(currentPost.category?.id ?? "");
+      setSelectedTagIds((currentPost.tags || []).map((t) => t.id));
+      setStatus(currentPost.status);
+    }
+  }, [currentPost, postId]);
 
   useEffect(() => {
-    if (post) {
-      setTitle(post.title);
-      setContent(post.content);
-      setExcerpt(post.excerpt ?? "");
-      setFeaturedImage(post.featured_image ?? "");
-      setCategoryId(post.category?.id ?? "");
-      setSelectedTagIds((post.tags || []).map((t) => t.id));
-      setStatus(post.status);
-    }
-  }, [post]);
-
-  useEffect(() => {
-    if (postId && !loading && posts.length > 0 && !post) {
-      setError("Post not found.");
-    }
-  }, [postId, loading, posts, post]);
+    if (blogError) setError(blogError);
+  }, [blogError]);
 
   function toggleTag(tagId: string) {
     setSelectedTagIds((prev) =>
