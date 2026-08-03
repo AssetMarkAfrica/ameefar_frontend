@@ -435,9 +435,14 @@ function FadeInSection({ children, delay = 0, className = "" }: { children: Reac
 export default function Home() {
   const user = useAppSelector(selectUser);
   const isAuthenticated = useAppSelector(selectIsAuthenticated);
+  const [mounted, setMounted] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [isFooterVisible, setIsFooterVisible] = useState(false);
   const footerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 20);
@@ -513,7 +518,7 @@ export default function Home() {
 
           {/* Actions */}
           <div className="hidden md:flex items-center gap-4 text-sm">
-            {isAuthenticated && user ? (
+            {mounted && isAuthenticated && user ? (
               <>
                 <span className={`${jetbrains.className} text-xs font-medium transition-colors duration-300 ${scrolled ? "text-[#006d40]" : "text-emerald-300"}`}>
                   {user.first_name}
@@ -535,7 +540,7 @@ export default function Home() {
       <main>
 
         {/* ── HERO ── */}
-        <HeroCarousel isAuthenticated={isAuthenticated} />
+        <HeroCarousel isAuthenticated={mounted && isAuthenticated} />
 
         {/* ── FEATURED LISTINGS ── */}
         <FeaturedListings />
