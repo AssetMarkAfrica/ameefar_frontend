@@ -319,6 +319,9 @@ export function FeaturedArticles() {
 
   const isLoading = status === "idle" || status === "loading";
 
+  // Must call hooks before any early return (Rules of Hooks)
+  const headerFade = useFadeIn(0);
+
   useEffect(() => {
     dispatch(fetchFeaturedNewsThunk());
   }, [dispatch]);
@@ -329,8 +332,6 @@ export function FeaturedArticles() {
   const [hero, ...rest] = articles;
   // Show up to 4 standard cards alongside the hero
   const sideCards = rest.slice(0, 4);
-
-  const headerFade = useFadeIn(0);
 
   return (
     <section id="news" className="bg-[#001a1a] px-6 py-20 md:px-12 relative overflow-hidden">
