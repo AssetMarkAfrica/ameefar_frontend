@@ -130,6 +130,19 @@ const blogSlice = createSlice({
       state.error = action.error.message ?? "Failed to fetch admin posts";
     });
 
+    builder.addCase(blogThunks.fetchAdminPost.pending, (state) => {
+      state.loadingAdmin = true;
+      state.error = null;
+    });
+    builder.addCase(blogThunks.fetchAdminPost.fulfilled, (state, action) => {
+      state.loadingAdmin = false;
+      state.currentPost = action.payload;
+    });
+    builder.addCase(blogThunks.fetchAdminPost.rejected, (state, action) => {
+      state.loadingAdmin = false;
+      state.error = action.error.message ?? "Post not found";
+    });
+
     builder.addCase(blogThunks.createPost.fulfilled, (state, action) => {
       state.adminPosts.unshift(action.payload);
     });
