@@ -34,7 +34,7 @@ const pillars = [
     highlight: "Facility audits & comprehensive background checks",
     text: "Every African supplier undergoes rigorous on-the-ground verification — facility audits and comprehensive background checks — before any listing goes live. We do not allow anonymous or unverified sellers on our platform.",
     icon: "🛡️",
-    img: "https://ameefarenergy.com/wp-content/uploads/2024/12/recycle.jpg",
+    img: "/images/heroSlides/recycle.jpg",
   },
   {
     number: "02",
@@ -45,7 +45,7 @@ const pillars = [
     highlight: "Release only after inspection & port loading confirmation",
     text: "Your capital is protected in secure international escrow accounts. Funds release only after materials pass physical inspection and port loading is confirmed. Neither party can access the funds unilaterally.",
     icon: "🔒",
-    img: "https://ameefarenergy.com/wp-content/uploads/2024/12/ban3.jpg",
+    img: "/images/heroSlides/ban3.jpg",
   },
   {
     number: "03",
@@ -56,7 +56,7 @@ const pillars = [
     highlight: "Independent pre-shipment inspection on every deal",
     text: "If the independent pre-shipment inspection doesn't match your contract, the trade is halted and your funds stay protected. No exceptions. You only pay for material that meets your specifications.",
     icon: "✅",
-    img: "https://ameefarenergy.com/wp-content/uploads/2024/12/ban2.jpeg",
+    img: "/images/heroSlides/ban2.jpeg",
   },
 ];
 
@@ -66,7 +66,7 @@ const whatWeSell = [
     name: "rPET Resins",
     tagline: "Premium recycled PET resins",
     desc: "Premium materials derived from recycled plastic bottles using an advanced bottle-to-bottle (EREMA) recycling process. Food-grade quality available.",
-    img: "https://ameefarenergy.com/wp-content/uploads/2024/12/p3.jpg",
+    img: "/images/whatWeSell/p3.jpg",
     color: "from-teal-500 to-emerald-600",
     badge: "Best Seller",
   },
@@ -74,7 +74,7 @@ const whatWeSell = [
     name: "PET Flakes",
     tagline: "High-grade washed PET flakes",
     desc: "Sourced from used water and soft drink bottles, available in various quality grades — clear, mixed colour, and washed — for multiple industrial applications.",
-    img: "https://ameefarenergy.com/wp-content/uploads/2024/12/p2.jpg",
+    img: "/images/whatWeSell/p2.jpg",
     color: "from-blue-500 to-cyan-600",
     badge: "High Demand",
   },
@@ -82,7 +82,7 @@ const whatWeSell = [
     name: "UBC",
     tagline: "Used beverage cans — aluminium",
     desc: "Our Aluminum UBC is sourced from trusted suppliers, ensuring superior quality and a reliable, consistent supply for smelting operations worldwide.",
-    img: "https://ameefarenergy.com/wp-content/uploads/2024/12/ubc.jpg",
+    img: "/images/whatWeSell/ubc.jpg",
     color: "from-slate-600 to-zinc-700",
     badge: "Global Export",
   },
@@ -90,7 +90,7 @@ const whatWeSell = [
     name: "rPET Bottles",
     tagline: "Recycled PET bottle feedstock",
     desc: "Post-consumer PET bottles processed, sorted, and baled for direct reuse in manufacturing and packaging applications across industries.",
-    img: "https://ameefarenergy.com/wp-content/uploads/2024/12/p3.jpg",
+    img: "/images/whatWeSell/p3.jpg",
     color: "from-emerald-500 to-green-600",
     badge: "Sustainable",
   },
@@ -102,21 +102,21 @@ const whatWeBuy = [
     name: "PET Bottles",
     tagline: "Post-consumer PET bottles",
     desc: "We purchase used PET bottles — baled or loose — from collectors, recyclers, and municipalities across Africa. Competitive pricing, reliable offtake.",
-    img: "https://ameefarenergy.com/wp-content/uploads/2024/12/b1.jpg",
+    img: "/images/whatWeBuy/b1.jpg",
     color: "from-sky-500 to-blue-600",
   },
   {
     name: "PET Chips & Flakes",
     tagline: "Processed PET scrap",
     desc: "We buy washed and unwashed PET chips and flakes, suitable for reprocessing into virgin-grade rPET resins. Both clear and mixed grades accepted.",
-    img: "https://ameefarenergy.com/wp-content/uploads/2024/12/b3.jpg",
+    img: "/images/whatWeBuy/b3.jpg",
     color: "from-teal-500 to-cyan-600",
   },
   {
     name: "UBC Bales",
     tagline: "Used beverage can bales",
     desc: "We source aluminium UBC bales from verified suppliers — clean, shredded or whole, ready for smelting. Consistent volumes, fair market pricing.",
-    img: "https://ameefarenergy.com/wp-content/uploads/2024/12/b2.jpg",
+    img: "/images/whatWeBuy/b2.jpg",
     color: "from-slate-500 to-gray-700",
   },
 ];
@@ -128,7 +128,7 @@ const plasticTypes = [
   { code: "4", name: "LDPE", full: "Low-Density Polyethylene", desc: "Flexible, lightweight plastic used for carrier bags, shrink wrap, and agricultural films.", color: "from-sky-400 to-cyan-600", img: "/images/plastics/ldpe.png" },
   { code: "5", name: "PP", full: "Polypropylene", desc: "Tough, heat-resistant plastic used in food packaging, automotive parts, and crates.", color: "from-red-500 to-rose-600", img: "/images/plastics/pp.png" },
   { code: "6", name: "PS", full: "Polystyrene", desc: "Rigid or foamed plastic used in disposable cups, takeaway containers, and protective packaging.", color: "from-violet-500 to-purple-600", img: "/images/plastics/ps.png" },
-  { code: "7", name: "Others", full: "PC, ABS, Acrylic, EPS & More", desc: "Specialty plastics including polycarbonate, ABS, acrylic, EPS (foam insulation), and nylon.", color: "from-slate-600 to-gray-800", img: "https://ameefarenergy.com/wp-content/uploads/2024/12/recycle.jpg" },
+  { code: "7", name: "Others", full: "PC, ABS, Acrylic, EPS & More", desc: "Specialty plastics including polycarbonate, ABS, acrylic, EPS (foam insulation), and nylon.", color: "from-slate-600 to-gray-800", img: "/images/heroSlides/recycle.jpg" },
 ];
 
 const otherMaterials = [
@@ -141,7 +141,7 @@ const otherMaterials = [
 
 const heroSlides = [
   {
-    bg: "https://ameefarenergy.com/wp-content/uploads/2024/12/ban2.jpeg",
+    bg: "/images/heroSlides/ban2.jpeg",
     badge: "Ameefar Energy Africa",
     title: "Powering the Circular Economy",
     subtitle: "From Waste to Resource",
@@ -154,7 +154,7 @@ const heroSlides = [
     accent: "from-emerald-400 to-teal-300",
   },
   {
-    bg: "https://ameefarenergy.com/wp-content/uploads/2024/12/ban3.jpg",
+    bg: "/images/heroSlides/ban3.jpg",
     badge: "Reimagining Waste",
     title: "Rebuilding the Future",
     subtitle: "Circular Economy in Action",
@@ -167,7 +167,7 @@ const heroSlides = [
     accent: "from-amber-400 to-orange-300",
   },
   {
-    bg: "https://ameefarenergy.com/wp-content/uploads/2024/12/recycle.jpg",
+    bg: "/images/heroSlides/recycle.jpg",
     badge: "100% Secure Trading",
     title: "Secure African Trade. Guaranteed Quality.",
     subtitle: "Protected Every Step",
@@ -179,19 +179,7 @@ const heroSlides = [
     gradient: "from-[#001a1a] via-[#001a1a]/80 to-transparent",
     accent: "from-[#00bfa5] to-[#80cbc4]",
   },
-  {
-    bg: "https://ameefarenergy.com/wp-content/uploads/2024/12/b1.jpg",
-    badge: "rPET Expertise",
-    title: "Seven Types of Plastics & Beyond",
-    subtitle: "From PET to Engineering Polymers",
-    text: "We give a second life to 2M tonnes of recyclable materials. We trade in all seven resin categories — PETE, HDPE, PVC, LDPE, PP, PS, and specialty plastics — plus recovered paper, aluminium, and tyres.",
-    cta: "Browse Materials",
-    ctaLink: "/product",
-    secondaryCta: "Sell Your Material",
-    secondaryLink: "/product/create",
-    gradient: "from-[#000d1a] via-[#000d1a]/75 to-transparent",
-    accent: "from-violet-400 to-purple-300",
-  },
+
 ];
 
 /* ─── Hero Carousel ─────────────────────────────────── */
@@ -214,7 +202,7 @@ function HeroCarousel({
   useEffect(() => {
     startTimer();
     return () => { if (timerRef.current) clearInterval(timerRef.current); };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const goTo = (index: number) => {
@@ -360,11 +348,10 @@ function HeroCarousel({
             className="group relative"
           >
             <div
-              className={`rounded-full transition-all duration-500 ${
-                i === current
-                  ? "w-10 h-2.5 bg-[#beebeb] shadow-[0_0_12px_rgba(190,235,235,0.5)]"
-                  : "w-2.5 h-2.5 bg-white/25 hover:bg-white/50"
-              }`}
+              className={`rounded-full transition-all duration-500 ${i === current
+                ? "w-10 h-2.5 bg-[#beebeb] shadow-[0_0_12px_rgba(190,235,235,0.5)]"
+                : "w-2.5 h-2.5 bg-white/25 hover:bg-white/50"
+                }`}
             />
           </button>
         ))}
@@ -466,13 +453,11 @@ export default function Home() {
 
       {/* ── NAV ── */}
       <header
-        className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
-          isFooterVisible ? "-translate-y-full" : "translate-y-0"
-        } ${
-          scrolled
+        className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${isFooterVisible ? "-translate-y-full" : "translate-y-0"
+          } ${scrolled
             ? "border-b border-slate-100 bg-white/98 backdrop-blur-xl shadow-sm"
             : "border-b border-white/10 bg-transparent backdrop-blur-sm"
-        }`}
+          }`}
       >
         <div className="mx-auto flex h-[68px] w-full max-w-[1440px] items-center justify-between px-6 md:px-12">
           {/* Logo */}
@@ -823,12 +808,10 @@ export default function Home() {
 
           <div className="relative mx-auto max-w-[1440px]">
             <FadeInSection className="max-w-2xl mx-auto text-center mb-16">
-              <span className={`${jetbrains.className} inline-block rounded-full border border-[#006d40]/30 bg-[#006d40]/10 px-6 py-2 text-[13px] tracking-[0.18em] text-[#00bfa5] uppercase font-medium`}>
-                What We Trade
-              </span>
+
               <h2 className={`${hanken.className} mt-6 text-[40px] font-bold leading-tight text-white md:text-[52px]`}>
-                The Seven Types of Plastics{" "}
-                <span className="bg-gradient-to-r from-[#00bfa5] to-emerald-300 bg-clip-text text-transparent">& Beyond</span>
+                What We{" "}
+                <span className="bg-gradient-to-r from-[#00bfa5] to-emerald-300 bg-clip-text text-transparent">Trade</span>
               </h2>
               <p className="mt-5 text-[16px] leading-relaxed text-slate-400 max-w-xl mx-auto">
                 We trade in all seven resin categories — from PET bottles to mixed engineering polymers — plus recovered paper, metals, and more.
@@ -851,12 +834,12 @@ export default function Home() {
                         </div>
                         <div className={`absolute inset-0 bg-gradient-to-t from-[#001a1a] via-[#001a1a]/40 to-transparent`} />
                         <div className={`absolute inset-0 bg-gradient-to-br ${plastic.color} opacity-30 mix-blend-color transition-opacity duration-500 group-hover:opacity-10`} />
-                        
+
                         {/* Number Badge */}
                         <div className="absolute left-4 top-4 flex h-12 w-12 items-center justify-center rounded-xl border border-white/30 bg-black/40 backdrop-blur-md shadow-lg transition-transform duration-500 group-hover:scale-110">
                           <span className="font-mono text-[22px] font-black text-white">{plastic.code}</span>
                         </div>
-                        
+
                         {/* Floating Title */}
                         <div className="absolute bottom-4 left-5 right-5">
                           <div className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-black/40 backdrop-blur-md px-3 py-1 text-[11px] font-mono font-medium tracking-widest text-white/90 mb-2">

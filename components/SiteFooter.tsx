@@ -147,7 +147,7 @@ export default function SiteFooter() {
       <div className="bg-[#003820]">
         <div className="mx-auto flex max-w-[1440px] items-center justify-center px-6 py-4 text-[12.5px] text-white/60 md:px-12">
           <span>
-            ©2024 Ameefar Energy Africa Ltd.{" "}
+            ©2026 Ameefar Energy Africa Ltd.{" "}
             <span className="text-[#4caf50] font-semibold">All</span> Rights Reserved
           </span>
         </div>
