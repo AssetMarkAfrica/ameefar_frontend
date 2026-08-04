@@ -17,7 +17,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   useEffect(() => {
     if (mounted) {
       if (!isAuthenticated) {
-        router.replace("/login");
+        router.replace("/auth/login");
       } else if (!isAdmin) {
         router.replace("/product");
       }
