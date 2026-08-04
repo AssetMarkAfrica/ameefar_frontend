@@ -173,7 +173,11 @@ export function OperationalSitesStep() {
     }
 
     try {
-      await dispatch(addSiteThunk({ token, ...form })).unwrap();
+      const payload: any = { ...form };
+      if (!payload.latitude) delete payload.latitude;
+      if (!payload.longitude) delete payload.longitude;
+      
+      await dispatch(addSiteThunk({ token, ...payload })).unwrap();
       setForm({ ...emptySite, is_primary: sites.length === 0 });
       setDrawerOpen(false);
     } catch {
