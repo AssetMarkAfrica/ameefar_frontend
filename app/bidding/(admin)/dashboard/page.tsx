@@ -94,7 +94,7 @@ export default function AdminDashboardPage() {
 
                 {/* Payouts */}
                 <Link
-                  href="/bidding/admin/payouts"
+                  href="/bidding/payouts"
                   className="group bg-white rounded-2xl border border-border-subtle shadow-sm p-6 flex items-start gap-4 hover:border-secondary hover:shadow-md transition-all duration-200 active:scale-[0.98]"
                 >
                   <div className="w-12 h-12 rounded-xl bg-secondary/10 flex items-center justify-center flex-shrink-0 group-hover:bg-secondary/20 transition-colors">
@@ -112,7 +112,7 @@ export default function AdminDashboardPage() {
                   </div>
                   <span className="material-symbols-outlined text-outline text-lg flex-shrink-0 self-center group-hover:translate-x-1 transition-transform">
                     chevron_right
-  	              </span>
+                  </span>
                 </Link>
 
                 {/* Inspections */}
