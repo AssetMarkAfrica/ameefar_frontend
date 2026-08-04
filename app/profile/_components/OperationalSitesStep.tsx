@@ -85,12 +85,18 @@ export function OperationalSitesStep() {
   }
 
   async function doReverseGeocode(latitude: number | string, longitude: number | string) {
-    updateField("latitude", latitude.toString());
-    updateField("longitude", longitude.toString());
+    const latNum = typeof latitude === "number" ? latitude : parseFloat(latitude.toString());
+    const lonNum = typeof longitude === "number" ? longitude : parseFloat(longitude.toString());
+
+    const formattedLat = !isNaN(latNum) ? latNum.toFixed(6) : latitude.toString();
+    const formattedLon = !isNaN(lonNum) ? lonNum.toFixed(6) : longitude.toString();
+
+    updateField("latitude", formattedLat);
+    updateField("longitude", formattedLon);
 
     try {
       const response = await fetch(
-        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
+        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${formattedLat}&lon=${formattedLon}`
       );
       if (!response.ok) throw new Error("Reverse geocoding failed");
       const data = await response.json();
@@ -174,8 +180,18 @@ export function OperationalSitesStep() {
 
     try {
       const payload: any = { ...form };
-      if (!payload.latitude) delete payload.latitude;
-      if (!payload.longitude) delete payload.longitude;
+
+      if (!payload.latitude || isNaN(parseFloat(payload.latitude))) {
+        delete payload.latitude;
+      } else {
+        payload.latitude = parseFloat(payload.latitude).toFixed(6);
+      }
+
+      if (!payload.longitude || isNaN(parseFloat(payload.longitude))) {
+        delete payload.longitude;
+      } else {
+        payload.longitude = parseFloat(payload.longitude).toFixed(6);
+      }
       
       await dispatch(addSiteThunk({ token, ...payload })).unwrap();
       setForm({ ...emptySite, is_primary: sites.length === 0 });
@@ -372,20 +388,40 @@ export function OperationalSitesStep() {
                   </label>
                 </div>
                 <div className="profile-field" style={{ display: "flex", flexDirection: "column", gap: "0.5rem", marginBottom: "1rem" }}>
-                  <button
-                    className="profile-primary-button"
-                    type="button"
-                    onClick={handleLocateMe}
-                    disabled={isLocating}
-                    style={{ width: "fit-content", padding: "0.5rem 1rem", fontSize: "0.875rem" }}
-                  >
-                    {isLocating ? "Locating..." : "Use Current Location"}
-                  </button>
-                  {form.latitude && form.longitude && (
-                    <span style={{ fontSize: "0.75rem", color: "var(--color-success, #10b981)" }}>
-                      ✓ Location captured
-                    </span>
-                  )}
+                  <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+                    <button
+                      className="profile-primary-button"
+                      type="button"
+                      onClick={handleLocateMe}
+                      disabled={isLocating}
+                      style={{ width: "fit-content", padding: "0.5rem 1rem", fontSize: "0.875rem" }}
+                    >
+                      {isLocating ? "Locating..." : "Use Current Location"}
+                    </button>
+                    {form.latitude && form.longitude && (
+                      <span style={{ fontSize: "0.75rem", color: "var(--color-success, #10b981)" }}>
+                        ✓ Location captured ({form.latitude}, {form.longitude})
+                      </span>
+                    )}
+                  </div>
+                </div>
+                <div className="profile-two-col">
+                  <label className="profile-field">
+                    <span>Latitude (Optional)</span>
+                    <input
+                      onChange={(event) => updateField("latitude", event.target.value)}
+                      placeholder="e.g. 5.636896"
+                      value={form.latitude}
+                    />
+                  </label>
+                  <label className="profile-field">
+                    <span>Longitude (Optional)</span>
+                    <input
+                      onChange={(event) => updateField("longitude", event.target.value)}
+                      placeholder="e.g. -0.016740"
+                      value={form.longitude}
+                    />
+                  </label>
                 </div>
                 <label className="profile-field">
                   <span>Contact Person</span>
@@ -467,6 +503,9 @@ export function OperationalSitesStep() {
                   />
                   <span>Has export capability</span>
                 </label>
+                {localError || addError ? (
+                  <p className="profile-error" style={{ margin: "1rem 0" }}>{localError ?? addError}</p>
+                ) : null}
               </div>
               <div className="profile-drawer-footer">
                 <button onClick={() => setDrawerOpen(false)} type="button">

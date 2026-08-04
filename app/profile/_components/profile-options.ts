@@ -25,10 +25,13 @@ export const companySizes: Array<{ label: string; value: CompanySize }> = [
 ];
 
 export const siteTypes: Array<{ label: string; value: SiteType }> = [
-  { label: "Recycling", value: "recycling" },
-  { label: "Processing", value: "processing" },
-  { label: "Collection", value: "collection" },
-  { label: "Storage", value: "storage" },
+  { label: "Manufacturing Plant", value: "manufacturing" },
+  { label: "Recycling Facility", value: "recycling" },
+  { label: "Warehouse", value: "warehouse" },
+  { label: "Processing Plant", value: "processing" },
+  { label: "Distribution Center", value: "distribution" },
+  { label: "Storage Yard", value: "storage_yard" },
+  { label: "Corporate Office", value: "corporate_office" },
   { label: "Other", value: "other" },
 ];
 

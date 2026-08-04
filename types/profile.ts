@@ -12,10 +12,13 @@ export type CompanySize =
 export type VatRegion = "uk" | "eu" | "us" | "other";
 
 export type SiteType =
+  | "manufacturing"
   | "recycling"
+  | "warehouse"
   | "processing"
-  | "collection"
-  | "storage"
+  | "distribution"
+  | "storage_yard"
+  | "corporate_office"
   | "other";
 
 export type DocType =
