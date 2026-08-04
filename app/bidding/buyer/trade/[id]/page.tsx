@@ -43,6 +43,7 @@ export default function BuyerTradePage() {
     tradeSummary,
     lastInitiatedPayment,
     loading: paymentLoading,
+    error: paymentError,
   } = useAppSelector((state) => state.payment);
 
   const messages = tradeMessages[id] || [];
@@ -544,6 +545,7 @@ export default function BuyerTradePage() {
           paystackReference={lastInitiatedPayment?.paystack_reference ?? null}
           isInitiating={paymentLoading}
           isVerifying={isVerifying}
+          error={paymentError}
           onInitiate={handleInitiateTradePayment}
           onVerify={handleVerifyTradePayment}
           onClose={() => setActiveModal(null)}

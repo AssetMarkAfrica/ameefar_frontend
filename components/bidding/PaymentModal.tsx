@@ -9,6 +9,7 @@ interface PaymentModalProps {
   paystackReference: string | null;
   isInitiating: boolean;
   isVerifying: boolean;
+  error?: string | null;
   onInitiate: () => void;
   onVerify: () => void;
   onClose: () => void;
@@ -21,6 +22,7 @@ export default function PaymentModal({
   paystackReference,
   isInitiating,
   isVerifying,
+  error,
   onInitiate,
   onVerify,
   onClose,
@@ -136,23 +138,31 @@ export default function PaymentModal({
               </div>
             </div>
           ) : (
-            <button
-              onClick={onInitiate}
-              disabled={isInitiating}
-              className="w-full flex items-center justify-center gap-2 py-4 bg-ameefar-navy text-on-primary font-bold rounded-xl hover:opacity-90 transition-all active:scale-95 disabled:opacity-50 text-body-lg"
-            >
-              {isInitiating ? (
-                <>
-                  <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                  Initializing...
-                </>
-              ) : (
-                <>
-                  <span className="material-symbols-outlined">credit_card</span>
-                  Pay Now via Paystack
-                </>
+            <div className="space-y-3">
+              {error && (
+                <div className="flex items-start gap-2 bg-red-50 border border-red-200 rounded-xl p-3">
+                  <span className="material-symbols-outlined text-red-500 text-[18px] mt-0.5">error</span>
+                  <p className="text-body-sm text-red-700">{error}</p>
+                </div>
               )}
-            </button>
+              <button
+                onClick={onInitiate}
+                disabled={isInitiating}
+                className="w-full flex items-center justify-center gap-2 py-4 bg-ameefar-navy text-on-primary font-bold rounded-xl hover:opacity-90 transition-all active:scale-95 disabled:opacity-50 text-body-lg"
+              >
+                {isInitiating ? (
+                  <>
+                    <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    Initializing...
+                  </>
+                ) : (
+                  <>
+                    <span className="material-symbols-outlined">credit_card</span>
+                    Pay Now via Paystack
+                  </>
+                )}
+              </button>
+            </div>
           )}
         </div>
       </div>
