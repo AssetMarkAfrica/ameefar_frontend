@@ -512,7 +512,7 @@ export default function Home() {
               </>
             ) : (
               <Link
-                href="/auth/register"
+                href="/product"
                 className={`${hanken.className} rounded-xl px-6 py-2.5 text-[13px] font-bold transition-all duration-300 hover:-translate-y-0.5 ${scrolled ? "bg-[#002627] !text-white hover:bg-[#003a3c] shadow-sm" : "bg-[#beebeb] text-[#002627] hover:bg-white shadow-[0_0_24px_rgba(190,235,235,0.35)]"}`}
               >
                 Visit Marketplace
