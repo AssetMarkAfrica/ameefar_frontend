@@ -102,6 +102,24 @@ function ArrowForwardIcon() {
   );
 }
 
+function IconEye() {
+  return (
+    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="18">
+      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+      <circle cx="12" cy="12" r="3" />
+    </svg>
+  );
+}
+
+function IconEyeOff() {
+  return (
+    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="18">
+      <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
+      <line x1="1" y1="1" x2="23" y2="23" />
+    </svg>
+  );
+}
+
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export function RegisterForm() {
@@ -111,6 +129,8 @@ export function RegisterForm() {
   const error = useAppSelector((state) => selectAuthError(state, "register"));
   const [form, setForm] = useState<RegisterFormState>(initialForm);
   const [localError, setLocalError] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
 
   const isLoading = status === "loading";
   const hasOtherMaterial = form.materials_of_interest.includes("other");
@@ -248,27 +268,47 @@ export function RegisterForm() {
                     </div>
                     <div className="col-span-1 space-y-2">
                       <label className={`${jetbrains.className} text-[10.5px] font-medium tracking-widest text-slate-500 uppercase`}>Password</label>
-                      <input
-                        autoComplete="new-password"
-                        onChange={(e) => updateField("password", e.target.value)}
-                        placeholder="********"
-                        required
-                        type="password"
-                        value={form.password}
-                        className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-[14px] text-slate-900 placeholder-slate-400 outline-none transition focus:border-[#00bfa5] focus:bg-white focus:ring-1 focus:ring-[#00bfa5]/50"
-                      />
+                      <div className="relative">
+                        <input
+                          autoComplete="new-password"
+                          onChange={(e) => updateField("password", e.target.value)}
+                          placeholder="********"
+                          required
+                          type={showPassword ? "text" : "password"}
+                          value={form.password}
+                          className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3.5 pr-12 text-[14px] text-slate-900 placeholder-slate-400 outline-none transition focus:border-[#00bfa5] focus:bg-white focus:ring-1 focus:ring-[#00bfa5]/50"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowPassword(!showPassword)}
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 focus:outline-none"
+                          aria-label={showPassword ? "Hide password" : "Show password"}
+                        >
+                          {showPassword ? <IconEyeOff /> : <IconEye />}
+                        </button>
+                      </div>
                     </div>
                     <div className="col-span-1 space-y-2">
                       <label className={`${jetbrains.className} text-[10.5px] font-medium tracking-widest text-slate-500 uppercase`}>Confirm Password</label>
-                      <input
-                        autoComplete="new-password"
-                        onChange={(e) => updateField("password_confirm", e.target.value)}
-                        placeholder="********"
-                        required
-                        type="password"
-                        value={form.password_confirm}
-                        className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-[14px] text-slate-900 placeholder-slate-400 outline-none transition focus:border-[#00bfa5] focus:bg-white focus:ring-1 focus:ring-[#00bfa5]/50"
-                      />
+                      <div className="relative">
+                        <input
+                          autoComplete="new-password"
+                          onChange={(e) => updateField("password_confirm", e.target.value)}
+                          placeholder="********"
+                          required
+                          type={showPasswordConfirm ? "text" : "password"}
+                          value={form.password_confirm}
+                          className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3.5 pr-12 text-[14px] text-slate-900 placeholder-slate-400 outline-none transition focus:border-[#00bfa5] focus:bg-white focus:ring-1 focus:ring-[#00bfa5]/50"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowPasswordConfirm(!showPasswordConfirm)}
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 focus:outline-none"
+                          aria-label={showPasswordConfirm ? "Hide confirm password" : "Show confirm password"}
+                        >
+                          {showPasswordConfirm ? <IconEyeOff /> : <IconEye />}
+                        </button>
+                      </div>
                     </div>
                   </FormSection>
 
