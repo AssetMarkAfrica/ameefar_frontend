@@ -10,8 +10,8 @@ const inter = Inter({ variable: "--font-inter", subsets: ["latin"], weight: ["40
 const jetbrains = JetBrains_Mono({ variable: "--font-jetbrains", subsets: ["latin"], weight: ["500"] });
 
 export const metadata: Metadata = {
-  title: "Ameefar | Trust-First Landing Page",
-  description: "Secure African trade marketplace with escrow and inspection protection.",
+  title: "Ameefar Energy Africa | Powering the Circular Economy",
+  description: "Discover our mission to build sustainable recycling solutions across Africa. Join the first B2B recycling marketplace built on 100% secure trading protocols.",
   icons: {
     icon: "/ameefarLogo.png",
     apple: "/ameefarLogo.png",

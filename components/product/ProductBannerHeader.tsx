@@ -60,7 +60,7 @@ export default function ProductBannerHeader() {
         Home
       </Link>
 
-      <Link href="/product" className={getLinkClass("/product", true)} onClick={() => setMenuOpen(false)}>
+      <Link href="/marketplace" className={getLinkClass("/product", true)} onClick={() => setMenuOpen(false)}>
         Marketplace
       </Link>
 
@@ -84,7 +84,7 @@ export default function ProductBannerHeader() {
               <Link href="/profile/pending-verifications" className={getLinkClass("/profile", true)} onClick={() => setMenuOpen(false)}>
                 Pending Verifications
               </Link>
-                 <Link href="/blog/admin" className={getLinkClass("/blog/admin", true)} onClick={() => setMenuOpen(false)}>
+              <Link href="/blog/admin" className={getLinkClass("/blog/admin", true)} onClick={() => setMenuOpen(false)}>
                 Blog Admin
               </Link>
             </>
@@ -117,7 +117,7 @@ export default function ProductBannerHeader() {
         <div className="mx-auto flex h-full max-w-[1440px] items-center justify-between px-4 md:px-10">
 
           {/* ── Logo ── */}
-          <Link href="/" className="flex items-center gap-3 shrink-0 group">
+          <Link href="/marketplace" className="flex items-center gap-3 shrink-0 group">
             <div className="relative">
               <div className="absolute inset-0 rounded-xl bg-emerald-500/15 blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               <Image
@@ -129,9 +129,9 @@ export default function ProductBannerHeader() {
               />
             </div>
             <div className="flex flex-col leading-none">
-              <span className="text-[17px] font-bold text-[#002627] tracking-tight">Ameefar</span>
+              <span className="text-[17px] font-bold text-[#002627] tracking-tight">AMEEFAR</span>
               <span className="text-[9px] font-semibold tracking-[0.15em] text-[#006d40] uppercase mt-0.5">
-                Energy Africa
+                MARKETPLACE
               </span>
             </div>
           </Link>
@@ -142,7 +142,7 @@ export default function ProductBannerHeader() {
               Home
             </Link>
 
-            <Link href="/product" className={getLinkClass("/product")}>
+            <Link href="/marketplace" className={getLinkClass("/product")}>
               Marketplace
             </Link>
 

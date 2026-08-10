@@ -56,7 +56,7 @@ export default function SiteFooter() {
                     <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z" />
                   </svg>
                 </span>
-                <span className="text-[13.5px] text-white/75">233244062988 / 233268808886</span>
+                <span className="text-[13.5px] text-white/75">(+233) 24 406 2988 / (+233) 26 880 8886</span>
               </li>
               {/* Phone */}
               <li className="flex items-center gap-3.5">
@@ -66,7 +66,7 @@ export default function SiteFooter() {
                   </svg>
                 </span>
                 <a href="tel:+233302528832" className="text-[13.5px] text-white/75 hover:text-white transition-colors">
-                  (+233) 302528832
+                  (+233) 30 252 8832
                 </a>
               </li>
               {/* Email */}
