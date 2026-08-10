@@ -74,13 +74,6 @@ export default function InspectionModule({
             <span className="material-symbols-outlined">assignment_turned_in</span>
             Request Inspection
           </button>
-          <button
-            onClick={onSkip}
-            disabled={isActionLoading}
-            className="w-full bg-white border border-border-subtle text-on-surface-variant font-bold py-3 rounded-lg flex items-center justify-center gap-2 hover:bg-surface-gray transition-all active:scale-95 disabled:opacity-50"
-          >
-            Skip Inspection
-          </button>
           <p className="mt-4 text-center font-label-md text-label-md text-on-secondary-fixed-variant/60">
             Estimated cost: {paymentSummary?.inspection_fee_amount ? `$${paymentSummary.inspection_fee_amount}` : "Determined by Admin"}
           </p>
