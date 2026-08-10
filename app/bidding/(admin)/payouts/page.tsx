@@ -11,7 +11,7 @@ export default function AdminPayoutsPage() {
   const token = useAppSelector(selectAccessToken);
 
   const [selectedPayoutId, setSelectedPayoutId] = useState<string | null>(null);
-
+  // there is an issue here. will fix it later
   useEffect(() => {
     if (token) {
       dispatch(listPendingPayoutsThunk());
@@ -24,7 +24,7 @@ export default function AdminPayoutsPage() {
 
   const confirmApprove = async () => {
     if (!token || !selectedPayoutId) return;
-    
+
     await dispatch(approvePayoutThunk(selectedPayoutId));
     dispatch(listPendingPayoutsThunk());
     setSelectedPayoutId(null);
@@ -38,7 +38,7 @@ export default function AdminPayoutsPage() {
   return (
     <div className="flex w-full min-h-screen bg-surface-gray font-body-md text-on-surface">
       <BiddingSidebar role="admin" />
-      
+
       <main className="flex-1 flex flex-col w-full min-w-0 min-h-screen">
         {/* Page Header */}
         <div className="bg-white border-b border-border-subtle sticky top-0 z-10 px-4 sm:px-8 py-4 flex items-center justify-between">
@@ -175,26 +175,26 @@ export default function AdminPayoutsPage() {
                         </span>
                       </div>
                     </div>
-                    
+
                     <div className="pt-4 border-t border-border-subtle">
-                        {payout.status === "pending" ? (
-                          <button
-                            onClick={() => handleApproveClick(payout.id)}
-                            disabled={status.approvePayout === "loading"}
-                            className="w-full py-3 bg-secondary text-on-secondary font-bold rounded-xl hover:bg-secondary/90 active:scale-[0.98] transition-all text-sm disabled:opacity-50 flex items-center justify-center gap-2 shadow-sm"
-                          >
-                            {status.approvePayout === "loading" && selectedPayoutId === payout.id ? (
-                              <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                            ) : (
-                              <span className="material-symbols-outlined text-[18px]">check_circle</span>
-                            )}
-                            Approve Payout
-                          </button>
-                        ) : (
-                          <span className="w-full py-2 bg-trust-green-subtle text-secondary font-label-md text-xs rounded-xl uppercase tracking-wider text-center block">
-                            {payout.status}
-                          </span>
-                        )}
+                      {payout.status === "pending" ? (
+                        <button
+                          onClick={() => handleApproveClick(payout.id)}
+                          disabled={status.approvePayout === "loading"}
+                          className="w-full py-3 bg-secondary text-on-secondary font-bold rounded-xl hover:bg-secondary/90 active:scale-[0.98] transition-all text-sm disabled:opacity-50 flex items-center justify-center gap-2 shadow-sm"
+                        >
+                          {status.approvePayout === "loading" && selectedPayoutId === payout.id ? (
+                            <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                          ) : (
+                            <span className="material-symbols-outlined text-[18px]">check_circle</span>
+                          )}
+                          Approve Payout
+                        </button>
+                      ) : (
+                        <span className="w-full py-2 bg-trust-green-subtle text-secondary font-label-md text-xs rounded-xl uppercase tracking-wider text-center block">
+                          {payout.status}
+                        </span>
+                      )}
                     </div>
                   </div>
                 ))}
