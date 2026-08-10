@@ -9,8 +9,8 @@ export function AuthFooter() {
           <p className="auth-muted">(c) 2026 Ameefar Energy. Professional Recycling Marketplace.</p>
         </div>
         <div className="auth-footer-links">
-          <Link href="#">Privacy Policy</Link>
-          <Link href="#">Terms of Service</Link>
+          <Link href="/privacy-policy">Privacy Policy</Link>
+          <Link href="/terms-of-service">Terms of Service</Link>
           <Link href="#">Compliance</Link>
           <Link href="#">Support</Link>
         </div>

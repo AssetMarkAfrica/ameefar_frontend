@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { Hanken_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
+import Link from "next/link";
 
 const hanken = Hanken_Grotesk({ subsets: ["latin"], weight: ["400", "600", "700", "800"] });
 const inter = Inter({ subsets: ["latin"], weight: ["400", "500", "600"] });
@@ -145,11 +146,15 @@ export default function SiteFooter() {
 
       {/* ── BOTTOM BAR ── */}
       <div className="bg-[#003820]">
-        <div className="mx-auto flex max-w-[1440px] items-center justify-center px-6 py-4 text-[12.5px] text-white/60 md:px-12">
+        <div className="mx-auto flex max-w-[1440px] items-center justify-between flex-wrap gap-4 px-6 py-4 text-[12.5px] text-white/60 md:px-12">
           <span>
             ©2026 Ameefar Energy Africa Ltd.{" "}
             <span className="text-[#4caf50] font-semibold">All</span> Rights Reserved
           </span>
+          <div className="flex gap-6">
+            <Link href="/terms-of-service" className="hover:text-white transition-colors">Terms of Service</Link>
+            <Link href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>
+          </div>
         </div>
       </div>
     </footer>

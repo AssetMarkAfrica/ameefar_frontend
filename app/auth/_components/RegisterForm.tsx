@@ -492,8 +492,8 @@ export function RegisterForm() {
                       />
                       <span className="text-[13px] leading-relaxed text-slate-600 group-hover:text-slate-800 transition-colors">
                         I agree to the Ameefar Energy{" "}
-                        <Link href="#" className="text-[#00bfa5] hover:underline underline-offset-2">Terms of Service</Link> and{" "}
-                        <Link href="#" className="text-[#00bfa5] hover:underline underline-offset-2">Privacy Policy</Link>. I understand that my
+                        <Link href="/terms-of-service" className="text-[#00bfa5] hover:underline underline-offset-2">Terms of Service</Link> and{" "}
+                        <Link href="/privacy-policy" className="text-[#00bfa5] hover:underline underline-offset-2">Privacy Policy</Link>. I understand that my
                         company profile will be subject to identity verification.
                       </span>
                     </label>
