@@ -69,9 +69,7 @@ export default function SellerDashboardPage() {
                         <h3 className="font-bold text-ameefar-navy group-hover:text-primary transition-colors">
                           {enquiry.listing_name}
                         </h3>
-                        <p className="text-body-sm text-on-surface-variant">
-                          Ref: {enquiry.reference} • Buyer: {enquiry.initiator_name}
-                        </p>
+
                       </div>
                       <div className="text-right">
                         <span className="px-3 py-1 bg-surface-container-high text-primary rounded-full text-[12px] font-bold uppercase">

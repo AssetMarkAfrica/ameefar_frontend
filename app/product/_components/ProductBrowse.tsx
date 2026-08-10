@@ -149,7 +149,7 @@ export function ProductBrowse() {
               </button>
             </div>
 
-            {token && !isBuyer && (
+            {token && !(isAdmin || isBuyer) && (
               <label className="flex cursor-pointer items-center justify-between gap-4 rounded-lg border border-slate-200 bg-slate-50 p-3 transition hover:border-[#002627]/20 hover:bg-[#eff4ff]">
                 <span className="text-sm font-semibold text-[#0b1c30]">
                   My listings only

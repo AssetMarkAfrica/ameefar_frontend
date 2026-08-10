@@ -125,6 +125,22 @@ export default function SellerNegotiationPage() {
           </div>
         </section>
 
+        {currentEnquiry.status === "accepted" && currentEnquiry.trade_id && (
+          <div className="mb-8 bg-secondary/10 rounded-xl border border-secondary/30 p-8 flex flex-col md:flex-row gap-6 items-center justify-between shadow-sm">
+            <div>
+              <h3 className="font-headline-md text-headline-md text-secondary">Negotiation Accepted</h3>
+              <p className="text-body-md text-on-surface-variant mt-1">This negotiation has concluded successfully. Please proceed to the execution room.</p>
+            </div>
+            <button
+              onClick={() => router.push(`/bidding/seller/trade/${currentEnquiry.trade_id}`)}
+              className="w-full md:w-auto px-8 py-4 bg-secondary text-white font-bold rounded-xl shadow-lg hover:bg-primary transition-all flex items-center justify-center gap-3 text-lg"
+            >
+              <span className="material-symbols-outlined text-[24px]">handshake</span>
+              Proceed to Trade Execution
+            </button>
+          </div>
+        )}
+
         {/* ── Main Content Grid ── */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
   ChangeEvent,
+  ClipboardEvent,
   FormEvent,
   KeyboardEvent,
   useEffect,
@@ -102,6 +103,23 @@ export function AdminTwoFactorForm() {
     }
   }
 
+  function handlePaste(event: ClipboardEvent<HTMLInputElement>) {
+    event.preventDefault();
+    const pastedData = event.clipboardData.getData("text/plain").replace(/\D/g, "").slice(0, OTP_LENGTH);
+    if (!pastedData) return;
+
+    setDigits((current) => {
+      const next = [...current];
+      for (let i = 0; i < pastedData.length; i++) {
+        next[i] = pastedData[i];
+      }
+      return next;
+    });
+
+    const focusIndex = Math.min(pastedData.length, OTP_LENGTH - 1);
+    inputsRef.current[focusIndex]?.focus();
+  }
+
   if (!adminChallengeToken) {
     return (
       <main className="auth-otp-page">
@@ -139,6 +157,7 @@ export function AdminTwoFactorForm() {
               maxLength={1}
               onChange={(event) => handleDigitChange(index, event)}
               onKeyDown={(event) => handleKeyDown(index, event)}
+              onPaste={handlePaste}
               ref={(node) => {
                 inputsRef.current[index] = node;
               }}

@@ -44,3 +44,5 @@ next-env.d.ts
 #instructions
 /app/privacy-policy
 /app/terms-of-service
+/app/bidding/buyer/trades
+/app/bidding/seller/trades

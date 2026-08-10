@@ -39,8 +39,6 @@ export default function BuyerNegotiationsPage() {
                       <div className="flex items-center gap-4 text-body-sm text-on-surface-variant">
                         <span>Ref: {enquiry.reference}</span>
                         <span>•</span>
-                        <span>Seller: {enquiry.listing_owner_name}</span>
-                        <span>•</span>
                         <span>{new Date(enquiry.created_at).toLocaleDateString()}</span>
                       </div>
                     </div>

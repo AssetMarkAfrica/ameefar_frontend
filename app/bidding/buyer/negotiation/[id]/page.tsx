@@ -126,6 +126,22 @@ export default function BuyerNegotiationPage() {
           </div>
         </section>
 
+        {currentEnquiry.status === "accepted" && currentEnquiry.trade_id && (
+          <div className="mb-8 bg-secondary/10 rounded-xl border border-secondary/30 p-8 flex flex-col md:flex-row gap-6 items-center justify-between shadow-sm">
+            <div>
+              <h3 className="font-headline-md text-headline-md text-secondary">Negotiation Accepted</h3>
+              <p className="text-body-md text-on-surface-variant mt-1">This negotiation has concluded successfully. Please proceed to the execution room.</p>
+            </div>
+            <button
+              onClick={() => router.push(`/bidding/buyer/trade/${currentEnquiry.trade_id}`)}
+              className="w-full md:w-auto px-8 py-4 bg-secondary text-white font-bold rounded-xl shadow-lg hover:bg-primary transition-all flex items-center justify-center gap-3 text-lg"
+            >
+              <span className="material-symbols-outlined text-[24px]">handshake</span>
+              Proceed to Trade Execution
+            </button>
+          </div>
+        )}
+
         {/* ── Main Content Grid ── */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
@@ -268,33 +284,37 @@ export default function BuyerNegotiationPage() {
         </div>
 
         {/* ── Action Bar ── */}
-        <div className="mt-6 bg-white rounded-xl border border-border-subtle p-5 flex flex-col md:flex-row gap-3 md:items-center">
-          <button
-            onClick={() => setShowWithdrawModal(true)}
-            className="w-full md:w-auto md:flex-1 py-3 px-4 border border-border-subtle bg-white text-ameefar-navy font-bold rounded-lg hover:bg-red-50 hover:text-red-600 hover:border-red-200 transition-all flex items-center justify-center gap-2"
-          >
-            <span className="material-symbols-outlined text-[20px]">close</span>
-            Withdraw
-          </button>
-          {currentEnquiry.status === "countered" && (
-            <div className="flex flex-col sm:flex-row w-full md:w-auto md:flex-[3] gap-3">
+        {currentEnquiry.status !== "accepted" && (
+          <div className="mt-6 bg-white rounded-xl border border-border-subtle p-5 flex flex-col md:flex-row gap-3 md:items-center">
+            {currentEnquiry.status !== "declined" && currentEnquiry.status !== "withdrawn" && currentEnquiry.status !== "expired" && (
               <button
-                onClick={() => setShowCounterModal(true)}
-                className="flex-1 py-3 px-4 border border-primary text-primary font-bold rounded-lg hover:bg-surface-gray transition-all flex items-center justify-center gap-2"
+                onClick={() => setShowWithdrawModal(true)}
+                className="w-full md:w-auto md:flex-1 py-3 px-4 border border-border-subtle bg-white text-ameefar-navy font-bold rounded-lg hover:bg-red-50 hover:text-red-600 hover:border-red-200 transition-all flex items-center justify-center gap-2"
               >
-                <span className="material-symbols-outlined text-[20px]">gavel</span>
-                Counter Back
+                <span className="material-symbols-outlined text-[20px]">close</span>
+                Withdraw
               </button>
-              <button
-                onClick={handleAcceptCounter}
-                className="flex-[2] py-3 px-4 bg-secondary text-white font-bold rounded-lg shadow-sm hover:bg-primary transition-all flex items-center justify-center gap-2"
-              >
-                <span className="material-symbols-outlined text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
-                Accept Counter
-              </button>
-            </div>
-          )}
-        </div>
+            )}
+            {currentEnquiry.status === "countered" && (
+              <div className="flex flex-col sm:flex-row w-full md:w-auto md:flex-[3] gap-3">
+                <button
+                  onClick={() => setShowCounterModal(true)}
+                  className="flex-1 py-3 px-4 border border-primary text-primary font-bold rounded-lg hover:bg-surface-gray transition-all flex items-center justify-center gap-2"
+                >
+                  <span className="material-symbols-outlined text-[20px]">gavel</span>
+                  Counter Back
+                </button>
+                <button
+                  onClick={handleAcceptCounter}
+                  className="flex-[2] py-3 px-4 bg-secondary text-white font-bold rounded-lg shadow-sm hover:bg-primary transition-all flex items-center justify-center gap-2"
+                >
+                  <span className="material-symbols-outlined text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
+                  Accept Counter
+                </button>
+              </div>
+            )}
+          </div>
+        )}
 
       </main>
 
