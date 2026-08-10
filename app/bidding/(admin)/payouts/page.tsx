@@ -11,7 +11,7 @@ export default function AdminPayoutsPage() {
   const token = useAppSelector(selectAccessToken);
 
   const [selectedPayoutId, setSelectedPayoutId] = useState<string | null>(null);
-  // there is an issue here. will fix it later
+
   useEffect(() => {
     if (token) {
       dispatch(listPendingPayoutsThunk());
