@@ -821,42 +821,6 @@ export default function AdminCompleteInspectionPage() {
                   </button>
                 </div>
 
-                {/* Attach report doc */}
-                <div className="bg-white border border-border-subtle rounded-xl p-6">
-                  <div className="flex items-center justify-between mb-3">
-                    <h3 className="font-bold text-ameefar-navy flex items-center gap-2">
-                      <span className="material-symbols-outlined text-[20px]">attach_file</span>
-                      Report Document
-                      <span className="text-xs font-normal text-on-surface-variant">(optional)</span>
-                    </h3>
-                  </div>
-                  <div
-                    className="border-2 border-dashed border-border-subtle rounded-xl p-5 text-center hover:border-primary/50 cursor-pointer transition-colors group"
-                    onClick={() => fileInputRef.current?.click()}
-                  >
-                    <span className="material-symbols-outlined text-2xl text-on-surface-variant group-hover:text-primary transition-colors">cloud_upload</span>
-                    {reportFile ? (
-                      <>
-                        <p className="text-sm font-bold text-ameefar-navy mt-1 break-all">{reportFile.name}</p>
-                        <p className="text-[10px] text-on-surface-variant mt-0.5">{(reportFile.size / 1024).toFixed(1)} KB</p>
-                      </>
-                    ) : (
-                      <>
-                        <p className="text-sm font-bold text-ameefar-navy mt-1">Attach Inspection Report</p>
-                        <p className="text-[10px] text-on-surface-variant mt-0.5 uppercase tracking-wide">PDF, DOCX up to 20MB</p>
-                      </>
-                    )}
-                  </div>
-                  <input ref={fileInputRef} type="file" accept=".pdf,.doc,.docx" className="hidden" onChange={(e) => setReportFile(e.target.files?.[0] ?? null)} />
-                  {reportFile && (
-                    <button
-                      className="mt-2 text-xs text-error hover:underline w-full text-center"
-                      onClick={() => { setReportFile(null); if (fileInputRef.current) fileInputRef.current.value = ""; }}
-                    >
-                      Remove file
-                    </button>
-                  )}
-                </div>
 
                 {/* Note about photos */}
                 <div className="bg-ameefar-navy/5 border border-ameefar-navy/10 rounded-xl p-4 flex items-start gap-3">
