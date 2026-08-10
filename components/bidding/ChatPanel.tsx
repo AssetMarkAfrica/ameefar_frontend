@@ -12,6 +12,7 @@ interface ChatPanelProps {
   messages: GenericMessage[];
   onSendMessage: (body: string, attachment?: File) => Promise<void>;
   isSending?: boolean;
+  readOnly?: boolean;
 }
 
 export default function ChatPanel({
@@ -20,6 +21,7 @@ export default function ChatPanel({
   messages,
   onSendMessage,
   isSending = false,
+  readOnly = false,
 }: ChatPanelProps) {
   const user = useAppSelector(selectUser);
   const [inputText, setInputText] = useState("");
@@ -121,51 +123,53 @@ export default function ChatPanel({
         )}
       </div>
 
-      {/* Input Area */}
-      <div className="p-6 bg-white border-t border-border-subtle">
-        {file && (
-          <div className="mb-3 flex items-center gap-2 bg-surface-container-low px-3 py-1.5 rounded-md inline-flex border border-border-subtle">
-            <span className="material-symbols-outlined text-[16px] text-outline">attach_file</span>
-            <span className="text-label-md text-on-surface">{file.name}</span>
-            <button onClick={() => setFile(null)} className="ml-2 hover:text-error">
-              <span className="material-symbols-outlined text-[16px]">close</span>
+      {/* Input Area (hidden if readOnly) */}
+      {!readOnly && (
+        <div className="p-6 bg-white border-t border-border-subtle">
+          {file && (
+            <div className="mb-3 flex items-center gap-2 bg-surface-container-low px-3 py-1.5 rounded-md inline-flex border border-border-subtle">
+              <span className="material-symbols-outlined text-[16px] text-outline">attach_file</span>
+              <span className="text-label-md text-on-surface">{file.name}</span>
+              <button onClick={() => setFile(null)} className="ml-2 hover:text-error">
+                <span className="material-symbols-outlined text-[16px]">close</span>
+              </button>
+            </div>
+          )}
+          <div className="flex items-end gap-3 bg-surface-gray rounded-xl p-2 border border-border-subtle focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-1 transition-all">
+            <input
+              type="file"
+              ref={fileInputRef}
+              onChange={(e) => setFile(e.target.files?.[0] || null)}
+              className="hidden"
+            />
+            <button
+              className="p-2 text-outline-variant hover:text-primary transition-colors"
+              onClick={() => fileInputRef.current?.click()}
+            >
+              <span className="material-symbols-outlined">attach_file</span>
+            </button>
+            <textarea
+              className="flex-1 bg-transparent border-none focus:ring-0 text-body-md py-2 px-1 resize-none overflow-hidden max-h-[150px]"
+              placeholder="Type your message..."
+              rows={1}
+              value={inputText}
+              onChange={(e) => {
+                setInputText(e.target.value);
+                e.target.style.height = 'auto';
+                e.target.style.height = e.target.scrollHeight + 'px';
+              }}
+              onKeyDown={handleKeyDown}
+            ></textarea>
+            <button
+              onClick={handleSend}
+              disabled={isSending || (!inputText.trim() && !file)}
+              className="h-10 w-10 bg-primary text-white rounded-lg flex items-center justify-center hover:bg-primary-container transition-all shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <span className="material-symbols-outlined font-variation-fill">send</span>
             </button>
           </div>
-        )}
-        <div className="flex items-end gap-3 bg-surface-gray rounded-xl p-2 border border-border-subtle focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-1 transition-all">
-          <input
-            type="file"
-            ref={fileInputRef}
-            onChange={(e) => setFile(e.target.files?.[0] || null)}
-            className="hidden"
-          />
-          <button
-            className="p-2 text-outline-variant hover:text-primary transition-colors"
-            onClick={() => fileInputRef.current?.click()}
-          >
-            <span className="material-symbols-outlined">attach_file</span>
-          </button>
-          <textarea
-            className="flex-1 bg-transparent border-none focus:ring-0 text-body-md py-2 px-1 resize-none overflow-hidden max-h-[150px]"
-            placeholder="Type your message..."
-            rows={1}
-            value={inputText}
-            onChange={(e) => {
-              setInputText(e.target.value);
-              e.target.style.height = 'auto';
-              e.target.style.height = e.target.scrollHeight + 'px';
-            }}
-            onKeyDown={handleKeyDown}
-          ></textarea>
-          <button
-            onClick={handleSend}
-            disabled={isSending || (!inputText.trim() && !file)}
-            className="h-10 w-10 bg-primary text-white rounded-lg flex items-center justify-center hover:bg-primary-container transition-all shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            <span className="material-symbols-outlined font-variation-fill">send</span>
-          </button>
         </div>
-      </div>
+      )}
     </div>
   );
 }

@@ -150,8 +150,10 @@ export default function SellerTradePage() {
                     </div>
                     <h3 className="font-headline-md text-headline-md text-primary mb-2">Awaiting Settlement</h3>
                     <p className="text-body-md text-on-surface-variant max-w-md mx-auto">
-                      {currentTrade.inspection_status === "skipped" || currentTrade.inspection_status === "passed"
-                        ? "The inspection phase has concluded. Awaiting the buyer to complete the trade payment to Ameefar. As per our secure escrow process, Ameefar will hold the funds securely and directly transfer the payout to your registered bank account once the trade is marked as completed."
+                      {currentTrade.inspection_status === "skipped" || currentTrade.inspection_status === "buyer_approved"
+                        ? "The inspection phase has concluded. The buyer has approved the report and is yet to make payment. You will be notified once Ameefar secures the funds in escrow, after which you can begin shipment."
+                        : (currentTrade.inspection_status === "passed" || currentTrade.inspection_status === "failed")
+                        ? "The inspection report has been issued. The buyer is currently reviewing the report."
                         : "The buyer is currently completing the inspection phase."}
                     </p>
                   </div>
@@ -200,19 +202,6 @@ export default function SellerTradePage() {
               onUpload={handleUploadDocument}
               canUpload={true}
             />
-          </div>
-
-          {/* Right Panel: Chat & Logs */}
-          <div className="lg:col-span-4 flex flex-col gap-6">
-            <div className="h-[500px]">
-              <ChatPanel
-                title="Trade Channel"
-                subtitle="2 Participants"
-                messages={messages}
-                onSendMessage={handleSendMessage}
-                isSending={status.sendTradeMessage === "loading"}
-              />
-            </div>
 
             {currentTrade.inspection_status !== "not_requested" && currentTrade.inspection_status !== "skipped" && (
               <InspectionModule
@@ -222,6 +211,20 @@ export default function SellerTradePage() {
                 role="seller"
               />
             )}
+          </div>
+
+          {/* Right Panel: Chat & Logs */}
+          <div className="lg:col-span-4 flex flex-col gap-6">
+            <div className="h-[500px]">
+              <ChatPanel
+                title="Trade Communications"
+                subtitle="Admin Oversight"
+                messages={messages}
+                onSendMessage={handleSendMessage}
+                isSending={status.sendTradeMessage === "loading"}
+                readOnly={true}
+              />
+            </div>
           </div>
         </div>
       </main>

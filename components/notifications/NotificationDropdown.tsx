@@ -3,11 +3,11 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { 
+import {
   selectAccessToken,
   selectIsAdmin,
   selectIsSeller,
-  selectIsBoth 
+  selectIsBoth
 } from "@/store/auth/authSelectors";
 import {
   selectNotifications,
@@ -51,9 +51,8 @@ function NotificationItem({
   return (
     <div
       onClick={() => onClick(notification)}
-      className={`group relative flex gap-3 px-4 py-3.5 transition-colors hover:bg-slate-50 cursor-pointer ${
-        !notification.is_read ? "bg-[#f0f7ff]" : ""
-      }`}
+      className={`group relative flex gap-3 px-4 py-3.5 transition-colors hover:bg-slate-50 cursor-pointer ${!notification.is_read ? "bg-[#f0f7ff]" : ""
+        }`}
     >
       {/* Unread dot */}
       {!notification.is_read && (
@@ -107,7 +106,7 @@ export function NotificationDropdown() {
   const isAdmin = useAppSelector(selectIsAdmin);
   const isSeller = useAppSelector(selectIsSeller);
   const isBoth = useAppSelector(selectIsBoth);
-  
+
   const notifications = useAppSelector(selectNotifications);
   const pagination = useAppSelector(selectNotificationsPagination);
   const unreadCount = useAppSelector(selectUnreadCount);
@@ -168,28 +167,36 @@ export function NotificationDropdown() {
     try {
       // User specifically requested to fetch details via thunk when clicked
       const details = await dispatch(fetchNotificationThunk({ token, notificationId: notification.id })).unwrap();
-      
+
       // If backend doesn't automatically mark as read, do it here
       if (!notification.is_read) {
         void dispatch(markNotificationAsReadThunk({ token, notificationId: notification.id }));
       }
-      
+
       const tradeId = details.metadata?.trade_id || notification.metadata?.trade_id;
       const enquiryId = details.metadata?.enquiry_id || notification.metadata?.enquiry_id;
       const profileId = details.metadata?.profile_id || notification.metadata?.profile_id;
-      
+
       if (enquiryId || tradeId || profileId) {
-        let rolePath = "buyer";
-        if (isAdmin) rolePath = "admin";
-        else if (isBoth) rolePath = window.location.pathname.includes("/seller") ? "seller" : "buyer";
-        else if (isSeller) rolePath = "seller";
-        
-        if (enquiryId) {
-          router.push(`/bidding/${rolePath}/negotiation/${enquiryId}`);
-        } else if (tradeId) {
-          router.push(`/bidding/${rolePath}/trade/${tradeId}`);
-        } else if (profileId && isAdmin) {
-          router.push(`/profile/${profileId}`);
+        if (isAdmin) {
+          // Admin routes live under the (admin) route group, which resolves without a role segment.
+          if (tradeId) {
+            router.push(`/bidding/trade/${tradeId}`);
+          } else if (enquiryId) {
+            router.push(`/bidding/negotiations/${enquiryId}`);
+          } else if (profileId) {
+            router.push(`/profile/${profileId}`);
+          }
+        } else {
+          let rolePath = "buyer";
+          if (isBoth) rolePath = window.location.pathname.includes("/seller") ? "seller" : "buyer";
+          else if (isSeller) rolePath = "seller";
+
+          if (enquiryId) {
+            router.push(`/bidding/${rolePath}/negotiation/${enquiryId}`);
+          } else if (tradeId) {
+            router.push(`/bidding/${rolePath}/trade/${tradeId}`);
+          }
         }
       }
       setOpen(false);

@@ -15,6 +15,7 @@ interface InspectionModuleProps {
   onSkip?: () => void;
   onApprove?: () => void;
   onReject?: (reason: string) => void;
+  onContinue?: () => void;
   isActionLoading?: boolean;
 }
 
@@ -26,6 +27,7 @@ export default function InspectionModule({
   onSkip,
   onApprove,
   onReject,
+  onContinue,
   isActionLoading,
   role: propRole,
 }: InspectionModuleProps) {
@@ -74,9 +76,12 @@ export default function InspectionModule({
             <span className="material-symbols-outlined">assignment_turned_in</span>
             Request Inspection
           </button>
-          <p className="mt-4 text-center font-label-md text-label-md text-on-secondary-fixed-variant/60">
-            Estimated cost: {paymentSummary?.inspection_fee_amount ? `$${paymentSummary.inspection_fee_amount}` : "Determined by Admin"}
-          </p>
+          <div className="mt-3 flex items-center justify-between gap-3 rounded-xl border border-secondary/30 bg-secondary/10 px-5 py-3.5">
+            <span className="text-[11px] font-bold uppercase tracking-widest text-secondary">Inspection Fee</span>
+            <span className="text-[20px] font-black text-secondary leading-none">
+              {paymentSummary?.inspection_fee_amount ? `$${paymentSummary.inspection_fee_amount}` : "TBD by Admin"}
+            </span>
+          </div>
         </div>
       )}
 
@@ -97,8 +102,25 @@ export default function InspectionModule({
       )}
 
       {role === "buyer" && status === "awaiting_requirements" && (
-        <div className="p-3 bg-secondary/10 rounded-lg text-secondary text-sm">
-          Please complete the inspection requirements form to proceed.
+        <div className="space-y-4">
+          <div className="p-3 bg-secondary/10 rounded-lg text-secondary text-sm">
+            Your inspection request has been received. Please complete the requirements form so the admin can schedule an inspector.
+          </div>
+          <button
+            onClick={onContinue}
+            className="w-full flex items-center justify-between gap-4 bg-ameefar-navy text-white rounded-xl px-6 py-4 shadow-md hover:bg-ameefar-navy/90 active:scale-[0.99] transition-all"
+          >
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center shrink-0">
+                <span className="material-symbols-outlined text-[22px]">assignment</span>
+              </div>
+              <div className="text-left">
+                <p className="font-black text-white text-body-md leading-tight">Inspection Setup Pending</p>
+                <p className="text-white/60 text-[12px] mt-0.5">Tap to complete the requirements form</p>
+              </div>
+            </div>
+            <span className="material-symbols-outlined text-secondary text-[28px] shrink-0">arrow_forward</span>
+          </button>
         </div>
       )}
 
@@ -111,40 +133,18 @@ export default function InspectionModule({
       )}
 
       {role === "buyer" && status === "passed" && (
-        <div className="space-y-4">
-          <div className="p-3 bg-secondary/10 rounded-lg text-secondary text-sm">
-            Inspection has passed! Please review the report below and approve to proceed.
-          </div>
-          {report && (
-            <InspectionReportCard
-              report={report}
-              showActions={true}
-              onApprove={onApprove}
-              onReject={onReject}
-              isActionLoading={isActionLoading}
-            />
-          )}
+        <div className="p-3 bg-secondary/10 rounded-lg text-secondary text-sm mb-4">
+          Inspection has passed! Please review the report below and approve to proceed.
         </div>
       )}
 
       {role === "buyer" && status === "failed" && (
-        <div className="space-y-4">
-          <div className="p-3 bg-error-container/50 rounded-lg text-error text-sm">
-            Inspection has failed. Review the report and reject to raise a dispute or cancel the trade.
-          </div>
-          {report && (
-            <InspectionReportCard
-              report={report}
-              showActions={true}
-              onApprove={onApprove}
-              onReject={onReject}
-              isActionLoading={isActionLoading}
-            />
-          )}
+        <div className="p-3 bg-error-container/50 rounded-lg text-error text-sm mb-4">
+          Inspection has failed. Review the report and reject to raise a dispute or cancel the trade.
         </div>
       )}
 
-      {role === "seller" && status !== "not_requested" && status !== "skipped" && (
+      {role === "seller" && ["requested", "awaiting_requirements", "scheduled", "in_progress"].includes(status || "") && (
         <p className="text-sm text-on-secondary-fixed-variant bg-white/50 p-3 rounded-lg">
           The buyer has requested an inspection. The platform admin will assign an inspector to verify the shipment.
         </p>
@@ -170,8 +170,15 @@ export default function InspectionModule({
         </p>
       )}
 
-      {role === "admin" && (status === "passed" || status === "failed" || status === "buyer_approved" || status === "buyer_rejected") && report && (
-        <InspectionReportCard report={report} showActions={false} />
+      {/* Universal Report Display - visible to all parties when a report exists in these final states */}
+      {["passed", "failed", "buyer_approved", "buyer_rejected"].includes(status || "") && report && (
+        <InspectionReportCard
+          report={report}
+          showActions={role === "buyer" && (status === "passed" || status === "failed")}
+          onApprove={onApprove}
+          onReject={onReject}
+          isActionLoading={isActionLoading}
+        />
       )}
     </div>
   );

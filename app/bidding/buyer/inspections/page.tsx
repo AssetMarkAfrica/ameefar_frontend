@@ -52,10 +52,14 @@ export default function BuyerInspectionsPage() {
                     </div>
                     <div className="flex items-center gap-6">
                       <Link
-                        href={`/bidding/buyer/trade/${trade.id}`}
+                        href={
+                          trade.inspection_status === "awaiting_requirements"
+                            ? `/bidding/buyer/trade/${trade.id}/inspection-requirements`
+                            : `/bidding/buyer/trade/${trade.id}`
+                        }
                         className="px-4 py-2 border border-primary text-primary hover:bg-primary hover:text-white rounded-lg font-bold transition-colors text-sm"
                       >
-                        View Details
+                        {trade.inspection_status === "awaiting_requirements" ? "Complete Requirements" : "View Details"}
                       </Link>
                     </div>
                   </div>

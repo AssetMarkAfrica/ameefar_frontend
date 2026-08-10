@@ -46,7 +46,7 @@ export default function BiddingSidebar({ role }: SidebarProps) {
         icon: "payments",
         activePath: "/bidding/payouts",
       },
-          {
+      {
         name: "Blog Posts",
         href: "/blog/admin",
         icon: "payments",
@@ -99,6 +99,12 @@ export default function BiddingSidebar({ role }: SidebarProps) {
         href: `/bidding/${role}/negotiations`,
         icon: "handshake",
         activePath: "negotiation",
+      },
+      {
+        name: "Trades",
+        href: `/bidding/${role}/trades`,
+        icon: "handshake",
+        activePath: "trade",
       },
       {
         name: "Inspections",
