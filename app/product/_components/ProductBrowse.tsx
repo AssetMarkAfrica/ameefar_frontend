@@ -4,7 +4,7 @@ import Link from "next/link";
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
-import { selectAccessToken } from "@/store/auth/authSelectors";
+import { selectAccessToken, selectIsAdmin, selectIsBuyer } from "@/store/auth/authSelectors";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
   selectProductError,
@@ -13,7 +13,6 @@ import {
   selectProductOpStatus,
 } from "@/store/product/productSelectors";
 import { listProductListingsThunk } from "@/store/product/productThunks";
-import { selectIsAdmin } from "@/store/auth/authSelectors";
 import type {
   ListProductListingsParams,
   ProductAvailabilityStatus,
@@ -60,6 +59,7 @@ export function ProductBrowse() {
     selectProductOpStatus(state, "listListings"),
   );
   const isAdmin = useAppSelector(selectIsAdmin);
+  const isBuyer = useAppSelector(selectIsBuyer);
   const listError = useAppSelector((state) =>
     selectProductError(state, "listListings"),
   );
@@ -149,7 +149,7 @@ export function ProductBrowse() {
               </button>
             </div>
 
-            {token && (
+            {token && !isBuyer && (
               <label className="flex cursor-pointer items-center justify-between gap-4 rounded-lg border border-slate-200 bg-slate-50 p-3 transition hover:border-[#002627]/20 hover:bg-[#eff4ff]">
                 <span className="text-sm font-semibold text-[#0b1c30]">
                   My listings only
