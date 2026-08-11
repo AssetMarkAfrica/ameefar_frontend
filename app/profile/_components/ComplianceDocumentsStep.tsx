@@ -266,17 +266,17 @@ export function ComplianceDocumentsStep() {
           <section className="profile-review-summary">
             <h2>Submission Checklist</h2>
             <ul>
-              <li className={profile?.step1_complete ? "complete" : "">Business details complete</li>
+              <li className={profile?.step1_complete ? "complete" : undefined}>Business details complete</li>
               {!isBuyerOnly && (
-                <li className={profile?.step2_complete ? "complete" : ""}>At least one site confirmed</li>
+                <li className={profile?.step2_complete ? "complete" : undefined}>At least one site confirmed</li>
               )}
-              <li className={hasAllDocuments ? "complete" : ""}>
+              <li className={hasAllDocuments ? "complete" : undefined}>
                 {isBuyerOnly ? "Representative ID uploaded" : "All required documents uploaded"}
               </li>
               {!isBuyerOnly && (
-                <li className={isBankingComplete ? "complete" : ""}>Banking details provided</li>
+                <li className={isBankingComplete ? "complete" : undefined}>Banking details provided</li>
               )}
-              <li className={declarationAccepted ? "complete" : ""}>Declaration accepted</li>
+              <li className={declarationAccepted ? "complete" : undefined}>Declaration accepted</li>
             </ul>
           </section>
 

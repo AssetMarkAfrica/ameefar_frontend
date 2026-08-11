@@ -1674,6 +1674,27 @@ a { color: inherit; text-decoration: none; }
   opacity: 0.62;
 }
 
+/* Inline format hint shown beneath ID number inputs when a country is selected */
+.profile-field-hint {
+  display: block;
+  margin-top: 2px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  background: var(--profile-surface-blue);
+  color: var(--profile-primary);
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 11.5px;
+  line-height: 18px;
+}
+
+.profile-field-hint code {
+  font-family: inherit;
+  font-weight: 700;
+  background: rgba(0, 191, 165, 0.12);
+  border-radius: 4px;
+  padding: 0 4px;
+}
+
 .profile-choice-grid,
 .profile-chip-grid {
   display: grid;

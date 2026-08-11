@@ -19,7 +19,7 @@ import {
 import type { CompanySize, Step1SavePayload, VatRegion } from "@/types";
 import type { CompanyProfile } from "@/types/profile";
 
-import { companySizes, vatRegions } from "./profile-options";
+import { companySizes, countryIdHints, supportedCountries, vatRegions } from "./profile-options";
 import { ProfileShell } from "./ProfileShell";
 import { ProfileStepper } from "./ProfileStepper";
 
@@ -75,6 +75,9 @@ function CompanyVerificationForm({
   const [localMessage, setLocalMessage] = useState<string | null>(null);
   const readOnly = profile?.status === "pending" || profile?.status === "verified";
 
+  // Derive inline hints based on the currently selected country ISO code.
+  const countryHints = countryIdHints[form.country?.toUpperCase() ?? ""] ?? {};
+
   function updateField<TKey extends keyof Step1SavePayload>(
     key: TKey,
     value: Step1SavePayload[TKey],
@@ -126,10 +129,18 @@ function CompanyVerificationForm({
                   onChange={(event) =>
                     updateField("company_registration_no", event.target.value)
                   }
-                  placeholder="e.g. 12345678"
+                  placeholder={countryHints.crn?.placeholder ?? "e.g. 12345678"}
                   required={!form.vat_registration_no}
                   value={form.company_registration_no}
+                  pattern={countryHints.crn?.pattern}
+                  title={countryHints.crn?.hint}
                 />
+                {countryHints.crn && (
+                  <small className="profile-field-hint">
+                    {countryHints.crn.hint}.
+                    {" "}Example: <code>{countryHints.crn.example}</code>
+                  </small>
+                )}
               </label>
               <label className="profile-field">
                 <span>VAT / Tax ID Number</span>
@@ -138,10 +149,18 @@ function CompanyVerificationForm({
                   onChange={(event) =>
                     updateField("vat_registration_no", event.target.value)
                   }
-                  placeholder="e.g. GB123456789"
+                  placeholder={countryHints.vat?.placeholder ?? "e.g. GB123456789"}
                   required={!form.company_registration_no}
                   value={form.vat_registration_no}
+                  pattern={countryHints.vat?.pattern}
+                  title={countryHints.vat?.hint}
                 />
+                {countryHints.vat && (
+                  <small className="profile-field-hint">
+                    {countryHints.vat.hint}.
+                    {" "}Example: <code>{countryHints.vat.example}</code>
+                  </small>
+                )}
               </label>
               {!isBuyerOnly && (
                 <>
@@ -238,12 +257,17 @@ function CompanyVerificationForm({
               </label>
               <label className="profile-field">
                 <span>Country</span>
-                <input
+                <select
                   disabled={readOnly}
                   onChange={(event) => updateField("country", event.target.value)}
                   required
                   value={form.country}
-                />
+                >
+                  <option value="" disabled>Select your country</option>
+                  {supportedCountries.map((c) => (
+                    <option key={c.code} value={c.code}>{c.label}</option>
+                  ))}
+                </select>
               </label>
               {!isBuyerOnly && (
                 <>
