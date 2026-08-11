@@ -4,7 +4,7 @@ import {
   getSubaccountMeThunk,
   initiateTradePaymentThunk,
   getTradePaymentSummaryThunk,
-  listPendingPayoutsThunk,
+  listPayoutsThunk,
   approvePayoutThunk,
 } from "./paymentThunks";
 import type { TradePaymentSummary, Subaccount, TradePayment, TradePayout } from "@/types/payment";
@@ -13,11 +13,11 @@ interface PaymentState {
   tradeSummary: TradePaymentSummary | null;
   subaccount: Subaccount | null;
   lastInitiatedPayment: TradePayment | null;
-  pendingPayouts: TradePayout[];
+  payouts: TradePayout[];
   loading: boolean;
   error: string | null;
   status: {
-    listPendingPayouts: "idle" | "loading" | "succeeded" | "failed";
+    listPayouts: "idle" | "loading" | "succeeded" | "failed";
     approvePayout: "idle" | "loading" | "succeeded" | "failed";
   };
 }
@@ -26,11 +26,11 @@ const initialState: PaymentState = {
   tradeSummary: null,
   subaccount: null,
   lastInitiatedPayment: null,
-  pendingPayouts: [],
+  payouts: [],
   loading: false,
   error: null,
   status: {
-    listPendingPayouts: "idle",
+    listPayouts: "idle",
     approvePayout: "idle",
   },
 };
@@ -46,10 +46,10 @@ const paymentSlice = createSlice({
       state.tradeSummary = null;
       state.subaccount = null;
       state.lastInitiatedPayment = null;
-      state.pendingPayouts = [];
+      state.payouts = [];
       state.error = null;
       state.status = {
-        listPendingPayouts: "idle",
+        listPayouts: "idle",
         approvePayout: "idle",
       };
     },
@@ -107,18 +107,18 @@ const paymentSlice = createSlice({
         state.loading = false;
         state.error = action.error.message || "Failed to verify payment";
       })
-      // listPendingPayouts
-      .addCase(listPendingPayoutsThunk.pending, (state) => {
-        state.status.listPendingPayouts = "loading";
+      // listPayouts
+      .addCase(listPayoutsThunk.pending, (state) => {
+        state.status.listPayouts = "loading";
         state.error = null;
       })
-      .addCase(listPendingPayoutsThunk.fulfilled, (state, action) => {
-        state.status.listPendingPayouts = "succeeded";
-        state.pendingPayouts = action.payload.data;
+      .addCase(listPayoutsThunk.fulfilled, (state, action) => {
+        state.status.listPayouts = "succeeded";
+        state.payouts = action.payload.data;
       })
-      .addCase(listPendingPayoutsThunk.rejected, (state, action) => {
-        state.status.listPendingPayouts = "failed";
-        state.error = action.error.message || "Failed to load pending payouts";
+      .addCase(listPayoutsThunk.rejected, (state, action) => {
+        state.status.listPayouts = "failed";
+        state.error = action.error.message || "Failed to load payouts";
       })
       // approvePayout
       .addCase(approvePayoutThunk.pending, (state) => {
@@ -129,11 +129,9 @@ const paymentSlice = createSlice({
         state.status.approvePayout = "succeeded";
         const updatedPayout = action.payload.data;
         // Update it in the list if it exists
-        const index = state.pendingPayouts.findIndex(p => p.id === updatedPayout.id);
+        const index = state.payouts.findIndex(p => p.id === updatedPayout.id);
         if (index !== -1) {
-          state.pendingPayouts[index] = updatedPayout;
-          // Optionally, since it's approved, you might want to remove it from "pendingPayouts" list:
-          // state.pendingPayouts.splice(index, 1);
+          state.payouts[index] = updatedPayout;
         }
       })
       .addCase(approvePayoutThunk.rejected, (state, action) => {

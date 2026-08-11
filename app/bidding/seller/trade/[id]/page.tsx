@@ -113,6 +113,49 @@ export default function SellerTradePage() {
               </div>
             </div>
 
+            {/* Financial Summary */}
+            {tradeSummary && (
+              <div className="bg-white rounded-xl border border-border-subtle shadow-sm overflow-hidden">
+                <div className="p-6 border-b border-border-subtle bg-surface-gray flex justify-between items-center">
+                  <h2 className="font-headline-md text-headline-md text-primary text-lg">Financial Summary</h2>
+                  {tradeSummary.trade_payment_paid ? (
+                    <span className="px-3 py-1 bg-trust-green-subtle text-secondary font-label-md text-[10px] rounded-full uppercase tracking-wider flex items-center gap-1">
+                      <span className="material-symbols-outlined text-[14px]">lock</span> Secured
+                    </span>
+                  ) : (
+                    <span className="px-3 py-1 bg-amber-50 text-amber-700 font-label-md text-[10px] rounded-full uppercase tracking-wider flex items-center gap-1">
+                      <span className="material-symbols-outlined text-[14px]">hourglass_empty</span> Pending
+                    </span>
+                  )}
+                </div>
+                <div className="p-6 space-y-4">
+                  <div className="flex justify-between items-center pb-4 border-b border-border-subtle/50">
+                    <span className="text-body-md text-on-surface-variant">Trade Total Amount</span>
+                    <span className="font-bold text-primary">{currentTrade.currency} {tradeSummary.trade_total_amount}</span>
+                  </div>
+                  <div className="flex justify-between items-center pb-4 border-b border-border-subtle/50">
+                    <span className="text-body-md text-on-surface-variant">Platform Fee ({tradeSummary.platform_fee_percent}%)</span>
+                    <span className="font-bold text-primary">{currentTrade.currency} {tradeSummary.platform_fee_amount}</span>
+                  </div>
+                  <div className="flex justify-between items-center pb-4 border-b border-border-subtle/50">
+                    <span className="text-body-md text-on-surface-variant">Inspection Fee</span>
+                    <div className="flex items-center gap-3">
+                      <span className="font-bold text-primary">{currentTrade.currency} {tradeSummary.inspection_fee_amount}</span>
+                      {tradeSummary.inspection_fee_paid ? (
+                        <span className="px-2.5 py-0.5 bg-trust-green-subtle text-secondary text-[10px] rounded uppercase font-bold tracking-wider">Paid</span>
+                      ) : (
+                        <span className="px-2.5 py-0.5 bg-surface-gray text-outline text-[10px] rounded uppercase font-bold tracking-wider">Unpaid</span>
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex justify-between items-center pt-2">
+                    <span className="font-bold text-ameefar-navy text-lg">Total Settlement</span>
+                    <span className="text-2xl font-black text-ameefar-navy">{currentTrade.currency} {tradeSummary.trade_payment_amount}</span>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {currentTrade.status === "negotiating" && (
               <div className="bg-white rounded-xl border border-border-subtle shadow-sm overflow-hidden p-6">
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">

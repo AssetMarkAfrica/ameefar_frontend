@@ -136,9 +136,9 @@ export const PaymentService = {
     });
   },
 
-  listPendingPayouts(token: string): Promise<PayoutListResponse> {
+  listPayouts(token: string): Promise<PayoutListResponse> {
     return requestJson<PayoutListResponse>({
-      endpoint: `/admin/payouts/?status=pending`,
+      endpoint: `/admin/payouts/`,
       method: "GET",
       token,
     });

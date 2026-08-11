@@ -1,20 +1,20 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { listPendingPayoutsThunk, approvePayoutThunk } from "@/store/payment/paymentThunks";
+import { listPayoutsThunk, approvePayoutThunk } from "@/store/payment/paymentThunks";
 import { selectAccessToken } from "@/store/auth/authSelectors";
 import BiddingSidebar from "@/components/bidding/BiddingSidebar";
 
 export default function AdminPayoutsPage() {
   const dispatch = useAppDispatch();
-  const { pendingPayouts, status, error } = useAppSelector((state) => state.payment);
+  const { payouts, status, error } = useAppSelector((state) => state.payment);
   const token = useAppSelector(selectAccessToken);
 
   const [selectedPayoutId, setSelectedPayoutId] = useState<string | null>(null);
 
   useEffect(() => {
     if (token) {
-      dispatch(listPendingPayoutsThunk());
+      dispatch(listPayoutsThunk());
     }
   }, [dispatch, token]);
 
@@ -26,7 +26,7 @@ export default function AdminPayoutsPage() {
     if (!token || !selectedPayoutId) return;
 
     await dispatch(approvePayoutThunk(selectedPayoutId));
-    dispatch(listPendingPayoutsThunk());
+    dispatch(listPayoutsThunk());
     setSelectedPayoutId(null);
   };
 
@@ -44,7 +44,7 @@ export default function AdminPayoutsPage() {
         <div className="bg-white border-b border-border-subtle sticky top-0 z-10 px-4 sm:px-8 py-4 flex items-center justify-between">
           <div>
             <h1 className="font-headline-lg text-headline-lg text-primary leading-tight">
-              Pending Payouts
+              All Payouts
             </h1>
             <p className="text-body-sm text-on-surface-variant mt-0.5">
               Review and approve seller payouts for completed trades.
@@ -61,23 +61,23 @@ export default function AdminPayoutsPage() {
           )}
 
           {/* Loading State */}
-          {status.listPendingPayouts === "loading" ? (
+          {status.listPayouts === "loading" ? (
             <div className="flex flex-col items-center justify-center py-24 gap-4">
               <span className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin" />
               <p className="text-body-md text-on-surface-variant animate-pulse">
-                Loading pending payouts...
+                Loading payouts...
               </p>
             </div>
-          ) : pendingPayouts.length === 0 ? (
+          ) : payouts.length === 0 ? (
             <div className="bg-white rounded-2xl border border-border-subtle shadow-sm p-12 text-center flex flex-col items-center justify-center">
               <div className="w-16 h-16 rounded-full bg-surface-gray flex items-center justify-center mb-4">
                 <span className="material-symbols-outlined text-3xl text-on-surface-variant">
                   payments
                 </span>
               </div>
-              <h3 className="font-headline-sm text-primary mb-2">No Pending Payouts</h3>
+              <h3 className="font-headline-sm text-primary mb-2">No Payouts</h3>
               <p className="text-body-md text-on-surface-variant max-w-md">
-                You're all caught up! There are currently no seller payouts waiting for approval.
+                There are currently no seller payouts available.
               </p>
             </div>
           ) : (
@@ -96,7 +96,7 @@ export default function AdminPayoutsPage() {
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-border-subtle">
-                      {pendingPayouts.map((payout) => (
+                      {payouts.map((payout) => (
                         <tr key={payout.id} className="hover:bg-slate-50 transition-colors group">
                           <td className="px-6 py-4">
                             <span className="inline-flex items-center gap-1.5 font-label-md text-primary font-bold bg-primary/5 px-2 py-1 rounded-md">
@@ -151,7 +151,7 @@ export default function AdminPayoutsPage() {
 
               {/* Mobile View: Cards */}
               <div className="md:hidden space-y-4">
-                {pendingPayouts.map((payout) => (
+                {payouts.map((payout) => (
                   <div key={payout.id} className="bg-white rounded-2xl border border-border-subtle shadow-sm p-4 flex flex-col gap-4">
                     <div className="flex justify-between items-start gap-4">
                       <div className="flex flex-col gap-1 min-w-0">
