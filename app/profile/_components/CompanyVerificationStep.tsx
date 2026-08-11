@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 
 import { selectAccessToken } from "@/store/auth/authSelectors";
+import { selectIsBuyerOnly } from "@/store/auth/authSelectors";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
   selectProfile,
@@ -57,6 +58,7 @@ function CompanyVerificationForm({
   const dispatch = useAppDispatch();
   const router = useRouter();
   const token = useAppSelector(selectAccessToken);
+  const isBuyerOnly = useAppSelector(selectIsBuyerOnly);
   const saveStatus = useAppSelector((state) =>
     selectProfileOpStatus(state, "saveStep1"),
   );
@@ -88,7 +90,7 @@ function CompanyVerificationForm({
     setLocalMessage(null);
     try {
       await dispatch(saveStep1DraftThunk({ token, ...form })).unwrap();
-      setLocalMessage("Your company information draft has been saved.");
+      setLocalMessage("Your business details draft has been saved.");
     } catch {
       setLocalMessage(null);
     }
@@ -102,7 +104,8 @@ function CompanyVerificationForm({
 
     try {
       await dispatch(saveStep1Thunk({ token, ...form })).unwrap();
-      router.push("/profile/sites");
+      // Buyers skip the sites step — go straight to documents.
+      router.push(isBuyerOnly ? "/profile/documents" : "/profile/sites");
     } catch {
       setLocalMessage(null);
     }
@@ -115,136 +118,115 @@ function CompanyVerificationForm({
         <form className="profile-step-layout" onSubmit={handleSubmit}>
           <div className="profile-form-stack">
             <FormSection title="Company Details">
+              {/* Buyers: simplified — just registration identifier(s) */}
               <label className="profile-field">
-                <span>VAT Region</span>
-                <select
-                  disabled={readOnly}
-                  onChange={(event) =>
-                    updateField("vat_region", event.target.value as VatRegion)
-                  }
-                  value={form.vat_region}
-                >
-                  {vatRegions.map((region) => (
-                    <option key={region.value} value={region.value}>
-                      {region.label}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <label className="profile-field">
-                <span>Registration Number</span>
+                <span>Company / Business Registration Number</span>
                 <input
                   disabled={readOnly}
                   onChange={(event) =>
                     updateField("company_registration_no", event.target.value)
                   }
                   placeholder="e.g. 12345678"
-                  required
+                  required={!form.vat_registration_no}
                   value={form.company_registration_no}
                 />
               </label>
               <label className="profile-field">
-                <span>VAT Registration Number</span>
+                <span>VAT / Tax ID Number</span>
                 <input
                   disabled={readOnly}
                   onChange={(event) =>
                     updateField("vat_registration_no", event.target.value)
                   }
-                  placeholder="GB123456789"
-                  required
+                  placeholder="e.g. GB123456789"
+                  required={!form.company_registration_no}
                   value={form.vat_registration_no}
                 />
               </label>
-              <label className="profile-field">
-                <span>Year Established</span>
-                <input
-                  disabled={readOnly}
-                  min={1800}
-                  onChange={(event) =>
-                    updateField("year_established", Number(event.target.value))
-                  }
-                  required
-                  type="number"
-                  value={form.year_established}
-                />
-              </label>
-              <div className="profile-field profile-span-2">
-                <span>Company Size</span>
-                <div className="profile-choice-grid">
-                  {companySizes.map((size) => (
-                    <label key={size.value}>
-                      <input
-                        checked={form.company_size === size.value}
-                        disabled={readOnly}
-                        name="company_size"
-                        onChange={() =>
-                          updateField("company_size", size.value as CompanySize)
-                        }
-                        type="radio"
-                      />
-                      <span>{size.label}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
+              {!isBuyerOnly && (
+                <>
+                  <label className="profile-field">
+                    <span>VAT Region</span>
+                    <select
+                      disabled={readOnly}
+                      onChange={(event) =>
+                        updateField("vat_region", event.target.value as VatRegion)
+                      }
+                      value={form.vat_region}
+                    >
+                      {vatRegions.map((region) => (
+                        <option key={region.value} value={region.value}>
+                          {region.label}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                  <label className="profile-field">
+                    <span>Year Established</span>
+                    <input
+                      disabled={readOnly}
+                      min={1800}
+                      onChange={(event) =>
+                        updateField("year_established", Number(event.target.value))
+                      }
+                      required
+                      type="number"
+                      value={form.year_established}
+                    />
+                  </label>
+                  <div className="profile-field profile-span-2">
+                    <span>Company Size</span>
+                    <div className="profile-choice-grid">
+                      {companySizes.map((size) => (
+                        <label key={size.value}>
+                          <input
+                            checked={form.company_size === size.value}
+                            disabled={readOnly}
+                            name="company_size"
+                            onChange={() =>
+                              updateField("company_size", size.value as CompanySize)
+                            }
+                            type="radio"
+                          />
+                          <span>{size.label}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                </>
+              )}
             </FormSection>
 
-            <FormSection title="Business Identity">
-              <label className="profile-field profile-span-2">
-                <span>Company Website</span>
-                <input
-                  disabled={readOnly}
-                  onChange={(event) =>
-                    updateField("company_website", normalizeWebsite(event.target.value))
-                  }
-                  placeholder="https://www.yourcompany.com"
-                  required
-                  type="url"
-                  value={form.company_website}
-                />
-              </label>
-              <label className="profile-field profile-span-2">
-                <span>Business Description</span>
-                <textarea
-                  disabled={readOnly}
-                  onChange={(event) =>
-                    updateField("company_description", event.target.value)
-                  }
-                  placeholder="Briefly describe your recycling, manufacturing, or material trading operations."
-                  required
-                  rows={5}
-                  value={form.company_description}
-                />
-              </label>
-            </FormSection>
+            {!isBuyerOnly && (
+              <FormSection title="Business Identity">
+                <label className="profile-field profile-span-2">
+                  <span>Company Website</span>
+                  <input
+                    disabled={readOnly}
+                    onChange={(event) =>
+                      updateField("company_website", normalizeWebsite(event.target.value))
+                    }
+                    placeholder="https://www.yourcompany.com"
+                    type="url"
+                    value={form.company_website}
+                  />
+                </label>
+                <label className="profile-field profile-span-2">
+                  <span>Business Description</span>
+                  <textarea
+                    disabled={readOnly}
+                    onChange={(event) =>
+                      updateField("company_description", event.target.value)
+                    }
+                    placeholder="Briefly describe your recycling, manufacturing, or material trading operations."
+                    rows={5}
+                    value={form.company_description}
+                  />
+                </label>
+              </FormSection>
+            )}
 
-            <FormSection title="Registered Address">
-              <label className="profile-field profile-span-2">
-                <span>Street Address</span>
-                <input
-                  disabled={readOnly}
-                  onChange={(event) => updateField("street_address", event.target.value)}
-                  required
-                  value={form.street_address}
-                />
-              </label>
-              <label className="profile-field profile-span-2">
-                <span>Address Line 2</span>
-                <input
-                  disabled={readOnly}
-                  onChange={(event) => updateField("address_line_2", event.target.value)}
-                  value={form.address_line_2}
-                />
-              </label>
-              <label className="profile-field">
-                <span>Postcode</span>
-                <input
-                  disabled={readOnly}
-                  onChange={(event) => updateField("postcode", event.target.value)}
-                  required
-                  value={form.postcode}
-                />
-              </label>
+            <FormSection title="Location">
               <label className="profile-field">
                 <span>City</span>
                 <input
@@ -252,15 +234,6 @@ function CompanyVerificationForm({
                   onChange={(event) => updateField("city", event.target.value)}
                   required
                   value={form.city}
-                />
-              </label>
-              <label className="profile-field">
-                <span>State / Region</span>
-                <input
-                  disabled={readOnly}
-                  onChange={(event) => updateField("state_region", event.target.value)}
-                  required
-                  value={form.state_region}
                 />
               </label>
               <label className="profile-field">
@@ -272,6 +245,45 @@ function CompanyVerificationForm({
                   value={form.country}
                 />
               </label>
+              {!isBuyerOnly && (
+                <>
+                  <label className="profile-field profile-span-2">
+                    <span>Street Address</span>
+                    <input
+                      disabled={readOnly}
+                      onChange={(event) => updateField("street_address", event.target.value)}
+                      required
+                      value={form.street_address}
+                    />
+                  </label>
+                  <label className="profile-field profile-span-2">
+                    <span>Address Line 2</span>
+                    <input
+                      disabled={readOnly}
+                      onChange={(event) => updateField("address_line_2", event.target.value)}
+                      value={form.address_line_2}
+                    />
+                  </label>
+                  <label className="profile-field">
+                    <span>Postcode</span>
+                    <input
+                      disabled={readOnly}
+                      onChange={(event) => updateField("postcode", event.target.value)}
+                      required
+                      value={form.postcode}
+                    />
+                  </label>
+                  <label className="profile-field">
+                    <span>State / Region</span>
+                    <input
+                      disabled={readOnly}
+                      onChange={(event) => updateField("state_region", event.target.value)}
+                      required
+                      value={form.state_region}
+                    />
+                  </label>
+                </>
+              )}
             </FormSection>
           </div>
 

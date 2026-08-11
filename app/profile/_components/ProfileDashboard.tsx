@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 
+import { selectIsBuyerOnly } from "@/store/auth/authSelectors";
 import { useAppSelector } from "@/store/hooks";
 import {
   selectDocuments,
@@ -11,17 +12,23 @@ import {
 } from "@/store/profile/profileSelectors";
 
 import { getEarliestAllowedPath, ProfileShell } from "./ProfileShell";
-import { requiredDocuments } from "./profile-options";
+import { buyerRequiredDocuments, requiredDocuments } from "./profile-options";
 
 export function ProfileDashboard() {
+  const isBuyerOnly = useAppSelector(selectIsBuyerOnly);
   const profile = useAppSelector(selectProfile);
   const sites = useAppSelector(selectSites);
   const primarySite = useAppSelector(selectPrimarySite);
   const documents = useAppSelector(selectDocuments);
   const status = profile?.status ?? "incomplete";
   const completion = profile?.completion_percentage ?? 0;
-  const nextPath = profile ? getEarliestAllowedPath(profile) : "/profile/company";
-  const uploadedRequiredCount = requiredDocuments.filter((requiredDocument) =>
+  const nextPath = profile
+    ? getEarliestAllowedPath(profile, isBuyerOnly)
+    : "/profile/company";
+
+  // Use the correct required doc list for the role.
+  const docList = isBuyerOnly ? buyerRequiredDocuments : requiredDocuments;
+  const uploadedRequiredCount = docList.filter((requiredDocument) =>
     documents.some((document) => document.doc_type === requiredDocument.type),
   ).length;
 
@@ -42,7 +49,7 @@ export function ProfileDashboard() {
                   ? "Your company profile is verified and ready for marketplace activity."
                   : status === "rejected"
                     ? profile?.rejection_reason || "Your submission needs updates before it can be approved."
-                    : "Complete the guided verification journey to unlock full trading access."}
+                    : "Complete the verification steps below to unlock full trading access."}
             </p>
             {status === "incomplete" || status === "rejected" ? (
               <Link className="profile-primary-button" href={nextPath}>
@@ -59,57 +66,87 @@ export function ProfileDashboard() {
               <span>{completion === 100 ? "Ready" : "Action Needed"}</span>
             </div>
             <div className="profile-requirements">
+              {/* Step 1 — always shown */}
               <RequirementRow
                 complete={Boolean(profile?.step1_complete)}
                 href="/profile/company"
-                text="Complete company identity, VAT, registration, and address details."
-                title="Company Information"
+                text={
+                  isBuyerOnly
+                    ? "Provide your company name, country, and a registration or VAT number."
+                    : "Complete company identity, VAT, registration, and address details."
+                }
+                title="Business Details"
               />
-              <RequirementRow
-                complete={Boolean(profile?.step2_complete)}
-                href="/profile/sites"
-                locked={!profile?.step1_complete}
-                text="Add at least one operational site, then confirm site setup."
-                title="Operational Sites"
-              />
+
+              {/* Step 2 — Operational Sites (sellers/both only) */}
+              {!isBuyerOnly && (
+                <RequirementRow
+                  complete={Boolean(profile?.step2_complete)}
+                  href="/profile/sites"
+                  locked={!profile?.step1_complete}
+                  text="Add at least one operational site, then confirm site setup."
+                  title="Operational Sites"
+                />
+              )}
+
+              {/* Step 3 — Documents / Declaration */}
               <RequirementRow
                 complete={Boolean(profile?.step3_complete)}
                 href="/profile/documents"
-                locked={!profile?.step2_complete}
-                text="Upload all required documents and accept the final declaration."
-                title="Compliance & Documents"
+                locked={isBuyerOnly ? !profile?.step1_complete : !profile?.step2_complete}
+                text={
+                  isBuyerOnly
+                    ? "Upload your government-issued ID and accept the declaration."
+                    : "Upload all required documents and accept the final declaration."
+                }
+                title={isBuyerOnly ? "Identity & Declaration" : "Compliance & Documents"}
               />
             </div>
           </div>
 
+          {/* Company Info card — always shown */}
           <OverviewCard
             cta="Edit"
             href="/profile/company"
             label={profile?.step1_complete ? "Complete" : "Incomplete"}
-            text={`Registration: ${profile?.company_registration_no || "Not provided"}`}
+            text={`Registration: ${profile?.company_registration_no || profile?.vat_registration_no || "Not provided"}`}
             title="Company Info"
           />
-          <OverviewCard
-            cta="Manage Sites"
-            href="/profile/sites"
-            label={`${sites.length} Registered`}
-            text={primarySite ? `${primarySite.site_name}, ${primarySite.city}` : "No primary site yet"}
-            title="Facilities & Sites"
-          />
+
+          {/* Facilities & Sites — sellers/both only */}
+          {!isBuyerOnly && (
+            <OverviewCard
+              cta="Manage Sites"
+              href="/profile/sites"
+              label={`${sites.length} Registered`}
+              text={primarySite ? `${primarySite.site_name}, ${primarySite.city}` : "No primary site yet"}
+              title="Facilities & Sites"
+            />
+          )}
+
+          {/* Documents card */}
           <OverviewCard
             cta="Manage Documents"
             href="/profile/documents"
-            label={`${uploadedRequiredCount}/3 Uploaded`}
-            text="Business registration, representative ID, and proof of authority."
+            label={`${uploadedRequiredCount}/${docList.length} Uploaded`}
+            text={
+              isBuyerOnly
+                ? "Government-issued ID for the authorised representative."
+                : "Business registration, representative ID, and proof of authority."
+            }
             title="Documents"
           />
-          <OverviewCard
-            cta="Update Banking"
-            href="/profile/documents"
-            label={profile?.banking?.is_verified ? "Verified" : "Optional"}
-            text={profile?.banking ? maskAccount(profile.banking.account_number) : "Banking can be added before submission."}
-            title="Banking"
-          />
+
+          {/* Banking — sellers/both only */}
+          {!isBuyerOnly && (
+            <OverviewCard
+              cta="Update Banking"
+              href="/profile/documents"
+              label={profile?.banking?.is_verified ? "Verified" : "Optional"}
+              text={profile?.banking ? maskAccount(profile.banking.account_number) : "Banking can be added before submission."}
+              title="Banking"
+            />
+          )}
         </section>
       </main>
     </ProfileShell>

@@ -20,6 +20,7 @@ import {
   referralSources,
   roles,
 } from "./auth-constants";
+import { PhoneInput } from "./PhoneInput";
 import { StatusMessage } from "./StatusMessage";
 
 const hanken = Hanken_Grotesk({ subsets: ["latin"], weight: ["400", "600", "700", "800"] });
@@ -368,14 +369,10 @@ export function RegisterForm() {
                       </div>
                       <div className="col-span-1 space-y-2">
                         <label className={`${jetbrains.className} text-[10.5px] font-medium tracking-widest text-slate-500 uppercase`}>Mobile Number</label>
-                        <input
-                          autoComplete="tel"
-                          onChange={(e) => updateField("mobile", e.target.value)}
-                          placeholder="+1 (555) 000-0000"
-                          required
-                          type="tel"
+                        <PhoneInput
                           value={form.mobile}
-                          className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-[14px] text-slate-900 placeholder-slate-400 outline-none transition focus:border-[#00bfa5] focus:bg-white focus:ring-1 focus:ring-[#00bfa5]/50"
+                          onChange={(val) => updateField("mobile", val)}
+                          required
                         />
                       </div>
                     </div>

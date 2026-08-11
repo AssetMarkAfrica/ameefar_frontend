@@ -64,3 +64,19 @@ export const requiredDocuments: Array<{
     type: "proof_of_authority",
   },
 ];
+
+/** Simplified document list for buyer-only accounts. Only a government-issued
+ *  ID is mandatory; business registration is encouraged but not enforced. */
+export const buyerRequiredDocuments: Array<{
+  description: string;
+  label: string;
+  type: DocType;
+}> = [
+  {
+    description:
+      "Valid passport, national ID card, or driver's licence for the authorised account representative.",
+    label: "Representative ID",
+    type: "representative_id",
+  },
+];
+

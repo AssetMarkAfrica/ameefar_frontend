@@ -67,3 +67,8 @@ export const selectIsBoth = (state: RootState): boolean =>
 
 export const selectIsAdmin = (state: RootState): boolean =>
   state.auth.user?.role === "admin";
+
+/** True only when the user's role is strictly "buyer" (not seller or both). */
+export const selectIsBuyerOnly = (state: RootState): boolean =>
+  state.auth.user?.role === "buyer";
+

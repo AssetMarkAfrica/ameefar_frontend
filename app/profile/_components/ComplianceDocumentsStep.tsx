@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 
 import { selectAccessToken } from "@/store/auth/authSelectors";
+import { selectIsBuyerOnly } from "@/store/auth/authSelectors";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
   selectDocuments,
@@ -18,7 +19,7 @@ import {
 } from "@/store/profile/profileThunks";
 import type { DocType } from "@/types";
 
-import { requiredDocuments } from "./profile-options";
+import { requiredDocuments, buyerRequiredDocuments } from "./profile-options";
 import { ProfileShell } from "./ProfileShell";
 import { ProfileStepper } from "./ProfileStepper";
 
@@ -39,6 +40,7 @@ const emptyBanking: BankingForm = {
 export function ComplianceDocumentsStep() {
   const dispatch = useAppDispatch();
   const token = useAppSelector(selectAccessToken);
+  const isBuyerOnly = useAppSelector(selectIsBuyerOnly);
   const profile = useAppSelector(selectProfile);
   const documents = useAppSelector(selectDocuments);
   const uploadStatus = useAppSelector((state) =>
@@ -63,11 +65,14 @@ export function ComplianceDocumentsStep() {
     Boolean(profile?.declaration_accepted),
   );
   const readOnly = profile?.status === "pending" || profile?.status === "verified";
-  const uploadedRequiredCount = requiredDocuments.filter((requiredDocument) =>
+
+  // Use the correct required docs list based on role.
+  const docList = isBuyerOnly ? buyerRequiredDocuments : requiredDocuments;
+  const uploadedRequiredCount = docList.filter((requiredDocument) =>
     documents.some((document) => document.doc_type === requiredDocument.type),
   ).length;
-  const hasAllDocuments = uploadedRequiredCount === requiredDocuments.length;
-  const isBankingComplete = Object.values(banking).every(Boolean);
+  const hasAllDocuments = uploadedRequiredCount === docList.length;
+  const isBankingComplete = isBuyerOnly ? true : Object.values(banking).every(Boolean);
 
   useEffect(() => {
     async function fetchBanks() {
@@ -115,7 +120,8 @@ export function ComplianceDocumentsStep() {
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (!token || readOnly || !hasAllDocuments || !declarationAccepted || !isBankingComplete) {
+    // Buyers don't provide banking; sellers require it.
+    if (!token || readOnly || !hasAllDocuments || !declarationAccepted || (!isBuyerOnly && !isBankingComplete)) {
       return;
     }
 
@@ -124,7 +130,8 @@ export function ComplianceDocumentsStep() {
         saveStep3Thunk({
           token,
           declaration_accepted: true,
-          banking,
+          // Only pass banking for sellers/both.
+          ...(isBuyerOnly ? {} : { banking }),
         }),
       ).unwrap();
       await dispatch(submitProfileThunk({ token })).unwrap();
@@ -139,16 +146,17 @@ export function ComplianceDocumentsStep() {
         <ProfileStepper activeStep={3} profile={profile} />
         <form className="profile-documents-layout" onSubmit={handleSubmit}>
           <section className="profile-doc-header">
-            <p className="profile-eyebrow">Step 3</p>
-            <h1>Compliance & Documents</h1>
+            <p className="profile-eyebrow">{isBuyerOnly ? "Step 2" : "Step 3"}</p>
+            <h1>{isBuyerOnly ? "Identity & Declaration" : "Compliance & Documents"}</h1>
             <p>
-              Upload each required document separately, complete your banking details,
-              then submit your profile for review.
+              {isBuyerOnly
+                ? "Upload your government-issued ID and confirm your details to submit your profile for review."
+                : "Upload each required document separately, complete your banking details, then submit your profile for review."}
             </p>
           </section>
 
           <section className="profile-document-grid">
-            {requiredDocuments.map((requiredDocument) => {
+            {docList.map((requiredDocument) => {
               const document = documents.find(
                 (item) => item.doc_type === requiredDocument.type,
               );
@@ -180,61 +188,64 @@ export function ComplianceDocumentsStep() {
             })}
           </section>
 
-          <section className="profile-form-section">
-            <div className="profile-panel-heading">
-              <h2>Banking Details</h2>
-              <span style={{ color: "var(--color-primary, #2563eb)" }}>Required</span>
-            </div>
-            <div className="profile-form-grid">
-              <label className="profile-field">
-                <span>Bank</span>
-                <select
-                  disabled={readOnly || banks.length === 0}
-                  required
-                  onChange={(event) => {
-                    const [country, code] = event.target.value.split("::");
-                    const selectedBank = banks.find(b => b.code === code && b.country === country);
-                    updateBanking("bank_code", code);
-                    updateBanking("bank_name", selectedBank?.name || "");
-                  }}
-                  value={
-                    banks.find(b => b.code === banking.bank_code && b.name === banking.bank_name)
-                      ? `${banks.find(b => b.code === banking.bank_code && b.name === banking.bank_name)!.country}::${banking.bank_code}`
-                      : ""
-                  }
-                >
-                  <option value="" disabled>Select your bank</option>
-                  {banks.map((bank) => (
-                    <option key={`${bank.country}::${bank.code}`} value={`${bank.country}::${bank.code}`}>
-                      {bank.name} ({bank.country})
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <label className="profile-field">
-                <span>Account Name</span>
-                <input
-                  disabled={readOnly}
-                  required
-                  onChange={(event) =>
-                    updateBanking("account_name", event.target.value)
-                  }
-                  value={banking.account_name}
-                />
-              </label>
-              <label className="profile-field">
-                <span>Account Number</span>
-                <input
-                  disabled={readOnly}
-                  required
-                  onChange={(event) =>
-                    updateBanking("account_number", event.target.value)
-                  }
-                  value={banking.account_number}
-                />
-              </label>
-            </div>
-          </section>
+          {/* Banking section — sellers/both only */}
+          {!isBuyerOnly && (
+            <section className="profile-form-section">
+              <div className="profile-panel-heading">
+                <h2>Banking Details</h2>
+                <span style={{ color: "var(--color-primary, #2563eb)" }}>Required</span>
+              </div>
+              <div className="profile-form-grid">
+                <label className="profile-field">
+                  <span>Bank</span>
+                  <select
+                    disabled={readOnly || banks.length === 0}
+                    required
+                    onChange={(event) => {
+                      const [country, code] = event.target.value.split("::");
+                      const selectedBank = banks.find(b => b.code === code && b.country === country);
+                      updateBanking("bank_code", code);
+                      updateBanking("bank_name", selectedBank?.name || "");
+                    }}
+                    value={
+                      banks.find(b => b.code === banking.bank_code && b.name === banking.bank_name)
+                        ? `${banks.find(b => b.code === banking.bank_code && b.name === banking.bank_name)!.country}::${banking.bank_code}`
+                        : ""
+                    }
+                  >
+                    <option value="" disabled>Select your bank</option>
+                    {banks.map((bank) => (
+                      <option key={`${bank.country}::${bank.code}`} value={`${bank.country}::${bank.code}`}>
+                        {bank.name} ({bank.country})
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <label className="profile-field">
+                  <span>Account Name</span>
+                  <input
+                    disabled={readOnly}
+                    required
+                    onChange={(event) =>
+                      updateBanking("account_name", event.target.value)
+                    }
+                    value={banking.account_name}
+                  />
+                </label>
+                <label className="profile-field">
+                  <span>Account Number</span>
+                  <input
+                    disabled={readOnly}
+                    required
+                    onChange={(event) =>
+                      updateBanking("account_number", event.target.value)
+                    }
+                    value={banking.account_number}
+                  />
+                </label>
+              </div>
+            </section>
+          )}
 
           <section className="profile-declaration-card">
             <label>
@@ -255,22 +266,28 @@ export function ComplianceDocumentsStep() {
           <section className="profile-review-summary">
             <h2>Submission Checklist</h2>
             <ul>
-              <li className={profile?.step1_complete ? "complete" : ""}>Company information complete</li>
-              <li className={profile?.step2_complete ? "complete" : ""}>At least one site confirmed</li>
-              <li className={hasAllDocuments ? "complete" : ""}>All required documents uploaded</li>
-              <li className={isBankingComplete ? "complete" : ""}>Banking details provided</li>
+              <li className={profile?.step1_complete ? "complete" : "">Business details complete</li>
+              {!isBuyerOnly && (
+                <li className={profile?.step2_complete ? "complete" : ""}>At least one site confirmed</li>
+              )}
+              <li className={hasAllDocuments ? "complete" : ""}>
+                {isBuyerOnly ? "Representative ID uploaded" : "All required documents uploaded"}
+              </li>
+              {!isBuyerOnly && (
+                <li className={isBankingComplete ? "complete" : ""}>Banking details provided</li>
+              )}
               <li className={declarationAccepted ? "complete" : ""}>Declaration accepted</li>
             </ul>
           </section>
 
           <div className="profile-sticky-actions">
-            <Link href="/profile/sites">Back</Link>
+            <Link href={isBuyerOnly ? "/profile/company" : "/profile/sites"}>Back</Link>
             <button
               disabled={
                 readOnly ||
                 !hasAllDocuments ||
                 !declarationAccepted ||
-                !isBankingComplete ||
+                (!isBuyerOnly && !isBankingComplete) ||
                 saveStatus === "loading" ||
                 submitStatus === "loading"
               }

@@ -10,6 +10,7 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
   selectAccessToken,
   selectHasAuthSession,
+  selectIsBuyerOnly,
   selectUser,
 } from "@/store/auth/authSelectors";
 import {
@@ -28,6 +29,7 @@ export function ProfileShell({ children }: { children: React.ReactNode }) {
   const hasAuthSession = useAppSelector(selectHasAuthSession);
   const token = useAppSelector(selectAccessToken);
   const user = useAppSelector(selectUser);
+  const isBuyerOnly = useAppSelector(selectIsBuyerOnly);
   const profile = useAppSelector(selectProfile);
   const fetchStatus = useAppSelector((state) =>
     selectProfileOpStatus(state, "fetchProfile"),
@@ -52,11 +54,11 @@ export function ProfileShell({ children }: { children: React.ReactNode }) {
       return;
     }
 
-    const earliestStep = getEarliestAllowedPath(profile);
-    if (!canVisitPath(pathname, profile)) {
+    const earliestStep = getEarliestAllowedPath(profile, isBuyerOnly);
+    if (!canVisitPath(pathname, profile, isBuyerOnly)) {
       router.replace(earliestStep);
     }
-  }, [pathname, profile, router]);
+  }, [isBuyerOnly, pathname, profile, router]);
 
   if (!hasAuthSession || !token) {
     return null;
@@ -115,15 +117,16 @@ export function ProfileShell({ children }: { children: React.ReactNode }) {
   );
 }
 
-export function getEarliestAllowedPath(profile: {
-  step1_complete: boolean;
-  step2_complete: boolean;
-}) {
+export function getEarliestAllowedPath(
+  profile: { step1_complete: boolean; step2_complete: boolean },
+  isBuyerOnly = false,
+) {
   if (!profile.step1_complete) {
     return "/profile/company";
   }
 
-  if (!profile.step2_complete) {
+  // Buyers skip the sites step entirely.
+  if (!isBuyerOnly && !profile.step2_complete) {
     return "/profile/sites";
   }
 
@@ -133,13 +136,22 @@ export function getEarliestAllowedPath(profile: {
 function canVisitPath(
   pathname: string,
   profile: { step1_complete: boolean; step2_complete: boolean },
+  isBuyerOnly = false,
 ) {
+  // Buyers are never allowed to visit /profile/sites (not needed).
+  if (isBuyerOnly && pathname.startsWith("/profile/sites")) {
+    return false;
+  }
+
   if (pathname.startsWith("/profile/sites")) {
     return profile.step1_complete;
   }
 
   if (pathname.startsWith("/profile/documents")) {
-    return profile.step1_complete && profile.step2_complete;
+    // Buyers only need step1; sellers need step1 + step2.
+    return isBuyerOnly
+      ? profile.step1_complete
+      : profile.step1_complete && profile.step2_complete;
   }
 
   return true;
