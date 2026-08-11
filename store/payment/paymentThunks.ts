@@ -40,6 +40,20 @@ export const initiateTradePaymentThunk = createAsyncThunk(
   }
 );
 
+export const initiateInspectionFeePaymentThunk = createAsyncThunk(
+  "payment/initiateInspectionFeePayment",
+  async (
+    args: { tradeId: string; payload: InitiateTradePaymentPayload },
+    { getState }
+  ) => {
+    return PaymentService.initiateInspectionFeePayment(
+      selectToken(getState()),
+      args.tradeId,
+      args.payload
+    );
+  }
+);
+
 export const getTradePaymentSummaryThunk = createAsyncThunk(
   "payment/getTradePaymentSummary",
   async (tradeId: string, { getState }) => {

@@ -125,6 +125,19 @@ export const PaymentService = {
     });
   },
 
+  initiateInspectionFeePayment(
+    token: string,
+    tradeId: string,
+    payload: InitiateTradePaymentPayload,
+  ): Promise<import("@/types/api").ApiResponse<import("@/types/payment").InspectionFeePayment>> {
+    return requestJson<import("@/types/api").ApiResponse<import("@/types/payment").InspectionFeePayment>, InitiateTradePaymentPayload>({
+      endpoint: `/trades/${tradeId}/initiate-inspection-fee/`,
+      method: "POST",
+      payload,
+      token,
+    });
+  },
+
   getTradePaymentSummary(
     token: string,
     tradeId: string,

@@ -3,6 +3,7 @@ import {
   verifyReferenceThunk,
   getSubaccountMeThunk,
   initiateTradePaymentThunk,
+  initiateInspectionFeePaymentThunk,
   getTradePaymentSummaryThunk,
   listPayoutsThunk,
   approvePayoutThunk,
@@ -89,11 +90,24 @@ const paymentSlice = createSlice({
       })
       .addCase(initiateTradePaymentThunk.fulfilled, (state, action) => {
         state.loading = false;
-        state.lastInitiatedPayment = action.payload.data;
+        state.lastInitiatedPayment = action.payload.data as any;
       })
       .addCase(initiateTradePaymentThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || "Failed to initiate payment";
+      })
+      // initiateInspectionFeePayment
+      .addCase(initiateInspectionFeePaymentThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(initiateInspectionFeePaymentThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.lastInitiatedPayment = action.payload.data as any;
+      })
+      .addCase(initiateInspectionFeePaymentThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message || "Failed to initiate inspection fee payment";
       })
       // verifyReference
       .addCase(verifyReferenceThunk.pending, (state) => {

@@ -18,6 +18,7 @@ import {
 } from "@/store/bidding/biddingThunks";
 import {
   initiateTradePaymentThunk,
+  initiateInspectionFeePaymentThunk,
   getTradePaymentSummaryThunk,
   verifyReferenceThunk,
 } from "@/store/payment/paymentThunks";
@@ -165,12 +166,29 @@ export default function BuyerTradePage() {
     }
   };
 
+  const handleInitiateInspectionFeePayment = useCallback(async () => {
+    if (!token) return;
+    const result = await dispatch(
+      initiateInspectionFeePaymentThunk({
+        tradeId: id,
+        payload: {
+          callback_url: `${window.location.origin}/bidding/buyer/trade/${id}/payment-callback`,
+        },
+      }),
+    );
+    if (initiateInspectionFeePaymentThunk.fulfilled.match(result)) {
+      const url = result.payload.data.paystack_authorization_url;
+      window.location.href = url;
+    }
+  }, [dispatch, token, id]);
+
   const handleVerifyInspectionPayment = useCallback(async () => {
-    if (!token || !inspectionFeePayment?.paystack_reference) return;
+    const reference = lastInitiatedPayment?.paystack_reference ?? inspectionFeePayment?.paystack_reference;
+    if (!token || !reference) return;
     setIsVerifying(true);
     try {
       const result = await dispatch(
-        verifyReferenceThunk({ reference: inspectionFeePayment.paystack_reference }),
+        verifyReferenceThunk({ reference }),
       );
       if (verifyReferenceThunk.fulfilled.match(result)) {
         dispatch(getTradePaymentSummaryThunk(id));
@@ -179,7 +197,7 @@ export default function BuyerTradePage() {
     } finally {
       setIsVerifying(false);
     }
-  }, [dispatch, token, inspectionFeePayment, id]);
+  }, [dispatch, token, lastInitiatedPayment, inspectionFeePayment, id]);
 
   const [localInspectionSettled, setLocalInspectionSettled] = useState(false);
 
@@ -449,6 +467,7 @@ export default function BuyerTradePage() {
                     paymentSummary={tradeSummary}
                     onRequest={handleRequestInspection}
                     onContinue={() => router.push(`/bidding/buyer/trade/${id}/inspection-requirements`)}
+                    onPayInspectionFee={() => setActiveModal("inspection_payment")}
                     onSkip={() =>
                       dispatch(skipInspectionThunk({ token: token!, tradeId: id }))
                     }
@@ -458,7 +477,8 @@ export default function BuyerTradePage() {
                       status.requestInspection === "loading" ||
                       status.skipInspection === "loading" ||
                       status.approveInspection === "loading" ||
-                      status.rejectInspection === "loading"
+                      status.rejectInspection === "loading" ||
+                      paymentLoading
                     }
                   />
                 )}
@@ -592,11 +612,12 @@ export default function BuyerTradePage() {
         <PaymentModal
           type="inspection"
           summary={tradeSummary}
-          authorizationUrl={inspectionFeePayment?.paystack_authorization_url ?? null}
-          paystackReference={inspectionFeePayment?.paystack_reference ?? null}
-          isInitiating={status.requestInspection === "loading"}
+          authorizationUrl={lastInitiatedPayment?.paystack_authorization_url ?? inspectionFeePayment?.paystack_authorization_url ?? null}
+          paystackReference={lastInitiatedPayment?.paystack_reference ?? inspectionFeePayment?.paystack_reference ?? null}
+          isInitiating={paymentLoading}
           isVerifying={isVerifying}
-          onInitiate={handleRequestInspection}
+          error={paymentError}
+          onInitiate={handleInitiateInspectionFeePayment}
           onVerify={handleVerifyInspectionPayment}
           onClose={() => setActiveModal(null)}
         />

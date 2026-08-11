@@ -16,6 +16,7 @@ interface InspectionModuleProps {
   onApprove?: () => void;
   onReject?: (reason: string) => void;
   onContinue?: () => void;
+  onPayInspectionFee?: () => void;
   isActionLoading?: boolean;
 }
 
@@ -28,6 +29,7 @@ export default function InspectionModule({
   onApprove,
   onReject,
   onContinue,
+  onPayInspectionFee,
   isActionLoading,
   role: propRole,
 }: InspectionModuleProps) {
@@ -90,6 +92,14 @@ export default function InspectionModule({
           <div className="p-3 bg-secondary/10 rounded-lg text-secondary text-sm mb-4">
             You requested an inspection. Please pay the inspection fee to proceed.
           </div>
+          <button
+            onClick={onPayInspectionFee}
+            disabled={isActionLoading}
+            className="w-full bg-secondary text-on-secondary font-bold py-3 rounded-lg flex items-center justify-center gap-2 hover:opacity-90 transition-all active:scale-95 disabled:opacity-50"
+          >
+            <span className="material-symbols-outlined">payments</span>
+            Pay Inspection Fee
+          </button>
         </div>
       )}
 
