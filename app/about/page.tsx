@@ -10,8 +10,8 @@ const jetbrains = JetBrains_Mono({ subsets: ["latin"], weight: ["400", "500"] })
 
 const milestones = [
   { year: "2021", title: "Founded in Accra", text: "Ameefar Energy Africa Ltd. was established with a mission to formalise and secure cross-border recycled commodity trade across the African continent." },
-  { year: "2022", title: "First Verified Exports", text: "Completed our first batch of KYC-verified, escrow-protected rPET and HMS scrap shipments to European buyers, proving the model works." },
-  { year: "2023", title: "African Trade Protocol", text: "Launched the African Trade Protection Protocol — mandatory on-site inspections, international escrow, and enforceable quality contracts on every deal." },
+  { year: "2022", title: "First Verified Exports", text: "Completed our first batch of KYC-verified, securely paid rPET and HMS scrap shipments to European buyers, proving the model works." },
+  { year: "2023", title: "African Trade Protocol", text: "Launched the African Trade Protection Protocol — mandatory on-site inspections, secure payment processing, and enforceable quality contracts on every deal." },
   { year: "2024", title: "Marketplace Goes Live", text: "Opened the B2B marketplace to global buyers and African suppliers, with 2,600+ active listings across Ferrous Metals, Plastics, and Recovered Paper." },
 ];
 
@@ -147,7 +147,7 @@ export default function AboutPage() {
                 We connect KYC-verified African suppliers of secondary raw materials — rPET, PET Flakes, HMS scrap, Recovered Paper, and more — with global buyers who need a reliable, quality-guaranteed source.
               </p>
               <p className="mt-4 text-[15.5px] leading-relaxed text-slate-500">
-                Every trade on Ameefar is backed by our three-pillar African Trade Protection Protocol: verified suppliers, international escrow, and independent pre-shipment inspections. If the material doesn't match the contract, the trade is halted and funds stay protected.
+                Every trade on Ameefar is backed by our three-pillar African Trade Protection Protocol: verified suppliers, secure payment processing, and independent pre-shipment inspections. If the material doesn't match the contract, the trade is halted and payments stay protected.
               </p>
               <div className="mt-8 flex flex-wrap gap-4">
                 <Link
@@ -165,7 +165,7 @@ export default function AboutPage() {
             <div className="grid grid-cols-2 gap-5">
               {[
                 { stat: "2,600+", label: "Active Listings" },
-                { stat: "100%", label: "Escrow Protected" },
+                { stat: "100%", label: "Payment Protected" },
                 { stat: "3", label: "Material Categories" },
                 { stat: "∞", label: "Inspections Done" },
               ].map((item) => (

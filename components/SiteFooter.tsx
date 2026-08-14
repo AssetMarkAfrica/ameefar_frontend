@@ -151,7 +151,12 @@ export default function SiteFooter() {
             ©2026 Ameefar Energy Africa Ltd.{" "}
             <span className="text-[#4caf50] font-semibold">All</span> Rights Reserved
           </span>
-          <div className="flex gap-6">
+          <div className="flex flex-wrap gap-x-6 gap-y-2">
+            <Link href="/about" className="hover:text-white transition-colors">About Us</Link>
+            <Link href="/contact" className="hover:text-white transition-colors">Contact</Link>
+            <Link href="/faq" className="hover:text-white transition-colors">FAQ</Link>
+            <Link href="/feedback" className="hover:text-white transition-colors">Feedback</Link>
+            <Link href="/refund-policy" className="hover:text-white transition-colors">Refund Policy</Link>
             <Link href="/terms-of-service" className="hover:text-white transition-colors">Terms of Service</Link>
             <Link href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>
           </div>

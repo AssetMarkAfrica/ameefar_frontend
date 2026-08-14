@@ -132,11 +132,11 @@ export default function SplitLanding() {
             <span className={`${jetbrains.className} text-teal-600 text-xs font-bold tracking-[0.2em] uppercase mb-5 block`}>The Marketplace</span>
             <h3 className={`${hanken.className} text-3xl md:text-4xl font-bold mb-6 text-slate-900`}>100% Secure African Trade</h3>
             <p className="text-slate-600 leading-relaxed mb-8 text-[15px] md:text-[16px]">
-              The Ameefar Marketplace is the first B2B recycling platform built on the African Trade Protection protocol. We eliminate the historic risks of cross-border commodity trading by strictly enforcing mandatory independent inspections, international escrow, and vetting every single supplier on our platform.
+              The Ameefar Marketplace is the first B2B recycling platform built on the African Trade Protection protocol. We eliminate the historic risks of cross-border commodity trading by strictly enforcing mandatory independent inspections, secure payment processing, and vetting every single supplier on our platform.
             </p>
             <ul className="space-y-4">
               {[
-                "Capital protected in secure international escrow.",
+                "Payments secured via Paystack",
                 "Independent pre-shipment inspections on every deal.",
                 "100% verified suppliers with on-the-ground audits."
               ].map((item, i) => (
