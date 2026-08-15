@@ -4,6 +4,7 @@ import type {
   ProductMaterialType,
 } from "@/types/product";
 import type { User } from "@/types/auth";
+import { COUNTRIES } from "@/app/auth/_components/PhoneInput";
 
 export const ameefarLogoSrc =
   "https://lh3.googleusercontent.com/aida-public/AB6AXuB867Z4NnfE9y8w6L6xti3YIxQmGmpBGXAJnlFRNWIpd82DciRw7AeFdN0TZRAr-Oov5knd9fNX3FVcqKvYpoqSyoDzMwb0h2FQwFBBJ6XxyV_zaFtMlNJ0OZOJmrwTzUZr9CVQmAGmmkc6_ZEy9Q-NaTHAJaoZRezgqR05U-zT_jbs25LGDBLPMB54hY8ogQQ_XrEhB-pKzyJsZQ6SrxzKiE36Dq7KA5d9UdJexM9UKiHfvQOsBcoDMy3q54HvMZU9viJ9fOCkKOb3";
@@ -33,17 +34,9 @@ export const availabilityOptions: Array<{
   { value: "ongoing", label: "Ongoing supply" },
 ];
 
-export const countryOptions = [
-  "Ghana",
-  "Nigeria",
-  "Kenya",
-  "South Africa",
-  "Cote d'Ivoire",
-  "United Kingdom",
-  "United States",
-  "Germany",
-  "France",
-];
+// Derived from the same COUNTRIES dataset used by PhoneInput in RegisterForm,
+// ensuring a consistent, complete list of all countries across the app.
+export const countryOptions: string[] = COUNTRIES.map((c) => c.name);
 
 export function getAllowedListingTypes(user: User | null): ProductListingType[] {
   if (!user) {
