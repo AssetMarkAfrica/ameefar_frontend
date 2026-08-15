@@ -239,13 +239,13 @@ export function ProductBrowse() {
                 ))}
               </SelectField>
 
-              <label className={`grid gap-2 ${filters.q.trim() ? "opacity-50" : ""}`}>
-                <span className="font-[var(--font-jetbrains)] text-xs font-bold uppercase tracking-wide text-[#404848]">
-                  Sort by {filters.q.trim() && "(Disabled by search)"}
+              <label className={`grid gap-2 min-w-0 ${filters.q.trim() ? "opacity-50" : ""}`}>
+                <span className="font-[var(--font-jetbrains)] text-xs font-bold uppercase tracking-wide text-[#404848] truncate">
+                  Sort by {filters.q.trim() && "(Disabled)"}
                 </span>
                 <select
                   disabled={!!filters.q.trim()}
-                  className="min-h-11 rounded-lg border border-slate-200 bg-slate-50 px-3 text-sm text-[#0b1c30] outline-none transition focus:border-[#002627] focus:ring-2 focus:ring-[#002627]/20 disabled:cursor-not-allowed"
+                  className="w-full min-w-0 min-h-11 rounded-lg border border-slate-200 bg-slate-50 px-3 text-sm text-[#0b1c30] outline-none transition focus:border-[#002627] focus:ring-2 focus:ring-[#002627]/20 disabled:cursor-not-allowed"
                   onChange={(event) => setFilters((current) => ({ ...current, ordering: event.target.value }))}
                   value={filters.ordering}
                 >
@@ -475,12 +475,12 @@ function SelectField({
   value: string;
 }) {
   return (
-    <label className="grid gap-2">
-      <span className="font-[var(--font-jetbrains)] text-xs font-bold uppercase tracking-wide text-[#404848]">
+    <label className="grid gap-2 min-w-0">
+      <span className="font-[var(--font-jetbrains)] text-xs font-bold uppercase tracking-wide text-[#404848] truncate">
         {label}
       </span>
       <select
-        className="min-h-11 rounded-lg border border-slate-200 bg-slate-50 px-3 text-sm text-[#0b1c30] outline-none transition focus:border-[#002627] focus:ring-2 focus:ring-[#002627]/20"
+        className="w-full min-w-0 min-h-11 rounded-lg border border-slate-200 bg-slate-50 px-3 text-sm text-[#0b1c30] outline-none transition focus:border-[#002627] focus:ring-2 focus:ring-[#002627]/20"
         onChange={(event) => onChange(event.target.value)}
         value={value}
       >
