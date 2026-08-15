@@ -123,10 +123,11 @@ export function ProductBrowse() {
         )}
       </section>
 
-      <div className="grid gap-6 lg:grid-cols-[272px_minmax(0,1fr)]">
-        {/* Filter sidebar – desktop: always visible; mobile: collapsible panel rendered below toggle */}
-        {/* min-w-0 prevents the sidebar from bleeding into the content column */}
-        <aside className="min-w-0 self-start lg:sticky lg:top-[76px]">
+      {/* Flexbox layout: flex children physically cannot overflow into sibling columns.
+          w-[272px] shrink-0 on aside = always exactly 272px, never shrinks or bleeds.
+          flex-1 min-w-0 on section = takes all remaining space, never exceeds it. */}
+      <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
+        <aside className="w-full shrink-0 lg:w-[272px] lg:sticky lg:top-[76px]">
           {/* Collapsible wrapper — overflow-hidden here, NOT on the <aside>, so native
               <select> dropdowns are never clipped on desktop */}
           <div
@@ -266,7 +267,7 @@ export function ProductBrowse() {
 
         {/* Main content – min-w-0 is critical: prevents the grid child from
             overflowing its column track and crossing into the sidebar */}
-        <section className="grid min-w-0 gap-5 overflow-hidden">
+        <section className="flex-1 min-w-0 grid gap-5">
           {/* Mobile filter toggle – only visible below lg */}
           <button
             className="flex items-center justify-between gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 font-semibold text-[#002627] shadow-sm transition hover:bg-slate-50 lg:hidden"
