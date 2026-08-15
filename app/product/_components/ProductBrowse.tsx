@@ -126,7 +126,7 @@ export function ProductBrowse() {
       <div className="grid gap-6 lg:grid-cols-[272px_minmax(0,1fr)]">
         {/* Filter sidebar – desktop: always visible; mobile: collapsible panel rendered below toggle */}
         {/* min-w-0 prevents the sidebar from bleeding into the content column */}
-        <aside className="min-w-0 h-fit lg:sticky lg:top-24">
+        <aside className="min-w-0 self-start lg:sticky lg:top-[76px]">
           {/* Collapsible wrapper — overflow-hidden here, NOT on the <aside>, so native
               <select> dropdowns are never clipped on desktop */}
           <div
@@ -266,7 +266,7 @@ export function ProductBrowse() {
 
         {/* Main content – min-w-0 is critical: prevents the grid child from
             overflowing its column track and crossing into the sidebar */}
-        <section className="grid min-w-0 gap-5">
+        <section className="grid min-w-0 gap-5 overflow-hidden">
           {/* Mobile filter toggle – only visible below lg */}
           <button
             className="flex items-center justify-between gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 font-semibold text-[#002627] shadow-sm transition hover:bg-slate-50 lg:hidden"
@@ -381,16 +381,16 @@ export function ProductBrowse() {
 
           {/* Listings grid */}
           {isLoading && listings.length === 0 ? (
-            <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+            <div className="grid min-w-0 gap-5 md:grid-cols-2 xl:grid-cols-3">
               {[...Array(6)].map((_, i) => (
                 <div
                   key={i}
-                  className="min-h-80 animate-pulse rounded-xl bg-slate-200"
+                  className="min-h-80 min-w-0 animate-pulse rounded-xl bg-slate-200"
                 />
               ))}
             </div>
           ) : listings.length > 0 ? (
-            <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+            <div className="grid min-w-0 gap-5 md:grid-cols-2 xl:grid-cols-3">
               {listings.map((listing) => (
                 <ProductListingCard key={listing.id} listing={listing} />
               ))}
@@ -517,7 +517,7 @@ function ProductListingCard({ listing }: { listing: ProductListingSummary }) {
   return (
     <Link
       href={`/product/${listing.id}`}
-      className="block overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg"
+      className="block min-w-0 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg"
     >
       <article>
         <div className="relative h-48 overflow-hidden bg-[#eff4ff]">
