@@ -124,144 +124,149 @@ export function ProductBrowse() {
       </section>
 
       <div className="grid gap-6 lg:grid-cols-[272px_minmax(0,1fr)]">
-        {/* Filter sidebar – desktop: always visible; mobile: collapsible drawer */}
-        <aside
-          className={[
-            "h-fit rounded-xl border border-slate-200 bg-white p-5 shadow-sm lg:sticky lg:top-6",
-            // On mobile, collapse/expand via max-height trick
-            "overflow-hidden transition-all duration-300 ease-in-out",
-            filtersOpen
-              ? "max-h-[2000px] opacity-100"
-              : "max-h-0 border-0 p-0 opacity-0 shadow-none lg:max-h-[2000px] lg:border lg:p-5 lg:opacity-100 lg:shadow-sm",
-          ].join(" ")}
-        >
-          <form className="grid gap-5" onSubmit={handleSubmit}>
-            <div className="flex items-center justify-between gap-4">
-              <h2 className="font-[var(--font-hanken)] text-xl font-semibold text-[#002627]">
-                Filters
-              </h2>
-              <button
-                className="text-xs font-bold uppercase tracking-wide text-[#404848] underline-offset-4 hover:text-[#002627] hover:underline"
-                onClick={clearFilters}
-                type="button"
-              >
-                Clear all
-              </button>
-            </div>
+        {/* Filter sidebar – desktop: always visible; mobile: collapsible panel rendered below toggle */}
+        {/* min-w-0 prevents the sidebar from bleeding into the content column */}
+        <aside className="min-w-0 h-fit lg:sticky lg:top-24">
+          {/* Collapsible wrapper — overflow-hidden here, NOT on the <aside>, so native
+              <select> dropdowns are never clipped on desktop */}
+          <div
+            className={[
+              "rounded-xl border border-slate-200 bg-white shadow-sm",
+              "transition-all duration-300 ease-in-out",
+              filtersOpen
+                ? "max-h-[2000px] opacity-100 p-5"
+                : "max-h-0 overflow-hidden border-0 p-0 opacity-0 shadow-none lg:max-h-[2000px] lg:overflow-visible lg:border lg:p-5 lg:opacity-100 lg:shadow-sm",
+            ].join(" ")}
+          >
+            <form className="grid gap-5" onSubmit={handleSubmit}>
+              <div className="flex items-center justify-between gap-4">
+                <h2 className="font-[var(--font-hanken)] text-xl font-semibold text-[#002627]">
+                  Filters
+                </h2>
+                <button
+                  className="text-xs font-bold uppercase tracking-wide text-[#404848] underline-offset-4 hover:text-[#002627] hover:underline"
+                  onClick={clearFilters}
+                  type="button"
+                >
+                  Clear all
+                </button>
+              </div>
 
-            {token && !(isAdmin || isBuyer) && (
-              <label className="flex cursor-pointer items-center justify-between gap-4 rounded-lg border border-slate-200 bg-slate-50 p-3 transition hover:border-[#002627]/20 hover:bg-[#eff4ff]">
-                <span className="text-sm font-semibold text-[#0b1c30]">
-                  My listings only
+              {token && !(isAdmin || isBuyer) && (
+                <label className="flex cursor-pointer items-center justify-between gap-4 rounded-lg border border-slate-200 bg-slate-50 p-3 transition hover:border-[#002627]/20 hover:bg-[#eff4ff]">
+                  <span className="text-sm font-semibold text-[#0b1c30]">
+                    My listings only
+                  </span>
+                  <input
+                    className="size-5 accent-[#002627]"
+                    checked={filters.mine}
+                    onChange={(event) =>
+                      setFilters((current) => ({
+                        ...current,
+                        mine: event.target.checked,
+                      }))
+                    }
+                    type="checkbox"
+                  />
+                </label>
+              )}
+
+              <SelectField
+                label="Listing type"
+                value={filters.listing_type}
+                onChange={(value) =>
+                  setFilters((current) => ({
+                    ...current,
+                    listing_type: value as BrowseFilters["listing_type"],
+                  }))
+                }
+              >
+                <option value="">All types</option>
+                <option value="sell">Sell offers</option>
+                <option value="buy">Buy requests</option>
+              </SelectField>
+
+              <SelectField
+                label="Material"
+                value={filters.material_type}
+                onChange={(value) =>
+                  setFilters((current) => ({
+                    ...current,
+                    material_type: value as BrowseFilters["material_type"],
+                  }))
+                }
+              >
+                <option value="">All materials</option>
+                {materialOptions.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </SelectField>
+
+              <SelectField
+                label="Availability"
+                value={filters.availability_status}
+                onChange={(value) =>
+                  setFilters((current) => ({
+                    ...current,
+                    availability_status:
+                      value as BrowseFilters["availability_status"],
+                  }))
+                }
+              >
+                <option value="">Any availability</option>
+                {availabilityOptions.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </SelectField>
+
+              <SelectField
+                label="Country"
+                value={filters.country}
+                onChange={(value) =>
+                  setFilters((current) => ({ ...current, country: value }))
+                }
+              >
+                <option value="">All countries</option>
+                {countryOptions.map((country) => (
+                  <option key={country} value={country}>
+                    {country}
+                  </option>
+                ))}
+              </SelectField>
+
+              <label className={`grid gap-2 ${filters.q.trim() ? "opacity-50" : ""}`}>
+                <span className="font-[var(--font-jetbrains)] text-xs font-bold uppercase tracking-wide text-[#404848]">
+                  Sort by {filters.q.trim() && "(Disabled by search)"}
                 </span>
-                <input
-                  className="size-5 accent-[#002627]"
-                  checked={filters.mine}
-                  onChange={(event) =>
-                    setFilters((current) => ({
-                      ...current,
-                      mine: event.target.checked,
-                    }))
-                  }
-                  type="checkbox"
-                />
+                <select
+                  disabled={!!filters.q.trim()}
+                  className="min-h-11 rounded-lg border border-slate-200 bg-slate-50 px-3 text-sm text-[#0b1c30] outline-none transition focus:border-[#002627] focus:ring-2 focus:ring-[#002627]/20 disabled:cursor-not-allowed"
+                  onChange={(event) => setFilters((current) => ({ ...current, ordering: event.target.value }))}
+                  value={filters.ordering}
+                >
+                  <option value="-listed_at">Newest first</option>
+                  <option value="quantity_available_mt">Quantity (Low to High)</option>
+                  <option value="-quantity_available_mt">Quantity (High to Low)</option>
+                </select>
               </label>
-            )}
 
-            <SelectField
-              label="Listing type"
-              value={filters.listing_type}
-              onChange={(value) =>
-                setFilters((current) => ({
-                  ...current,
-                  listing_type: value as BrowseFilters["listing_type"],
-                }))
-              }
-            >
-              <option value="">All types</option>
-              <option value="sell">Sell offers</option>
-              <option value="buy">Buy requests</option>
-            </SelectField>
-
-            <SelectField
-              label="Material"
-              value={filters.material_type}
-              onChange={(value) =>
-                setFilters((current) => ({
-                  ...current,
-                  material_type: value as BrowseFilters["material_type"],
-                }))
-              }
-            >
-              <option value="">All materials</option>
-              {materialOptions.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </SelectField>
-
-            <SelectField
-              label="Availability"
-              value={filters.availability_status}
-              onChange={(value) =>
-                setFilters((current) => ({
-                  ...current,
-                  availability_status:
-                    value as BrowseFilters["availability_status"],
-                }))
-              }
-            >
-              <option value="">Any availability</option>
-              {availabilityOptions.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </SelectField>
-
-            <SelectField
-              label="Country"
-              value={filters.country}
-              onChange={(value) =>
-                setFilters((current) => ({ ...current, country: value }))
-              }
-            >
-              <option value="">All countries</option>
-              {countryOptions.map((country) => (
-                <option key={country} value={country}>
-                  {country}
-                </option>
-              ))}
-            </SelectField>
-
-            <label className={`grid gap-2 ${filters.q.trim() ? "opacity-50" : ""}`}>
-              <span className="font-[var(--font-jetbrains)] text-xs font-bold uppercase tracking-wide text-[#404848]">
-                Sort by {filters.q.trim() && "(Disabled by search)"}
-              </span>
-              <select
-                disabled={!!filters.q.trim()}
-                className="min-h-11 rounded-lg border border-slate-200 bg-slate-50 px-3 text-sm text-[#0b1c30] outline-none transition focus:border-[#002627] focus:ring-2 focus:ring-[#002627]/20 disabled:cursor-not-allowed"
-                onChange={(event) => setFilters((current) => ({ ...current, ordering: event.target.value }))}
-                value={filters.ordering}
+              <button
+                className="min-h-11 rounded-xl bg-[#002627] px-4 font-semibold text-white transition hover:bg-slate-900"
+                type="submit"
               >
-                <option value="-listed_at">Newest first</option>
-                <option value="quantity_available_mt">Quantity (Low to High)</option>
-                <option value="-quantity_available_mt">Quantity (High to Low)</option>
-              </select>
-            </label>
-
-            <button
-              className="min-h-11 rounded-xl bg-[#002627] px-4 font-semibold text-white transition hover:bg-slate-900"
-              type="submit"
-            >
-              Apply filters
-            </button>
-          </form>
+                Apply filters
+              </button>
+            </form>
+          </div>
         </aside>
 
-        {/* Main content */}
-        <section className="grid gap-5">
+        {/* Main content – min-w-0 is critical: prevents the grid child from
+            overflowing its column track and crossing into the sidebar */}
+        <section className="grid min-w-0 gap-5">
           {/* Mobile filter toggle – only visible below lg */}
           <button
             className="flex items-center justify-between gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 font-semibold text-[#002627] shadow-sm transition hover:bg-slate-50 lg:hidden"
