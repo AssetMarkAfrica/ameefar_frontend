@@ -5,6 +5,8 @@ interface CounterOfferModalProps {
     counter_price_per_unit: string;
     counter_quantity: string;
     counter_message: string;
+    counter_delivery_terms?: string;
+    counter_named_place?: string;
   }) => void;
   onClose: () => void;
   isSubmitting?: boolean;
@@ -15,6 +17,8 @@ export default function CounterOfferModal({ onConfirm, onClose, isSubmitting, cu
   const [price, setPrice] = useState("");
   const [quantity, setQuantity] = useState("");
   const [message, setMessage] = useState("");
+  const [deliveryTerms, setDeliveryTerms] = useState("");
+  const [namedPlace, setNamedPlace] = useState("");
   const [showErrors, setShowErrors] = useState(false);
 
   const parsedPrice = Number(price);
@@ -34,6 +38,8 @@ export default function CounterOfferModal({ onConfirm, onClose, isSubmitting, cu
       counter_price_per_unit: price,
       counter_quantity: quantity,
       counter_message: message.trim(),
+      counter_delivery_terms: deliveryTerms || undefined,
+      counter_named_place: namedPlace || undefined,
     });
   };
 
@@ -82,6 +88,41 @@ export default function CounterOfferModal({ onConfirm, onClose, isSubmitting, cu
             />
             {showErrors && !isQuantityValid && <p className="text-xs text-red-500">Please enter a valid quantity.</p>}
           </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-1.5">
+              <label className="text-label-md text-outline uppercase tracking-tight">Delivery Terms</label>
+              <select
+                value={deliveryTerms}
+                onChange={(e) => setDeliveryTerms(e.target.value)}
+                className="w-full px-4 py-2.5 rounded-lg border bg-surface-gray text-ameefar-navy font-label-md focus:outline-none focus:ring-2 focus:ring-primary/30 transition border-border-subtle focus:border-primary"
+              >
+                <option value="">Leave as original</option>
+                <option value="EXW">EXW (Ex Works)</option>
+                <option value="FCA">FCA (Free Carrier)</option>
+                <option value="CPT">CPT (Carriage Paid To)</option>
+                <option value="CIP">CIP (Carriage and Insurance Paid To)</option>
+                <option value="DAP">DAP (Delivered at Place)</option>
+                <option value="DPU">DPU (Delivered at Place Unloaded)</option>
+                <option value="DDP">DDP (Delivered Duty Paid)</option>
+                <option value="FAS">FAS (Free Alongside Ship)</option>
+                <option value="FOB">FOB (Free On Board)</option>
+                <option value="CFR">CFR (Cost and Freight)</option>
+                <option value="CIF">CIF (Cost, Insurance and Freight)</option>
+                <option value="OTHER">OTHER (Custom terms)</option>
+              </select>
+            </div>
+            <div className="space-y-1.5">
+              <label className="text-label-md text-outline uppercase tracking-tight">Named Place</label>
+              <input
+                type="text" value={namedPlace}
+                onChange={(e) => setNamedPlace(e.target.value)}
+                placeholder="e.g. Tema Port"
+                className="w-full px-4 py-2.5 rounded-lg border bg-surface-gray text-ameefar-navy font-label-md focus:outline-none focus:ring-2 focus:ring-primary/30 transition border-border-subtle focus:border-primary"
+              />
+            </div>
+          </div>
+
           <div className="space-y-1.5">
             <label className="text-label-md text-outline uppercase tracking-tight">Message</label>
             <textarea

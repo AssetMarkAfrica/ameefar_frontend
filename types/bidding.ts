@@ -180,6 +180,7 @@ export interface EnquirySummary {
   total_value: string;
   created_at: string;
   updated_at: string;
+  named_place: string;
 }
 
 /**
@@ -199,6 +200,9 @@ export interface EnquiryDetail extends EnquirySummary {
   expires_at: string | null;
   has_trade: boolean;
   trade_id: string | null;
+  named_place: string;
+  counter_delivery_terms: string | null;
+  counter_named_place: string | null;
 }
 
 export interface EnquiryMessage {
@@ -236,6 +240,7 @@ export interface TradeSummary {
   inspection_status?: InspectionStatus;
   created_at: string;
   updated_at: string;
+  named_place: string;
 }
 
 export interface TradeStatusLog {
@@ -296,6 +301,13 @@ export interface TradeDetail extends TradeSummary {
   admin_notes: string;
   status_logs: TradeStatusLog[];
   documents: TradeDocument[];
+  named_place: string;
+  carrier_name: string;
+  port_of_loading: string;
+  port_of_discharge: string;
+  dispatch_date: string | null;
+  buyer_confirmed_receipt: boolean;
+  buyer_confirmed_at: string | null;
 }
 
 export interface TradeMessage {
@@ -336,6 +348,7 @@ export interface CreateEnquiryPayload {
   delivery_terms?: string;
   delivery_address?: string;
   target_delivery_date?: string;
+  named_place?: string;
 }
 
 export interface ListEnquiriesParams {
@@ -354,6 +367,8 @@ export interface CounterEnquiryPayload {
   counter_price_per_unit?: string;
   counter_quantity?: string;
   counter_message?: string;
+  counter_delivery_terms?: string;
+  counter_named_place?: string;
 }
 
 export interface SendEnquiryMessagePayload {
@@ -370,6 +385,10 @@ export interface ListTradesParams {
 export interface MarkInProgressPayload {
   tracking_reference?: string;
   estimated_arrival?: string;
+  carrier_name?: string;
+  port_of_loading?: string;
+  port_of_discharge?: string;
+  dispatch_date?: string;
 }
 
 export interface CompleteTradePayload {

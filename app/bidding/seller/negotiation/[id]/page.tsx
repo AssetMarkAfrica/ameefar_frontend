@@ -84,6 +84,8 @@ export default function SellerNegotiationPage() {
     counter_price_per_unit: string;
     counter_quantity: string;
     counter_message: string;
+    counter_delivery_terms?: string;
+    counter_named_place?: string;
   }) => {
     if (!token) return;
     await dispatch(counterEnquiryThunk({ token, enquiryId: id, ...data }));
@@ -199,6 +201,7 @@ export default function SellerNegotiationPage() {
               <DetailRow label="Quantity" value={`${currentEnquiry.quantity} ${currentEnquiry.unit?.toUpperCase()}`} />
               <DetailRow label="Price per Unit" value={`${currentEnquiry.proposed_price_per_unit} ${currentEnquiry.currency}`} />
               <DetailRow label="Delivery Terms" value={currentEnquiry.delivery_terms} />
+              <DetailRow label="Named Place" value={currentEnquiry.named_place} />
               <DetailRow
                 label="Target Delivery"
                 value={
@@ -222,6 +225,12 @@ export default function SellerNegotiationPage() {
                 <div className="px-5 divide-y divide-border-subtle">
                   <DetailRow label="Counter Price / Unit" value={`${currentEnquiry.counter_price_per_unit} ${currentEnquiry.currency}`} />
                   <DetailRow label="Counter Quantity" value={`${currentEnquiry.counter_quantity} ${currentEnquiry.unit?.toUpperCase()}`} />
+                  {currentEnquiry.counter_delivery_terms && (
+                    <DetailRow label="Counter Delivery Terms" value={currentEnquiry.counter_delivery_terms} />
+                  )}
+                  {currentEnquiry.counter_named_place && (
+                    <DetailRow label="Counter Named Place" value={currentEnquiry.counter_named_place} />
+                  )}
                   {currentEnquiry.counter_message && (
                     <DetailRow label="Counter Message" value={currentEnquiry.counter_message} />
                   )}

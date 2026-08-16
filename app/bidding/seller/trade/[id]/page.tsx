@@ -31,6 +31,10 @@ export default function SellerTradePage() {
   const documents = tradeDocuments[id] || [];
   const [eta, setEta] = useState("");
   const [trackingInfo, setTrackingInfo] = useState("");
+  const [carrierName, setCarrierName] = useState("");
+  const [portOfLoading, setPortOfLoading] = useState("");
+  const [portOfDischarge, setPortOfDischarge] = useState("");
+  const [dispatchDate, setDispatchDate] = useState("");
 
   useEffect(() => {
     if (token && id) {
@@ -63,7 +67,16 @@ export default function SellerTradePage() {
 
   const handleMarkInProgress = async () => {
     if (!token) return;
-    await dispatch(markInProgressThunk({ token, tradeId: id, estimated_arrival: eta, tracking_reference: trackingInfo }));
+    await dispatch(markInProgressThunk({ 
+      token, 
+      tradeId: id, 
+      estimated_arrival: eta, 
+      tracking_reference: trackingInfo,
+      carrier_name: carrierName,
+      port_of_loading: portOfLoading,
+      port_of_discharge: portOfDischarge,
+      dispatch_date: dispatchDate
+    }));
   };
 
   if (status.fetchTrade === "loading" || !currentTrade) {
@@ -71,6 +84,11 @@ export default function SellerTradePage() {
   }
 
   const isTradePaymentPaid = tradeSummary?.trade_payment_paid;
+  
+  const sellerResponsibleIncoterms = ["CFR", "CIF", "CPT", "CIP", "DAP", "DPU", "DDP"];
+  const isTrackingRequired = sellerResponsibleIncoterms.includes(currentTrade.delivery_terms);
+  
+  const canMarkInProgress = eta && (!isTrackingRequired || (trackingInfo && carrierName));
 
   return (
     <div className="flex w-full min-h-screen bg-surface-gray font-body-md text-on-surface">
@@ -209,27 +227,74 @@ export default function SellerTradePage() {
 
                     <h3 className="font-headline-md text-headline-md text-primary mb-4">Shipment Details</h3>
                     <div className="space-y-4">
-                      <div>
-                        <label className="block text-sm font-bold text-on-surface-variant mb-1">Estimated Arrival Date (ETA)</label>
-                        <input
-                          type="date"
-                          className="w-full bg-surface-gray border border-border-subtle rounded-lg px-4 py-2 focus:ring-primary focus:border-transparent outline-none"
-                          value={eta}
-                          onChange={(e) => setEta(e.target.value)}
-                        />
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-bold text-on-surface-variant mb-1">Carrier Name {isTrackingRequired && "*"}</label>
+                          <input
+                            type="text"
+                            className="w-full bg-surface-gray border border-border-subtle rounded-lg px-4 py-2 focus:ring-primary focus:border-transparent outline-none"
+                            value={carrierName}
+                            onChange={(e) => setCarrierName(e.target.value)}
+                            placeholder="e.g. Maersk"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-bold text-on-surface-variant mb-1">Tracking Info / Ref {isTrackingRequired && "*"}</label>
+                          <input
+                            type="text"
+                            className="w-full bg-surface-gray border border-border-subtle rounded-lg px-4 py-2 focus:ring-primary focus:border-transparent outline-none"
+                            value={trackingInfo}
+                            onChange={(e) => setTrackingInfo(e.target.value)}
+                            placeholder="e.g. TRK123456789"
+                          />
+                        </div>
                       </div>
-                      <div>
-                        <label className="block text-sm font-bold text-on-surface-variant mb-1">Tracking Info / Logistics Details</label>
-                        <textarea
-                          className="w-full bg-surface-gray border border-border-subtle rounded-lg px-4 py-2 focus:ring-primary focus:border-transparent outline-none"
-                          rows={3}
-                          value={trackingInfo}
-                          onChange={(e) => setTrackingInfo(e.target.value)}
-                        ></textarea>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-bold text-on-surface-variant mb-1">Port of Loading</label>
+                          <input
+                            type="text"
+                            className="w-full bg-surface-gray border border-border-subtle rounded-lg px-4 py-2 focus:ring-primary focus:border-transparent outline-none"
+                            value={portOfLoading}
+                            onChange={(e) => setPortOfLoading(e.target.value)}
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-bold text-on-surface-variant mb-1">Port of Discharge</label>
+                          <input
+                            type="text"
+                            className="w-full bg-surface-gray border border-border-subtle rounded-lg px-4 py-2 focus:ring-primary focus:border-transparent outline-none"
+                            value={portOfDischarge}
+                            onChange={(e) => setPortOfDischarge(e.target.value)}
+                          />
+                        </div>
                       </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-bold text-on-surface-variant mb-1">Dispatch Date</label>
+                          <input
+                            type="date"
+                            className="w-full bg-surface-gray border border-border-subtle rounded-lg px-4 py-2 focus:ring-primary focus:border-transparent outline-none"
+                            value={dispatchDate}
+                            onChange={(e) => setDispatchDate(e.target.value)}
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-bold text-on-surface-variant mb-1">Estimated Arrival (ETA) *</label>
+                          <input
+                            type="date"
+                            className="w-full bg-surface-gray border border-border-subtle rounded-lg px-4 py-2 focus:ring-primary focus:border-transparent outline-none"
+                            value={eta}
+                            onChange={(e) => setEta(e.target.value)}
+                          />
+                        </div>
+                      </div>
+
                       <button
                         onClick={handleMarkInProgress}
-                        disabled={status.markInProgress === "loading" || !eta}
+                        disabled={status.markInProgress === "loading" || !canMarkInProgress}
                         className="w-full bg-secondary text-white font-bold py-3 rounded-lg hover:bg-secondary/90 transition-colors disabled:opacity-50"
                       >
                         {status.markInProgress === "loading" ? "Updating..." : "Mark as In Progress"}

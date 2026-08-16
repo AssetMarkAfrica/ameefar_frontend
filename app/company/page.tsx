@@ -474,7 +474,7 @@ export default function Home() {
             </div>
             <div className="flex flex-col leading-none">
               <span className={`${hanken.className} text-[18px] font-bold tracking-tight transition-colors duration-300 ${scrolled ? "text-[#002627]" : "text-white drop-shadow-sm"}`}>
-                Ameefar
+
               </span>
               <span className={`${jetbrains.className} text-[9px] font-medium tracking-[0.16em] uppercase mt-0.5 transition-colors duration-300 ${scrolled ? "text-[#006d40]" : "text-emerald-300"}`}>
                 Energy Africa
@@ -850,7 +850,7 @@ export default function Home() {
                   <p className={`${hanken.className} text-[24px] font-extrabold text-white leading-tight`}>Ameefar Energy Africa</p>
                   <p className={`${jetbrains.className} text-[10px] tracking-[0.2em] text-emerald-400 uppercase font-semibold mt-2`}>Sustainable Recycling Solutions</p>
                 </div>
-                </div>
+              </div>
 
 
               {/* Intro text */}

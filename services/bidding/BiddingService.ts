@@ -368,6 +368,18 @@ export const BiddingService = {
     });
   },
 
+  confirmReceipt(
+    token: string,
+    tradeId: string,
+  ): Promise<BiddingAck> {
+    return requestJson<BiddingAck, Record<string, never>>({
+      endpoint: `/trades/${tradeId}/confirm-receipt/`,
+      method: "POST",
+      payload: {},
+      token,
+    });
+  },
+
   completeTrade(
     token: string,
     tradeId: string,
