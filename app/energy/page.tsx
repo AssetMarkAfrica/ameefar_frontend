@@ -25,8 +25,8 @@ export default function EnergyPage() {
           <Link href="/" className="flex items-center gap-3">
             <Image alt="Ameefar logo" className="rounded-lg object-cover" height={36} width={36} src="/ameefarLogo.png" />
             <div className="flex flex-col leading-none">
-              <span className={`${hanken.className} text-[16px] font-bold tracking-tight text-slate-900`}>Ameefar</span>
-              <span className={`${jetbrains.className} text-[9px] font-medium tracking-[0.15em] text-[#00bfa5] uppercase mt-0.5`}>Energy Solutions</span>
+              <span className={`${hanken.className} text-[16px] font-bold tracking-tight text-slate-900`}>AMEEFAR ENERGY</span>
+
             </div>
           </Link>
           <nav className="hidden gap-7 md:flex text-[13.5px] font-medium text-slate-500">
