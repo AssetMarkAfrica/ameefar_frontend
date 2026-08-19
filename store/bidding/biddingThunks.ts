@@ -161,6 +161,13 @@ export const markInProgressThunk = createAsyncThunk<
   BiddingService.markInProgress(token, tradeId, payload),
 );
 
+export const confirmReceiptThunk = createAsyncThunk<
+  BiddingAck,
+  TokenArg & TradeIdArg
+>("bidding/confirmReceipt", ({ token, tradeId }) =>
+  BiddingService.confirmReceipt(token, tradeId),
+);
+
 export const completeTradeThunk = createAsyncThunk<
   BiddingAck,
   TokenArg & TradeIdArg & CompleteTradePayload

@@ -15,6 +15,7 @@ import {
   approveInspectionThunk,
   rejectInspectionThunk,
   skipInspectionThunk,
+  confirmReceiptThunk,
 } from "@/store/bidding/biddingThunks";
 import {
   initiateTradePaymentThunk,
@@ -156,6 +157,11 @@ export default function BuyerTradePage() {
   const handleCompleteTrade = async () => {
     if (!token) return;
     await dispatch(completeTradeThunk({ token, tradeId: id, notes: completeReason }));
+  };
+
+  const handleConfirmReceipt = async () => {
+    if (!token) return;
+    await dispatch(confirmReceiptThunk({ token, tradeId: id }));
   };
 
   const handleRequestInspection = async () => {
@@ -528,22 +534,42 @@ export default function BuyerTradePage() {
                   </div>
                 </div>
                 <div className="border-t border-border-subtle pt-6">
-                  <p className="text-body-sm text-on-surface-variant mb-4">
-                    Once you receive and inspect the goods, confirm completion.
-                  </p>
-                  <textarea
-                    placeholder="Add completion notes or feedback..."
-                    className="w-full bg-surface-gray border border-border-subtle rounded-lg px-4 py-3 mb-4 focus:ring-primary focus:border-transparent outline-none"
-                    value={completeReason}
-                    onChange={(e) => setCompleteReason(e.target.value)}
-                  />
-                  <button
-                    onClick={handleCompleteTrade}
-                    disabled={status.completeTrade === "loading"}
-                    className="w-full bg-trust-green-subtle text-secondary font-bold py-3 rounded-lg hover:bg-secondary hover:text-white border border-secondary/20 transition-colors disabled:opacity-50"
-                  >
-                    {status.completeTrade === "loading" ? "Completing..." : "Complete Trade"}
-                  </button>
+                  {!currentTrade.buyer_confirmed_receipt ? (
+                    <div className="bg-amber-50 rounded-lg p-4 mb-4 border border-amber-200">
+                      <p className="text-body-sm text-amber-800 font-bold mb-2">Have you received the goods?</p>
+                      <p className="text-body-sm text-amber-700 mb-4">Confirm receipt to notify the seller and administration. You will then be able to finalize the trade.</p>
+                      <button
+                        onClick={handleConfirmReceipt}
+                        disabled={status.confirmReceipt === "loading"}
+                        className="w-full bg-amber-600 text-white font-bold py-3 rounded-lg hover:bg-amber-700 transition-colors disabled:opacity-50"
+                      >
+                        {status.confirmReceipt === "loading" ? "Confirming..." : "Confirm Receipt"}
+                      </button>
+                    </div>
+                  ) : (
+                    <div>
+                      <div className="bg-trust-green-subtle rounded-lg p-4 mb-4 border border-secondary/20 flex items-center gap-3">
+                        <span className="material-symbols-outlined text-secondary">check_circle</span>
+                        <p className="text-body-sm font-bold text-secondary">Receipt confirmed on {currentTrade.buyer_confirmed_at ? new Date(currentTrade.buyer_confirmed_at).toLocaleDateString() : "Pending"}</p>
+                      </div>
+                      <p className="text-body-sm text-on-surface-variant mb-4">
+                        Please review the goods against the contract and confirm final completion.
+                      </p>
+                      <textarea
+                        placeholder="Add completion notes or feedback..."
+                        className="w-full bg-surface-gray border border-border-subtle rounded-lg px-4 py-3 mb-4 focus:ring-primary focus:border-transparent outline-none"
+                        value={completeReason}
+                        onChange={(e) => setCompleteReason(e.target.value)}
+                      />
+                      <button
+                        onClick={handleCompleteTrade}
+                        disabled={status.completeTrade === "loading"}
+                        className="w-full bg-trust-green-subtle text-secondary font-bold py-3 rounded-lg hover:bg-secondary hover:text-white border border-secondary/20 transition-colors disabled:opacity-50"
+                      >
+                        {status.completeTrade === "loading" ? "Completing..." : "Complete Trade"}
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
             )}

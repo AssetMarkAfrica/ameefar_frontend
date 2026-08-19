@@ -36,6 +36,7 @@ export function CreateEnquiryModal({
   const [price, setPrice] = useState("");
   const [currency, setCurrency] = useState("GHS");
   const [deliveryTerms, setDeliveryTerms] = useState("EXW");
+  const [namedPlace, setNamedPlace] = useState("");
   const [deliveryAddress, setDeliveryAddress] = useState("");
   const [targetDeliveryDate, setTargetDeliveryDate] = useState("");
   const [message, setMessage] = useState("");
@@ -67,6 +68,7 @@ export function CreateEnquiryModal({
           currency: price ? currency : undefined,
           message: message.trim(),
           delivery_terms: deliveryTerms || undefined,
+          named_place: namedPlace || undefined,
           delivery_address: deliveryAddress || undefined,
           target_delivery_date: targetDeliveryDate || undefined,
         })
@@ -186,7 +188,7 @@ export function CreateEnquiryModal({
           <div className="grid md:grid-cols-2 gap-6 pt-4 border-t border-slate-100">
             <label className="grid gap-2">
               <span className="font-[var(--font-jetbrains)] text-xs font-bold uppercase tracking-wide text-[#404848]">
-                Delivery Terms
+                Delivery Terms (Incoterms)
               </span>
               <select
                 value={deliveryTerms}
@@ -194,13 +196,35 @@ export function CreateEnquiryModal({
                 className={inputClassName}
               >
                 <option value="EXW">EXW (Ex Works)</option>
-                <option value="FOB">FOB (Free On Board)</option>
-                <option value="CIF">CIF (Cost, Insurance, Freight)</option>
+                <option value="FCA">FCA (Free Carrier)</option>
+                <option value="CPT">CPT (Carriage Paid To)</option>
+                <option value="CIP">CIP (Carriage and Insurance Paid To)</option>
+                <option value="DAP">DAP (Delivered at Place)</option>
+                <option value="DPU">DPU (Delivered at Place Unloaded)</option>
                 <option value="DDP">DDP (Delivered Duty Paid)</option>
+                <option value="FAS">FAS (Free Alongside Ship)</option>
+                <option value="FOB">FOB (Free On Board)</option>
+                <option value="CFR">CFR (Cost and Freight)</option>
+                <option value="CIF">CIF (Cost, Insurance and Freight)</option>
+                <option value="OTHER">OTHER (Custom terms)</option>
               </select>
             </label>
 
             <label className="grid gap-2">
+              <span className="font-[var(--font-jetbrains)] text-xs font-bold uppercase tracking-wide text-[#404848]">
+                Named Place {deliveryTerms !== "OTHER" && "*"}
+              </span>
+              <input
+                type="text"
+                required={deliveryTerms !== "OTHER"}
+                value={namedPlace}
+                onChange={(e) => setNamedPlace(e.target.value)}
+                className={inputClassName}
+                placeholder="e.g. Tema Port"
+              />
+            </label>
+
+            <label className="grid gap-2 md:col-span-2">
               <span className="font-[var(--font-jetbrains)] text-xs font-bold uppercase tracking-wide text-[#404848]">
                 Target Delivery Date
               </span>

@@ -19,6 +19,7 @@ import {
   cancelTradeThunk,
   completeInspectionThunk,
   completeTradeThunk,
+  confirmReceiptThunk,
   counterEnquiryThunk,
   buyerCounterEnquiryThunk,
   createEnquiryThunk,
@@ -73,6 +74,7 @@ export type BiddingOperation =
   | "fetchTrade"
   | "agreeTerms"
   | "markInProgress"
+  | "confirmReceipt"
   | "completeTrade"
   | "cancelTrade"
   | "raiseDispute"
@@ -149,6 +151,7 @@ const ops: BiddingOperation[] = [
   "fetchTrade",
   "agreeTerms",
   "markInProgress",
+  "confirmReceipt",
   "completeTrade",
   "cancelTrade",
   "raiseDispute",
@@ -692,6 +695,24 @@ export const biddingSlice = createSlice({
       .addCase(markInProgressThunk.rejected, (state, action) => {
         state.status.markInProgress = "failed";
         state.errors.markInProgress = rejectedMessage(action.error.message);
+      })
+
+    // ── Confirm Receipt ─────────────────────────────────────────────────────
+
+      .addCase(confirmReceiptThunk.pending, (state) => {
+        state.status.confirmReceipt = "loading";
+        state.errors.confirmReceipt = null;
+      })
+      .addCase(confirmReceiptThunk.fulfilled, (state) => {
+        state.status.confirmReceipt = "succeeded";
+        if (state.currentTrade) {
+          state.currentTrade = { ...state.currentTrade, buyer_confirmed_receipt: true };
+          state.trades = upsertTrade(state.trades, state.currentTrade);
+        }
+      })
+      .addCase(confirmReceiptThunk.rejected, (state, action) => {
+        state.status.confirmReceipt = "failed";
+        state.errors.confirmReceipt = rejectedMessage(action.error.message);
       })
 
     // ── Complete Trade ──────────────────────────────────────────────────────
