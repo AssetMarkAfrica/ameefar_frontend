@@ -80,7 +80,8 @@ export function CreateEnquiryModal({
         router.push(`/bidding/seller/negotiation/${result.data.id}`);
       }
     } catch (err: any) {
-      setError(err || "Failed to create enquiry.");
+      const errorMessage = typeof err === 'string' ? err : err?.message || "Failed to create enquiry.";
+      setError(errorMessage);
       setIsLoading(false);
     }
   };

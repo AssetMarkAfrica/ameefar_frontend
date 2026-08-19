@@ -28,6 +28,7 @@ type BankingForm = {
   account_number: string;
   bank_code: string;
   bank_name: string;
+  payout_currency: string;
 };
 
 const emptyBanking: BankingForm = {
@@ -35,6 +36,7 @@ const emptyBanking: BankingForm = {
   account_number: "",
   bank_code: "",
   bank_name: "",
+  payout_currency: "GHS",
 };
 
 export function ComplianceDocumentsStep() {
@@ -242,6 +244,18 @@ export function ComplianceDocumentsStep() {
                     }
                     value={banking.account_number}
                   />
+                </label>
+                <label className="profile-field">
+                  <span>Payout Currency</span>
+                  <select
+                    disabled={readOnly}
+                    required
+                    onChange={(event) => updateBanking("payout_currency", event.target.value)}
+                    value={banking.payout_currency}
+                  >
+                    <option value="GHS">Ghanaian Cedi (GHS)</option>
+                    <option value="USD">US Dollar (USD)</option>
+                  </select>
                 </label>
               </div>
             </section>
