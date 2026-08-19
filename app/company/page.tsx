@@ -771,104 +771,104 @@ export default function Home() {
                 </div>
               </div>
 
-          {/* Intro text */}
-          <div>
-            <h3 className={`${hanken.className} text-[28px] md:text-[36px] font-bold text-white leading-tight mb-5`}>
-              Pioneering the Circular Economy in Africa
-            </h3>
-            <p className="text-[16px] leading-relaxed text-slate-300 mb-5">
-              Ameefar Energy Africa is a passionate advocate for sustainable recycling, driven by the belief that waste does not exist — only resources waiting to be repurposed. We connect buyers and sellers of recyclable commodities across the globe, focusing on PET, aluminium UBC, and other high-value secondary raw materials.
-            </p>
-            <p className="text-[16px] leading-relaxed text-slate-400 mb-8">
-              Based in Accra, Ghana, we operate at the intersection of environmental responsibility and commercial opportunity — eliminating the historic risks of cross-border commodity trading through our African Trade Protection protocol.
-            </p>
-            <div className="flex flex-wrap gap-3">
-              {["Circular Economy", "B2B Recycling", "Escrow Protected", "Ghana-Based", "Global Reach"].map((tag) => (
-                <span key={tag} className={`${jetbrains.className} inline-block rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-1.5 text-[10px] font-semibold tracking-wide text-emerald-300 uppercase`}>
-                  {tag}
-                </span>
-              ))}
-            </div>
-          </div>
-        </FadeInSection>
-
-        {/* Mission / Vision / Values row */}
-        <div className="grid sm:grid-cols-3 gap-5">
-          {[
-            {
-              icon: "🌍",
-              title: "Our Mission",
-              text: "To build a transparent, secure, and accessible recycling marketplace that powers the circular economy across Africa and beyond.",
-            },
-            {
-              icon: "🔭",
-              title: "Our Vision",
-              text: "A future where every tonne of recyclable material is captured, traded fairly, and reintegrated into global supply chains — with zero waste to landfill.",
-            },
-            {
-              icon: "🤝",
-              title: "Our Values",
-              text: "Transparency, integrity, and environmental accountability sit at the core of everything we do — from supplier vetting to trade execution.",
-            },
-          ].map((item, i) => (
-            <FadeInSection key={item.title} delay={i * 100}>
-              <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-7 h-full hover:border-emerald-500/30 hover:bg-white/[0.07] transition-all duration-300">
-                <div className="text-3xl mb-4">{item.icon}</div>
-                <h4 className={`${hanken.className} text-[18px] font-bold text-white mb-3`}>{item.title}</h4>
-                <p className="text-[14px] leading-relaxed text-slate-400">{item.text}</p>
+              {/* Intro text */}
+              <div>
+                <h3 className={`${hanken.className} text-[28px] md:text-[36px] font-bold text-white leading-tight mb-5`}>
+                  Pioneering the Circular Economy in Africa
+                </h3>
+                <p className="text-[16px] leading-relaxed text-slate-300 mb-5">
+                  Ameefar Energy Africa is a passionate advocate for sustainable recycling, driven by the belief that waste does not exist — only resources waiting to be repurposed. We connect buyers and sellers of recyclable commodities across the globe, focusing on PET, aluminium UBC, and other high-value secondary raw materials.
+                </p>
+                <p className="text-[16px] leading-relaxed text-slate-400 mb-8">
+                  Based in Accra, Ghana, we operate at the intersection of environmental responsibility and commercial opportunity — eliminating the historic risks of cross-border commodity trading through our African Trade Protection protocol.
+                </p>
+                <div className="flex flex-wrap gap-3">
+                  {["Circular Economy", "B2B Recycling", "Escrow Protected", "Ghana-Based", "Global Reach"].map((tag) => (
+                    <span key={tag} className={`${jetbrains.className} inline-block rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-1.5 text-[10px] font-semibold tracking-wide text-emerald-300 uppercase`}>
+                      {tag}
+                    </span>
+                  ))}
+                </div>
               </div>
             </FadeInSection>
-          ))}
-        </div>
 
-    </div>
-        </section>
-
-
-    {/* ── FOUNDER VISION ── */ }
-    <section className = "bg-gradient-to-br from-[#f0faf9] to-white px-6 py-24 md:px-12 border-t border-slate-100" >
-      <div className="mx-auto max-w-[900px]">
-        <FadeInSection className="text-center">
-          {/* rPET Expertise block */}
-          <div className="mb-12 rounded-2xl bg-white border border-slate-100 shadow-sm p-8 md:p-12">
-            <div className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-4 py-1.5 text-[11px] text-[#006d40] tracking-wider font-medium uppercase mb-4">
-              rPET Expertise
+            {/* Mission / Vision / Values row */}
+            <div className="grid sm:grid-cols-3 gap-5">
+              {[
+                {
+                  icon: "🌍",
+                  title: "Our Mission",
+                  text: "To build a transparent, secure, and accessible recycling marketplace that powers the circular economy across Africa and beyond.",
+                },
+                {
+                  icon: "🔭",
+                  title: "Our Vision",
+                  text: "A future where every tonne of recyclable material is captured, traded fairly, and reintegrated into global supply chains — with zero waste to landfill.",
+                },
+                {
+                  icon: "🤝",
+                  title: "Our Values",
+                  text: "Transparency, integrity, and environmental accountability sit at the core of everything we do — from supplier vetting to trade execution.",
+                },
+              ].map((item, i) => (
+                <FadeInSection key={item.title} delay={i * 100}>
+                  <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-7 h-full hover:border-emerald-500/30 hover:bg-white/[0.07] transition-all duration-300">
+                    <div className="text-3xl mb-4">{item.icon}</div>
+                    <h4 className={`${hanken.className} text-[18px] font-bold text-white mb-3`}>{item.title}</h4>
+                    <p className="text-[14px] leading-relaxed text-slate-400">{item.text}</p>
+                  </div>
+                </FadeInSection>
+              ))}
             </div>
-            <h2 className={`${hanken.className} text-[28px] md:text-[36px] font-bold text-[#002627] leading-tight mb-4`}>
-              Redefining Recycling in Africa
-            </h2>
-            <p className="text-[15px] leading-relaxed text-slate-600 max-w-2xl mx-auto">
-              The global demand for recycled PET (rPET) is rapidly increasing, driven by growing consumer and business emphasis on sustainable products, along with emerging national regulations requiring recycled content in production. Ameefar Energy Africa is well-equipped to address this rising demand, thanks to our extensive industry expertise and cutting-edge rPET technologies.
-            </p>
-          </div>
 
-          {/* Founder quote */}
-          <div className="mx-auto mb-8 h-28 w-28 overflow-hidden rounded-full border-4 border-white shadow-[0_4px_30px_rgba(0,109,64,0.2)]">
-            <Image
-              src="https://res.cloudinary.com/dqwub0fhb/image/upload/v1782219057/pascal_nsd1sq.jpg"
-              alt="Abdulai Pascal Mohammed"
-              height={112}
-              width={112}
-              className="h-full w-full object-cover"
-            />
           </div>
-          <blockquote className={`${hanken.className} text-[20px] md:text-[28px] font-medium leading-relaxed text-[#002627] max-w-3xl mx-auto`}>
-            "The transition to sustainable secondary raw materials requires a rigorous, data-driven marketplace. Ameefar provides exactly that — closing the loop on African sustainability."
-          </blockquote>
-          <div className="mt-7">
-            <a href="https://www.linkedin.com/in/abdulai-pascal-mohammed-222059345/" target="_blank" rel="noreferrer" className="inline-block hover:underline">
-              <strong className="block text-[18px] font-bold text-[#002627]">Abdulai Pascal Mohammed</strong>
-            </a>
-            <span className={`${jetbrains.className} mt-1.5 block text-[11px] text-[#006d40] uppercase tracking-widest font-medium`}>
-              CEO · Sustainability | rPET | Recycling
-            </span>
-          </div>
-        </FadeInSection>
-      </div>
         </section>
 
-    {/* ── ENERGY SOLUTIONS TEASER ── */ }
-    <section className = "relative overflow-hidden bg-white px-6 py-28 md:px-12 border-t border-slate-100" >
+
+        {/* ── FOUNDER VISION ── */}
+        <section className="bg-gradient-to-br from-[#f0faf9] to-white px-6 py-24 md:px-12 border-t border-slate-100" >
+          <div className="mx-auto max-w-[900px]">
+            <FadeInSection className="text-center">
+              {/* rPET Expertise block */}
+              <div className="mb-12 rounded-2xl bg-white border border-slate-100 shadow-sm p-8 md:p-12">
+                <div className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-4 py-1.5 text-[11px] text-[#006d40] tracking-wider font-medium uppercase mb-4">
+                  rPET Expertise
+                </div>
+                <h2 className={`${hanken.className} text-[28px] md:text-[36px] font-bold text-[#002627] leading-tight mb-4`}>
+                  Redefining Recycling in Africa
+                </h2>
+                <p className="text-[15px] leading-relaxed text-slate-600 max-w-2xl mx-auto">
+                  The global demand for recycled PET (rPET) is rapidly increasing, driven by growing consumer and business emphasis on sustainable products, along with emerging national regulations requiring recycled content in production. Ameefar Energy Africa is well-equipped to address this rising demand, thanks to our extensive industry expertise and cutting-edge rPET technologies.
+                </p>
+              </div>
+
+              {/* Founder quote */}
+              <div className="mx-auto mb-8 h-28 w-28 overflow-hidden rounded-full border-4 border-white shadow-[0_4px_30px_rgba(0,109,64,0.2)]">
+                <Image
+                  src="https://res.cloudinary.com/dqwub0fhb/image/upload/v1782219057/pascal_nsd1sq.jpg"
+                  alt="Abdulai Pascal Mohammed"
+                  height={112}
+                  width={112}
+                  className="h-full w-full object-cover"
+                />
+              </div>
+              <blockquote className={`${hanken.className} text-[20px] md:text-[28px] font-medium leading-relaxed text-[#002627] max-w-3xl mx-auto`}>
+                "The transition to sustainable secondary raw materials requires a rigorous, data-driven marketplace. Ameefar provides exactly that — closing the loop on African sustainability."
+              </blockquote>
+              <div className="mt-7">
+                <a href="https://www.linkedin.com/in/abdulai-pascal-mohammed-222059345/" target="_blank" rel="noreferrer" className="inline-block hover:underline">
+                  <strong className="block text-[18px] font-bold text-[#002627]">Abdulai Pascal Mohammed</strong>
+                </a>
+                <span className={`${jetbrains.className} mt-1.5 block text-[11px] text-[#006d40] uppercase tracking-widest font-medium`}>
+                  CEO · Sustainability | rPET | Recycling
+                </span>
+              </div>
+            </FadeInSection>
+          </div>
+        </section>
+
+        {/* ── ENERGY SOLUTIONS TEASER ── */}
+        <section className="relative overflow-hidden bg-white px-6 py-28 md:px-12 border-t border-slate-100" >
           <div className="absolute -top-32 -left-32 h-[500px] w-[500px] rounded-full bg-[#00bfa5]/5 blur-[140px] pointer-events-none" />
           <div className="absolute -bottom-20 right-0 h-[400px] w-[400px] rounded-full bg-[#006d40]/5 blur-[120px] pointer-events-none" />
 
@@ -938,8 +938,8 @@ export default function Home() {
           </div>
         </section>
 
-    {/* ── CTA BAND ── */ }
-    <section className = "bg-[#002627] px-6 py-24 md:px-12 relative overflow-hidden" >
+        {/* ── CTA BAND ── */}
+        <section className="bg-[#002627] px-6 py-24 md:px-12 relative overflow-hidden" >
           <div className="absolute inset-0 pointer-events-none">
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[300px] bg-emerald-500/8 blur-[100px] rounded-full" />
           </div>
@@ -976,9 +976,9 @@ export default function Home() {
 
       </main>
 
-    <div ref={footerRef}>
-      <SiteFooter />
-    </div>
+      <div ref={footerRef}>
+        <SiteFooter />
+      </div>
     </div>
   );
 }
