@@ -16,6 +16,7 @@ import {
   selectIsAdmin,
   selectUser,
 } from "@/store/auth/authSelectors";
+import { selectProfileStatus } from "@/store/profile/profileSelectors";
 import { ameefarLogoSrc, getAllowedListingTypes } from "@/app/product/_components/product-options";
 
 export default function ProductBannerHeader() {
@@ -26,11 +27,13 @@ export default function ProductBannerHeader() {
   const isSeller = useAppSelector(selectIsSeller);
   const isAdmin = useAppSelector(selectIsAdmin);
   const user = useAppSelector(selectUser);
+  const profileStatus = useAppSelector(selectProfileStatus);
 
   const [menuOpen, setMenuOpen] = useState(false);
 
   const isAuthenticated = hasAuthSession && !!token;
-  const canCreate = getAllowedListingTypes(user).length > 0;
+  const isVerified = profileStatus === "verified";
+  const canCreate = isVerified && getAllowedListingTypes(user).length > 0;
 
   const avatarFallback = user?.full_name
     ? user.full_name

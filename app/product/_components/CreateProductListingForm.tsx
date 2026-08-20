@@ -5,6 +5,7 @@ import { ChangeEvent, FormEvent, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { selectAccessToken, selectUser } from "@/store/auth/authSelectors";
+import { selectProfileStatus } from "@/store/profile/profileSelectors";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
   selectProductError,
@@ -73,6 +74,7 @@ export function CreateProductListingForm() {
   const uploadError = useAppSelector((state) =>
     selectProductError(state, "uploadImageAndActivate"),
   );
+  const profileStatus = useAppSelector(selectProfileStatus);
   const allowedListingTypes = useMemo(() => getAllowedListingTypes(user), [user]);
   const [form, setForm] = useState<ListingFormState>(initialFormState);
   const [imageFiles, setImageFiles] = useState<File[]>([]);
@@ -123,61 +125,106 @@ export function CreateProductListingForm() {
 
     if (!token || !selectedListingType || !form.material_type) return;
 
-    const created = await dispatch(
-      createProductListingThunk({
-        token,
-        listing_type: selectedListingType,
-        status: "draft",
-        material_type: form.material_type,
-        material_name: form.material_name.trim(),
-        average_weight_per_load_mt: formatDecimal(form.average_weight_per_load_mt),
-        quantity_available_mt: formatDecimal(form.quantity_available_mt),
-        material_location_country: form.material_location_country,
-        availability_status: form.availability_status,
-        description: form.description.trim(),
-        seller_notes: form.seller_notes.trim() || undefined,
-        mfi_value: form.mfi_value ? formatDecimal(form.mfi_value, 3) : undefined,
-      }),
-    ).unwrap();
-
-    if (imageFiles.length > 0) {
-      const [primaryImage, ...otherImages] = imageFiles;
-
-      await dispatch(
-        uploadProductImageAndActivateThunk({
+    try {
+      const created = await dispatch(
+        createProductListingThunk({
           token,
-          listingId: created.data.id,
-          image: primaryImage,
-          caption: "Primary material photo",
-          is_primary: true,
-          sort_order: 0,
+          listing_type: selectedListingType,
+          status: "draft",
+          material_type: form.material_type,
+          material_name: form.material_name.trim(),
+          average_weight_per_load_mt: formatDecimal(form.average_weight_per_load_mt),
+          quantity_available_mt: formatDecimal(form.quantity_available_mt),
+          material_location_country: form.material_location_country,
+          availability_status: form.availability_status,
+          description: form.description.trim(),
+          seller_notes: form.seller_notes.trim() || undefined,
+          mfi_value: form.mfi_value ? formatDecimal(form.mfi_value, 3) : undefined,
         }),
       ).unwrap();
 
-      await Promise.all(
-        otherImages.map((image, index) =>
-          dispatch(
-            uploadProductImageThunk({
-              token,
-              listingId: created.data.id,
-              image,
-              caption: `Material photo ${index + 2}`,
-              sort_order: index + 1,
-            }),
-          ).unwrap(),
-        ),
-      );
+      if (imageFiles.length > 0) {
+        const [primaryImage, ...otherImages] = imageFiles;
 
-      setSuccessMessage("Listing created and activated.");
-    } else {
-      setSuccessMessage("Draft listing created. Upload an image to activate it.");
+        await dispatch(
+          uploadProductImageAndActivateThunk({
+            token,
+            listingId: created.data.id,
+            image: primaryImage,
+            caption: "Primary material photo",
+            is_primary: true,
+            sort_order: 0,
+          }),
+        ).unwrap();
+
+        await Promise.all(
+          otherImages.map((image, index) =>
+            dispatch(
+              uploadProductImageThunk({
+                token,
+                listingId: created.data.id,
+                image,
+                caption: `Material photo ${index + 2}`,
+                sort_order: index + 1,
+              }),
+            ).unwrap(),
+          ),
+        );
+
+        setSuccessMessage("Listing created and activated.");
+      } else {
+        setSuccessMessage("Draft listing created. Upload an image to activate it.");
+      }
+
+      router.push(`/product/${created.data.id}`);
+    } catch {
+      // Redux already stores the error message in the `createError` / `uploadError`
+      // selectors via the rejected case — the banner above will render it automatically.
     }
-
-    router.push(`/product/${created.data.id}`);
   }
 
   const isSubmitting =
     createStatus === "loading" || uploadAndActivateStatus === "loading";
+
+  if (profileStatus !== "verified") {
+    return (
+      <section className="mx-auto grid max-w-2xl gap-5 rounded-xl border border-slate-200 bg-white p-8 shadow-sm">
+        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-amber-50 ring-1 ring-amber-200">
+          <svg
+            className="h-6 w-6 text-amber-500"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+            />
+          </svg>
+        </div>
+        <p className="font-[var(--font-jetbrains)] text-xs font-bold uppercase tracking-wide text-amber-600">
+          Verification in progress
+        </p>
+        <h1 className="font-[var(--font-hanken)] text-3xl font-semibold text-[#002627]">
+          The Ameefar team is verifying your account.
+        </h1>
+        <p className="text-[#404848]">
+          Our team is currently reviewing your profile and documents. You will
+          be able to create listings as soon as your account has been verified.
+          This typically takes 1–2 business days — we&apos;ll notify you once
+          it&apos;s done.
+        </p>
+        <Link
+          className="inline-flex min-h-11 w-max items-center rounded-xl bg-[#002627] px-5 font-semibold !text-white transition hover:bg-slate-900"
+          href="/profile"
+        >
+          View profile status
+        </Link>
+      </section>
+    );
+  }
 
   if (allowedListingTypes.length === 0) {
     return (
@@ -193,7 +240,7 @@ export function CreateProductListingForm() {
           Update your profile role before posting material.
         </p>
         <Link
-          className="inline-flex min-h-11 w-max items-center rounded-xl bg-[#002627] px-5 font-semibold text-white transition hover:bg-slate-900"
+          className="inline-flex min-h-11 w-max items-center rounded-xl bg-[#002627] px-5 font-semibold !text-white transition hover:bg-slate-900"
           href="/profile"
         >
           Go to profile
