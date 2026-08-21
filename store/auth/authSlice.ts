@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import {
   confirmPasswordResetThunk,
@@ -127,6 +127,13 @@ export const authSlice = createSlice({
       state.adminChallengeEmail = null;
       state.admin2faDelivery = null;
     },
+    refreshTokenSuccess(state, action: PayloadAction<{ access: string; refresh?: string }>) {
+      state.accessToken = action.payload.access;
+      if (action.payload.refresh) {
+        state.refreshToken = action.payload.refresh;
+      }
+      state.isAuthenticated = true;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -249,6 +256,6 @@ export const authSlice = createSlice({
   },
 });
 
-export const { clearAuthErrors, clearPendingAuth, logout } = authSlice.actions;
+export const { clearAuthErrors, clearPendingAuth, logout, refreshTokenSuccess } = authSlice.actions;
 
 export default authSlice.reducer;

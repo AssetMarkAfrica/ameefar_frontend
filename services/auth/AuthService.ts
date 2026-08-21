@@ -204,6 +204,10 @@ export const AuthService = {
     return postJson<unknown, LogoutPayload>("/logout/", payload);
   },
 
+  refreshToken(payload: { refresh: string }): Promise<{ access: string; refresh?: string }> {
+    return postJson<{ access: string; refresh?: string }, { refresh: string }>("/token/refresh/", payload);
+  },
+
   requestPasswordReset(
     payload: PasswordResetRequestPayload,
   ): Promise<PasswordResetRequestResponse> {

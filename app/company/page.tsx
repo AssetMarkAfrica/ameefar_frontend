@@ -18,7 +18,7 @@ const jetbrains = JetBrains_Mono({ subsets: ["latin"], weight: ["400", "500"] })
 
 const trustSignals = [
   { label: "KYC Verified Suppliers", icon: "✦" },
-  { label: "International Escrow Protected", icon: "✦" },
+  { label: "Secure Payment Protection", icon: "✦" },
   { label: "Mandatory On-Site Inspections", icon: "✦" },
   { label: "Enforceable Quality Contracts", icon: "✦" },
   { label: "2M Tonnes Recycled", icon: "✦" },
@@ -38,12 +38,12 @@ const pillars = [
   },
   {
     number: "02",
-    title: "Ironclad Escrow",
+    title: "Secure Payments",
     tagline: "Your capital stays protected until conditions are met.",
     stat: "100%",
-    statLabel: "Funds protected in escrow",
+    statLabel: "Funds protected on every deal",
     highlight: "Release only after inspection & port loading confirmation",
-    text: "Your capital is protected in secure international escrow accounts. Funds release only after materials pass physical inspection and port loading is confirmed. Neither party can access the funds unilaterally.",
+    text: "Your capital is protected through our secure payment framework. Funds are released only after materials pass physical inspection and port loading is confirmed. Neither party can access the funds unilaterally.",
     icon: "🔒",
     img: "/images/heroSlides/ban3.jpg",
   },
@@ -122,6 +122,16 @@ const whatWeBuy = [
 ];
 
 
+const plasticTypes = [
+  { code: "1", name: "PETE", full: "Polyethylene Terephthalate", desc: "Clear, strong plastic used for beverage bottles, food jars, and polyester fibres.", color: "from-emerald-500 to-teal-600", img: "/images/plastics/pete.png" },
+  { code: "2", name: "HDPE", full: "High-Density Polyethylene", desc: "Sturdy, chemical-resistant plastic found in milk jugs, detergent bottles, and crates.", color: "from-blue-500 to-indigo-600", img: "/images/plastics/hdpe.png" },
+  { code: "3", name: "PVC", full: "Polyvinyl Chloride", desc: "Durable plastic used in window frames, pipes, flooring, and cables. Essential in construction.", color: "from-amber-500 to-orange-600", img: "/images/plastics/pvc.png" },
+  { code: "4", name: "LDPE", full: "Low-Density Polyethylene", desc: "Flexible, lightweight plastic used for carrier bags, shrink wrap, and agricultural films.", color: "from-sky-400 to-cyan-600", img: "/images/plastics/ldpe.png" },
+  { code: "5", name: "PP", full: "Polypropylene", desc: "Tough, heat-resistant plastic used in food packaging, automotive parts, and crates.", color: "from-red-500 to-rose-600", img: "/images/plastics/pp.png" },
+  { code: "6", name: "PS", full: "Polystyrene", desc: "Rigid or foamed plastic used in disposable cups, takeaway containers, and protective packaging.", color: "from-violet-500 to-purple-600", img: "/images/plastics/ps.png" },
+  { code: "7", name: "Others", full: "PC, ABS, Acrylic, EPS & More", desc: "Specialty plastics including polycarbonate, ABS, acrylic, EPS (foam insulation), and nylon.", color: "from-slate-600 to-gray-800", img: "/images/heroSlides/recycle.jpg" },
+];
+
 const otherMaterials = [
   { name: "Recovered Paper", types: "OCC · ONP · Mixed Paper", desc: "Old corrugated containers, newsprint, and mixed office paper — feedstock for recycled paperboard, tissue, and packaging.", icon: "📄" },
   { name: "Aluminium Ingot", types: "A380 · ADC12 · 6063", desc: "Cast and extruded aluminium ingot produced from secondary smelting. Used in automotive, construction, and consumer goods.", icon: "🔩" },
@@ -162,7 +172,7 @@ const heroSlides = [
     badge: "100% Secure Trading",
     title: "Secure African Trade. Guaranteed Quality.",
     subtitle: "Protected Every Step",
-    text: "The first B2B recycling marketplace built on the African Trade Protection protocol — with mandatory inspections, international escrow, and verified suppliers on every deal.",
+    text: "The first B2B recycling marketplace built on the African Trade Protection protocol — with mandatory inspections, secure payments, and verified suppliers on every deal.",
     cta: "Visit Marketplace",
     ctaLink: "/product",
     secondaryCta: "Start Buying & Selling",
@@ -550,6 +560,7 @@ export default function Home() {
 
 
 
+        {/* ── WHAT WE TRADE ── */}
         <section id="materials" className="bg-[#0a1a1a] px-6 py-28 md:px-12 relative overflow-hidden">
           <div className="pointer-events-none absolute inset-0">
             <div className="absolute right-0 top-0 h-[600px] w-[600px] translate-x-1/3 -translate-y-1/4 rounded-full bg-[#006d40]/10 blur-3xl" />
@@ -558,13 +569,14 @@ export default function Home() {
 
           <div className="relative mx-auto max-w-[1440px]">
             <FadeInSection className="max-w-2xl mx-auto text-center mb-16">
-
-              <h2 className={`${hanken.className} mt-6 text-[40px] font-bold leading-tight text-white md:text-[52px]`}>
-                What We{" "}
-                <span className="bg-gradient-to-r from-[#00bfa5] to-emerald-300 bg-clip-text text-transparent">Trade</span>
+              <span className={`${jetbrains.className} inline-block rounded-full border border-emerald-500/20 bg-emerald-500/10 px-5 py-2 text-[11px] tracking-[0.18em] text-[#00bfa5] uppercase font-medium mb-5`}>
+                Our Materials
+              </span>
+              <h2 className={`${hanken.className} text-[40px] font-bold leading-tight text-white md:text-[52px]`}>
+                What We <span className="bg-gradient-to-r from-[#00bfa5] to-emerald-300 bg-clip-text text-transparent">Trade</span>
               </h2>
               <p className="mt-5 text-[16px] leading-relaxed text-slate-400 max-w-xl mx-auto">
-                We trade in all seven resin categories — from PET bottles to mixed engineering polymers — plus recovered paper, metals, and more.
+                Premium recycled materials for global manufacturers — from rPET resins and aluminium UBC, to all seven resin categories, plus recovered paper and metals.
               </p>
             </FadeInSection>
 
@@ -602,6 +614,58 @@ export default function Home() {
                         <p className="mt-2 text-[13px] leading-relaxed text-slate-500 flex-1">{item.desc}</p>
                         <div className="mt-4 flex items-center gap-1.5 text-[12px] font-semibold text-[#006d40] translate-x-0 group-hover:translate-x-1 transition-transform duration-300">
                           Enquire now
+                          <svg fill="none" height="12" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24" width="12">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                </FadeInSection>
+              ))}
+            </div>
+
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mb-16">
+              {plasticTypes.map((plastic, i) => (
+                <FadeInSection key={plastic.name} delay={i * 60}>
+                  <Link href={`/product?q=${encodeURIComponent(plastic.name)}`} className="group flex h-full flex-col">
+                    <div className="relative flex-1 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] shadow-lg transition-all duration-500 hover:-translate-y-2 hover:border-white/20 hover:bg-white/[0.06] hover:shadow-[0_20px_60px_rgba(0,0,0,0.5)]">
+                      {/* Image Area */}
+                      <div className="relative h-60 overflow-hidden">
+                        <div className="absolute inset-0 bg-[#001a1a]">
+                          <img
+                            src={plastic.img}
+                            alt={`${plastic.name} plastic recycling`}
+                            className="h-full w-full object-cover opacity-80 transition-transform duration-700 group-hover:scale-110 group-hover:opacity-100"
+                          />
+                        </div>
+                        <div className={`absolute inset-0 bg-gradient-to-t from-[#001a1a] via-[#001a1a]/40 to-transparent`} />
+                        <div className={`absolute inset-0 bg-gradient-to-br ${plastic.color} opacity-30 mix-blend-color transition-opacity duration-500 group-hover:opacity-10`} />
+
+                        {/* Number Badge */}
+                        <div className="absolute left-4 top-4 flex h-12 w-12 items-center justify-center rounded-xl border border-white/30 bg-black/40 backdrop-blur-md shadow-lg transition-transform duration-500 group-hover:scale-110">
+                          <span className="font-mono text-[22px] font-black text-white">{plastic.code}</span>
+                        </div>
+
+                        {/* Floating Title */}
+                        <div className="absolute bottom-4 left-5 right-5">
+                          <div className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-black/40 backdrop-blur-md px-3 py-1 text-[11px] font-mono font-medium tracking-widest text-white/90 mb-2">
+                            #{plastic.code}
+                          </div>
+                          <h3 className={`${hanken.className} text-[26px] font-black text-white leading-none drop-shadow-md`}>
+                            {plastic.name}
+                          </h3>
+                        </div>
+                      </div>
+
+                      {/* Content Area */}
+                      <div className="flex flex-col p-5">
+                        <p className="text-[13px] font-bold tracking-wide text-[#00bfa5]">{plastic.full}</p>
+                        <p className="mt-3 text-[14px] leading-relaxed text-slate-400 group-hover:text-slate-300 transition-colors duration-300">
+                          {plastic.desc}
+                        </p>
+                        <div className="mt-5 flex items-center gap-1.5 text-[12px] font-semibold text-[#00bfa5] translate-x-0 transition-all duration-300 group-hover:translate-x-1 group-hover:text-white">
+                          View listings
                           <svg fill="none" height="12" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24" width="12">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
                           </svg>
@@ -783,7 +847,7 @@ export default function Home() {
                   Based in Accra, Ghana, we operate at the intersection of environmental responsibility and commercial opportunity — eliminating the historic risks of cross-border commodity trading through our African Trade Protection protocol.
                 </p>
                 <div className="flex flex-wrap gap-3">
-                  {["Circular Economy", "B2B Recycling", "Escrow Protected", "Ghana-Based", "Global Reach"].map((tag) => (
+                  {["Circular Economy", "B2B Recycling", "Secure Payments", "Ghana-Based", "Global Reach"].map((tag) => (
                     <span key={tag} className={`${jetbrains.className} inline-block rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-1.5 text-[10px] font-semibold tracking-wide text-emerald-300 uppercase`}>
                       {tag}
                     </span>

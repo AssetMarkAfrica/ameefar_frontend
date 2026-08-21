@@ -1,3 +1,7 @@
+import { store } from "@/store";
+import { refreshTokenSuccess, logout } from "@/store/auth/authSlice";
+import { AuthService } from "@/services/auth/AuthService";
+
 type RequestOptions = {
   params?: Record<string, unknown>;
   body?: unknown;
@@ -9,15 +13,28 @@ type ErrorBody = {
   [key: string]: unknown;
 };
 
+let isRefreshing = false;
+let failedQueue: Array<{ resolve: (token: string) => void; reject: (err: unknown) => void }> = [];
+
+const processQueue = (error: unknown, token: string | null = null) => {
+  failedQueue.forEach((prom) => {
+    if (error) {
+      prom.reject(error);
+    } else if (token) {
+      prom.resolve(token);
+    }
+  });
+  failedQueue = [];
+};
+
 function getAuthToken(): string | null {
   if (typeof window === "undefined") return null;
-  try {
-    const stored = localStorage.getItem("ameefar.auth.session");
-    if (!stored) return null;
-    return JSON.parse(stored).accessToken ?? null;
-  } catch {
-    return null;
-  }
+  return store.getState().auth.accessToken ?? null;
+}
+
+function getRefreshToken(): string | null {
+  if (typeof window === "undefined") return null;
+  return store.getState().auth.refreshToken ?? null;
 }
 
 function formatError(body: ErrorBody | null, fallback: string): string {
@@ -26,7 +43,7 @@ function formatError(body: ErrorBody | null, fallback: string): string {
 }
 
 async function request<TResponse>(method: string, url: string, opts?: RequestOptions): Promise<{ data: TResponse }> {
-  const token = getAuthToken();
+  let token = getAuthToken();
   const headers: Record<string, string> = {
     Accept: "application/json",
   };
@@ -36,7 +53,6 @@ async function request<TResponse>(method: string, url: string, opts?: RequestOpt
   }
 
   let fullUrl = url;
-
   if (opts?.params) {
     const sp = new URLSearchParams();
     Object.entries(opts.params).forEach(([k, v]) => {
@@ -46,14 +62,51 @@ async function request<TResponse>(method: string, url: string, opts?: RequestOpt
     if (qs) fullUrl += `?${qs}`;
   }
 
-  const fetchOpts: RequestInit = { method, headers };
-
+  let fetchOpts: RequestInit = { method, headers };
   if (opts?.body !== undefined) {
     headers["Content-Type"] = "application/json";
     fetchOpts.body = JSON.stringify(opts.body);
   }
 
-  const res = await fetch(fullUrl, fetchOpts);
+  let res = await fetch(fullUrl, fetchOpts);
+
+  if (res.status === 401) {
+    const refreshToken = getRefreshToken();
+    if (refreshToken) {
+      const retryOriginalRequest = new Promise<string>((resolve, reject) => {
+        failedQueue.push({ resolve, reject });
+      });
+
+      if (!isRefreshing) {
+        isRefreshing = true;
+        AuthService.refreshToken({ refresh: refreshToken })
+          .then((result) => {
+            store.dispatch(refreshTokenSuccess({ access: result.access, refresh: result.refresh }));
+            processQueue(null, result.access);
+          })
+          .catch((refreshError) => {
+            processQueue(refreshError, null);
+            store.dispatch(logout());
+          })
+          .finally(() => {
+            isRefreshing = false;
+          });
+      }
+
+      try {
+        token = await retryOriginalRequest;
+        
+        headers["Authorization"] = `Bearer ${token}`;
+        fetchOpts = { ...fetchOpts, headers };
+        res = await fetch(fullUrl, fetchOpts);
+      } catch (err) {
+        // Fall through to normal error handling if refresh fails
+      }
+    } else {
+      store.dispatch(logout());
+    }
+  }
+
   const body = (await res.json().catch(() => null)) as ErrorBody | null;
 
   if (!res.ok) {
