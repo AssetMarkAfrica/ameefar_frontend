@@ -63,14 +63,6 @@ const pillars = [
 // Exact products from ameefarenergy.com/what-we-sell/
 const whatWeSell = [
   {
-    name: "rPET Resins",
-    tagline: "Premium recycled PET resins",
-    desc: "Premium materials derived from recycled plastic bottles using an advanced bottle-to-bottle (EREMA) recycling process. Food-grade quality available.",
-    img: "/images/whatWeSell/p3.jpg",
-    color: "from-teal-500 to-emerald-600",
-    badge: "Best Seller",
-  },
-  {
     name: "PET Flakes",
     tagline: "High-grade washed PET flakes",
     desc: "Sourced from used water and soft drink bottles, available in various quality grades — clear, mixed colour, and washed — for multiple industrial applications.",
@@ -123,13 +115,13 @@ const whatWeBuy = [
 
 
 const plasticTypes = [
-  { code: "1", name: "PETE", full: "Polyethylene Terephthalate", desc: "Clear, strong plastic used for beverage bottles, food jars, and polyester fibres.", color: "from-emerald-500 to-teal-600", img: "/images/plastics/pete.png" },
-  { code: "2", name: "HDPE", full: "High-Density Polyethylene", desc: "Sturdy, chemical-resistant plastic found in milk jugs, detergent bottles, and crates.", color: "from-blue-500 to-indigo-600", img: "/images/plastics/hdpe.png" },
-  { code: "3", name: "PVC", full: "Polyvinyl Chloride", desc: "Durable plastic used in window frames, pipes, flooring, and cables. Essential in construction.", color: "from-amber-500 to-orange-600", img: "/images/plastics/pvc.png" },
-  { code: "4", name: "LDPE", full: "Low-Density Polyethylene", desc: "Flexible, lightweight plastic used for carrier bags, shrink wrap, and agricultural films.", color: "from-sky-400 to-cyan-600", img: "/images/plastics/ldpe.png" },
-  { code: "5", name: "PP", full: "Polypropylene", desc: "Tough, heat-resistant plastic used in food packaging, automotive parts, and crates.", color: "from-red-500 to-rose-600", img: "/images/plastics/pp.png" },
-  { code: "6", name: "PS", full: "Polystyrene", desc: "Rigid or foamed plastic used in disposable cups, takeaway containers, and protective packaging.", color: "from-violet-500 to-purple-600", img: "/images/plastics/ps.png" },
-  { code: "7", name: "Others", full: "PC, ABS, Acrylic, EPS & More", desc: "Specialty plastics including polycarbonate, ABS, acrylic, EPS (foam insulation), and nylon.", color: "from-slate-600 to-gray-800", img: "/images/heroSlides/recycle.jpg" },
+  { name: "PETE", full: "Polyethylene Terephthalate", desc: "Clear, strong plastic used for beverage bottles, food jars, and polyester fibres.", color: "from-emerald-500 to-teal-600", img: "/images/plastics/pete.png" },
+  { name: "HDPE", full: "High-Density Polyethylene", desc: "Sturdy, chemical-resistant plastic found in milk jugs, detergent bottles, and crates.", color: "from-blue-500 to-indigo-600", img: "/images/plastics/hdpe.png" },
+  { name: "PVC", full: "Polyvinyl Chloride", desc: "Durable plastic used in window frames, pipes, flooring, and cables. Essential in construction.", color: "from-amber-500 to-orange-600", img: "/images/plastics/pvc.png" },
+  { name: "LDPE", full: "Low-Density Polyethylene", desc: "Flexible, lightweight plastic used for carrier bags, shrink wrap, and agricultural films.", color: "from-sky-400 to-cyan-600", img: "/images/plastics/ldpe.png" },
+  { name: "PP", full: "Polypropylene", desc: "Tough, heat-resistant plastic used in food packaging, automotive parts, and crates.", color: "from-red-500 to-rose-600", img: "/images/plastics/pp.png" },
+  { name: "PS", full: "Polystyrene", desc: "Rigid or foamed plastic used in disposable cups, takeaway containers, and protective packaging.", color: "from-violet-500 to-purple-600", img: "/images/plastics/ps.png" },
+  { name: "Others", full: "PC, ABS, Acrylic, EPS & More", desc: "Specialty plastics including polycarbonate, ABS, acrylic, EPS (foam insulation), and nylon.", color: "from-slate-600 to-gray-800", img: "/images/heroSlides/recycle.jpg" },
 ];
 
 const otherMaterials = [
@@ -642,16 +634,10 @@ export default function Home() {
                         <div className={`absolute inset-0 bg-gradient-to-t from-[#001a1a] via-[#001a1a]/40 to-transparent`} />
                         <div className={`absolute inset-0 bg-gradient-to-br ${plastic.color} opacity-30 mix-blend-color transition-opacity duration-500 group-hover:opacity-10`} />
 
-                        {/* Number Badge */}
-                        <div className="absolute left-4 top-4 flex h-12 w-12 items-center justify-center rounded-xl border border-white/30 bg-black/40 backdrop-blur-md shadow-lg transition-transform duration-500 group-hover:scale-110">
-                          <span className="font-mono text-[22px] font-black text-white">{plastic.code}</span>
-                        </div>
+
 
                         {/* Floating Title */}
                         <div className="absolute bottom-4 left-5 right-5">
-                          <div className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-black/40 backdrop-blur-md px-3 py-1 text-[11px] font-mono font-medium tracking-widest text-white/90 mb-2">
-                            #{plastic.code}
-                          </div>
                           <h3 className={`${hanken.className} text-[26px] font-black text-white leading-none drop-shadow-md`}>
                             {plastic.name}
                           </h3>
