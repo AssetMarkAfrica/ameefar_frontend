@@ -375,7 +375,7 @@ export function CreateProductListingForm() {
             <Field label="Total quantity, MT">
               <input
                 className={inputClassName}
-                min="0"
+                min="0.01"
                 onChange={(event) =>
                   updateForm("quantity_available_mt", event.target.value)
                 }
@@ -389,7 +389,7 @@ export function CreateProductListingForm() {
             <Field label="Average load, MT">
               <input
                 className={inputClassName}
-                min="0"
+                min="0.01"
                 onChange={(event) =>
                   updateForm("average_weight_per_load_mt", event.target.value)
                 }
