@@ -325,6 +325,9 @@ export default function BuyerNegotiationPage() {
           onClose={() => setShowCounterModal(false)}
           isSubmitting={status.buyerCounterEnquiry === "loading"}
           currency={currentEnquiry.currency}
+          currentPrice={(currentEnquiry.counter_price_per_unit || currentEnquiry.proposed_price_per_unit) || undefined}
+          currentDeliveryTerms={currentEnquiry.counter_delivery_terms || currentEnquiry.delivery_terms || undefined}
+          currentNamedPlace={currentEnquiry.counter_named_place || currentEnquiry.named_place || undefined}
         />
       )}
 

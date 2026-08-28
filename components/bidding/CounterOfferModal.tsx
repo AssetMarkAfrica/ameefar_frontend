@@ -11,14 +11,25 @@ interface CounterOfferModalProps {
   onClose: () => void;
   isSubmitting?: boolean;
   currency: string;
+  currentPrice?: string;
+  currentDeliveryTerms?: string;
+  currentNamedPlace?: string;
 }
 
-export default function CounterOfferModal({ onConfirm, onClose, isSubmitting, currency }: CounterOfferModalProps) {
-  const [price, setPrice] = useState("");
+export default function CounterOfferModal({
+  onConfirm,
+  onClose,
+  isSubmitting,
+  currency,
+  currentPrice,
+  currentDeliveryTerms,
+  currentNamedPlace,
+}: CounterOfferModalProps) {
+  const [price, setPrice] = useState(currentPrice ?? "");
   const [quantity, setQuantity] = useState("");
   const [message, setMessage] = useState("");
-  const [deliveryTerms, setDeliveryTerms] = useState("");
-  const [namedPlace, setNamedPlace] = useState("");
+  const [deliveryTerms, setDeliveryTerms] = useState(currentDeliveryTerms ?? "");
+  const [namedPlace, setNamedPlace] = useState(currentNamedPlace ?? "");
   const [showErrors, setShowErrors] = useState(false);
 
   const parsedPrice = Number(price);
@@ -29,7 +40,10 @@ export default function CounterOfferModal({ onConfirm, onClose, isSubmitting, cu
   const isMessageValid = message.trim().length > 0;
 
   const isValid = isPriceValid && isQuantityValid && isMessageValid;
-  const totalValue = isPriceValid && isQuantityValid ? (parsedPrice * parsedQuantity).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : "0.00";
+  const totalValue =
+    isPriceValid && isQuantityValid
+      ? (parsedPrice * parsedQuantity).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+      : "0.00";
 
   const handleConfirm = () => {
     setShowErrors(true);
@@ -46,6 +60,8 @@ export default function CounterOfferModal({ onConfirm, onClose, isSubmitting, cu
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm px-4">
       <div className="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden animate-in fade-in zoom-in duration-200">
+
+        {/* Header */}
         <div className="px-6 py-4 bg-surface-gray border-b border-border-subtle flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span className="material-symbols-outlined text-primary text-[22px]">gavel</span>
@@ -55,40 +71,78 @@ export default function CounterOfferModal({ onConfirm, onClose, isSubmitting, cu
             <span className="material-symbols-outlined text-[22px]">close</span>
           </button>
         </div>
-        
+
+        {/* Current Terms Banner */}
+        {(currentPrice || currentDeliveryTerms) && (
+          <div className="px-6 py-3 bg-amber-50 border-b border-amber-200">
+            <p className="text-label-md text-amber-700 uppercase tracking-tight font-bold mb-1.5">Current Terms</p>
+            <div className="flex flex-wrap gap-x-6 gap-y-1">
+              {currentPrice && (
+                <span className="text-body-sm text-amber-800">
+                  <span className="font-semibold">Price: </span>
+                  {currentPrice} {currency}
+                </span>
+              )}
+              {currentDeliveryTerms && (
+                <span className="text-body-sm text-amber-800">
+                  <span className="font-semibold">Incoterm: </span>
+                  {currentDeliveryTerms}
+                  {currentNamedPlace ? ` — ${currentNamedPlace}` : ""}
+                </span>
+              )}
+            </div>
+          </div>
+        )}
+
         {/* Total Value Summary Box */}
         <div className="bg-primary/5 px-6 py-4 border-b border-border-subtle">
-          <p className="text-label-md text-outline uppercase tracking-tight mb-1">Estimated Total Value</p>
+          <p className="text-label-md text-outline uppercase tracking-tight mb-1">Your Counter Total Value</p>
           <div className="flex items-baseline gap-2">
-            <span className="text-[2rem] font-bold leading-none text-primary">
-              {totalValue}
-            </span>
+            <span className="text-[2rem] font-bold leading-none text-primary">{totalValue}</span>
             <span className="text-body-md text-on-surface-variant font-bold">{currency}</span>
           </div>
         </div>
 
         <div className="p-6 space-y-5">
+          {/* Price */}
           <div className="space-y-1.5">
             <label className="text-label-md text-outline uppercase tracking-tight">Price per Unit</label>
             <input
-              type="number" min="0" step="0.01" value={price}
+              type="number"
+              min="0.01"
+              step="0.01"
+              value={price}
               onChange={(e) => setPrice(e.target.value)}
               placeholder="e.g. 95.00"
-              className={`w-full px-4 py-2.5 rounded-lg border bg-surface-gray text-ameefar-navy font-label-md focus:outline-none focus:ring-2 focus:ring-primary/30 transition ${showErrors && !isPriceValid ? 'border-red-500 focus:border-red-500' : 'border-border-subtle focus:border-primary'}`}
+              className={`w-full px-4 py-2.5 rounded-lg border bg-surface-gray text-ameefar-navy font-label-md focus:outline-none focus:ring-2 focus:ring-primary/30 transition ${
+                showErrors && !isPriceValid ? "border-red-500 focus:border-red-500" : "border-border-subtle focus:border-primary"
+              }`}
             />
-            {showErrors && !isPriceValid && <p className="text-xs text-red-500">Please enter a valid price.</p>}
+            {showErrors && !isPriceValid && (
+              <p className="text-xs text-red-500">Please enter a valid price greater than 0.</p>
+            )}
           </div>
+
+          {/* Quantity */}
           <div className="space-y-1.5">
             <label className="text-label-md text-outline uppercase tracking-tight">Quantity</label>
             <input
-              type="number" min="0" step="1" value={quantity}
+              type="number"
+              min="0"
+              step="1"
+              value={quantity}
               onChange={(e) => setQuantity(e.target.value)}
               placeholder="e.g. 50"
-              className={`w-full px-4 py-2.5 rounded-lg border bg-surface-gray text-ameefar-navy font-label-md focus:outline-none focus:ring-2 focus:ring-primary/30 transition ${showErrors && !isQuantityValid ? 'border-red-500 focus:border-red-500' : 'border-border-subtle focus:border-primary'}`}
+              className={`w-full px-4 py-2.5 rounded-lg border bg-surface-gray text-ameefar-navy font-label-md focus:outline-none focus:ring-2 focus:ring-primary/30 transition ${
+                showErrors && !isQuantityValid ? "border-red-500 focus:border-red-500" : "border-border-subtle focus:border-primary"
+              }`}
             />
-            {showErrors && !isQuantityValid && <p className="text-xs text-red-500">Please enter a valid quantity.</p>}
+            {showErrors && !isQuantityValid && (
+              <p className="text-xs text-red-500">Please enter a valid quantity.</p>
+            )}
           </div>
 
+          {/* Delivery Terms + Named Place */}
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-1.5">
               <label className="text-label-md text-outline uppercase tracking-tight">Delivery Terms</label>
@@ -115,7 +169,8 @@ export default function CounterOfferModal({ onConfirm, onClose, isSubmitting, cu
             <div className="space-y-1.5">
               <label className="text-label-md text-outline uppercase tracking-tight">Named Place</label>
               <input
-                type="text" value={namedPlace}
+                type="text"
+                value={namedPlace}
                 onChange={(e) => setNamedPlace(e.target.value)}
                 placeholder="e.g. Tema Port"
                 className="w-full px-4 py-2.5 rounded-lg border bg-surface-gray text-ameefar-navy font-label-md focus:outline-none focus:ring-2 focus:ring-primary/30 transition border-border-subtle focus:border-primary"
@@ -123,26 +178,34 @@ export default function CounterOfferModal({ onConfirm, onClose, isSubmitting, cu
             </div>
           </div>
 
+          {/* Message */}
           <div className="space-y-1.5">
             <label className="text-label-md text-outline uppercase tracking-tight">Message</label>
             <textarea
-              rows={3} value={message}
+              rows={3}
+              value={message}
               onChange={(e) => setMessage(e.target.value)}
               placeholder="e.g. We'd like to counter at 95 per MT."
-              className={`w-full px-4 py-2.5 rounded-lg border bg-surface-gray text-ameefar-navy font-label-md focus:outline-none focus:ring-2 focus:ring-primary/30 transition resize-none ${showErrors && !isMessageValid ? 'border-red-500 focus:border-red-500' : 'border-border-subtle focus:border-primary'}`}
+              className={`w-full px-4 py-2.5 rounded-lg border bg-surface-gray text-ameefar-navy font-label-md focus:outline-none focus:ring-2 focus:ring-primary/30 transition resize-none ${
+                showErrors && !isMessageValid ? "border-red-500 focus:border-red-500" : "border-border-subtle focus:border-primary"
+              }`}
             />
             {showErrors && !isMessageValid && <p className="text-xs text-red-500">Message cannot be empty.</p>}
           </div>
         </div>
+
+        {/* Footer */}
         <div className="px-6 py-4 bg-surface-container-low border-t border-border-subtle flex gap-3">
           <button
-            onClick={onClose} disabled={isSubmitting}
+            onClick={onClose}
+            disabled={isSubmitting}
             className="flex-1 py-3 px-4 border border-border-subtle bg-white text-ameefar-navy font-bold rounded-lg hover:bg-surface-gray transition-all disabled:opacity-50"
           >
             Cancel
           </button>
           <button
-            onClick={handleConfirm} disabled={isSubmitting}
+            onClick={handleConfirm}
+            disabled={isSubmitting}
             className="flex-[2] py-3 px-4 bg-secondary text-white font-bold rounded-lg shadow-sm hover:bg-primary transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isSubmitting ? (
@@ -152,7 +215,9 @@ export default function CounterOfferModal({ onConfirm, onClose, isSubmitting, cu
               </>
             ) : (
               <>
-                <span className="material-symbols-outlined text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>gavel</span>
+                <span className="material-symbols-outlined text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>
+                  gavel
+                </span>
                 Submit Counter
               </>
             )}
