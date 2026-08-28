@@ -35,7 +35,6 @@ type ListingFormState = {
   listing_type: ProductListingType | "";
   material_type: ProductMaterialType | "";
   material_name: string;
-  average_weight_per_load_mt: string;
   quantity_available_mt: string;
   material_location_country: string;
   availability_status: ProductAvailabilityStatus;
@@ -48,7 +47,6 @@ const initialFormState: ListingFormState = {
   listing_type: "",
   material_type: "",
   material_name: "",
-  average_weight_per_load_mt: "",
   quantity_available_mt: "",
   material_location_country: "",
   availability_status: "available_now",
@@ -133,7 +131,6 @@ export function CreateProductListingForm() {
           status: "draft",
           material_type: form.material_type,
           material_name: form.material_name.trim(),
-          average_weight_per_load_mt: formatDecimal(form.average_weight_per_load_mt),
           quantity_available_mt: formatDecimal(form.quantity_available_mt),
           material_location_country: form.material_location_country,
           availability_status: form.availability_status,
@@ -386,20 +383,6 @@ export function CreateProductListingForm() {
                 value={form.quantity_available_mt}
               />
             </Field>
-            <Field label="Average load, MT">
-              <input
-                className={inputClassName}
-                min="0.01"
-                onChange={(event) =>
-                  updateForm("average_weight_per_load_mt", event.target.value)
-                }
-                placeholder="4.50"
-                required
-                step="0.01"
-                type="number"
-                value={form.average_weight_per_load_mt}
-              />
-            </Field>
             <Field label="Availability">
               <select
                 className={inputClassName}
@@ -419,7 +402,7 @@ export function CreateProductListingForm() {
                 ))}
               </select>
             </Field>
-            <Field label="Country">
+            <Field label="Country" className="md:col-span-2">
               <select
                 className={inputClassName}
                 onChange={(event) =>
