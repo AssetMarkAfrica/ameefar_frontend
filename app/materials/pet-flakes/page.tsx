@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
 import { Hanken_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
@@ -36,9 +38,9 @@ export default function PETFlakesPage() {
               Processed from post-consumer PET bottles, our flakes are available in three distinct grades to match your precise manufacturing requirements: Unwashed, Cold Washed, and Hot Washed.
             </p>
             <div className="flex gap-4">
-              <button onClick={() => document.getElementById('grades')?.scrollIntoView({ behavior: 'smooth' })} className={`${hanken.className} px-8 py-3.5 bg-cyan-500 text-cyan-950 font-bold rounded-xl shadow-[0_0_24px_rgba(34,211,238,0.3)] hover:bg-cyan-400 hover:shadow-[0_0_30px_rgba(34,211,238,0.5)] transition-all hover:-translate-y-0.5`}>
+              <a href="#grades" className={`${hanken.className} px-8 py-3.5 bg-cyan-500 text-cyan-950 font-bold rounded-xl shadow-[0_0_24px_rgba(34,211,238,0.3)] hover:bg-cyan-400 hover:shadow-[0_0_30px_rgba(34,211,238,0.5)] transition-all hover:-translate-y-0.5 inline-flex items-center justify-center`}>
                 View Grades
-              </button>
+              </a>
               <Link href="/company" className={`${hanken.className} px-8 py-3.5 bg-white/5 text-white font-bold rounded-xl border border-white/10 hover:bg-white/10 backdrop-blur-sm transition-all`}>
                 Back to Company
               </Link>

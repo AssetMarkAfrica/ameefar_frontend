@@ -331,11 +331,11 @@ export function ProductListingDetail({ listingId }: { listingId: string }) {
               />
               <DetailFact
                 label="Average load"
-                value={`${listing.average_weight_per_load_mt} MT`}
+                value={listing.average_weight_per_load_mt ? `${listing.average_weight_per_load_mt} MT` : "N/A"}
               />
               <DetailFact
                 label="Remaining loads"
-                value={String(listing.remaining_loads)}
+                value={listing.remaining_loads != null ? String(listing.remaining_loads) : "N/A"}
               />
               <DetailFact
                 label="MFI value"
@@ -469,8 +469,8 @@ export function ProductListingDetail({ listingId }: { listingId: string }) {
               <span className="ml-1 text-2xl font-medium text-[#404848]">MT</span>
             </strong>
             <small className="mt-2 block text-sm text-[#404848]">
-              {listing.number_of_loads} computed loads ·{" "}
-              {listing.average_weight_per_load_mt} MT avg
+              {listing.number_of_loads != null ? `${listing.number_of_loads} computed loads` : "Flexible loads"}
+              {listing.average_weight_per_load_mt ? ` · ${listing.average_weight_per_load_mt} MT avg` : ""}
             </small>
           </div>
 

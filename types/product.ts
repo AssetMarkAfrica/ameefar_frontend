@@ -29,10 +29,10 @@ export interface ProductListing {
   status: ProductListingStatus;
   material_type: string;
   material_name: string;
-  number_of_loads: number;
-  average_weight_per_load_mt: string;
+  number_of_loads?: number | null;
+  average_weight_per_load_mt?: string | null;
   quantity_available_mt: string;
-  remaining_loads: number;
+  remaining_loads?: number | null;
   material_location_country: string;
   availability_status: ProductAvailabilityStatus;
   description: string;
@@ -51,10 +51,10 @@ export interface ProductListingSummary {
   status: ProductListingStatus;
   material_type: string;
   material_name: string;
-  number_of_loads: number;
-  average_weight_per_load_mt: string;
+  number_of_loads?: number | null;
+  average_weight_per_load_mt?: string | null;
   quantity_available_mt: string;
-  remaining_loads: number;
+  remaining_loads?: number | null;
   material_location_country: string;
   availability_status: ProductAvailabilityStatus;
   primary_image_url: string | null;
@@ -76,7 +76,8 @@ export interface CreateProductListingPayload {
   status: "draft";
   material_type: string;
   material_name: string;
-  average_weight_per_load_mt: string;
+  number_of_loads?: number;
+  average_weight_per_load_mt?: string;
   quantity_available_mt: string;
   material_location_country: string;
   availability_status: ProductAvailabilityStatus;
