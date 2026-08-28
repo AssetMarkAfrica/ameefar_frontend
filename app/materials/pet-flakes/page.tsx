@@ -148,8 +148,125 @@ export default function PETFlakesPage() {
                 </div>
               </div>
             </div>
-
           </div>
+        </div>
+      </section>
+
+      {/* ── SPEC SHEET TABLE ── */}
+      <section className="py-24 bg-white">
+        <div className="max-w-[1440px] mx-auto px-6 md:px-12">
+          <div className="max-w-[700px] mb-14">
+            <span className={`${jetbrains.className} text-cyan-600 text-[11px] tracking-[0.2em] uppercase font-bold mb-4 block`}>Spec Sheet</span>
+            <h2 className={`${hanken.className} text-4xl md:text-5xl font-bold text-slate-900 mb-6`}>
+              What you're buying
+            </h2>
+            <p className="text-slate-600 leading-relaxed">
+              Every listing on the marketplace ships with the figures below confirmed. No guesswork, no surprises at the port.
+            </p>
+          </div>
+
+          <div className="overflow-hidden rounded-2xl border border-slate-200">
+            <table className="w-full text-left">
+              <thead>
+                <tr className="bg-slate-900">
+                  <th className={`${jetbrains.className} text-[11px] tracking-widest uppercase text-slate-400 font-medium px-6 py-4`}>Property</th>
+                  <th className={`${jetbrains.className} text-[11px] tracking-widest uppercase text-slate-400 font-medium px-6 py-4`}>Typical Value</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100">
+                {[
+                  ["Intrinsic Viscosity (IV)", "0.72 – 0.78 dl/g"],
+                  ["PVC Content", "≤ 50 ppm (Hot Washed) / ≤ 300 ppm (Cold Washed)"],
+                  ["Flake Size", "8 – 12 mm"],
+                  ["Moisture Content", "≤ 1% (Washed) / ≤ 3% (Unwashed)"],
+                  ["Melting Point", "250°C – 255°C"],
+                  ["Foreign Polymers (PP/PE)", "≤ 100 ppm (Hot Washed)"],
+                  ["Packaging", "1,000–1,100 kg woven PP Big Bags / Super Sacks"],
+                  ["Standard container load", "20–22 MT per 40ft HC"],
+                ].map((row, i) => (
+                  <tr key={i} className={i % 2 === 0 ? "bg-white" : "bg-slate-50"}>
+                    <td className="px-6 py-4 font-semibold text-slate-900">{row[0]}</td>
+                    <td className={`${jetbrains.className} px-6 py-4 text-slate-600`}>{row[1]}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="text-xs text-slate-400 mt-4">
+            Figures vary slightly by supplier and shipment. Exact specs are confirmed on the certificate of analysis issued with each order.
+          </p>
+        </div>
+      </section>
+
+      {/* ── SOURCING PROCESS ── */}
+      <section className="py-24 bg-slate-900">
+        <div className="max-w-[1440px] mx-auto px-6 md:px-12">
+          <div className="max-w-[700px] mb-16">
+            <span className={`${jetbrains.className} text-cyan-400 text-[11px] tracking-[0.2em] uppercase font-bold mb-4 block`}>From Collection to Container</span>
+            <h2 className={`${hanken.className} text-4xl md:text-5xl font-bold text-white mb-6`}>
+              How the material reaches you
+            </h2>
+            <p className="text-slate-400 leading-relaxed">
+              Four checkpoints stand between a discarded bottle and a shipment on the water, each one an opportunity to catch quality issues before they become your problem.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-4 gap-6">
+            {[
+              { step: "01", title: "Bottle Collection", desc: "Post-consumer PET bottles gathered from audited community hubs and municipal recovery facilities." },
+              { step: "02", title: "Optical & Hand Sorting", desc: "Bottles pass through optical sorters to isolate clear, blue, and colored material streams while discarding non-PET plastics." },
+              { step: "03", title: "Shredding & Washing", desc: "Crushed into uniform flakes and subjected to cold friction or hot caustic washing to strip adhesives, labels, and dirt." },
+              { step: "04", title: "QC & Export Bagging", desc: "Thermally dried, de-dusted, and lab-tested for IV and moisture before sealed bagging for container load out." },
+            ].map((item, i) => (
+              <div key={i} className="relative bg-slate-800/50 border border-slate-700/50 rounded-2xl p-6 hover:border-cyan-500/40 transition-colors">
+                <div className={`${jetbrains.className} text-cyan-400 text-sm font-bold mb-4`}>{item.step}</div>
+                <h3 className={`${hanken.className} text-white font-bold text-lg mb-2`}>{item.title}</h3>
+                <p className="text-sm text-slate-400 leading-relaxed">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── WHY BUY THROUGH US ── */}
+      <section className="py-24 bg-white">
+        <div className="max-w-[1440px] mx-auto px-6 md:px-12">
+          <div className="grid md:grid-cols-3 gap-10">
+            <div className="md:col-span-1">
+              <span className={`${jetbrains.className} text-cyan-600 text-[11px] tracking-[0.2em] uppercase font-bold mb-4 block`}>Why Trade Here</span>
+              <h2 className={`${hanken.className} text-4xl font-bold text-slate-900 mb-4`}>
+                Built for processors who can't afford surprises
+              </h2>
+              <p className="text-slate-600 leading-relaxed">
+                We remove the usual friction of cross-border flake trade: unclear specs, unverified suppliers, and payment risk.
+              </p>
+            </div>
+
+            <div className="md:col-span-2 grid sm:grid-cols-2 gap-6">
+              {[
+                { title: "Verified Recyclers Only", desc: "Every supplier is audited for washing technology, water treatment compliance, and consistent flake purity before listing." },
+                { title: "Lab-Tested Batch COA", desc: "Certificate of Analysis issued for every batch covering IV, PVC contamination, and moisture specs." },
+                { title: "Triple-Grade Range", desc: "Source unwashed, cold washed, or hot washed flakes suited for PSF, strapping, or food-grade B2B applications." },
+                { title: "Secured Trade Terms", desc: "Escrow-backed payment terms protect both sides until the shipment is confirmed at the port of discharge." },
+              ].map((item, i) => (
+                <div key={i} className="p-6 rounded-2xl border border-slate-200 hover:shadow-md transition-shadow">
+                  <h4 className={`${hanken.className} font-bold text-slate-900 mb-2`}>{item.title}</h4>
+                  <p className="text-sm text-slate-500 leading-relaxed">{item.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── CTA ── */}
+      <section className="bg-cyan-950 py-20 text-center relative overflow-hidden">
+        <div className="max-w-3xl mx-auto px-6 relative z-10">
+          <h2 className={`${hanken.className} text-3xl md:text-4xl font-bold text-white mb-6`}>Ready to source PET Flakes?</h2>
+          <p className="text-cyan-100/80 mb-8">Access our network of verified African recyclers and trade with total security.</p>
+          <Link href="/marketplace?q=PET+Flakes" className={`${hanken.className} inline-flex px-8 py-4 bg-cyan-500 hover:bg-cyan-400 text-cyan-950 font-bold rounded-xl shadow-[0_0_30px_rgba(34,211,238,0.3)] transition-all hover:-translate-y-1`}>
+            Browse PET Flakes Marketplace
+          </Link>
         </div>
       </section>
     </div>

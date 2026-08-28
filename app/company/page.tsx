@@ -533,21 +533,19 @@ export default function Home() {
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mb-16">
               {plasticTypes.map((plastic, i) => (
                 <FadeInSection key={plastic.name} delay={i * 60}>
-                  <Link href={`/product?q=${encodeURIComponent(plastic.name)}`} className="group flex h-full flex-col">
-                    <div className="relative flex-1 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] shadow-lg transition-all duration-500 hover:-translate-y-2 hover:border-white/20 hover:bg-white/[0.06] hover:shadow-[0_20px_60px_rgba(0,0,0,0.5)]">
+                  <div className="group flex h-full flex-col">
+                    <div className="relative flex-1 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] shadow-lg transition-all duration-500 hover:border-white/20 hover:bg-white/[0.06]">
                       {/* Image Area */}
                       <div className="relative h-60 overflow-hidden">
                         <div className="absolute inset-0 bg-[#001a1a]">
                           <img
                             src={plastic.img}
                             alt={`${plastic.name} plastic recycling`}
-                            className="h-full w-full object-cover opacity-80 transition-transform duration-700 group-hover:scale-110 group-hover:opacity-100"
+                            className="h-full w-full object-cover opacity-80 transition-transform duration-700 group-hover:scale-105 group-hover:opacity-100"
                           />
                         </div>
                         <div className={`absolute inset-0 bg-gradient-to-t from-[#001a1a] via-[#001a1a]/40 to-transparent`} />
                         <div className={`absolute inset-0 bg-gradient-to-br ${plastic.color} opacity-30 mix-blend-color transition-opacity duration-500 group-hover:opacity-10`} />
-
-
 
                         {/* Floating Title */}
                         <div className="absolute bottom-4 left-5 right-5">
@@ -563,15 +561,9 @@ export default function Home() {
                         <p className="mt-3 text-[14px] leading-relaxed text-slate-400 group-hover:text-slate-300 transition-colors duration-300">
                           {plastic.desc}
                         </p>
-                        <div className="mt-5 flex items-center gap-1.5 text-[12px] font-semibold text-[#00bfa5] translate-x-0 transition-all duration-300 group-hover:translate-x-1 group-hover:text-white">
-                          View listings
-                          <svg fill="none" height="12" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24" width="12">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-                          </svg>
-                        </div>
                       </div>
                     </div>
-                  </Link>
+                  </div>
                 </FadeInSection>
               ))}
             </div>
