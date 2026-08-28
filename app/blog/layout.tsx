@@ -5,7 +5,7 @@ import SiteHeader from "@/components/SiteHeader";
 export default function BlogLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <SiteHeader />
+      <SiteHeader solid />
       <main className="min-h-screen bg-surface-gray">
         {/* The top padding is handled by the page content, or we can add a bit of padding here. 
             The original had pt-16 but SiteHeader is absolute/fixed and doesn't take up space in flow, 
