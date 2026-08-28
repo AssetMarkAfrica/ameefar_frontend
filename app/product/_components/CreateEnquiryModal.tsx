@@ -64,8 +64,8 @@ export function CreateEnquiryModal({
           listing_id: listingId,
           quantity,
           unit,
-          proposed_price_per_unit: price || undefined,
-          currency: price ? currency : undefined,
+          proposed_price_per_unit: price,
+          currency: currency,
           message: message.trim(),
           delivery_terms: deliveryTerms || undefined,
           named_place: namedPlace || undefined,
@@ -149,12 +149,13 @@ export function CreateEnquiryModal({
 
             <label className="grid gap-2">
               <span className="font-[var(--font-jetbrains)] text-xs font-bold uppercase tracking-wide text-[#404848]">
-                Proposed Price per Unit (Optional)
+                Proposed Price per Unit *
               </span>
               <div className="flex gap-2">
                 <input
                   type="number"
-                  min="0"
+                  required
+                  min="0.01"
                   step="any"
                   value={price}
                   onChange={(e) => setPrice(e.target.value)}
