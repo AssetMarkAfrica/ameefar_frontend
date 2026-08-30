@@ -128,10 +128,6 @@ export function LoginForm() {
               />
             </label>
 
-            <label className="auth-checkbox-row">
-              <input type="checkbox" />
-              <span>Keep me signed in for 30 days</span>
-            </label>
 
             {error ? <StatusMessage>{error}</StatusMessage> : null}
 

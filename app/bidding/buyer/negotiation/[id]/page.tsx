@@ -7,11 +7,9 @@ import {
   fetchEnquiryThunk,
   listEnquiryMessagesThunk,
   sendEnquiryMessageThunk,
-  withdrawEnquiryThunk,
   acceptCounterThunk,
   buyerCounterEnquiryThunk,
 } from "@/store/bidding/biddingThunks";
-import ConfirmModal from "@/components/bidding/ConfirmModal";
 import CounterOfferModal from "@/components/bidding/CounterOfferModal";
 // import ChatPanel from "@/components/bidding/ChatPanel";
 
@@ -51,7 +49,6 @@ export default function BuyerNegotiationPage() {
   const messages = enquiryMessages[id] || [];
 
   const [showCounterModal, setShowCounterModal] = useState(false);
-  const [showWithdrawModal, setShowWithdrawModal] = useState(false);
 
   useEffect(() => {
     if (token && id) {
@@ -63,13 +60,6 @@ export default function BuyerNegotiationPage() {
   const handleSendMessage = async (body: string, attachment?: File) => {
     if (!token) return;
     await dispatch(sendEnquiryMessageThunk({ token, enquiryId: id, body, attachment }));
-  };
-
-  const handleWithdraw = async () => {
-    if (!token) return;
-    await dispatch(withdrawEnquiryThunk({ token, enquiryId: id }));
-    setShowWithdrawModal(false);
-    router.push("/bidding/buyer/dashboard");
   };
 
   const handleAcceptCounter = async () => {
@@ -284,35 +274,22 @@ export default function BuyerNegotiationPage() {
         </div>
 
         {/* ── Action Bar ── */}
-        {currentEnquiry.status !== "accepted" && (
-          <div className="mt-6 bg-white rounded-xl border border-border-subtle p-5 flex flex-col md:flex-row gap-3 md:items-center">
-            {currentEnquiry.status !== "declined" && currentEnquiry.status !== "withdrawn" && currentEnquiry.status !== "expired" && (
-              <button
-                onClick={() => setShowWithdrawModal(true)}
-                className="w-full md:w-auto md:flex-1 py-3 px-4 border border-border-subtle bg-white text-ameefar-navy font-bold rounded-lg hover:bg-red-50 hover:text-red-600 hover:border-red-200 transition-all flex items-center justify-center gap-2"
-              >
-                <span className="material-symbols-outlined text-[20px]">close</span>
-                Withdraw
-              </button>
-            )}
-            {currentEnquiry.status === "countered" && (
-              <div className="flex flex-col sm:flex-row w-full md:w-auto md:flex-[3] gap-3">
-                <button
-                  onClick={() => setShowCounterModal(true)}
-                  className="flex-1 py-3 px-4 border border-primary text-primary font-bold rounded-lg hover:bg-surface-gray transition-all flex items-center justify-center gap-2"
-                >
-                  <span className="material-symbols-outlined text-[20px]">gavel</span>
-                  Counter Back
-                </button>
-                <button
-                  onClick={handleAcceptCounter}
-                  className="flex-[2] py-3 px-4 bg-secondary text-white font-bold rounded-lg shadow-sm hover:bg-primary transition-all flex items-center justify-center gap-2"
-                >
-                  <span className="material-symbols-outlined text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
-                  Accept Counter
-                </button>
-              </div>
-            )}
+        {currentEnquiry.status === "countered" && (
+          <div className="mt-6 bg-white rounded-xl border border-border-subtle p-5 flex flex-col sm:flex-row gap-3 items-center justify-end">
+            <button
+              onClick={() => setShowCounterModal(true)}
+              className="w-full sm:w-auto flex-1 py-3 px-4 border border-primary text-primary font-bold rounded-lg hover:bg-surface-gray transition-all flex items-center justify-center gap-2"
+            >
+              <span className="material-symbols-outlined text-[20px]">gavel</span>
+              Counter Back
+            </button>
+            <button
+              onClick={handleAcceptCounter}
+              className="w-full sm:w-auto flex-[2] py-3 px-4 bg-secondary text-white font-bold rounded-lg shadow-sm hover:bg-primary transition-all flex items-center justify-center gap-2"
+            >
+              <span className="material-symbols-outlined text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
+              Accept Counter
+            </button>
           </div>
         )}
 
@@ -328,18 +305,6 @@ export default function BuyerNegotiationPage() {
           currentPrice={(currentEnquiry.counter_price_per_unit || currentEnquiry.proposed_price_per_unit) || undefined}
           currentDeliveryTerms={currentEnquiry.counter_delivery_terms || currentEnquiry.delivery_terms || undefined}
           currentNamedPlace={currentEnquiry.counter_named_place || currentEnquiry.named_place || undefined}
-        />
-      )}
-
-      {/* Withdraw Confirm Modal */}
-      {showWithdrawModal && (
-        <ConfirmModal
-          title="Withdraw Enquiry"
-          message="Are you sure you want to withdraw this enquiry? This action cannot be undone."
-          confirmText="Withdraw"
-          onConfirm={handleWithdraw}
-          onCancel={() => setShowWithdrawModal(false)}
-          isSubmitting={status.withdrawEnquiry === "loading"}
         />
       )}
     </div>

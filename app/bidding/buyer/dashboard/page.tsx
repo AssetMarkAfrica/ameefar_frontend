@@ -89,6 +89,9 @@ export default function BuyerDashboardPage() {
           <section>
             <div className="flex items-center justify-between mb-6">
               <h2 className="font-headline-md text-headline-md text-ameefar-navy">Active Trades</h2>
+              <Link href="/bidding/buyer/trades" className="text-primary font-bold text-body-sm hover:underline">
+                View All
+              </Link>
             </div>
 
             {status.listTrades === "loading" ? (

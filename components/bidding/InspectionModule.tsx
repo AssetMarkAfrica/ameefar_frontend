@@ -81,7 +81,7 @@ export default function InspectionModule({
           <div className="mt-3 flex items-center justify-between gap-3 rounded-xl border border-secondary/30 bg-secondary/10 px-5 py-3.5">
             <span className="text-[11px] font-bold uppercase tracking-widest text-secondary">Inspection Fee</span>
             <span className="text-[20px] font-black text-secondary leading-none">
-              {paymentSummary?.inspection_fee_amount ? `$${paymentSummary.inspection_fee_amount}` : "TBD by Admin"}
+              {paymentSummary?.inspection_fee_amount ? `GHS ${paymentSummary.inspection_fee_amount}` : "TBD by Admin"}
             </span>
           </div>
         </div>

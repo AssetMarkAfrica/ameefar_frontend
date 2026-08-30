@@ -33,7 +33,6 @@ import {
 type EditFormState = {
   material_name: string;
   material_type: string;
-  average_weight_per_load_mt: string;
   quantity_available_mt: string;
   material_location_country: string;
   availability_status: ProductAvailabilityStatus;
@@ -91,7 +90,6 @@ export function EditProductListingForm({ listingId }: { listingId: string }) {
     setForm({
       material_name: listing.material_name,
       material_type: listing.material_type,
-      average_weight_per_load_mt: listing.average_weight_per_load_mt ?? "",
       quantity_available_mt: listing.quantity_available_mt,
       material_location_country: listing.material_location_country,
       availability_status: listing.availability_status,
@@ -134,7 +132,6 @@ export function EditProductListingForm({ listingId }: { listingId: string }) {
         listingId,
         material_name: form.material_name.trim(),
         material_type: form.material_type,
-        average_weight_per_load_mt: form.average_weight_per_load_mt ? formatDecimal(form.average_weight_per_load_mt) : undefined,
         quantity_available_mt: formatDecimal(form.quantity_available_mt),
         material_location_country: form.material_location_country,
         availability_status: form.availability_status,
@@ -345,18 +342,7 @@ export function EditProductListingForm({ listingId }: { listingId: string }) {
                 value={form.quantity_available_mt}
               />
             </Field>
-            <Field label="Average load, MT">
-              <input
-                className={inputClassName}
-                min="0"
-                onChange={(e) => updateField("average_weight_per_load_mt", e.target.value)}
-                placeholder="4.50"
-                required
-                step="0.01"
-                type="number"
-                value={form.average_weight_per_load_mt}
-              />
-            </Field>
+
             <Field label="Availability">
               <select
                 className={inputClassName}

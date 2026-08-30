@@ -336,7 +336,7 @@ export default function BuyerTradePage() {
                   <div className="flex justify-between items-center pb-4 border-b border-border-subtle/50">
                     <span className="text-body-md text-on-surface-variant">Inspection Fee</span>
                     <div className="flex items-center gap-3">
-                      <span className="font-bold text-primary">{currentTrade.currency} {tradeSummary.inspection_fee_amount}</span>
+                      <span className="font-bold text-primary">GHS {tradeSummary.inspection_fee_amount}</span>
                       {tradeSummary.inspection_fee_paid ? (
                         <span className="px-2.5 py-0.5 bg-trust-green-subtle text-secondary text-[10px] rounded uppercase font-bold tracking-wider">Paid</span>
                       ) : (
@@ -391,12 +391,12 @@ export default function BuyerTradePage() {
                       <div>
                         <h3 className="font-headline-md text-headline-md text-primary mb-2 text-2xl font-black">Trade Settlement</h3>
                         <p className="text-body-md text-on-surface-variant">
-                          {isTradePaymentPaid 
+                          {isTradePaymentPaid
                             ? "Your trade payment has been successfully secured in escrow."
                             : "Your inspection is settled. Please complete the payment to secure funds in escrow."}
                         </p>
                       </div>
-                      
+
                       {/* Banners for the reason they are here */}
                       {inspectionStatus === "buyer_approved" && (
                         <div className="flex items-center gap-3 px-4 py-2 bg-trust-green-subtle border border-secondary/20 rounded-lg whitespace-nowrap">
@@ -404,7 +404,7 @@ export default function BuyerTradePage() {
                           <span className="font-bold text-secondary text-sm">Inspection Approved</span>
                         </div>
                       )}
-                      
+
                       {inspectionStatus === "skipped" && (
                         <div className="flex items-center gap-3 px-4 py-2 bg-surface-gray border border-border-subtle rounded-lg whitespace-nowrap">
                           <span className="material-symbols-outlined text-outline">skip_next</span>

@@ -147,28 +147,9 @@ export default function SellerTradePage() {
                   )}
                 </div>
                 <div className="p-6 space-y-4">
-                  <div className="flex justify-between items-center pb-4 border-b border-border-subtle/50">
-                    <span className="text-body-md text-on-surface-variant">Trade Total Amount</span>
-                    <span className="font-bold text-primary">{currentTrade.currency} {tradeSummary.trade_total_amount}</span>
-                  </div>
-                  <div className="flex justify-between items-center pb-4 border-b border-border-subtle/50">
-                    <span className="text-body-md text-on-surface-variant">Platform Fee ({tradeSummary.platform_fee_percent}%)</span>
-                    <span className="font-bold text-primary">{currentTrade.currency} {tradeSummary.platform_fee_amount}</span>
-                  </div>
-                  <div className="flex justify-between items-center pb-4 border-b border-border-subtle/50">
-                    <span className="text-body-md text-on-surface-variant">Inspection Fee</span>
-                    <div className="flex items-center gap-3">
-                      <span className="font-bold text-primary">{currentTrade.currency} {tradeSummary.inspection_fee_amount}</span>
-                      {tradeSummary.inspection_fee_paid ? (
-                        <span className="px-2.5 py-0.5 bg-trust-green-subtle text-secondary text-[10px] rounded uppercase font-bold tracking-wider">Paid</span>
-                      ) : (
-                        <span className="px-2.5 py-0.5 bg-surface-gray text-outline text-[10px] rounded uppercase font-bold tracking-wider">Unpaid</span>
-                      )}
-                    </div>
-                  </div>
                   <div className="flex justify-between items-center pt-2">
-                    <span className="font-bold text-ameefar-navy text-lg">Total Settlement</span>
-                    <span className="text-2xl font-black text-ameefar-navy">{currentTrade.currency} {tradeSummary.trade_payment_amount}</span>
+                    <span className="font-bold text-ameefar-navy text-lg">Your Settlement</span>
+                    <span className="text-2xl font-black text-ameefar-navy">{currentTrade.currency} {tradeSummary.trade_total_amount}</span>
                   </div>
                 </div>
               </div>
