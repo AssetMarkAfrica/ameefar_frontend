@@ -309,6 +309,85 @@ export default function BuyerTradePage() {
               </div>
             </div>
 
+            {/* Trade Settlement — shown above Financial Summary when inspection is settled */}
+            {showTradePaymentCard && (
+              <div className="bg-white rounded-xl border border-border-subtle shadow-[0_4px_24px_rgba(0,0,0,0.06)] overflow-hidden p-8">
+                <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-8">
+                  <div>
+                    <h3 className="font-headline-md text-headline-md text-primary mb-2 text-2xl font-black">Trade Settlement</h3>
+                    <p className="text-body-md text-on-surface-variant">
+                      {isTradePaymentPaid
+                        ? "Your trade payment has been successfully secured."
+                        : "Your inspection is settled. Please complete the payment to proceed."}
+                    </p>
+                  </div>
+
+                  {inspectionStatus === "buyer_approved" && (
+                    <div className="flex items-center gap-3 px-4 py-2 bg-trust-green-subtle border border-secondary/20 rounded-lg whitespace-nowrap">
+                      <span className="material-symbols-outlined text-secondary" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
+                      <span className="font-bold text-secondary text-sm">Inspection Approved</span>
+                    </div>
+                  )}
+
+                  {inspectionStatus === "skipped" && (
+                    <div className="flex items-center gap-3 px-4 py-2 bg-surface-gray border border-border-subtle rounded-lg whitespace-nowrap">
+                      <span className="material-symbols-outlined text-outline">skip_next</span>
+                      <span className="font-bold text-ameefar-navy text-sm">Inspection Skipped</span>
+                    </div>
+                  )}
+                </div>
+
+                <div
+                  className={`rounded-2xl border-2 p-8 transition-all ${isTradePaymentPaid ? "border-secondary/30 bg-trust-green-subtle" : "border-ameefar-navy bg-ameefar-navy/5 shadow-inner"}`}
+                >
+                  <div className="flex flex-col md:flex-row items-center justify-between gap-8">
+                    <div>
+                      <p className="text-xs font-bold uppercase tracking-widest text-outline-variant mb-2">Total Amount Due</p>
+                      {tradeSummary && (
+                        <>
+                          <p className="text-4xl md:text-5xl font-black text-ameefar-navy mb-2">
+                            {currentTrade.currency} {tradeSummary.trade_payment_amount}
+                          </p>
+                          <p className="text-sm text-outline">
+                            Includes {tradeSummary.platform_fee_percent}% platform fee
+                          </p>
+                        </>
+                      )}
+                    </div>
+
+                    <div className="w-full md:w-auto shrink-0">
+                      {isTradePaymentPaid ? (
+                        <div className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-secondary text-white rounded-xl font-bold text-lg w-full">
+                          <span className="material-symbols-outlined text-[24px]">verified</span>
+                          Payment Secured
+                        </div>
+                      ) : (
+                        <button
+                          onClick={() => setActiveModal("trade_payment")}
+                          className="w-full md:w-auto px-10 py-5 bg-ameefar-navy text-white font-black rounded-xl text-lg hover:bg-ameefar-navy/90 hover:scale-[1.02] hover:shadow-xl active:scale-[0.98] transition-all flex items-center justify-center gap-3"
+                        >
+                          <span className="material-symbols-outlined text-[24px]">lock</span>
+                          PAY NOW SECURELY
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                {isTradePaymentPaid && (
+                  <div className="mt-6 p-4 bg-surface-gray rounded-xl border border-border-subtle text-center flex items-center justify-center gap-4">
+                    <span className="material-symbols-outlined text-ameefar-navy text-[24px]">local_shipping</span>
+                    <div className="text-left">
+                      <p className="text-base font-bold text-ameefar-navy">Payment Confirmed</p>
+                      <p className="text-sm text-on-surface-variant">
+                        Awaiting the seller to mark the shipment as "In Progress".
+                      </p>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
             {/* Financial Summary */}
             {tradeSummary && (
               <div className="bg-white rounded-xl border border-border-subtle shadow-sm overflow-hidden">
@@ -384,85 +463,6 @@ export default function BuyerTradePage() {
             {/* Agreed state blocks */}
             {currentTrade.status === "agreed" && (
               <>
-                {/* Trade Payment — shown after inspection settled */}
-                {showTradePaymentCard && (
-                  <div className="bg-white rounded-xl border border-border-subtle shadow-[0_4px_24px_rgba(0,0,0,0.06)] overflow-hidden p-8 mb-6">
-                    <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-8">
-                      <div>
-                        <h3 className="font-headline-md text-headline-md text-primary mb-2 text-2xl font-black">Trade Settlement</h3>
-                        <p className="text-body-md text-on-surface-variant">
-                          {isTradePaymentPaid
-                            ? "Your trade payment has been successfully secured in escrow."
-                            : "Your inspection is settled. Please complete the payment to secure funds in escrow."}
-                        </p>
-                      </div>
-
-                      {/* Banners for the reason they are here */}
-                      {inspectionStatus === "buyer_approved" && (
-                        <div className="flex items-center gap-3 px-4 py-2 bg-trust-green-subtle border border-secondary/20 rounded-lg whitespace-nowrap">
-                          <span className="material-symbols-outlined text-secondary" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
-                          <span className="font-bold text-secondary text-sm">Inspection Approved</span>
-                        </div>
-                      )}
-
-                      {inspectionStatus === "skipped" && (
-                        <div className="flex items-center gap-3 px-4 py-2 bg-surface-gray border border-border-subtle rounded-lg whitespace-nowrap">
-                          <span className="material-symbols-outlined text-outline">skip_next</span>
-                          <span className="font-bold text-ameefar-navy text-sm">Inspection Skipped</span>
-                        </div>
-                      )}
-                    </div>
-
-                    <div
-                      className={`rounded-2xl border-2 p-8 transition-all ${isTradePaymentPaid ? "border-secondary/30 bg-trust-green-subtle" : "border-ameefar-navy bg-ameefar-navy/5 shadow-inner"}`}
-                    >
-                      <div className="flex flex-col md:flex-row items-center justify-between gap-8">
-                        <div>
-                          <p className="text-xs font-bold uppercase tracking-widest text-outline-variant mb-2">Total Amount Due</p>
-                          {tradeSummary && (
-                            <>
-                              <p className="text-4xl md:text-5xl font-black text-ameefar-navy mb-2">
-                                {currentTrade.currency} {tradeSummary.trade_payment_amount}
-                              </p>
-                              <p className="text-sm text-outline">
-                                Includes {tradeSummary.platform_fee_percent}% platform escrow fee
-                              </p>
-                            </>
-                          )}
-                        </div>
-
-                        <div className="w-full md:w-auto shrink-0">
-                          {isTradePaymentPaid ? (
-                            <div className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-secondary text-white rounded-xl font-bold text-lg w-full">
-                              <span className="material-symbols-outlined text-[24px]">verified</span>
-                              Payment Secured
-                            </div>
-                          ) : (
-                            <button
-                              onClick={() => setActiveModal("trade_payment")}
-                              className="w-full md:w-auto px-10 py-5 bg-ameefar-navy text-white font-black rounded-xl text-lg hover:bg-ameefar-navy/90 hover:scale-[1.02] hover:shadow-xl active:scale-[0.98] transition-all flex items-center justify-center gap-3"
-                            >
-                              <span className="material-symbols-outlined text-[24px]">lock</span>
-                              PAY NOW SECURELY
-                            </button>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-
-                    {isTradePaymentPaid && (
-                      <div className="mt-6 p-4 bg-surface-gray rounded-xl border border-border-subtle text-center flex items-center justify-center gap-4">
-                        <span className="material-symbols-outlined text-ameefar-navy text-[24px]">local_shipping</span>
-                        <div className="text-left">
-                          <p className="text-base font-bold text-ameefar-navy">Escrow Funded</p>
-                          <p className="text-sm text-on-surface-variant">
-                            Awaiting the seller to mark the shipment as "In Progress".
-                          </p>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                )}
 
                 {/* Inspection Module — shown as long as it isn't skipped */}
                 {showInspectionModule && (
