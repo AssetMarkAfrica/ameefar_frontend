@@ -16,15 +16,14 @@ import {
   saveStep1DraftThunk,
   saveStep1Thunk,
 } from "@/store/profile/profileThunks";
-import type { CompanySize, Step1SavePayload, VatRegion } from "@/types";
+import type { CompanySize, Step1SavePayload } from "@/types";
 import type { CompanyProfile } from "@/types/profile";
 
-import { companySizes, countryIdHints, supportedCountries, vatRegions } from "./profile-options";
+import { companySizes, countryIdHints, supportedCountries } from "./profile-options";
 import { ProfileShell } from "./ProfileShell";
 import { ProfileStepper } from "./ProfileStepper";
 
 const emptyStep1: Step1SavePayload = {
-  vat_region: "uk",
   company_registration_no: "",
   vat_registration_no: "",
   company_size: "1_10",
@@ -164,22 +163,7 @@ function CompanyVerificationForm({
               </label>
               {!isBuyerOnly && (
                 <>
-                  <label className="profile-field">
-                    <span>VAT Region</span>
-                    <select
-                      disabled={readOnly}
-                      onChange={(event) =>
-                        updateField("vat_region", event.target.value as VatRegion)
-                      }
-                      value={form.vat_region}
-                    >
-                      {vatRegions.map((region) => (
-                        <option key={region.value} value={region.value}>
-                          {region.label}
-                        </option>
-                      ))}
-                    </select>
-                  </label>
+
                   <label className="profile-field">
                     <span>Year Established</span>
                     <input
@@ -376,7 +360,6 @@ function normalizeWebsite(value: string) {
 
 function getStep1Form(profile: CompanyProfile): Step1SavePayload {
   return {
-    vat_region: profile.vat_region || "uk",
     company_registration_no: profile.company_registration_no,
     vat_registration_no: profile.vat_registration_no,
     company_size: profile.company_size || "1_10",

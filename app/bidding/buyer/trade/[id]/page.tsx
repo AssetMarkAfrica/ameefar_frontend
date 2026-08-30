@@ -244,6 +244,8 @@ export default function BuyerTradePage() {
   // Show trade payment card once inspection is settled
   const showTradePaymentCard = tradeStatus === "agreed" && inspectionSettled;
 
+  const isExWorks = currentTrade?.delivery_terms === "EXW" || currentTrade?.delivery_terms === "FCA";
+
   if (status.fetchTrade === "loading" || !currentTrade) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-surface-gray">
@@ -517,21 +519,60 @@ export default function BuyerTradePage() {
                 <h3 className="font-headline-md text-headline-md text-primary mb-4">
                   Logistics & Completion
                 </h3>
-                <div className="grid grid-cols-2 gap-4 mb-6">
-                  <div className="bg-surface-gray p-4 rounded-lg border border-border-subtle">
-                    <span className="text-label-md text-outline uppercase">ETA</span>
-                    <p className="font-bold text-ameefar-navy text-body-lg mt-1">
-                      {currentTrade.estimated_arrival
-                        ? new Date(currentTrade.estimated_arrival).toLocaleDateString()
-                        : "Pending"}
-                    </p>
-                  </div>
-                  <div className="bg-surface-gray p-4 rounded-lg border border-border-subtle">
-                    <span className="text-label-md text-outline uppercase">Tracking Ref</span>
-                    <p className="font-bold text-ameefar-navy text-body-lg mt-1">
-                      {currentTrade.tracking_reference || "Not provided"}
-                    </p>
-                  </div>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-6 mb-6">
+                  {isExWorks ? (
+                    <div className="bg-surface-gray p-4 rounded-lg border border-border-subtle">
+                      <span className="text-label-md text-outline uppercase text-xs font-bold">Ready for Collection</span>
+                      <p className="font-bold text-ameefar-navy mt-1">
+                        {currentTrade.dispatch_date
+                          ? new Date(currentTrade.dispatch_date).toLocaleDateString()
+                          : "Pending"}
+                      </p>
+                    </div>
+                  ) : (
+                    <>
+                      <div className="bg-surface-gray p-4 rounded-lg border border-border-subtle">
+                        <span className="text-label-md text-outline uppercase text-xs font-bold">ETA</span>
+                        <p className="font-bold text-ameefar-navy mt-1">
+                          {currentTrade.estimated_arrival
+                            ? new Date(currentTrade.estimated_arrival).toLocaleDateString()
+                            : "Pending"}
+                        </p>
+                      </div>
+                      <div className="bg-surface-gray p-4 rounded-lg border border-border-subtle">
+                        <span className="text-label-md text-outline uppercase text-xs font-bold">Tracking Ref</span>
+                        <p className="font-bold text-ameefar-navy mt-1">
+                          {currentTrade.tracking_reference || "—"}
+                        </p>
+                      </div>
+                      <div className="bg-surface-gray p-4 rounded-lg border border-border-subtle">
+                        <span className="text-label-md text-outline uppercase text-xs font-bold">Carrier</span>
+                        <p className="font-bold text-ameefar-navy mt-1">
+                          {currentTrade.carrier_name || "—"}
+                        </p>
+                      </div>
+                      <div className="bg-surface-gray p-4 rounded-lg border border-border-subtle">
+                        <span className="text-label-md text-outline uppercase text-xs font-bold">Port of Loading</span>
+                        <p className="font-bold text-ameefar-navy mt-1">
+                          {currentTrade.port_of_loading || "—"}
+                        </p>
+                      </div>
+                      <div className="bg-surface-gray p-4 rounded-lg border border-border-subtle">
+                        <span className="text-label-md text-outline uppercase text-xs font-bold">Port of Discharge</span>
+                        <p className="font-bold text-ameefar-navy mt-1">
+                          {currentTrade.port_of_discharge || "—"}
+                        </p>
+                      </div>
+                      <div className="bg-surface-gray p-4 rounded-lg border border-border-subtle">
+                        <span className="text-label-md text-outline uppercase text-xs font-bold">Dispatch Date</span>
+                        <p className="font-bold text-ameefar-navy mt-1">
+                          {currentTrade.dispatch_date
+                            ? new Date(currentTrade.dispatch_date).toLocaleDateString()
+                            : "—"}
+                        </p>
+                      </div>
+                    </>
+                  )}
                 </div>
                 <div className="border-t border-border-subtle pt-6">
                   {!currentTrade.buyer_confirmed_receipt ? (

@@ -92,6 +92,29 @@ export default function AdminDashboardPage() {
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
+                {/* All Trades */}
+                <Link
+                  href="/bidding/trades"
+                  className="group bg-white rounded-2xl border border-border-subtle shadow-sm p-6 flex items-start gap-4 hover:border-ameefar-navy hover:shadow-md transition-all duration-200 active:scale-[0.98]"
+                >
+                  <div className="w-12 h-12 rounded-xl bg-ameefar-navy/10 flex items-center justify-center flex-shrink-0 group-hover:bg-ameefar-navy/20 transition-colors">
+                    <span className="material-symbols-outlined text-ameefar-navy text-2xl">
+                      swap_horiz
+                    </span>
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-bold text-primary text-body-lg leading-snug">
+                      All Trades
+                    </p>
+                    <p className="text-body-sm text-on-surface-variant mt-0.5">
+                      View and manage all active and past platform trades.
+                    </p>
+                  </div>
+                  <span className="material-symbols-outlined text-outline text-lg flex-shrink-0 self-center group-hover:translate-x-1 transition-transform">
+                    chevron_right
+                  </span>
+                </Link>
+
                 {/* Payouts */}
                 <Link
                   href="/bidding/payouts"

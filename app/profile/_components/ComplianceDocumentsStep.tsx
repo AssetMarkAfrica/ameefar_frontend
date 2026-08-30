@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 
 import { selectAccessToken } from "@/store/auth/authSelectors";
@@ -41,6 +42,7 @@ const emptyBanking: BankingForm = {
 
 export function ComplianceDocumentsStep() {
   const dispatch = useAppDispatch();
+  const router = useRouter();
   const token = useAppSelector(selectAccessToken);
   const isBuyerOnly = useAppSelector(selectIsBuyerOnly);
   const profile = useAppSelector(selectProfile);
@@ -137,6 +139,7 @@ export function ComplianceDocumentsStep() {
         }),
       ).unwrap();
       await dispatch(submitProfileThunk({ token })).unwrap();
+      router.push("/profile");
     } catch {
       // The slice stores and renders the backend error message.
     }
@@ -280,17 +283,42 @@ export function ComplianceDocumentsStep() {
           <section className="profile-review-summary">
             <h2>Submission Checklist</h2>
             <ul>
-              <li className={profile?.step1_complete ? "complete" : undefined}>Business details complete</li>
-              {!isBuyerOnly && (
-                <li className={profile?.step2_complete ? "complete" : undefined}>At least one site confirmed</li>
-              )}
-              <li className={hasAllDocuments ? "complete" : undefined}>
-                {isBuyerOnly ? "Representative ID uploaded" : "All required documents uploaded"}
+              <li className={profile?.step1_complete ? "complete" : undefined}>
+                <span className="material-symbols-outlined text-[20px]">
+                  {profile?.step1_complete ? "check_circle" : "radio_button_unchecked"}
+                </span>
+                <span>Business details complete</span>
               </li>
               {!isBuyerOnly && (
-                <li className={isBankingComplete ? "complete" : undefined}>Banking details provided</li>
+                <li className={profile?.step2_complete ? "complete" : undefined}>
+                  <span className="material-symbols-outlined text-[20px]">
+                    {profile?.step2_complete ? "check_circle" : "radio_button_unchecked"}
+                  </span>
+                  <span>At least one site confirmed</span>
+                </li>
               )}
-              <li className={declarationAccepted ? "complete" : undefined}>Declaration accepted</li>
+              <li className={hasAllDocuments ? "complete" : undefined}>
+                <span className="material-symbols-outlined text-[20px]">
+                  {hasAllDocuments ? "check_circle" : "radio_button_unchecked"}
+                </span>
+                <span>
+                  {isBuyerOnly ? "Representative ID uploaded" : "All required documents uploaded"}
+                </span>
+              </li>
+              {!isBuyerOnly && (
+                <li className={isBankingComplete ? "complete" : undefined}>
+                  <span className="material-symbols-outlined text-[20px]">
+                    {isBankingComplete ? "check_circle" : "radio_button_unchecked"}
+                  </span>
+                  <span>Banking details provided</span>
+                </li>
+              )}
+              <li className={declarationAccepted ? "complete" : undefined}>
+                <span className="material-symbols-outlined text-[20px]">
+                  {declarationAccepted ? "check_circle" : "radio_button_unchecked"}
+                </span>
+                <span>Declaration accepted</span>
+              </li>
             </ul>
           </section>
 

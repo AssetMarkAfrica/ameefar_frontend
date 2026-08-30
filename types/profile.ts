@@ -9,7 +9,6 @@ export type CompanySize =
   | "201_500"
   | "500_plus";
 
-export type VatRegion = "uk" | "eu" | "us" | "other";
 
 export type SiteType =
   | "manufacturing"
@@ -87,7 +86,7 @@ export interface CompanyProfile {
   submitted_at: string | null;
   reviewed_at: string | null;
   rejection_reason: string;
-  vat_region: VatRegion | "";
+
   company_registration_no: string;
   vat_registration_no: string;
   company_size: CompanySize | "";
@@ -143,7 +142,7 @@ export type UpdatePersonalProfilePayload = Partial<
 >;
 
 export interface Step1DraftPayload {
-  vat_region?: VatRegion;
+
   company_registration_no?: string;
   vat_registration_no?: string;
   company_size?: CompanySize;
@@ -159,7 +158,7 @@ export interface Step1DraftPayload {
 }
 
 export interface Step1SavePayload {
-  vat_region: VatRegion;
+
   company_registration_no: string;
   vat_registration_no: string;
   company_size: CompanySize;

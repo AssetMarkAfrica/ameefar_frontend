@@ -2010,12 +2010,12 @@ a { color: inherit; text-decoration: none; }
 }
 
 .profile-review-summary li {
-  border-left: 3px solid var(--profile-border);
-  padding-left: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .profile-review-summary li.complete {
-  border-left-color: var(--profile-success);
   color: var(--profile-success);
   font-weight: 700;
 }

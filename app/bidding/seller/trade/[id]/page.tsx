@@ -85,10 +85,11 @@ export default function SellerTradePage() {
 
   const isTradePaymentPaid = tradeSummary?.trade_payment_paid;
   
-  const sellerResponsibleIncoterms = ["CFR", "CIF", "CPT", "CIP", "DAP", "DPU", "DDP"];
-  const isTrackingRequired = sellerResponsibleIncoterms.includes(currentTrade.delivery_terms);
+  const sellerResponsibleIncoterms = ["CFR", "CIF", "CPT", "CIP", "DAP", "DPU", "DDP", "FOB", "FAS"];
+  const isTrackingRequired = ["CFR", "CIF", "CPT", "CIP", "DAP", "DPU", "DDP"].includes(currentTrade.delivery_terms);
+  const isExWorks = currentTrade.delivery_terms === "EXW" || currentTrade.delivery_terms === "FCA";
   
-  const canMarkInProgress = eta && (!isTrackingRequired || (trackingInfo && carrierName));
+  const canMarkInProgress = isExWorks || (eta && (!isTrackingRequired || (trackingInfo && carrierName)));
 
   return (
     <div className="flex w-full min-h-screen bg-surface-gray font-body-md text-on-surface">
@@ -206,55 +207,63 @@ export default function SellerTradePage() {
                       <p className="font-bold">Trade payment has been secured! You may now begin shipment.</p>
                     </div>
 
-                    <h3 className="font-headline-md text-headline-md text-primary mb-4">Shipment Details</h3>
+                    <h3 className="font-headline-md text-headline-md text-primary mb-4">
+                      {isExWorks ? "Collection Details" : "Shipment Details"}
+                    </h3>
                     <div className="space-y-4">
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                          <label className="block text-sm font-bold text-on-surface-variant mb-1">Carrier Name {isTrackingRequired && "*"}</label>
-                          <input
-                            type="text"
-                            className="w-full bg-surface-gray border border-border-subtle rounded-lg px-4 py-2 focus:ring-primary focus:border-transparent outline-none"
-                            value={carrierName}
-                            onChange={(e) => setCarrierName(e.target.value)}
-                            placeholder="e.g. Maersk"
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-sm font-bold text-on-surface-variant mb-1">Tracking Info / Ref {isTrackingRequired && "*"}</label>
-                          <input
-                            type="text"
-                            className="w-full bg-surface-gray border border-border-subtle rounded-lg px-4 py-2 focus:ring-primary focus:border-transparent outline-none"
-                            value={trackingInfo}
-                            onChange={(e) => setTrackingInfo(e.target.value)}
-                            placeholder="e.g. TRK123456789"
-                          />
-                        </div>
-                      </div>
+                      {!isExWorks && (
+                        <>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                              <label className="block text-sm font-bold text-on-surface-variant mb-1">Carrier Name {isTrackingRequired && "*"}</label>
+                              <input
+                                type="text"
+                                className="w-full bg-surface-gray border border-border-subtle rounded-lg px-4 py-2 focus:ring-primary focus:border-transparent outline-none"
+                                value={carrierName}
+                                onChange={(e) => setCarrierName(e.target.value)}
+                                placeholder="e.g. Maersk"
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-sm font-bold text-on-surface-variant mb-1">Tracking Info / Ref {isTrackingRequired && "*"}</label>
+                              <input
+                                type="text"
+                                className="w-full bg-surface-gray border border-border-subtle rounded-lg px-4 py-2 focus:ring-primary focus:border-transparent outline-none"
+                                value={trackingInfo}
+                                onChange={(e) => setTrackingInfo(e.target.value)}
+                                placeholder="e.g. TRK123456789"
+                              />
+                            </div>
+                          </div>
+
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                              <label className="block text-sm font-bold text-on-surface-variant mb-1">Port of Loading</label>
+                              <input
+                                type="text"
+                                className="w-full bg-surface-gray border border-border-subtle rounded-lg px-4 py-2 focus:ring-primary focus:border-transparent outline-none"
+                                value={portOfLoading}
+                                onChange={(e) => setPortOfLoading(e.target.value)}
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-sm font-bold text-on-surface-variant mb-1">Port of Discharge</label>
+                              <input
+                                type="text"
+                                className="w-full bg-surface-gray border border-border-subtle rounded-lg px-4 py-2 focus:ring-primary focus:border-transparent outline-none"
+                                value={portOfDischarge}
+                                onChange={(e) => setPortOfDischarge(e.target.value)}
+                              />
+                            </div>
+                          </div>
+                        </>
+                      )}
 
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                          <label className="block text-sm font-bold text-on-surface-variant mb-1">Port of Loading</label>
-                          <input
-                            type="text"
-                            className="w-full bg-surface-gray border border-border-subtle rounded-lg px-4 py-2 focus:ring-primary focus:border-transparent outline-none"
-                            value={portOfLoading}
-                            onChange={(e) => setPortOfLoading(e.target.value)}
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-sm font-bold text-on-surface-variant mb-1">Port of Discharge</label>
-                          <input
-                            type="text"
-                            className="w-full bg-surface-gray border border-border-subtle rounded-lg px-4 py-2 focus:ring-primary focus:border-transparent outline-none"
-                            value={portOfDischarge}
-                            onChange={(e) => setPortOfDischarge(e.target.value)}
-                          />
-                        </div>
-                      </div>
-
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                          <label className="block text-sm font-bold text-on-surface-variant mb-1">Dispatch Date</label>
+                          <label className="block text-sm font-bold text-on-surface-variant mb-1">
+                            {isExWorks ? "Ready for Collection Date" : "Dispatch Date"}
+                          </label>
                           <input
                             type="date"
                             className="w-full bg-surface-gray border border-border-subtle rounded-lg px-4 py-2 focus:ring-primary focus:border-transparent outline-none"
@@ -262,15 +271,17 @@ export default function SellerTradePage() {
                             onChange={(e) => setDispatchDate(e.target.value)}
                           />
                         </div>
-                        <div>
-                          <label className="block text-sm font-bold text-on-surface-variant mb-1">Estimated Arrival (ETA) *</label>
-                          <input
-                            type="date"
-                            className="w-full bg-surface-gray border border-border-subtle rounded-lg px-4 py-2 focus:ring-primary focus:border-transparent outline-none"
-                            value={eta}
-                            onChange={(e) => setEta(e.target.value)}
-                          />
-                        </div>
+                        {!isExWorks && (
+                          <div>
+                            <label className="block text-sm font-bold text-on-surface-variant mb-1">Estimated Arrival (ETA) *</label>
+                            <input
+                              type="date"
+                              className="w-full bg-surface-gray border border-border-subtle rounded-lg px-4 py-2 focus:ring-primary focus:border-transparent outline-none"
+                              value={eta}
+                              onChange={(e) => setEta(e.target.value)}
+                            />
+                          </div>
+                        )}
                       </div>
 
                       <button

@@ -179,10 +179,7 @@ export default function AdminProfileDetailsPage() {
                 <dt className="text-xs font-bold uppercase tracking-wide text-slate-500">Registration Number</dt>
                 <dd className="mt-1 font-medium text-[#002627]">{profile.company_registration_no || "N/A"}</dd>
               </div>
-              <div>
-                <dt className="text-xs font-bold uppercase tracking-wide text-slate-500">VAT Region</dt>
-                <dd className="mt-1 font-medium uppercase text-[#002627]">{profile.vat_region || "N/A"}</dd>
-              </div>
+
               <div>
                 <dt className="text-xs font-bold uppercase tracking-wide text-slate-500">VAT Number</dt>
                 <dd className="mt-1 font-medium text-[#002627]">{profile.vat_registration_no || "N/A"}</dd>

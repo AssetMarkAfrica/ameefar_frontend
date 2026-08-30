@@ -3,18 +3,12 @@ import type {
   DocType,
   Material,
   SiteType,
-  VatRegion,
 } from "@/types";
 
 export const profileLogoSrc =
   "https://lh3.googleusercontent.com/aida-public/AB6AXuB867Z4NnfE9y8w6L6xti3YIxQmGmpBGXAJnlFRNWIpd82DciRw7AeFdN0TZRAr-Oov5knd9fNX3FVcqKvYpoqSyoDzMwb0h2FQwFBBJ6XxyV_zaFtMlNJ0OZOJmrwTzUZr9CVQmAGmmkc6_ZEy9Q-NaTHAJaoZRezgqR05U-zT_jbs25LGDBLPMB54hY8ogQQ_XrEhB-pKzyJsZQ6SrxzKiE36Dq7KA5d9UdJexM9UKiHfvQOsBcoDMy3q54HvMZU9viJ9fOCkKOb3";
 
-export const vatRegions: Array<{ label: string; value: VatRegion }> = [
-  { label: "United Kingdom", value: "uk" },
-  { label: "European Union", value: "eu" },
-  { label: "United States", value: "us" },
-  { label: "Other", value: "other" },
-];
+
 
 export const companySizes: Array<{ label: string; value: CompanySize }> = [
   { label: "1-10", value: "1_10" },
