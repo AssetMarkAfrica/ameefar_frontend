@@ -419,6 +419,38 @@ export function RegisterForm() {
                       </select>
                     </div>
 
+                    {form.role === "buyer" && (
+                      <div className="col-span-1 md:col-span-2 rounded-xl border border-amber-200 bg-amber-50 p-4 flex gap-3 animate-in fade-in slide-in-from-top-2 duration-300">
+                        <svg className="h-5 w-5 shrink-0 text-amber-500 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+                        </svg>
+                        <p className="text-[13px] leading-relaxed text-amber-800">
+                          <span className="font-semibold">Verification requirement:</span> As a Buyer, you&apos;ll need to provide a valid{" "}
+                          <span className="font-semibold">Representative ID</span>{" "}
+                          (a national ID document) during profile verification. You won&apos;t be able to proceed
+                          after registration without it.
+                        </p>
+                      </div>
+                    )}
+
+                    {(form.role === "seller" || form.role === "both") && (
+                      <div className="col-span-1 md:col-span-2 rounded-xl border border-amber-200 bg-amber-50 p-4 flex gap-3 animate-in fade-in slide-in-from-top-2 duration-300">
+                        <svg className="h-5 w-5 shrink-0 text-amber-500 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+                        </svg>
+                        <p className="text-[13px] leading-relaxed text-amber-800">
+                          <span className="font-semibold">Verification requirement:</span> As a{" "}
+                          {form.role === "both" ? "Buyer & Seller" : "Seller"}, you&apos;ll need to provide a{" "}
+                          <span className="font-semibold">Representative ID</span>,{" "}
+                          <span className="font-semibold">Proof of Authority</span>, and{" "}
+                          <span className="font-semibold">Business Registration Documents</span>{" "}
+                          during profile verification. You&apos;ll also need to provide banking details so the
+                          Ameefar team can transfer your funds once a trade is complete and the buyer confirms
+                          receipt of goods.
+                        </p>
+                      </div>
+                    )}
+
                     {form.company_type === "other" && (
                       <div className="col-span-1 md:col-span-2 space-y-2 animate-in fade-in slide-in-from-top-2 duration-300">
                         <label className={`${jetbrains.className} text-[10.5px] font-medium tracking-widest text-slate-500 uppercase`}>Other Company Type</label>
