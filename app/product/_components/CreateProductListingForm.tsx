@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ChangeEvent, FormEvent, useMemo, useState } from "react";
+import { FormEvent, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { selectAccessToken, selectUser } from "@/store/auth/authSelectors";
@@ -14,8 +14,6 @@ import {
 import {
   createProductListingThunk,
   enhanceProductDescriptionThunk,
-  uploadProductImageAndActivateThunk,
-  uploadProductImageThunk,
 } from "@/store/product/productThunks";
 import type {
   ProductAvailabilityStatus,
@@ -63,19 +61,12 @@ export function CreateProductListingForm() {
   const createStatus = useAppSelector((state) =>
     selectProductOpStatus(state, "createListing"),
   );
-  const uploadAndActivateStatus = useAppSelector((state) =>
-    selectProductOpStatus(state, "uploadImageAndActivate"),
-  );
   const createError = useAppSelector((state) =>
     selectProductError(state, "createListing"),
-  );
-  const uploadError = useAppSelector((state) =>
-    selectProductError(state, "uploadImageAndActivate"),
   );
   const profileStatus = useAppSelector(selectProfileStatus);
   const allowedListingTypes = useMemo(() => getAllowedListingTypes(user), [user]);
   const [form, setForm] = useState<ListingFormState>(initialFormState);
-  const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [isEnhancing, setIsEnhancing] = useState(false);
   const [hasEnhancedDescription, setHasEnhancedDescription] = useState(false);
@@ -90,10 +81,6 @@ export function CreateProductListingForm() {
     value: ListingFormState[TName],
   ) {
     setForm((current) => ({ ...current, [name]: value }));
-  }
-
-  function handleFiles(event: ChangeEvent<HTMLInputElement>) {
-    setImageFiles(Array.from(event.target.files ?? []));
   }
 
   async function handleEnhanceDescription() {
@@ -140,48 +127,14 @@ export function CreateProductListingForm() {
         }),
       ).unwrap();
 
-      if (imageFiles.length > 0) {
-        const [primaryImage, ...otherImages] = imageFiles;
-
-        await dispatch(
-          uploadProductImageAndActivateThunk({
-            token,
-            listingId: created.data.id,
-            image: primaryImage,
-            caption: "Primary material photo",
-            is_primary: true,
-            sort_order: 0,
-          }),
-        ).unwrap();
-
-        await Promise.all(
-          otherImages.map((image, index) =>
-            dispatch(
-              uploadProductImageThunk({
-                token,
-                listingId: created.data.id,
-                image,
-                caption: `Material photo ${index + 2}`,
-                sort_order: index + 1,
-              }),
-            ).unwrap(),
-          ),
-        );
-
-        setSuccessMessage("Listing created and activated.");
-      } else {
-        setSuccessMessage("Draft listing created. Upload an image to activate it.");
-      }
-
-      router.push(`/product/${created.data.id}`);
+      // Redirect the seller to step 2: add inspection requirements + upload images
+      router.push(`/product/${created.data.id}/quality-parameters`);
     } catch {
-      // Redux already stores the error message in the `createError` / `uploadError`
-      // selectors via the rejected case — the banner above will render it automatically.
+      // Redux already stores the error in createError — the banner above renders it.
     }
   }
 
-  const isSubmitting =
-    createStatus === "loading" || uploadAndActivateStatus === "loading";
+  const isSubmitting = createStatus === "loading";
 
   if (profileStatus === "pending") {
     return (
@@ -252,14 +205,15 @@ export function CreateProductListingForm() {
       <section className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <div>
           <p className="font-[var(--font-jetbrains)] text-xs font-bold uppercase tracking-wide text-[#006d40]">
-            Inventory / New listing
+            Inventory / New listing · Step 1 of 2
           </p>
           <h1 className="mt-2 font-[var(--font-hanken)] text-4xl font-semibold text-[#002627]">
             Create new listing
           </h1>
           <p className="mt-2 max-w-2xl text-[#404848]">
-            Listings start as drafts. When the first image uploads successfully,
-            Ameefar activates the listing automatically.
+            Fill in the listing details. After saving, you&apos;ll define the{" "}
+            <strong className="text-[#002627]">inspection requirements</strong> and upload images
+            to activate the listing.
           </p>
         </div>
         <Link
@@ -272,7 +226,7 @@ export function CreateProductListingForm() {
 
       <form className="grid gap-6" onSubmit={handleSubmit}>
         {/* Status banner */}
-        {(createError || uploadError || successMessage) && (
+        {(createError || successMessage) && (
           <div
             className={
               successMessage
@@ -283,7 +237,7 @@ export function CreateProductListingForm() {
             <strong className="text-sm font-semibold">
               {successMessage ? "Saved" : "Could not save listing"}
             </strong>
-            <span className="text-sm">{successMessage ?? createError ?? uploadError}</span>
+            <span className="text-sm">{successMessage ?? createError}</span>
           </div>
         )}
 
@@ -469,56 +423,6 @@ export function CreateProductListingForm() {
           </div>
         </FormSection>
 
-        {/* Photos */}
-        <FormSection title="Material photos" badge="Activates on first upload">
-          <label className="relative grid min-h-40 cursor-pointer place-items-center gap-2 rounded-xl border-2 border-dashed border-slate-300 bg-slate-50 p-8 text-center transition hover:border-[#002627] hover:bg-[#eff4ff]">
-            <input
-              accept="image/*"
-              className="absolute inset-0 cursor-pointer opacity-0"
-              multiple
-              onChange={handleFiles}
-              type="file"
-            />
-            {imageFiles.length > 0 ? (
-              <div className="grid gap-2">
-                {/* Preview thumbnails */}
-                <div className="flex flex-wrap justify-center gap-2">
-                  {imageFiles.map((file, i) => (
-                    <img
-                      alt={file.name}
-                      className="h-16 w-16 rounded-lg object-cover"
-                      key={i}
-                      src={URL.createObjectURL(file)}
-                    />
-                  ))}
-                </div>
-                <span className="text-sm font-semibold text-[#002627]">
-                  {imageFiles.length} file{imageFiles.length === 1 ? "" : "s"} selected
-                </span>
-              </div>
-            ) : (
-              <div className="grid gap-2">
-                <svg
-                  className="mx-auto text-slate-300"
-                  fill="none"
-                  height="40"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  viewBox="0 0 24 24"
-                  width="40"
-                >
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                  <polyline points="17 8 12 3 7 8" />
-                  <line x1="12" x2="12" y1="3" y2="15" />
-                </svg>
-                <strong className="font-[var(--font-hanken)] text-lg text-[#002627]">
-                  Upload material images
-                </strong>
-                <span className="text-sm text-[#404848]">PNG, JPG, GIF, or WebP</span>
-              </div>
-            )}
-          </label>
-        </FormSection>
 
         {/* Sticky footer */}
         <div className="sticky bottom-0 z-20 -mx-4 flex justify-end gap-3 border-t border-slate-200 bg-white/95 p-4 backdrop-blur md:-mx-10 md:px-10">
@@ -533,7 +437,7 @@ export function CreateProductListingForm() {
             disabled={isSubmitting}
             type="submit"
           >
-            {isSubmitting ? "Saving…" : "Save listing"}
+            {isSubmitting ? "Saving…" : "Next: Quality Parameters →"}
           </button>
         </div>
       </form>

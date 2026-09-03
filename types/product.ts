@@ -22,6 +22,65 @@ export interface ProductSpecification {
   created_at: string;
 }
 
+export type QualityParameterOperator =
+  | "lte"
+  | "gte"
+  | "lt"
+  | "gt"
+  | "eq"
+  | "neq"
+  | "between"
+  | "absent"
+  | "present";
+
+export type QualityParameterValueType =
+  | "decimal"
+  | "integer"
+  | "percent"
+  | "text"
+  | "boolean";
+
+export interface QualityParameter {
+  id: string;
+  name: string;
+  description: string;
+  value_type: QualityParameterValueType;
+  operator: QualityParameterOperator;
+  /** Numeric/decimal target (stringified). Null for boolean/text operators. */
+  target_value: string | null;
+  min_value: string | null;
+  max_value: string | null;
+  target_text: string;
+  target_boolean: boolean | null;
+  unit: string;
+  is_mandatory: boolean;
+  is_active: boolean;
+  sort_order: number;
+  /** Human-readable threshold, e.g. "<= 2.5 %" – computed by the server. */
+  threshold_display: string;
+  created_by: number | null;
+  updated_by: number | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface CreateQualityParameterPayload {
+  name: string;
+  description?: string;
+  value_type: QualityParameterValueType;
+  operator: QualityParameterOperator;
+  /** Required for numeric operators */
+  target_value?: string;
+  min_value?: string;
+  max_value?: string;
+  target_text?: string;
+  target_boolean?: boolean;
+  unit?: string;
+  is_mandatory?: boolean;
+}
+
+export type UpdateQualityParameterPayload = Partial<CreateQualityParameterPayload>;
+
 export interface ProductListing {
   id: string;
   owner: string;
@@ -41,6 +100,8 @@ export interface ProductListing {
   seller_verified_snapshot: boolean;
   images: ProductImage[];
   specifications: ProductSpecification[];
+  /** Inspection requirements defined by the seller — key matches the API response. */
+  inspection_requirements: QualityParameter[];
   listed_at: string;
   updated_at: string;
 }
@@ -169,3 +230,12 @@ export interface EnhanceDescriptionResponseData {
 }
 
 export type EnhanceDescriptionResponse = ProductEnvelope<EnhanceDescriptionResponseData>;
+
+export type QualityParameterResponse = ProductEnvelope<QualityParameter>;
+
+export interface QualityParameterListResponse {
+  success?: true;
+  message?: string;
+  pagination: ProductPagination;
+  results: QualityParameter[];
+}

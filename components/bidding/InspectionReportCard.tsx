@@ -37,27 +37,37 @@ const RECOMMENDATION_CONFIG: Record<string, { label: string; icon: string; color
 };
 
 function RequirementResultRow({ result }: { result: InspectionRequirementResult }) {
+  const isMet = result.is_met ?? result.passed ?? false;
+  const reqName = result.requirement?.name ?? result.requirement_name ?? "Requirement";
+  const measuredVal =
+    result.measured_value ??
+    (result.measured_text || null) ??
+    (result.measured_boolean !== null && result.measured_boolean !== undefined
+      ? String(result.measured_boolean)
+      : null) ??
+    result.actual_value;
+
   return (
-    <div className={`flex items-center gap-3 px-4 py-3 rounded-lg border ${result.passed ? "bg-trust-green-subtle border-secondary/20" : "bg-red-50 border-error/20"}`}>
+    <div className={`flex items-center gap-3 px-4 py-3 rounded-lg border ${isMet ? "bg-trust-green-subtle border-secondary/20" : "bg-red-50 border-error/20"}`}>
       <span
-        className={`material-symbols-outlined text-[18px] shrink-0 ${result.passed ? "text-secondary" : "text-error"}`}
+        className={`material-symbols-outlined text-[18px] shrink-0 ${isMet ? "text-secondary" : "text-error"}`}
         style={{ fontVariationSettings: "'FILL' 1" }}
       >
-        {result.passed ? "check_circle" : "cancel"}
+        {isMet ? "check_circle" : "cancel"}
       </span>
       <div className="flex-1 min-w-0">
-        <p className="font-semibold text-sm text-ameefar-navy">{result.requirement_name}</p>
-        {result.actual_value && (
+        <p className="font-semibold text-sm text-ameefar-navy">{reqName}</p>
+        {measuredVal && (
           <p className="text-xs text-on-surface-variant mt-0.5">
-            Measured: <span className="font-mono font-semibold">{result.actual_value}</span>
+            Measured: <span className="font-mono font-semibold">{measuredVal}</span>
           </p>
         )}
         {result.notes && (
           <p className="text-xs text-on-surface-variant mt-0.5">{result.notes}</p>
         )}
       </div>
-      <span className={`text-xs font-bold uppercase tracking-wide px-2 py-0.5 rounded-full ${result.passed ? "bg-secondary/10 text-secondary" : "bg-error/10 text-error"}`}>
-        {result.passed ? "Met" : "Failed"}
+      <span className={`text-xs font-bold uppercase tracking-wide px-2 py-0.5 rounded-full ${isMet ? "bg-secondary/10 text-secondary" : "bg-error/10 text-error"}`}>
+        {isMet ? "Met" : "Failed"}
       </span>
     </div>
   );
@@ -164,12 +174,12 @@ export default function InspectionReportCard({
             <h4 className="font-bold text-sm text-ameefar-navy uppercase tracking-wide mb-3">
               Requirement Results
               <span className="ml-2 font-normal text-on-surface-variant normal-case tracking-normal">
-                ({report.requirement_results.filter(r => r.passed).length}/{report.requirement_results.length} met)
+                ({report.requirement_results.filter(r => r.is_met ?? r.passed).length}/{report.requirement_results.length} met)
               </span>
             </h4>
             <div className="space-y-2">
-              {report.requirement_results.map((result) => (
-                <RequirementResultRow key={result.requirement_id} result={result} />
+              {report.requirement_results.map((result, idx) => (
+                <RequirementResultRow key={result.id || result.requirement?.id || result.requirement_id || idx} result={result} />
               ))}
             </div>
           </div>

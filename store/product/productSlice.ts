@@ -6,18 +6,24 @@ import type {
   ProductListingSummary,
   ProductPagination,
   ProductSpecification,
+  QualityParameter,
 } from "@/types/product";
 
 import {
   activateProductListingThunk,
+  addQualityParameterThunk,
   createProductListingThunk,
+  deleteQualityParameterThunk,
   fetchProductListingThunk,
   listMyProductListingsThunk,
   listProductListingsThunk,
   updateProductListingThunk,
+  updateQualityParameterThunk,
   uploadProductImageAndActivateThunk,
   uploadProductImageThunk,
   uploadProductSpecificationThunk,
+  listQualityParametersThunk,
+  getQualityParameterThunk,
 } from "./productThunks";
 
 export type ProductOperation =
@@ -29,7 +35,12 @@ export type ProductOperation =
   | "listMyListings"
   | "uploadImage"
   | "uploadImageAndActivate"
-  | "uploadSpecification";
+  | "uploadSpecification"
+  | "addQualityParameter"
+  | "updateQualityParameter"
+  | "deleteQualityParameter"
+  | "listQualityParameters"
+  | "getQualityParameter";
 
 export type ProductOperationStatus =
   | "idle"
@@ -57,6 +68,11 @@ const initialStatus: Record<ProductOperation, ProductOperationStatus> = {
   uploadImage: "idle",
   uploadImageAndActivate: "idle",
   uploadSpecification: "idle",
+  addQualityParameter: "idle",
+  updateQualityParameter: "idle",
+  deleteQualityParameter: "idle",
+  listQualityParameters: "idle",
+  getQualityParameter: "idle",
 };
 
 const initialErrors: Record<ProductOperation, string | null> = {
@@ -69,6 +85,11 @@ const initialErrors: Record<ProductOperation, string | null> = {
   uploadImage: null,
   uploadImageAndActivate: null,
   uploadSpecification: null,
+  addQualityParameter: null,
+  updateQualityParameter: null,
+  deleteQualityParameter: null,
+  listQualityParameters: null,
+  getQualityParameter: null,
 };
 
 const initialState: ProductState = {
@@ -151,6 +172,19 @@ function upsertSpecification(
   return specifications.map((item) =>
     item.id === specification.id ? specification : item,
   );
+}
+
+function upsertQualityParameter(
+  parameters: QualityParameter[],
+  parameter: QualityParameter,
+): QualityParameter[] {
+  const existingIndex = parameters.findIndex((item) => item.id === parameter.id);
+
+  if (existingIndex === -1) {
+    return [...parameters, parameter];
+  }
+
+  return parameters.map((item) => (item.id === parameter.id ? parameter : item));
 }
 
 function syncSummaryLists(state: ProductState, listing: ProductListing) {
@@ -321,6 +355,85 @@ export const productSlice = createSlice({
         state.errors.uploadSpecification = rejectedMessage(
           action.error.message,
         );
+      })
+      .addCase(addQualityParameterThunk.pending, (state) => {
+        state.status.addQualityParameter = "loading";
+        state.errors.addQualityParameter = null;
+      })
+      .addCase(addQualityParameterThunk.fulfilled, (state, action) => {
+        state.status.addQualityParameter = "succeeded";
+
+        if (state.currentListing?.id === action.meta.arg.listingId) {
+          const parameter = action.payload.data ?? (action.payload as any);
+          state.currentListing.inspection_requirements = upsertQualityParameter(
+            state.currentListing.inspection_requirements,
+            parameter,
+          );
+        }
+      })
+      .addCase(addQualityParameterThunk.rejected, (state, action) => {
+        state.status.addQualityParameter = "failed";
+        state.errors.addQualityParameter = rejectedMessage(action.error.message);
+      })
+      .addCase(updateQualityParameterThunk.pending, (state) => {
+        state.status.updateQualityParameter = "loading";
+        state.errors.updateQualityParameter = null;
+      })
+      .addCase(updateQualityParameterThunk.fulfilled, (state, action) => {
+        state.status.updateQualityParameter = "succeeded";
+
+        if (state.currentListing?.id === action.meta.arg.listingId) {
+          const parameter = action.payload.data ?? (action.payload as any);
+          state.currentListing.inspection_requirements = upsertQualityParameter(
+            state.currentListing.inspection_requirements,
+            parameter,
+          );
+        }
+      })
+      .addCase(updateQualityParameterThunk.rejected, (state, action) => {
+        state.status.updateQualityParameter = "failed";
+        state.errors.updateQualityParameter = rejectedMessage(action.error.message);
+      })
+      .addCase(deleteQualityParameterThunk.pending, (state) => {
+        state.status.deleteQualityParameter = "loading";
+        state.errors.deleteQualityParameter = null;
+      })
+      .addCase(deleteQualityParameterThunk.fulfilled, (state, action) => {
+        state.status.deleteQualityParameter = "succeeded";
+
+        if (state.currentListing?.id === action.meta.arg.listingId) {
+          state.currentListing.inspection_requirements =
+            state.currentListing.inspection_requirements.filter(
+              (p) => p.id !== action.meta.arg.parameterId,
+            );
+        }
+      })
+      .addCase(deleteQualityParameterThunk.rejected, (state, action) => {
+        state.status.deleteQualityParameter = "failed";
+        state.errors.deleteQualityParameter = rejectedMessage(action.error.message);
+      })
+      .addCase(listQualityParametersThunk.pending, (state) => {
+        state.status.listQualityParameters = "loading";
+        state.errors.listQualityParameters = null;
+      })
+      .addCase(listQualityParametersThunk.fulfilled, (state) => {
+        state.status.listQualityParameters = "succeeded";
+        // Optionally update the current listing's parameters if needed here.
+      })
+      .addCase(listQualityParametersThunk.rejected, (state, action) => {
+        state.status.listQualityParameters = "failed";
+        state.errors.listQualityParameters = rejectedMessage(action.error.message);
+      })
+      .addCase(getQualityParameterThunk.pending, (state) => {
+        state.status.getQualityParameter = "loading";
+        state.errors.getQualityParameter = null;
+      })
+      .addCase(getQualityParameterThunk.fulfilled, (state) => {
+        state.status.getQualityParameter = "succeeded";
+      })
+      .addCase(getQualityParameterThunk.rejected, (state, action) => {
+        state.status.getQualityParameter = "failed";
+        state.errors.getQualityParameter = rejectedMessage(action.error.message);
       });
   },
 });

@@ -15,7 +15,6 @@ interface InspectionModuleProps {
   onSkip?: () => void;
   onApprove?: () => void;
   onReject?: (reason: string) => void;
-  onContinue?: () => void;
   onPayInspectionFee?: () => void;
   isActionLoading?: boolean;
 }
@@ -28,7 +27,6 @@ export default function InspectionModule({
   onSkip,
   onApprove,
   onReject,
-  onContinue,
   onPayInspectionFee,
   isActionLoading,
   role: propRole,
@@ -108,29 +106,6 @@ export default function InspectionModule({
           <div className="p-3 bg-secondary/10 rounded-lg text-secondary text-sm mb-4">
             Inspection fee paid. Awaiting admin scheduling.
           </div>
-        </div>
-      )}
-
-      {role === "buyer" && status === "awaiting_requirements" && (
-        <div className="space-y-4">
-          <div className="p-3 bg-secondary/10 rounded-lg text-secondary text-sm">
-            Your inspection request has been received. Please complete the requirements form so the admin can schedule an inspector.
-          </div>
-          <button
-            onClick={onContinue}
-            className="w-full flex items-center justify-between gap-4 bg-ameefar-navy text-white rounded-xl px-6 py-4 shadow-md hover:bg-ameefar-navy/90 active:scale-[0.99] transition-all"
-          >
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center shrink-0">
-                <span className="material-symbols-outlined text-[22px]">assignment</span>
-              </div>
-              <div className="text-left">
-                <p className="font-black text-white text-body-md leading-tight">Inspection Setup Pending</p>
-                <p className="text-white/60 text-[12px] mt-0.5">Tap to complete the requirements form</p>
-              </div>
-            </div>
-            <span className="material-symbols-outlined text-secondary text-[28px] shrink-0">arrow_forward</span>
-          </button>
         </div>
       )}
 

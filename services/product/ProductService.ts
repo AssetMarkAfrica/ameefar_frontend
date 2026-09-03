@@ -1,11 +1,16 @@
 import type {
   CreateProductListingPayload,
+  CreateQualityParameterPayload,
   ListProductListingsParams,
   ProductImageResponse,
   ProductListResponse,
   ProductListingResponse,
   ProductSpecificationResponse,
+  QualityParameter,
+  QualityParameterListResponse,
+  QualityParameterResponse,
   UpdateProductListingPayload,
+  UpdateQualityParameterPayload,
   UploadProductImageAndActivateResponse,
   UploadProductImagePayload,
   UploadProductSpecificationPayload,
@@ -98,6 +103,24 @@ async function requestFormData<TResponse>({
   }
 
   return body as TResponse;
+}
+
+async function requestDelete({
+  endpoint,
+  token,
+}: {
+  endpoint: string;
+  token: string;
+}): Promise<void> {
+  const response = await fetch(getProductUrl(endpoint), {
+    method: "DELETE",
+    headers: getAuthHeaders(token),
+  });
+
+  if (!response.ok) {
+    const body = (await response.json().catch(() => null)) as ErrorBody | null;
+    throw new Error(formatErrorBody(body, response.statusText));
+  }
 }
 
 function buildQueryString(params?: ListProductListingsParams): string {
@@ -304,6 +327,67 @@ export const ProductService = {
       endpoint: "/ai-enhance/",
       method: "POST",
       payload,
+      token,
+    });
+  },
+
+  listQualityParameters(
+    token: string,
+    listingId: string,
+  ): Promise<QualityParameterListResponse> {
+    return requestJson<QualityParameterListResponse>({
+      endpoint: `/${listingId}/inspection-requirements/`,
+      method: "GET",
+      token,
+    });
+  },
+
+  getQualityParameter(
+    token: string,
+    listingId: string,
+    parameterId: string,
+  ): Promise<QualityParameter> {
+    return requestJson<QualityParameter>({
+      endpoint: `/${listingId}/inspection-requirements/${parameterId}/`,
+      method: "GET",
+      token,
+    });
+  },
+
+  addQualityParameter(
+    token: string,
+    listingId: string,
+    payload: CreateQualityParameterPayload,
+  ): Promise<QualityParameterResponse> {
+    return requestJson<QualityParameterResponse, CreateQualityParameterPayload>({
+      endpoint: `/${listingId}/inspection-requirements/`,
+      method: "POST",
+      payload,
+      token,
+    });
+  },
+
+  updateQualityParameter(
+    token: string,
+    listingId: string,
+    parameterId: string,
+    payload: UpdateQualityParameterPayload,
+  ): Promise<QualityParameterResponse> {
+    return requestJson<QualityParameterResponse, UpdateQualityParameterPayload>({
+      endpoint: `/${listingId}/inspection-requirements/${parameterId}/`,
+      method: "PATCH",
+      payload,
+      token,
+    });
+  },
+
+  deleteQualityParameter(
+    token: string,
+    listingId: string,
+    parameterId: string,
+  ): Promise<void> {
+    return requestDelete({
+      endpoint: `/${listingId}/inspection-requirements/${parameterId}/`,
       token,
     });
   },

@@ -59,6 +59,11 @@ export const selectCurrentProductSpecifications = (
 ): NonNullable<ProductState["currentListing"]>["specifications"] =>
   state.product.currentListing?.specifications ?? [];
 
+export const selectCurrentProductInspectionRequirements = (
+  state: RootState,
+): NonNullable<ProductState["currentListing"]>["inspection_requirements"] =>
+  state.product.currentListing?.inspection_requirements ?? [];
+
 export const selectProductOpStatus = <
   TOperation extends keyof ProductState["status"],
 >(

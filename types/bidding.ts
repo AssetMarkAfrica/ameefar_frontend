@@ -110,14 +110,23 @@ export interface InspectionRequirement {
 }
 
 export interface InspectionRequirementResult {
-  /** ID of the InspectionRequirement this result is for. */
-  requirement_id: string;
-  requirement_name: string;
-  /** The actual observed value recorded during inspection. */
-  actual_value: string;
+  id?: string;
+  requirement?: InspectionRequirement;
   /** Whether the requirement was met. */
-  passed: boolean;
-  notes: string;
+  is_met: boolean;
+  measured_value?: string | null;
+  measured_text?: string;
+  measured_boolean?: boolean | null;
+  notes?: string;
+  checked_by_name?: string;
+  checked_at?: string;
+  updated_at?: string;
+
+  /** Legacy / fallback props for backwards compatibility */
+  requirement_id?: string;
+  requirement_name?: string;
+  actual_value?: string;
+  passed?: boolean;
 }
 
 /** Payload shape for each requirement result sent to complete-inspection endpoint. */

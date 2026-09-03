@@ -168,7 +168,8 @@ export default function BuyerTradePage() {
     if (!token) return;
     const result = await dispatch(requestInspectionThunk({ token, tradeId: id }));
     if (requestInspectionThunk.fulfilled.match(result)) {
-      router.push(`/bidding/buyer/trade/${id}/inspection-requirements`);
+      // Inspection requested — go straight to payment
+      setActiveModal("inspection_payment");
     }
   };
 
@@ -474,7 +475,6 @@ export default function BuyerTradePage() {
                     report={currentTrade.inspection_report}
                     paymentSummary={tradeSummary}
                     onRequest={handleRequestInspection}
-                    onContinue={() => router.push(`/bidding/buyer/trade/${id}/inspection-requirements`)}
                     onPayInspectionFee={() => setActiveModal("inspection_payment")}
                     onSkip={() =>
                       dispatch(skipInspectionThunk({ token: token!, tradeId: id }))

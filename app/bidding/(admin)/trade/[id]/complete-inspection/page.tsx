@@ -667,11 +667,10 @@ export default function AdminCompleteInspectionPage() {
                     Recommendation <span className="text-error ml-1">*</span>
                   </h3>
                   <p className="text-xs text-on-surface-variant mb-4">What should happen next with this trade?</p>
-                  <div className="grid grid-cols-3 gap-3">
-                    {(["proceed", "renegotiate", "cancel"] as InspectionRecommendation[]).map((r) => {
+                  <div className="grid grid-cols-2 gap-3">
+                    {(["proceed", "cancel"] as InspectionRecommendation[]).map((r) => {
                       const meta: Record<string, { icon: string; label: string; sub: string; active: string }> = {
                         proceed: { icon: "arrow_forward", label: "Proceed", sub: "Trade continues as agreed", active: "border-secondary bg-trust-green-subtle text-secondary" },
-                        renegotiate: { icon: "sync", label: "Renegotiate", sub: "Terms need adjustment", active: "border-amber-500 bg-amber-50 text-amber-700" },
                         cancel: { icon: "block", label: "Cancel Trade", sub: "Trade cannot proceed", active: "border-error bg-red-50 text-error" },
                       };
                       const m = meta[r];

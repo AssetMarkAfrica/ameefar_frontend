@@ -14,7 +14,6 @@ import {
   fetchProductListingThunk,
   uploadProductImageAndActivateThunk,
   uploadProductImageThunk,
-  uploadProductSpecificationThunk,
 } from "@/store/product/productThunks";
 
 import { CreateEnquiryModal } from "./CreateEnquiryModal";
@@ -42,22 +41,13 @@ export function ProductListingDetail({ listingId }: { listingId: string }) {
   const uploadAndActivateStatus = useAppSelector((state) =>
     selectProductOpStatus(state, "uploadImageAndActivate"),
   );
-  const uploadSpecificationStatus = useAppSelector((state) =>
-    selectProductOpStatus(state, "uploadSpecification"),
-  );
   const fetchError = useAppSelector((state) =>
     selectProductError(state, "fetchListing"),
   );
   const uploadImageError = useAppSelector((state) =>
     selectProductError(state, "uploadImage"),
   );
-  const uploadSpecError = useAppSelector((state) =>
-    selectProductError(state, "uploadSpecification"),
-  );
   const [selectedImageUrl, setSelectedImageUrl] = useState<string | null>(null);
-  const [specTitle, setSpecTitle] = useState("");
-  const [specDescription, setSpecDescription] = useState("");
-  const [specFile, setSpecFile] = useState<File | null>(null);
   const [isEnquiryModalOpen, setIsEnquiryModalOpen] = useState(false);
 
   // Always re-fetch when listingId changes. We don't guard on listing?.id here
@@ -113,25 +103,7 @@ export function ProductListingDetail({ listingId }: { listingId: string }) {
     ).unwrap();
   }
 
-  async function handleSpecificationUpload(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    if (!token || !listing || !specFile || !specTitle.trim()) return;
 
-    await dispatch(
-      uploadProductSpecificationThunk({
-        token,
-        listingId: listing.id,
-        title: specTitle.trim(),
-        description: specDescription.trim() || undefined,
-        document: specFile,
-      }),
-    ).unwrap();
-
-    setSpecTitle("");
-    setSpecDescription("");
-    setSpecFile(null);
-    event.currentTarget.reset();
-  }
 
   // Show skeleton whenever we're actively fetching OR we have any status but
   // the loaded listing doesn't match the requested listingId yet (covers the
@@ -191,7 +163,6 @@ export function ProductListingDetail({ listingId }: { listingId: string }) {
       : primaryImage?.image_url ?? null;
   const isUploadingImage =
     uploadImageStatus === "loading" || uploadAndActivateStatus === "loading";
-  const isUploadingSpec = uploadSpecificationStatus === "loading";
 
   return (
     <div className="mx-auto grid max-w-[1440px] gap-6">
@@ -348,97 +319,68 @@ export function ProductListingDetail({ listingId }: { listingId: string }) {
             </dl>
           </DetailPanel>
 
-          {/* Specifications */}
-          <DetailPanel title="Specifications">
-            {listing.specifications.length > 0 ? (
+
+          {/* Inspection Requirements */}
+          <DetailPanel title="Inspection Requirements">
+            <p className="mb-5 text-sm leading-relaxed text-[#404848]">
+              These are the quality thresholds the{" "}
+              <strong className="text-[#002627]">Ameefar team will inspect against</strong> before
+              certifying this material. Buyers see these criteria before deciding to request an
+              inspection.
+            </p>
+
+            {(listing.inspection_requirements ?? []).filter((r) => r.is_active).length > 0 ? (
               <div className="grid gap-3">
-                {listing.specifications.map((specification) => (
-                  <a
-                    className="flex items-center justify-between gap-4 rounded-lg border border-slate-200 bg-slate-50 p-4 transition hover:border-[#002627]/30 hover:bg-[#eff4ff]"
-                    href={specification.document_url}
-                    key={specification.id}
-                    rel="noreferrer"
-                    target="_blank"
-                  >
-                    <div className="grid gap-0.5">
-                      <strong className="text-sm font-semibold text-[#002627]">
-                        {specification.title}
-                      </strong>
-                      <span className="text-xs text-[#404848]">
-                        {specification.description || "Supporting document"}
+                {(listing.inspection_requirements ?? [])
+                  .filter((r) => r.is_active)
+                  .map((req) => (
+                    <div
+                      key={req.id}
+                      className="flex items-start justify-between gap-4 rounded-lg border border-slate-200 bg-slate-50 p-4"
+                    >
+                      <div className="grid gap-0.5">
+                        <div className="flex items-center gap-2">
+                          <strong className="text-sm font-semibold text-[#002627]">
+                            {req.name}
+                          </strong>
+                          {req.is_mandatory && (
+                            <span className="rounded bg-[#002627] px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide text-white">
+                              Mandatory
+                            </span>
+                          )}
+                        </div>
+                        {req.description && (
+                          <span className="text-xs text-[#404848]">{req.description}</span>
+                        )}
+                      </div>
+                      <span className="shrink-0 rounded-full border border-[#d3e4fe] bg-[#eff4ff] px-3 py-1 font-[var(--font-jetbrains)] text-xs font-bold text-[#002627]">
+                        {req.threshold_display || req.target_value || req.operator}
                       </span>
                     </div>
-                    <svg
-                      className="shrink-0 text-[#404848]"
-                      fill="none"
-                      height="16"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      viewBox="0 0 24 24"
-                      width="16"
-                    >
-                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                      <polyline points="7 10 12 15 17 10" />
-                      <line x1="12" x2="12" y1="15" y2="3" />
-                    </svg>
-                  </a>
-                ))}
+                  ))}
               </div>
             ) : (
               <p className="text-sm text-[#404848]">
-                No specifications uploaded yet.
+                No inspection requirements defined yet.
               </p>
             )}
 
             {isOwner && (
-              <form
-                className="mt-5 grid gap-3 border-t border-slate-200 pt-5"
-                onSubmit={handleSpecificationUpload}
-              >
-                <p className="text-xs font-bold uppercase tracking-wide text-[#404848]">
-                  Upload a specification
-                </p>
-                <Field label="Document title">
-                  <input
-                    className={inputClassName}
-                    onChange={(event) => setSpecTitle(event.target.value)}
-                    placeholder="Material Safety Data Sheet"
-                    type="text"
-                    value={specTitle}
-                  />
-                </Field>
-                <Field label="Description">
-                  <input
-                    className={inputClassName}
-                    onChange={(event) => setSpecDescription(event.target.value)}
-                    placeholder="Optional context"
-                    type="text"
-                    value={specDescription}
-                  />
-                </Field>
-                <label className="relative grid min-h-12 cursor-pointer place-items-center rounded-lg border border-dashed border-slate-300 bg-slate-50 px-4 text-sm font-semibold text-[#404848] transition hover:border-[#002627] hover:bg-[#eff4ff]">
-                  <input
-                    className="absolute inset-0 cursor-pointer opacity-0"
-                    onChange={(event) =>
-                      setSpecFile(event.target.files?.[0] ?? null)
-                    }
-                    type="file"
-                  />
-                  <span>{specFile?.name ?? "Choose document"}</span>
-                </label>
-                <button
-                  className="min-h-11 rounded-lg bg-[#002627] px-4 font-semibold text-white transition hover:bg-slate-900 disabled:cursor-not-allowed disabled:opacity-50"
-                  disabled={isUploadingSpec || !specFile || !specTitle.trim()}
-                  type="submit"
+              <div className="mt-5 border-t border-slate-200 pt-5">
+                <Link
+                  href={`/product/${listingId}/edit-requirements`}
+                  className="inline-flex items-center gap-2 rounded-lg border border-[#002627] bg-white px-4 py-2.5 text-sm font-semibold text-[#002627] transition hover:bg-[#eff4ff]"
                 >
-                  {isUploadingSpec ? "Uploading…" : "Upload specification"}
-                </button>
-                {uploadSpecError && (
-                  <p className="rounded-lg bg-red-50 p-3 text-sm font-semibold text-red-700">
-                    {uploadSpecError}
-                  </p>
-                )}
-              </form>
+                  <svg fill="none" height="14" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" width="14">
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="12" x2="12" y1="8" y2="16" />
+                    <line x1="8" x2="16" y1="12" y2="12" />
+                  </svg>
+                  {(listing.inspection_requirements ?? []).length === 0
+                    ? "Add inspection requirements"
+                    : "Manage inspection requirements"}
+                </Link>
+              </div>
             )}
           </DetailPanel>
         </div>
@@ -491,7 +433,9 @@ export function ProductListingDetail({ listingId }: { listingId: string }) {
               {listing.status === "draft" && (
                 <p className="mt-3 rounded-xl border border-amber-200 bg-amber-50 p-3 text-sm font-medium text-amber-900">
                   {listing.images.length === 0
-                    ? "Upload at least one image to activate this draft automatically."
+                    ? "Add inspection requirements and upload at least one image to activate this listing."
+                    : (listing.inspection_requirements ?? []).length === 0
+                    ? "Add at least one inspection requirement to meet the new activation requirements."
                     : "This listing is a draft. Activate it from the edit page."}
                 </p>
               )}
