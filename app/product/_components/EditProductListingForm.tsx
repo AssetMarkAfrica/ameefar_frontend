@@ -40,6 +40,14 @@ type EditFormState = {
   seller_notes: string;
   mfi_value: string;
   status: ProductListingStatus;
+  is_auction: boolean;
+  auction_min_price_per_unit: string;
+  auction_end_date: string;
+  is_buy_now: boolean;
+  bin_price_per_unit: string;
+  currency: string;
+  bin_delivery_terms: string;
+  bin_named_place: string;
 };
 
 // ─── Shared classes ─────────────────────────────────────────────────────────────
@@ -97,6 +105,14 @@ export function EditProductListingForm({ listingId }: { listingId: string }) {
       seller_notes: listing.seller_notes ?? "",
       mfi_value: listing.mfi_value ?? "",
       status: listing.status,
+      is_auction: listing.is_auction ?? false,
+      auction_min_price_per_unit: listing.auction_min_price_per_unit ?? "",
+      auction_end_date: listing.auction_end_date ? listing.auction_end_date.slice(0, 16) : "",
+      is_buy_now: listing.is_buy_now ?? false,
+      bin_price_per_unit: listing.bin_price_per_unit ?? "",
+      currency: listing.currency ?? "GHS",
+      bin_delivery_terms: listing.bin_delivery_terms ?? "EXW",
+      bin_named_place: listing.bin_named_place ?? "",
     });
   }, [listing, listingId]);
 
@@ -139,6 +155,14 @@ export function EditProductListingForm({ listingId }: { listingId: string }) {
         seller_notes: form.seller_notes.trim() || undefined,
         mfi_value: form.mfi_value ? formatDecimal(form.mfi_value, 3) : undefined,
         status: form.status,
+        is_auction: form.is_auction,
+        auction_min_price_per_unit: form.is_auction ? formatDecimal(form.auction_min_price_per_unit) : undefined,
+        auction_end_date: (form.is_auction && form.auction_end_date) ? new Date(form.auction_end_date).toISOString() : undefined,
+        is_buy_now: form.is_buy_now,
+        bin_price_per_unit: form.is_buy_now ? formatDecimal(form.bin_price_per_unit) : undefined,
+        currency: form.currency,
+        bin_delivery_terms: form.is_buy_now ? form.bin_delivery_terms : undefined,
+        bin_named_place: form.is_buy_now ? form.bin_named_place : undefined,
       }),
     ).unwrap();
 
@@ -196,6 +220,7 @@ export function EditProductListingForm({ listingId }: { listingId: string }) {
 
   const isSaving = updateStatus === "loading";
   const isActivating = activateStatus === "loading";
+  const hasPricingOption = form.is_auction || form.is_buy_now;
 
   return (
     <div className="mx-auto grid max-w-5xl gap-8">
@@ -377,6 +402,143 @@ export function EditProductListingForm({ listingId }: { listingId: string }) {
           </div>
         </FormSection>
 
+        {/* Pricing & Format */}
+        <FormSection title="Pricing & Format">
+          <div className="grid gap-6">
+            {!hasPricingOption && (
+              <p className="text-sm font-semibold text-amber-700 bg-amber-50 p-3 rounded-lg border border-amber-200">
+                You must select at least one pricing option to continue.
+              </p>
+            )}
+
+            {/* Auction Toggle & Fields */}
+            <div className={`rounded-xl border ${form.is_auction ? 'border-[#002627] bg-[#eff4ff]/30' : 'border-slate-200 bg-white'} overflow-hidden transition-colors`}>
+              <label className="flex items-center gap-3 p-5 cursor-pointer hover:bg-slate-50">
+                <input
+                  type="checkbox"
+                  checked={form.is_auction}
+                  onChange={(e) => updateField("is_auction", e.target.checked)}
+                  className="w-5 h-5 accent-[#002627]"
+                />
+                <div className="grid gap-0.5">
+                  <strong className="font-[var(--font-hanken)] text-lg text-[#002627]">Auction / Bidding</strong>
+                  <span className="text-sm text-[#404848]">Allow buyers to submit bids above a minimum reserve price.</span>
+                </div>
+              </label>
+
+              {form.is_auction && (
+                <div className="grid gap-5 sm:grid-cols-2 p-5 border-t border-slate-100 bg-white">
+                  <Field label="Minimum Price per Unit">
+                    <div className="flex gap-2">
+                      <input
+                        type="number"
+                        min="0.01"
+                        step="0.01"
+                        required={form.is_auction}
+                        value={form.auction_min_price_per_unit}
+                        onChange={(e) => updateField("auction_min_price_per_unit", e.target.value)}
+                        className={`${inputClassName} flex-1 min-w-0`}
+                        placeholder="e.g. 150.00"
+                      />
+                      <select
+                        value={form.currency}
+                        onChange={(e) => updateField("currency", e.target.value)}
+                        className="min-h-12 w-24 shrink-0 rounded-lg border border-slate-200 bg-slate-50 px-2 text-[#0b1c30] outline-none transition focus:border-[#002627] focus:ring-2 focus:ring-[#002627]/20"
+                      >
+                        <option value="GHS">GHS</option>
+                        <option value="USD">USD</option>
+                        <option value="NGN">NGN</option>
+                        <option value="KES">KES</option>
+                      </select>
+                    </div>
+                  </Field>
+                  <Field label="Auction End Date & Time">
+                    <input
+                      type="datetime-local"
+                      required={form.is_auction}
+                      min={new Date().toISOString().slice(0, 16)}
+                      value={form.auction_end_date}
+                      onChange={(e) => updateField("auction_end_date", e.target.value)}
+                      className={inputClassName}
+                    />
+                  </Field>
+                </div>
+              )}
+            </div>
+
+            {/* Buy It Now Toggle & Fields */}
+            <div className={`rounded-xl border ${form.is_buy_now ? 'border-[#002627] bg-[#eff4ff]/30' : 'border-slate-200 bg-white'} overflow-hidden transition-colors`}>
+              <label className="flex items-center gap-3 p-5 cursor-pointer hover:bg-slate-50">
+                <input
+                  type="checkbox"
+                  checked={form.is_buy_now}
+                  onChange={(e) => updateField("is_buy_now", e.target.checked)}
+                  className="w-5 h-5 accent-[#002627]"
+                />
+                <div className="grid gap-0.5">
+                  <strong className="font-[var(--font-hanken)] text-lg text-[#002627]">Buy It Now (Fixed Price)</strong>
+                  <span className="text-sm text-[#404848]">Allow buyers to instantly purchase at a set price.</span>
+                </div>
+              </label>
+
+              {form.is_buy_now && (
+                <div className="grid gap-5 sm:grid-cols-2 p-5 border-t border-slate-100 bg-white">
+                  <Field label="Fixed Price per Unit">
+                    <div className="flex gap-2">
+                      <input
+                        type="number"
+                        min="0.01"
+                        step="0.01"
+                        required={form.is_buy_now}
+                        value={form.bin_price_per_unit}
+                        onChange={(e) => updateField("bin_price_per_unit", e.target.value)}
+                        className={`${inputClassName} flex-1 min-w-0`}
+                        placeholder="e.g. 200.00"
+                      />
+                      <select
+                        value={form.currency}
+                        onChange={(e) => updateField("currency", e.target.value)}
+                        className="min-h-12 w-24 shrink-0 rounded-lg border border-slate-200 bg-slate-50 px-2 text-[#0b1c30] outline-none transition focus:border-[#002627] focus:ring-2 focus:ring-[#002627]/20"
+                      >
+                        <option value="GHS">GHS</option>
+                        <option value="USD">USD</option>
+                        <option value="NGN">NGN</option>
+                        <option value="KES">KES</option>
+                      </select>
+                    </div>
+                  </Field>
+
+                  <Field label="Delivery Terms">
+                    <select
+                      value={form.bin_delivery_terms}
+                      onChange={(e) => updateField("bin_delivery_terms", e.target.value)}
+                      className={inputClassName}
+                    >
+                      <option value="EXW">EXW (Ex Works)</option>
+                      <option value="FCA">FCA (Free Carrier)</option>
+                      <option value="FOB">FOB (Free On Board)</option>
+                      <option value="CIF">CIF (Cost, Insurance, Freight)</option>
+                      <option value="DAP">DAP (Delivered at Place)</option>
+                      <option value="OTHER">OTHER</option>
+                    </select>
+                  </Field>
+
+                  <Field label={`Named Place ${form.bin_delivery_terms !== 'OTHER' ? '*' : ''}`} className="sm:col-span-2">
+                    <input
+                      type="text"
+                      required={form.is_buy_now && form.bin_delivery_terms !== 'OTHER'}
+                      value={form.bin_named_place}
+                      onChange={(e) => updateField("bin_named_place", e.target.value)}
+                      className={inputClassName}
+                      placeholder="e.g. Tema Port, Ghana"
+                    />
+                  </Field>
+                </div>
+              )}
+            </div>
+          </div>
+        </FormSection>
+
         {/* Details */}
         <FormSection title="Details">
           <div className="grid gap-5">
@@ -412,7 +574,7 @@ export function EditProductListingForm({ listingId }: { listingId: string }) {
           </Link>
           <button
             className="min-h-11 rounded-xl bg-[#002627] px-5 font-semibold text-white transition hover:bg-slate-900 disabled:cursor-not-allowed disabled:opacity-50"
-            disabled={isSaving}
+            disabled={isSaving || !hasPricingOption}
             type="submit"
           >
             {isSaving ? "Saving…" : "Save changes"}

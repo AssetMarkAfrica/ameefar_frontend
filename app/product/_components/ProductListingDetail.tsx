@@ -17,10 +17,12 @@ import {
 } from "@/store/product/productThunks";
 
 import { CreateEnquiryModal } from "./CreateEnquiryModal";
+import { BuyItNowModal } from "./BuyItNowModal";
 import {
   formatAvailability,
   formatListingType,
   formatMaterialType,
+  getAuctionUrgencyInfo,
 } from "./product-options";
 
 const inputClassName =
@@ -49,6 +51,7 @@ export function ProductListingDetail({ listingId }: { listingId: string }) {
   );
   const [selectedImageUrl, setSelectedImageUrl] = useState<string | null>(null);
   const [isEnquiryModalOpen, setIsEnquiryModalOpen] = useState(false);
+  const [isBuyItNowModalOpen, setIsBuyItNowModalOpen] = useState(false);
 
   // Always re-fetch when listingId changes. We don't guard on listing?.id here
   // because the effect must fire even if a prior listing is already loaded.
@@ -206,6 +209,22 @@ export function ProductListingDetail({ listingId }: { listingId: string }) {
                   Verified seller
                 </span>
               )}
+              {listing.is_auction && listing.auction_end_date && (() => {
+                const info = getAuctionUrgencyInfo(listing.is_auction, listing.auction_end_date, listing.auction_closed);
+                if (!info || info.isEnded) return null;
+                return (
+                  <span className={`flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-bold shadow-sm ${
+                    info.urgency === "critical"
+                      ? "bg-rose-600 text-white animate-pulse"
+                      : info.urgency === "warning"
+                      ? "bg-amber-500 text-white"
+                      : "bg-amber-100 text-amber-900 border border-amber-300"
+                  }`}>
+                    <span className="inline-block size-2 rounded-full bg-white animate-ping" />
+                    Auction Ends: {info.remainingText}
+                  </span>
+                );
+              })()}
             </div>
             <h1 className="font-[var(--font-hanken)] text-4xl font-semibold leading-tight text-[#002627]">
               {listing.material_name}
@@ -399,6 +418,65 @@ export function ProductListingDetail({ listingId }: { listingId: string }) {
               Listed {new Date(listing.listed_at).toLocaleDateString()} · updated{" "}
               {new Date(listing.updated_at).toLocaleDateString()}
             </p>
+            {listing.is_auction && listing.auction_end_date && (() => {
+              const info = getAuctionUrgencyInfo(listing.is_auction, listing.auction_end_date, listing.auction_closed);
+              if (!info) return null;
+
+              const isCritical = info.urgency === "critical";
+              const isWarning = info.urgency === "warning";
+              const isEnded = info.isEnded;
+
+              return (
+                <div
+                  className={`mt-4 rounded-xl border p-4 shadow-sm transition ${
+                    isCritical
+                      ? "border-rose-300 bg-rose-50/90 text-rose-950 ring-2 ring-rose-500/20"
+                      : isWarning
+                      ? "border-amber-300 bg-amber-50/90 text-amber-950 ring-2 ring-amber-500/20"
+                      : isEnded
+                      ? "border-slate-200 bg-slate-100 text-slate-700"
+                      : "border-emerald-200 bg-emerald-50/70 text-emerald-950"
+                  }`}
+                >
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider">
+                      {isCritical ? (
+                        <span className="relative flex size-2.5">
+                          <span className="absolute inline-flex size-full animate-ping rounded-full bg-rose-400 opacity-75" />
+                          <span className="relative inline-flex size-2.5 rounded-full bg-rose-600" />
+                        </span>
+                      ) : isWarning ? (
+                        <span className="size-2.5 rounded-full bg-amber-500" />
+                      ) : (
+                        <span className="size-2.5 rounded-full bg-emerald-600" />
+                      )}
+                      {isEnded ? "Auction Status" : isCritical ? "Ending Very Soon!" : isWarning ? "Ending Soon!" : "Auction Active"}
+                    </span>
+                    <span
+                      className={`rounded-full px-2.5 py-0.5 text-[11px] font-extrabold uppercase tracking-wide shadow-sm ${
+                        isCritical
+                          ? "bg-rose-600 text-white animate-pulse"
+                          : isWarning
+                          ? "bg-amber-600 text-white"
+                          : isEnded
+                          ? "bg-slate-500 text-white"
+                          : "bg-emerald-700 text-white"
+                      }`}
+                    >
+                      {info.remainingText}
+                    </span>
+                  </div>
+
+                  <div className="mt-3 flex flex-col gap-0.5 border-t border-black/5 pt-2.5">
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">Auction End Date</span>
+                    <span className="font-mono text-sm font-extrabold text-[#002627]">
+                      {new Date(listing.auction_end_date).toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })} at{" "}
+                      {new Date(listing.auction_end_date).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                    </span>
+                  </div>
+                </div>
+              );
+            })()}
           </div>
 
           {/* Quantity callout */}
@@ -448,21 +526,67 @@ export function ProductListingDetail({ listingId }: { listingId: string }) {
               </p>
             </div>
           ) : (
-            <>
-              <button
-                className="min-h-12 w-full rounded-xl bg-[#002627] px-4 font-semibold text-white transition hover:bg-slate-900"
-                type="button"
-                onClick={() => {
-                  if (!token) {
-                    window.location.href = "/auth/login";
-                    return;
-                  }
-                  setIsEnquiryModalOpen(true);
-                }}
-              >
-                {!token ? "Log in to bid / request" : nonOwnerLabel}
-              </button>
-            </>
+            <div className="grid gap-3">
+              {(!listing.is_auction && !listing.is_buy_now) && (
+                <button
+                  className="min-h-12 w-full rounded-xl bg-[#002627] px-4 font-semibold text-white transition hover:bg-slate-900"
+                  type="button"
+                  onClick={() => {
+                    if (!token) {
+                      window.location.href = "/auth/login";
+                      return;
+                    }
+                    setIsEnquiryModalOpen(true);
+                  }}
+                >
+                  {!token ? "Log in to request supply" : nonOwnerLabel}
+                </button>
+              )}
+
+              {listing.is_auction && !listing.auction_closed && (
+                <div className="grid gap-1.5">
+                  <span className="text-xs font-bold uppercase tracking-wide text-[#404848]">Auction / Bidding</span>
+                  <button
+                    className="flex min-h-12 w-full items-center justify-between rounded-xl bg-[#002627] px-4 font-semibold text-white transition hover:bg-slate-900"
+                    type="button"
+                    onClick={() => {
+                      if (!token) {
+                        window.location.href = "/auth/login";
+                        return;
+                      }
+                      setIsEnquiryModalOpen(true);
+                    }}
+                  >
+                    <span>{!token ? "Log in to Bid" : "Start Bidding"}</span>
+                    {listing.auction_min_price_per_unit && (
+                      <span className="font-mono text-sm opacity-80">Min: {listing.currency} {listing.auction_min_price_per_unit}</span>
+                    )}
+                  </button>
+                </div>
+              )}
+
+              {listing.is_buy_now && (
+                <div className="grid gap-1.5 pt-2 border-t border-slate-100">
+                  <span className="text-xs font-bold uppercase tracking-wide text-[#006d40]">Buy It Now</span>
+                  <button
+                    className="flex min-h-12 w-full items-center justify-between rounded-xl bg-[#006d40] px-4 font-semibold text-white transition hover:bg-emerald-800"
+                    type="button"
+                    onClick={() => {
+                      if (!token) {
+                        window.location.href = "/auth/login";
+                        return;
+                      }
+                      setIsBuyItNowModalOpen(true);
+                    }}
+                  >
+                    <span>{!token ? "Log in to Buy" : "Buy It Now"}</span>
+                    {listing.bin_price_per_unit && (
+                      <span className="font-mono text-sm opacity-80">{listing.currency} {listing.bin_price_per_unit}</span>
+                    )}
+                  </button>
+                </div>
+              )}
+            </div>
           )}
 
           {/* Seller notes */}
@@ -487,6 +611,22 @@ export function ProductListingDetail({ listingId }: { listingId: string }) {
           listingId={listing.id}
           listingType={listing.listing_type}
           defaultQuantity={listing.quantity_available_mt}
+          minPrice={listing.auction_min_price_per_unit || undefined}
+          defaultCurrency={listing.currency || "GHS"}
+        />
+      )}
+
+      {/* Buy It Now Modal */}
+      {listing && listing.is_buy_now && (
+        <BuyItNowModal
+          isOpen={isBuyItNowModalOpen}
+          onClose={() => setIsBuyItNowModalOpen(false)}
+          listingId={listing.id}
+          defaultQuantity={listing.quantity_available_mt}
+          pricePerUnit={listing.bin_price_per_unit || "0"}
+          currency={listing.currency || "GHS"}
+          deliveryTerms={listing.bin_delivery_terms || "EXW"}
+          namedPlace={listing.bin_named_place || ""}
         />
       )}
     </div>

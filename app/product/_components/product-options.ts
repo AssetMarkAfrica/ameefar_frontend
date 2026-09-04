@@ -77,3 +77,89 @@ export function formatAvailability(value: ProductAvailabilityStatus) {
     availabilityOptions.find((option) => option.value === value)?.label ?? value
   );
 }
+
+export type AuctionUrgencyInfo = {
+  isAuction: boolean;
+  isEnded: boolean;
+  diffMs: number;
+  diffHours: number;
+  diffDays: number;
+  remainingText: string;
+  badgeText: string;
+  urgency: "critical" | "warning" | "normal" | "ended";
+};
+
+export function getAuctionUrgencyInfo(
+  isAuction?: boolean,
+  auctionEndDate?: string,
+  auctionClosed?: boolean
+): AuctionUrgencyInfo | null {
+  if (!isAuction || !auctionEndDate) return null;
+
+  if (auctionClosed) {
+    return {
+      isAuction: true,
+      isEnded: true,
+      diffMs: 0,
+      diffHours: 0,
+      diffDays: 0,
+      remainingText: "Auction Closed",
+      badgeText: "Ended",
+      urgency: "ended",
+    };
+  }
+
+  const now = new Date().getTime();
+  const end = new Date(auctionEndDate).getTime();
+  const diffMs = end - now;
+
+  if (diffMs <= 0) {
+    return {
+      isAuction: true,
+      isEnded: true,
+      diffMs: 0,
+      diffHours: 0,
+      diffDays: 0,
+      remainingText: "Auction Ended",
+      badgeText: "Ended",
+      urgency: "ended",
+    };
+  }
+
+  const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+  const diffDays = Math.floor(diffHours / 24);
+
+  let remainingText = "";
+  let badgeText = "";
+  let urgency: "critical" | "warning" | "normal" = "normal";
+
+  if (diffDays >= 1) {
+    const remainingHours = diffHours % 24;
+    remainingText = `${diffDays} day${diffDays > 1 ? "s" : ""}${remainingHours > 0 ? ` ${remainingHours}h` : ""} left`;
+    badgeText = `${diffDays}d ${remainingHours}h left`;
+  } else {
+    const diffMins = Math.floor(diffMs / (1000 * 60));
+    remainingText = `${diffHours}h ${diffMins % 60}m left`;
+    badgeText = `${diffHours}h ${diffMins % 60}m left`;
+  }
+
+  if (diffHours <= 24) {
+    urgency = "critical";
+  } else if (diffDays <= 2) {
+    urgency = "warning";
+  } else {
+    urgency = "normal";
+  }
+
+  return {
+    isAuction: true,
+    isEnded: false,
+    diffMs,
+    diffHours,
+    diffDays,
+    remainingText,
+    badgeText,
+    urgency,
+  };
+}
+

@@ -27,6 +27,7 @@ import {
   formatAvailability,
   formatListingType,
   formatMaterialType,
+  getAuctionUrgencyInfo,
   materialOptions,
 } from "./product-options";
 
@@ -73,6 +74,19 @@ export function ProductBrowse() {
   const [page, setPage] = useState(1);
   const [filtersOpen, setFiltersOpen] = useState(false);
   const params = useMemo(() => buildListParams(filters, page), [filters, page]);
+
+  // Priority sort: listings ending in 1 or 2 days (<= 48 hrs) float to top
+  const sortedListings = useMemo(() => {
+    return [...listings].sort((a, b) => {
+      const infoA = getAuctionUrgencyInfo(a.is_auction, a.auction_end_date, a.auction_closed);
+      const infoB = getAuctionUrgencyInfo(b.is_auction, b.auction_end_date, b.auction_closed);
+
+      const scoreA = (infoA && !infoA.isEnded && infoA.diffHours <= 48) ? infoA.diffHours : 100000;
+      const scoreB = (infoB && !infoB.isEnded && infoB.diffHours <= 48) ? infoB.diffHours : 100000;
+
+      return scoreA - scoreB;
+    });
+  }, [listings]);
 
   useEffect(() => {
     void dispatch(listProductListingsThunk({ token: token || "", params }));
@@ -390,9 +404,9 @@ export function ProductBrowse() {
                 />
               ))}
             </div>
-          ) : listings.length > 0 ? (
+          ) : sortedListings.length > 0 ? (
             <div className="grid min-w-0 gap-5 md:grid-cols-2 xl:grid-cols-3">
-              {listings.map((listing) => (
+              {sortedListings.map((listing) => (
                 <ProductListingCard key={listing.id} listing={listing} />
               ))}
             </div>
@@ -551,6 +565,26 @@ function ProductListingCard({ listing }: { listing: ProductListingSummary }) {
           >
             {listing.listing_type === "sell" ? "For Sale" : "Buy Request"}
           </span>
+
+          {/* Auction Urgency Badge on Image */}
+          {listing.is_auction && listing.auction_end_date && (() => {
+            const info = getAuctionUrgencyInfo(listing.is_auction, listing.auction_end_date, listing.auction_closed);
+            if (!info || info.isEnded) return null;
+            return (
+              <span
+                className={`absolute left-3 bottom-3 rounded-md px-2.5 py-1 text-xs font-bold shadow-md ${
+                  info.urgency === "critical"
+                    ? "bg-rose-600 text-white animate-pulse"
+                    : info.urgency === "warning"
+                    ? "bg-amber-500 text-white"
+                    : "bg-[#002627]/90 text-white backdrop-blur-sm"
+                }`}
+              >
+                {info.urgency === "critical" ? "Urgent: " : info.urgency === "warning" ? "Ending: " : ""}
+                {info.remainingText}
+              </span>
+            );
+          })()}
         </div>
 
         <div className="grid gap-4 p-5">
@@ -570,6 +604,55 @@ function ProductListingCard({ listing }: { listing: ProductListingSummary }) {
             />
           </dl>
 
+          {/* Pricing Block */}
+          {(listing.is_auction || listing.is_buy_now) && (
+            <div className="grid gap-2 rounded-lg bg-slate-50 p-3 border border-slate-100 text-xs">
+              {listing.is_auction && listing.auction_min_price_per_unit && (
+                <div className="flex items-center justify-between">
+                  <span className="font-medium text-[#404848] flex items-center gap-1.5">
+                    <span className="inline-block size-2 rounded-full bg-amber-500" />
+                    Auction Floor:
+                  </span>
+                  <span className="font-mono font-bold text-[#002627]">
+                    {listing.currency || "GHS"} {listing.auction_min_price_per_unit}
+                  </span>
+                </div>
+              )}
+              {listing.is_buy_now && listing.bin_price_per_unit && (
+                <div className="flex items-center justify-between">
+                  <span className="font-medium text-[#006d40] flex items-center gap-1.5">
+                    <span className="inline-block size-2 rounded-full bg-[#006d40]" />
+                    Buy It Now:
+                  </span>
+                  <span className="font-mono font-bold text-[#006d40]">
+                    {listing.currency || "GHS"} {listing.bin_price_per_unit}
+                  </span>
+                </div>
+              )}
+              {listing.is_auction && listing.auction_end_date && (() => {
+                const info = getAuctionUrgencyInfo(listing.is_auction, listing.auction_end_date, listing.auction_closed);
+                if (!info) return null;
+                return (
+                  <div className="mt-1 pt-1.5 border-t border-slate-200/60 flex items-center justify-between text-[11px]">
+                    <span className="font-semibold text-slate-500">Auction Time:</span>
+                    <span
+                      className={`font-mono font-bold ${
+                        info.urgency === "critical"
+                          ? "text-rose-600 font-extrabold"
+                          : info.urgency === "warning"
+                          ? "text-amber-600 font-extrabold"
+                          : info.isEnded
+                          ? "text-slate-400"
+                          : "text-slate-700"
+                      }`}
+                    >
+                      {info.remainingText}
+                    </span>
+                  </div>
+                );
+              })()}
+            </div>
+          )}
         </div>
       </article>
     </Link>

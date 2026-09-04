@@ -102,6 +102,16 @@ export interface ProductListing {
   specifications: ProductSpecification[];
   /** Inspection requirements defined by the seller — key matches the API response. */
   inspection_requirements: QualityParameter[];
+  is_auction?: boolean;
+  is_buy_now?: boolean;
+  auction_min_price_per_unit?: string;
+  auction_end_date?: string;
+  auction_closed?: boolean;
+  bin_price_per_unit?: string;
+  currency?: string;
+  bin_delivery_terms?: string;
+  bin_named_place?: string;
+  bin_delivery_address?: string;
   listed_at: string;
   updated_at: string;
 }
@@ -121,6 +131,16 @@ export interface ProductListingSummary {
   primary_image_url: string | null;
   images_count: number;
   seller_verified_snapshot: boolean;
+  is_auction?: boolean;
+  is_buy_now?: boolean;
+  auction_min_price_per_unit?: string;
+  auction_end_date?: string;
+  auction_closed?: boolean;
+  bin_price_per_unit?: string;
+  currency?: string;
+  bin_delivery_terms?: string;
+  bin_named_place?: string;
+  bin_delivery_address?: string;
   listed_at: string;
 }
 
@@ -145,6 +165,14 @@ export interface CreateProductListingPayload {
   description: string;
   seller_notes?: string;
   mfi_value?: string;
+  is_auction?: boolean;
+  is_buy_now?: boolean;
+  auction_min_price_per_unit?: string;
+  auction_end_date?: string;
+  bin_price_per_unit?: string;
+  currency?: string;
+  bin_delivery_terms?: string;
+  bin_named_place?: string;
 }
 
 export type UpdateProductListingPayload = Partial<

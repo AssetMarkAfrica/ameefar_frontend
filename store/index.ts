@@ -12,6 +12,7 @@ import notificationReducer from "./notification/notificationSlice";
 import blogReducer from "./blog/blogSlice";
 import newsletterReducer from "./newsletter/newsletterSlice";
 import contentReducer from "./content/contentSlice";
+import directPurchaseReducer from "./direct-purchase/directPurchaseSlice";
 import type { User } from "@/types/auth";
 
 const AUTH_STORAGE_KEY = "ameefar.auth.session";
@@ -97,6 +98,7 @@ export const store = configureStore({
     blog: blogReducer,
     newsletter: newsletterReducer,
     content: contentReducer,
+    directPurchase: directPurchaseReducer,
   },
   preloadedState: preloadedAuthState
     ? {
