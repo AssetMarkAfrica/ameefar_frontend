@@ -38,7 +38,7 @@ export function ProductShell({ children }: ProductShellProps) {
       <ProductBannerHeader />
       {/* pt-20 offsets the fixed 80px header */}
       <main className="pt-[68px] overflow-x-hidden px-4 pb-16 md:px-10">{children}</main>
-      {!token && <SiteFooter />}
+      <SiteFooter />
     </div>
   );
 }
