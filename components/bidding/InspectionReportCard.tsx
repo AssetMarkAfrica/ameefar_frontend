@@ -231,7 +231,7 @@ export default function InspectionReportCard({
             <p className="text-sm text-on-surface-variant text-center">
               Review the report above and confirm your decision to proceed with the trade.
             </p>
-            <div className="grid grid-cols-2 gap-3">
+            <div className={`grid gap-3 ${report.recommendation === "proceed" ? "grid-cols-1" : "grid-cols-2"}`}>
               <button
                 onClick={onApprove}
                 disabled={isActionLoading}
@@ -240,14 +240,16 @@ export default function InspectionReportCard({
                 <span className="material-symbols-outlined text-[18px]">thumb_up</span>
                 Approve
               </button>
-              <button
-                onClick={() => onReject?.("Failed quality standards")}
-                disabled={isActionLoading}
-                className="flex items-center justify-center gap-2 py-3 bg-white border border-error text-error font-bold rounded-lg hover:bg-red-50 transition-all active:scale-95 disabled:opacity-50"
-              >
-                <span className="material-symbols-outlined text-[18px]">thumb_down</span>
-                Reject
-              </button>
+              {report.recommendation !== "proceed" && (
+                <button
+                  onClick={() => onReject?.("Failed quality standards")}
+                  disabled={isActionLoading}
+                  className="flex items-center justify-center gap-2 py-3 bg-white border border-error text-error font-bold rounded-lg hover:bg-red-50 transition-all active:scale-95 disabled:opacity-50"
+                >
+                  <span className="material-symbols-outlined text-[18px]">thumb_down</span>
+                  Reject
+                </button>
+              )}
             </div>
           </div>
         )}
