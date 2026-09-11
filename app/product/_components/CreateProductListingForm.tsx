@@ -514,11 +514,10 @@ export function CreateProductListingForm() {
                       className={inputClassName}
                     >
                       <option value="EXW">EXW (Ex Works)</option>
-                      <option value="FCA">FCA (Free Carrier)</option>
                       <option value="FOB">FOB (Free On Board)</option>
                       <option value="CIF">CIF (Cost, Insurance, Freight)</option>
-                      <option value="DAP">DAP (Delivered at Place)</option>
-                      <option value="OTHER">OTHER</option>
+
+
                     </select>
                   </Field>
 
