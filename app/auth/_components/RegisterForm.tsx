@@ -183,12 +183,12 @@ export function RegisterForm() {
   return (
     <div className={`${inter.className} min-h-screen bg-slate-50 text-slate-900 flex flex-col`}>
       <AuthHeader />
-      
+
       <main className="flex-1 w-full pt-20 pb-12">
         <div className="mx-auto max-w-[1440px] px-6 md:px-12">
-          
+
           <div className="grid lg:grid-cols-12 gap-12 lg:gap-8 items-start relative">
-            
+
             {/* Ambient Background Glows */}
             <div className="absolute top-20 left-0 h-[600px] w-[600px] rounded-full bg-[#00bfa5]/5 blur-[150px] pointer-events-none" />
             <div className="absolute bottom-0 right-0 h-[500px] w-[500px] rounded-full bg-[#006d40]/10 blur-[120px] pointer-events-none" />
@@ -199,12 +199,12 @@ export function RegisterForm() {
                 <span className="h-1.5 w-1.5 rounded-full bg-[#00bfa5] animate-pulse" />
                 Recycling Marketplace
               </span>
-              
+
               <h1 className={`${hanken.className} text-[38px] lg:text-[48px] font-extrabold leading-[1.15] tracking-tight mb-6 text-slate-900`}>
-                Empower Your <br className="hidden lg:block"/>
+                Empower Your <br className="hidden lg:block" />
                 <span className="bg-gradient-to-r from-[#00bfa5] to-[#006d40] bg-clip-text text-transparent">Energy Future</span>
               </h1>
-              
+
               <p className="text-[16px] leading-relaxed text-slate-600 mb-10 max-w-md">
                 Join the enterprise network reshaping the industrial recycling supply chain with precision and transparency.
               </p>
@@ -243,7 +243,7 @@ export function RegisterForm() {
             {/* ── RIGHT: Registration Form ── */}
             <div className="lg:col-span-7 relative z-10">
               <div className="rounded-3xl border border-slate-200 bg-white p-6 md:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
-                
+
                 <div className="mb-10 text-center md:text-left border-b border-slate-100 pb-6">
                   <h2 className={`${hanken.className} text-[28px] font-bold text-slate-900 mb-2`}>Create Your Account</h2>
                   <p className="text-[14.5px] text-slate-500">
@@ -252,7 +252,7 @@ export function RegisterForm() {
                 </div>
 
                 <form className="space-y-12" onSubmit={handleSubmit}>
-                  
+
                   {/* Account Credentials */}
                   <FormSection title="1. Account Credentials" subtitle="Your login information">
                     <div className="col-span-1 md:col-span-2 space-y-2">
@@ -353,7 +353,7 @@ export function RegisterForm() {
                         />
                       </div>
                     </div>
-                    
+
                     <div className="col-span-1 md:col-span-2 grid md:grid-cols-2 gap-4">
                       <div className="col-span-1 space-y-2">
                         <label className={`${jetbrains.className} text-[10.5px] font-medium tracking-widest text-slate-500 uppercase`}>Job Title</label>
@@ -424,12 +424,14 @@ export function RegisterForm() {
                         <svg className="h-5 w-5 shrink-0 text-amber-500 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
                         </svg>
-                        <p className="text-[13px] leading-relaxed text-amber-800">
-                          <span className="font-semibold">Verification requirement:</span> As a Buyer, you&apos;ll need to provide a valid{" "}
-                          <span className="font-semibold">Representative ID</span>{" "}
-                          (a national ID document) during profile verification. You won&apos;t be able to proceed
-                          after registration without it.
-                        </p>
+                        <div className="text-[13px] leading-relaxed text-amber-800">
+                          <p>
+                            <span className="font-semibold">Verification requirement:</span> As a Buyer, you&apos;ll need to provide the following during profile verification. You won&apos;t be able to proceed after registration without it.
+                          </p>
+                          <ul className="mt-2 list-disc pl-5 space-y-1">
+                            <li><span className="font-semibold">Representative ID</span> (a national ID document)</li>
+                          </ul>
+                        </div>
                       </div>
                     )}
 
@@ -438,19 +440,22 @@ export function RegisterForm() {
                         <svg className="h-5 w-5 shrink-0 text-amber-500 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
                         </svg>
-                        <p className="text-[13px] leading-relaxed text-amber-800">
-                          <span className="font-semibold">Verification requirement:</span> As a{" "}
-                          {form.role === "both" ? "Buyer & Seller" : "Seller"}, you&apos;ll need to provide a{" "}
-                          <span className="font-semibold">Representative ID</span>,{" "}
-                          <span className="font-semibold">Proof of Authority</span>, and{" "}
-                          <span className="font-semibold">Business Registration Documents</span>{" "}
-                          during profile verification. You&apos;ll also need to provide banking details so the
-                          Ameefar team can transfer your funds once a trade is complete and the buyer confirms
-                          receipt of goods.
-                        </p>
+                        <div className="text-[13px] leading-relaxed text-amber-800">
+                          <p>
+                            <span className="font-semibold">Verification requirement:</span> As a{" "}
+                            {form.role === "both" ? "Buyer & Seller" : "Seller"}, you&apos;ll need to provide the following during profile verification:
+                          </p>
+                          <ul className="mt-2 list-disc pl-5 space-y-1">
+                            <li><span className="font-semibold">Representative ID</span></li>
+                            <li><span className="font-semibold">Proof of Authority</span></li>
+                            <li><span className="font-semibold">Business Registration Documents</span></li>
+                          </ul>
+                          <p className="mt-2">
+                            You&apos;ll also need to provide banking details so the Ameefar team can transfer your funds once a trade is complete and the buyer confirms receipt of goods.
+                          </p>
+                        </div>
                       </div>
                     )}
-
                     {form.company_type === "other" && (
                       <div className="col-span-1 md:col-span-2 space-y-2 animate-in fade-in slide-in-from-top-2 duration-300">
                         <label className={`${jetbrains.className} text-[10.5px] font-medium tracking-widest text-slate-500 uppercase`}>Other Company Type</label>
@@ -480,7 +485,7 @@ export function RegisterForm() {
                           </label>
                         ))}
                       </div>
-                      
+
                       {hasOtherMaterial && (
                         <div className="pt-2 animate-in fade-in slide-in-from-top-2 duration-300">
                           <input
@@ -572,7 +577,7 @@ export function RegisterForm() {
           </div>
         </div>
       </main>
-      
+
       <AuthFooter />
     </div>
   );
