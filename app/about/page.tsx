@@ -56,11 +56,10 @@ const values = [
 
 const team = [
   {
-    name: "Abdulai Pascal Mohammed",
-    role: "CEO · Sustainability | rPET | Recycling",
-    image: "https://res.cloudinary.com/dqwub0fhb/image/upload/v1782219057/pascal_nsd1sq.jpg",
-    linkedin: "https://www.linkedin.com/in/abdulai-pascal-mohammed-222059345/",
-    bio: "Founder and CEO of Ameefar Energy Africa Ltd. Pascal has spent over a decade at the intersection of African sustainability, recycled plastics, and B2B commodity trading, pioneering the African Trade Protection Protocol.",
+    name: "Executive Leadership",
+    role: "Sustainability | rPET | Recycling",
+    image: "/ameefarLogo.png",
+    bio: "Pioneering the African Trade Protection Protocol at the intersection of African sustainability, recycled plastics, and B2B commodity trading.",
   },
 ];
 
@@ -248,7 +247,7 @@ export default function AboutPage() {
           <div className="mx-auto max-w-[1440px]">
             <div className="max-w-2xl mx-auto text-center mb-14">
               <span className={`${jetbrains.className} text-[11px] tracking-[0.15em] text-[#006d40] uppercase font-medium`}>Leadership</span>
-              <h2 className={`${hanken.className} mt-3 text-[34px] font-bold leading-tight text-[#002627] md:text-[42px]`}>Meet the Founder</h2>
+              <h2 className={`${hanken.className} mt-3 text-[34px] font-bold leading-tight text-[#002627] md:text-[42px]`}>Our Leadership</h2>
             </div>
             <div className="flex justify-center">
               {team.map((member) => (
@@ -256,12 +255,10 @@ export default function AboutPage() {
                   key={member.name}
                   className="group max-w-sm w-full rounded-2xl border border-slate-100 bg-white p-8 shadow-sm text-center transition duration-300 hover:-translate-y-1 hover:border-[#beebeb] hover:shadow-[0_8px_40px_rgba(0,109,64,0.1)]"
                 >
-                  <div className="mx-auto mb-5 h-28 w-28 overflow-hidden rounded-full border-4 border-[#beebeb] shadow-[0_4px_20px_rgba(0,109,64,0.15)]">
+                  <div className="mx-auto mb-5 h-28 w-28 overflow-hidden rounded-full border-4 border-[#beebeb] shadow-[0_4px_20px_rgba(0,109,64,0.15)] flex items-center justify-center bg-slate-50">
                     <Image src={member.image} alt={member.name} height={112} width={112} className="h-full w-full object-cover" />
                   </div>
-                  <a href={member.linkedin} target="_blank" rel="noreferrer" className="hover:underline">
-                    <strong className={`${hanken.className} block text-[19px] font-bold text-[#002627]`}>{member.name}</strong>
-                  </a>
+                  <strong className={`${hanken.className} block text-[19px] font-bold text-[#002627]`}>{member.name}</strong>
                   <span className={`${jetbrains.className} mt-1.5 block text-[11px] text-[#006d40] uppercase tracking-widest font-medium`}>
                     {member.role}
                   </span>

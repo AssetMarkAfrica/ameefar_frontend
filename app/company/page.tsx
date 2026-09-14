@@ -797,25 +797,14 @@ export default function Home() {
                 </p>
               </div>
 
-              {/* Founder quote */}
-              <div className="mx-auto mb-8 h-28 w-28 overflow-hidden rounded-full border-4 border-white shadow-[0_4px_30px_rgba(0,109,64,0.2)]">
-                <Image
-                  src="https://res.cloudinary.com/dqwub0fhb/image/upload/v1782219057/pascal_nsd1sq.jpg"
-                  alt="Abdulai Pascal Mohammed"
-                  height={112}
-                  width={112}
-                  className="h-full w-full object-cover"
-                />
-              </div>
+              {/* Corporate Vision quote */}
               <blockquote className={`${hanken.className} text-[20px] md:text-[28px] font-medium leading-relaxed text-[#002627] max-w-3xl mx-auto`}>
                 "The transition to sustainable secondary raw materials requires a rigorous, data-driven marketplace. Ameefar provides exactly that — closing the loop on African sustainability."
               </blockquote>
               <div className="mt-7">
-                <a href="https://www.linkedin.com/in/abdulai-pascal-mohammed-222059345/" target="_blank" rel="noreferrer" className="inline-block hover:underline">
-                  <strong className="block text-[18px] font-bold text-[#002627]">Abdulai Pascal Mohammed</strong>
-                </a>
+                <strong className="block text-[18px] font-bold text-[#002627]">Ameefar Energy Africa</strong>
                 <span className={`${jetbrains.className} mt-1.5 block text-[11px] text-[#006d40] uppercase tracking-widest font-medium`}>
-                  CEO · Sustainability | rPET | Recycling
+                  Sustainability | rPET | Recycling
                 </span>
               </div>
             </FadeInSection>

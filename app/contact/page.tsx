@@ -79,10 +79,9 @@ export default function ContactPage() {
                       📞
                     </div>
                     <div>
-                      <h3 className={`${hanken.className} text-[18px] font-bold text-slate-900`}>Contact Numbers</h3>
+                      <h3 className={`${hanken.className} text-[18px] font-bold text-slate-900`}>Contact Number</h3>
                       <p className="mt-2 text-[14px] leading-relaxed text-slate-600">
-                        <a href="tel:+233268808886" className="hover:text-slate-900 transition-colors">(+233) 268808886</a><br />
-                        <a href="tel:+233244062988" className="hover:text-slate-900 transition-colors">(+233) 244062988</a>
+                        <a href="tel:0208584115" className="hover:text-slate-900 transition-colors">0208584115</a>
                       </p>
                     </div>
                   </div>
