@@ -61,19 +61,7 @@ export default function ContactPage() {
                 </p>
 
                 <div className="mt-14 space-y-10">
-                  <div className="flex items-start gap-4 group">
-                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-white text-xl shadow-sm transition-all duration-300 group-hover:border-[#00bfa5]/40 group-hover:bg-[#00bfa5]/5">
-                      📍
-                    </div>
-                    <div>
-                      <h3 className={`${hanken.className} text-[18px] font-bold text-slate-900`}>Headquarters</h3>
-                      <p className="mt-2 text-[14px] leading-relaxed text-slate-600">
-                        No. 9 Ecuador Street, Agbogba Assemblies.<br />
-                        GE.164.1559 Accra, Ghana
-                      </p>
-                    </div>
-                  </div>
-                  
+
                   <div className="flex items-start gap-4 group">
                     <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-white text-xl shadow-sm transition-all duration-300 group-hover:border-[#00bfa5]/40 group-hover:bg-[#00bfa5]/5">
                       📞

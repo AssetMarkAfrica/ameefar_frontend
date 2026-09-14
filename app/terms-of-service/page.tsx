@@ -186,7 +186,6 @@ export default function TermsOfService() {
             </p>
             <ul className="list-disc pl-5 space-y-2 text-[15px] text-slate-600 mb-8">
               <li><strong>Email:</strong> info@ameefarenergy.com</li>
-              <li><strong>Address:</strong> No. 9 Ecuador Street, Agbogba Assemblies. GE.164.1559 Accra Ghana</li>
             </ul>
           </div>
         </div>

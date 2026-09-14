@@ -37,18 +37,6 @@ export default function SiteFooter() {
               Contact Info.
             </h3>
             <ul className="space-y-5">
-              {/* Address */}
-              <li className="flex items-start gap-3.5">
-                <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-white/20 text-white/70">
-                  <svg className="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
-                  </svg>
-                </span>
-                <span className="text-[13.5px] leading-relaxed text-white/75">
-                  No. 9 Ecuador Street, Agbogba Assemblies.<br />
-                  GE.164.1559 Accra Ghana
-                </span>
-              </li>
               {/* Phone */}
               <li className="flex items-center gap-3.5">
                 <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-white/20 text-white/70">
