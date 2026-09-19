@@ -107,6 +107,15 @@
   --text-body-lg--font-weight: 400;
 }
 
+/* Self-hosted Material Symbols Outlined — no Google CDN requests */
+@font-face {
+  font-family: 'Material Symbols Outlined';
+  font-style: normal;
+  font-weight: 100 700;
+  font-display: block;
+  src: url('/fonts/material-symbols-outlined.woff2') format('woff2');
+}
+
 /* Also add the Material Symbols styling to apply to elements with the class */
 @layer utilities {
   .material-symbols-outlined {
