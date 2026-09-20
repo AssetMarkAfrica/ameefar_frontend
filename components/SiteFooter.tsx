@@ -37,6 +37,27 @@ export default function SiteFooter() {
               Contact Info.
             </h3>
             <ul className="space-y-5">
+              {/* Address */}
+              <li className="flex items-start gap-3.5">
+                <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-white/20 text-white/70">
+                  <svg className="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+                  </svg>
+                </span>
+                <span className="text-[13.5px] leading-relaxed text-white/75">
+                  No. 9 Ecuador Street, Agbogba Assemblies.<br />
+                  GE.164.1559 Accra Ghana
+                </span>
+              </li>
+              {/* WhatsApp / SMS */}
+              <li className="flex items-center gap-3.5">
+                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-white/20 text-white/70">
+                  <svg className="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z" />
+                  </svg>
+                </span>
+                <span className="text-[13.5px] text-white/75">(+233) 24 406 2988 / (+233) 26 880 8886</span>
+              </li>
               {/* Phone */}
               <li className="flex items-center gap-3.5">
                 <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-white/20 text-white/70">
@@ -44,8 +65,8 @@ export default function SiteFooter() {
                     <path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24 11.47 11.47 0 003.58.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1 11.47 11.47 0 00.57 3.58 1 1 0 01-.25 1.01l-2.2 2.2z" />
                   </svg>
                 </span>
-                <a href="tel:0208584115" className="text-[13.5px] text-white/75 hover:text-white transition-colors">
-                  0208584115
+                <a href="tel:+233302528832" className="text-[13.5px] text-white/75 hover:text-white transition-colors">
+                  (+233) 30 252 8832
                 </a>
               </li>
               {/* Email */}
@@ -55,8 +76,8 @@ export default function SiteFooter() {
                     <path d="M20 4H4c-1.1 0-2 .9-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
                   </svg>
                 </span>
-                <a href="mailto:info@ameefarenergy.com" className="text-[13.5px] text-white/75 hover:text-white transition-colors">
-                  info@ameefarenergy.com
+                <a href="mailto:pascal@ameefarenergy.com" className="text-[13.5px] text-white/75 hover:text-white transition-colors">
+                  pascal@ameefarenergy.com
                 </a>
               </li>
             </ul>

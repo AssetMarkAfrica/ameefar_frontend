@@ -41,39 +41,52 @@ export default function ContactPage() {
 
           <div className="relative z-10 mx-auto w-full max-w-[1440px]">
             <div className="grid gap-16 lg:grid-cols-2 lg:gap-24 items-center">
-              
+
               {/* Left Column: Text & Info */}
               <div>
                 <span className={`${jetbrains.className} inline-flex items-center gap-2 rounded-full border border-[#00bfa5]/20 bg-[#00bfa5]/10 px-3.5 py-1.5 text-[11px] text-[#006d40] font-semibold tracking-widest uppercase mb-6`}>
                   <span className="h-1.5 w-1.5 rounded-full bg-[#00bfa5] animate-pulse" />
                   We are here to help
                 </span>
-                
+
                 <h1 className={`${hanken.className} text-[44px] font-extrabold leading-[1.1] tracking-tight md:text-[64px] text-slate-900`}>
                   Let's Build the <br />
                   <span className="bg-gradient-to-r from-[#00bfa5] to-[#006d40] bg-clip-text text-transparent">
                     Future Together
                   </span>
                 </h1>
-                
+
                 <p className="mt-6 text-[17px] leading-relaxed text-slate-600 max-w-lg">
                   Whether you're looking to trade commodities on our protected marketplace or deploy clean energy solutions across Africa, our team is ready to support you.
                 </p>
 
                 <div className="mt-14 space-y-10">
+                  <div className="flex items-start gap-4 group">
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-white text-xl shadow-sm transition-all duration-300 group-hover:border-[#00bfa5]/40 group-hover:bg-[#00bfa5]/5">
+                      📍
+                    </div>
+                    <div>
+                      <h3 className={`${hanken.className} text-[18px] font-bold text-slate-900`}>Headquarters</h3>
+                      <p className="mt-2 text-[14px] leading-relaxed text-slate-600">
+                        No. 9 Ecuador Street, Agbogba Assemblies.<br />
+                        GE.164.1559 Accra, Ghana
+                      </p>
+                    </div>
+                  </div>
 
                   <div className="flex items-start gap-4 group">
                     <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-white text-xl shadow-sm transition-all duration-300 group-hover:border-[#00bfa5]/40 group-hover:bg-[#00bfa5]/5">
                       📞
                     </div>
                     <div>
-                      <h3 className={`${hanken.className} text-[18px] font-bold text-slate-900`}>Contact Number</h3>
+                      <h3 className={`${hanken.className} text-[18px] font-bold text-slate-900`}>Contact Numbers</h3>
                       <p className="mt-2 text-[14px] leading-relaxed text-slate-600">
-                        <a href="tel:0208584115" className="hover:text-slate-900 transition-colors">0208584115</a>
+                        <a href="tel:+233268808886" className="hover:text-slate-900 transition-colors">(+233) 268808886</a><br />
+                        <a href="tel:+233244062988" className="hover:text-slate-900 transition-colors">(+233) 244062988</a>
                       </p>
                     </div>
                   </div>
-                  
+
                   <div className="flex items-start gap-4 group">
                     <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-white text-xl shadow-sm transition-all duration-300 group-hover:border-[#00bfa5]/40 group-hover:bg-[#00bfa5]/5">
                       ✉️

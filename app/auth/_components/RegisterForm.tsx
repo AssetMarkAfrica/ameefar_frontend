@@ -218,11 +218,20 @@ export function RegisterForm() {
               <blockquote className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-[#00bfa5]/10 to-transparent opacity-50 rounded-bl-full pointer-events-none" />
                 <div className="flex items-center gap-4 mb-4">
+                  <div className="h-12 w-12 rounded-full border-2 border-[#00bfa5]/30 overflow-hidden shrink-0">
+                    <Image
+                      alt="Abdulai Pascal Mohammed"
+                      height={48}
+                      src="https://res.cloudinary.com/dqwub0fhb/image/upload/v1782219057/pascal_nsd1sq.jpg"
+                      width={48}
+                      className="object-cover h-full w-full"
+                    />
+                  </div>
                   <div>
-                    <span className={`${hanken.className} block text-[15px] font-bold text-slate-900`}>
-                      Ameefar Energy Africa
-                    </span>
-                    <span className={`${jetbrains.className} block mt-0.5 text-[9px] uppercase tracking-widest text-[#00bfa5] font-semibold`}>Sustainability & Trade</span>
+                    <a href="https://www.linkedin.com/in/abdulai-pascal-mohammed-222059345/" target="_blank" rel="noreferrer" className={`${hanken.className} block text-[15px] font-bold text-slate-900 hover:text-[#00bfa5] transition-colors`}>
+                      Abdulai Pascal Mohammed
+                    </a>
+                    <span className={`${jetbrains.className} block mt-0.5 text-[9px] uppercase tracking-widest text-[#00bfa5] font-semibold`}>CEO · Sustainability</span>
                   </div>
                 </div>
                 <p className="text-[14px] leading-relaxed text-slate-600 italic relative z-10">
